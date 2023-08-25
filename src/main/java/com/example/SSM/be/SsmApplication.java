@@ -1,4 +1,4 @@
-package com.example.SSM;
+package com.example.SSM.be;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
