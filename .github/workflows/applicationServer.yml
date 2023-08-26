@@ -1,5 +1,4 @@
 name: SEB_45_Team025_MainProject
-
 on:
   push:
     branches:
