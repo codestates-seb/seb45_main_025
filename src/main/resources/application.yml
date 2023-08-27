@@ -1,14 +1,39 @@
+java:
+  security:
+    securerandom:
+      source: file:/dev/urandom
+      entropy: true
+
 spring:
-  datasource:
-    url: jdbc:h2:mem:testdb   # H2 ??? ?????? URL
-    driver-class-name: org.h2.Driver
-    username: sa              # ??? ??
-    password:
   h2:
     console:
-      enabled: true           # H2 ?? ???
+      enabled: true
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:  # 여기에 데이터베이스 비밀번호를 입력하세요
+
   jpa:
     hibernate:
-      ddl-auto: update        # Hibernate DDL ?? ?? ??
-    show-sql: true            # SQL ?? ???
+      ddl-auto: update  # 애플리케이션 시작 시 DB 스키마를 자동으로 업데이트하려면 'update'로 설정합니다
+    database-platform: org.hibernate.dialect.H2Dialect
 
+  jpa-auditing:
+    enabled: true
+
+  application:
+    name: SsmApplication
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+
+logging:
+  level:
+    root: DEBUG
+
+server:
+  port: 8888
