@@ -14,7 +14,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()  // CSRF 보호 비활성화
                 .authorizeRequests()
-                .antMatchers("/products/create").permitAll()  // 특정 경로는 인증 없이 접근 허용
+                .antMatchers("/**").permitAll()  // 특정 경로는 인증 없이 접근 허용
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic();

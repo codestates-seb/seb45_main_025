@@ -5,7 +5,10 @@ import com.example.SSM.be.domain.products.entity.Products;
 import com.example.SSM.be.domain.products.service.ProductsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
@@ -25,4 +28,5 @@ public class ProductsController {
         return ResponseEntity.ok(newProduct);
     }
 
+    // 줄 추가
 }

@@ -20,6 +20,7 @@ public class ProductsService {
         product.setImg(productsRequestDto.getImg());
         product.setContent(productsRequestDto.getContent());
         product.setProductPrice(productsRequestDto.getProductPrice());
+
         // 현재 타임스탬프 값 설정
         LocalDateTime now = LocalDateTime.now();
         product.setCreatedAt(now);
