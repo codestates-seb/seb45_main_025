@@ -11,7 +11,7 @@ public class SwaggerConfiguration {
     public GroupedOpenApi customOpenAPI() {
         return GroupedOpenApi.builder()
                 .group("/")
-                .pathsToMatch("/products/**") // 변경된 경로
+                .pathsToMatch("/**") // 변경된 경로
                 .build();
     }
 }
