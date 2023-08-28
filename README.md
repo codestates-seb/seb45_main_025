@@ -12,7 +12,7 @@
 
 ---
 ## 👨‍👨‍👧‍👧 Team List
-||||||||
+|김동윤|유주성|손영진|김민수|윤건용|홍윤표|박영길|
 | --- | --- | --- | --- | --- | --- | --- |
 |김동윤</br>FE 팀장|유주성</br>FE|손영진</br>FE|김민수</br>FE|윤건용</br>BE 부팀장|홍윤표</br>BE|박영길</br>BE|
 |<img src="https://avatars.githubusercontent.com/u/126146836?v=4" width=150px ></img>|<img src="https://avatars.githubusercontent.com/u/114473861?v=4" width=150px ></img>| <img src="https://avatars.githubusercontent.com/u/81401022?v=4" width=150px ></img>|<img src="https://avatars.githubusercontent.com/u/123739304?v=4" width=150px ></img>|<img src="https://avatars.githubusercontent.com/u/117506675?v=4" width=150 ></img>|<img src="https://avatars.githubusercontent.com/u/84065357?v=4" width=150px ></img>|<img src="https://avatars.githubusercontent.com/u/75276860?v=4" width=150px ></img>|
