@@ -31,7 +31,7 @@ public class Products {
     @Column(name = "modified_at")
     private LocalDateTime modifiedAt;
 
-    public Long getproductId() {
+    public Long getProductId() {
         return productId;
     }
 

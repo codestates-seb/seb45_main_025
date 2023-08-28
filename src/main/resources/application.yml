@@ -31,6 +31,14 @@ springdoc:
   swagger-ui:
     path: /swagger-ui.html
 
+    spring:
+      mvc:
+        converters:
+          preferred-json-mapper: jackson
+      http:
+        converters:
+          preferred-json-mapper: jackson
+
 logging:
   level:
     root: DEBUG
