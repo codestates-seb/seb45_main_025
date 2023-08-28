@@ -27,4 +27,6 @@ public class ProductsController {
         Products newProduct = productsService.createProduct(productDto);
         return ResponseEntity.ok(newProduct);
     }
+
+    // 줄 추가
 }
