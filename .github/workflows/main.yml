@@ -3,7 +3,7 @@ name: SEB_45_Team025_MainProject
 on:
   push:
     branches:
-      - feat/be-directory
+      - main
 
 jobs:
   deploy:
