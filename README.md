@@ -16,6 +16,7 @@
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 |[김동윤]|[유주성]|[손영진]|[김민수]|[윤건용]|[홍윤표]|[박영길]|
 |FE 부팀장|FE|FE|FE|BE 팀장|BE|BE|
+|<img src="https://avatars.githubusercontent.com/u/126146836?v=4" width=150px ></img>|<img src="https://avatars.githubusercontent.com/u/114473861?v=4" width=150px ></img>| <img src="https://avatars.githubusercontent.com/u/81401022?v=4" width=150px ></img>|<img src="https://avatars.githubusercontent.com/u/123739304?v=4" width=150px ></img>|<img src="https://avatars.githubusercontent.com/u/117506675?v=4" width=150 ></img>|<img src="https://avatars.githubusercontent.com/u/84065357?v=4" width=150px ></img>|<img src="https://avatars.githubusercontent.com/u/75276860?v=4" width=150px ></img>|
 
 <br/>
 
