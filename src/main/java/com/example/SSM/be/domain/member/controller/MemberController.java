@@ -1,5 +1,6 @@
 package com.example.SSM.be.domain.member.controller;
 
+import com.example.SSM.be.domain.auth.dto.LoginDto;
 import com.example.SSM.be.domain.member.dto.MemberDto;
 import com.example.SSM.be.domain.member.entity.Member;
 import com.example.SSM.be.domain.member.mapper.MemberMapper;
@@ -44,7 +45,7 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity loginMember(@RequestBody MemberDto.LoginDto loginDto) {
+    public ResponseEntity loginMember(@RequestBody LoginDto loginDto) {
         String jwtToken = memberService.loginMember(membermapper.memberloginDtoToMember(loginDto));
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "Bearer " + jwtToken);
