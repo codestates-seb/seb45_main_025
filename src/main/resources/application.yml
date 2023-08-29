@@ -1,8 +1,3 @@
-java:
-  security:
-    securerandom:
-      source: file:/dev/urandom
-      entropy: true
 
 spring:
   h2:
@@ -24,6 +19,17 @@ spring:
 
   application:
     name: SsmApplication
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            clientId: 232398614438-4laehmm9vibdvaa8hv57miuvgpkv33kj.apps.googleusercontent.com           # (1)
+            clientSecret: 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  # (2)
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+            scope:
+              - email
+              - profile
 
 springdoc:
   api-docs:
@@ -41,7 +47,14 @@ springdoc:
 
 logging:
   level:
-    root: DEBUG
+    root: INFO
 
 server:
-  port: 8888
+  port: 8080
+mail:
+  address:
+    admin: admin@gmail.com
+jwt:
+  secret-key: ${JWT_SECRET_KEY}
+  access-token-expiration-minutes: 120
+  refresh-token-expiration-minutes: 360
