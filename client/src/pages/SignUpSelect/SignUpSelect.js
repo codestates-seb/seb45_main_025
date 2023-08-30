@@ -8,7 +8,7 @@ export default function SignUpSelect(){
     <SignUpSelectContainer>
       <SignUpSelectTop><h1>Account</h1></SignUpSelectTop>
       <SignUpSelectMain>
-        <h2>SignUp</h2>
+        <h2>Sign Up</h2>
         <h3>1. Choose how to sign up</h3>
         <div className='signup_select_main_container'>
           <div className='oauth_signup'>
