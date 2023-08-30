@@ -3,6 +3,8 @@ package com.example.SSM.be.domain.member.service;
 import com.example.SSM.be.domain.member.entity.Member;
 import com.example.SSM.be.domain.member.repository.MemberRepository;
 import com.example.SSM.be.domain.security.auth.jwt.JwtTokenizer;
+import com.example.SSM.be.global.exception.BusinessLogicException;
+import com.example.SSM.be.global.exception.ExceptionCode;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -36,7 +38,7 @@ public class MemberService {
     }
     private void verifyNotExist(String email) {
         if (memberRepository.findByEmail(email).isPresent()) {
-            throw new IllegalArgumentException("이미 가입된 아이디 입니다.");
+            throw new BusinessLogicException(ExceptionCode.MEMBER_EXISTS);
         }
     }
 
@@ -48,7 +50,6 @@ public class MemberService {
         String subject = member.getEmail();
         Date expiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getAccessTokenExpirationMinutes());
         String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey();
-
         String accessToken = jwtTokenizer.generateAccessToken(claims, subject, expiration, base64EncodedSecretKey);
 
         return accessToken;

@@ -3,6 +3,8 @@ package com.example.SSM.be.domain.member.dto;
 import com.example.SSM.be.domain.member.entity.Member;
 import lombok.*;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
 public class MemberDto {
@@ -13,9 +15,11 @@ public class MemberDto {
         private String email;
         private String username;
         private String password;
+        private String conformPassword;
         private String gender;
         private String phone;
-        private String nick;
+        private LocalDate birth;
+        private String address;
     }
 
     @Getter

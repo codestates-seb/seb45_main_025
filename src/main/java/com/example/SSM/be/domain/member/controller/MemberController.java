@@ -1,6 +1,5 @@
 package com.example.SSM.be.domain.member.controller;
 
-import com.example.SSM.be.domain.security.auth.dto.LoginDto;
 import com.example.SSM.be.domain.member.dto.MemberDto;
 import com.example.SSM.be.domain.member.entity.Member;
 import com.example.SSM.be.domain.member.mapper.MemberMapper;
@@ -8,7 +7,6 @@ import com.example.SSM.be.domain.member.service.MemberService;
 import com.example.SSM.be.domain.security.auth.jwt.JwtTokenizer;
 import com.example.SSM.be.global.utils.UriCreator;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -35,8 +33,9 @@ public class MemberController {
     }
     @PostMapping("/signup")
     public ResponseEntity postMember(@Valid @RequestBody MemberDto.PostDto postDto){
-
-
+        if (!postDto.getPassword().equals(postDto.getConformPassword())){
+            return new ResponseEntity("비밀번호와 비밀번호 확인이 서로 맞지 않습니다",HttpStatus.FORBIDDEN);
+        }
         Member member = membermapper.memberPostDtoToMember(postDto);
         Member saveMember = memberService.createMember(member);
 
