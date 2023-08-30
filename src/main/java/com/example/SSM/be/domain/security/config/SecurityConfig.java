@@ -1,5 +1,6 @@
 package com.example.SSM.be.domain.security.config;
 
+import com.example.SSM.be.domain.member.repository.MemberRepository;
 import com.example.SSM.be.domain.security.auth.filter.JwtAuthenticationFilter;
 import com.example.SSM.be.domain.security.auth.handler.MemberAuthenticationFailureHandler;
 import com.example.SSM.be.domain.security.auth.handler.MemberAuthenticationSuccessHandler;
@@ -10,7 +11,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.oauth2.client.CommonOAuth2Provider;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
@@ -21,9 +21,6 @@ import org.springframework.security.oauth2.client.registration.InMemoryClientReg
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
-import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
-
-import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
@@ -38,16 +35,13 @@ public class SecurityConfig  {
     @Value("${spring.security.oauth2.client.registration.google.clientSecret}") // (2)
     private String clientSecret;
     private final JwtTokenizer jwtTokenizer;
+    private final MemberRepository memberRepository;
 
-    public SecurityConfig(JwtTokenizer jwtTokenizer) {
+    public SecurityConfig(JwtTokenizer jwtTokenizer, MemberRepository memberRepository) {
         this.jwtTokenizer = jwtTokenizer;
+        this.memberRepository = memberRepository;
     }
 
-//    @Bean
-//    public LogoutSuccessHandler logoutSuccessHandler() {
-//        // ... 로그아웃 성공 핸들러 설정 ...
-//        return new
-//    }
 
 
     @Bean
@@ -102,26 +96,12 @@ public class SecurityConfig  {
         public void configure(HttpSecurity builder) throws Exception {  // (2-2)
             AuthenticationManager authenticationManager = builder.getSharedObject(AuthenticationManager.class);  // (2-3)
 
-            JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager, jwtTokenizer);  // (2-4)
+            JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager, jwtTokenizer, memberRepository);  // (2-4)
             jwtAuthenticationFilter.setFilterProcessesUrl("/users/auth/login");          // (2-5)
             jwtAuthenticationFilter.setAuthenticationSuccessHandler(new MemberAuthenticationSuccessHandler());  // (3) 추가
             jwtAuthenticationFilter.setAuthenticationFailureHandler(new MemberAuthenticationFailureHandler());  // (4) 추가
             builder.addFilter(jwtAuthenticationFilter);  // (2-6)
         }
     }
-//    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
-//        http
-//                .csrf().disable()  // CSRF 보호 비활성화
-//                    .authorizeRequests()
-//                    .antMatchers("/**").permitAll()  // 특정 경로는 인증 없이 접근 허용
-//                    .anyRequest().authenticated()
-//                .and()
-//                    .httpBasic()
-//                .and()
-//                .oauth2Login(withDefaults())
-//                .logout()
-//                    .logoutSuccessUrl("/")
-//                    .permitAll();
-//    }
+
 }

@@ -2,11 +2,13 @@ package com.example.SSM.be.domain.member.service;
 
 import com.example.SSM.be.domain.member.entity.Member;
 import com.example.SSM.be.domain.member.repository.MemberRepository;
-import com.example.SSM.be.global.exception.BusinessLogicException;
-import com.example.SSM.be.global.exception.ExceptionCode;
 import com.example.SSM.be.domain.security.auth.jwt.JwtTokenizer;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class MemberService {
@@ -28,20 +30,6 @@ public class MemberService {
         return memberRepository.save(member);
     }
 
-    public String loginMember(Member member) {
-        Member existMember = findMemberByEmail(member.getEmail());
-        if (existMember.getMemberStatus() == Member.MemberStatus.MEMBER_EXIT ||
-                existMember.getMemberStatus() == Member.MemberStatus.MEMBER_SLEEP) {
-            throw new BusinessLogicException(ExceptionCode.MEMBER_UNAUTHORIZED);
-        }
-        if (passwordEncoder.matches(member.getPassword(), existMember.getPassword())) {
-            return null;
-            //return jwtTokenizer.generateAccessToken(member.getEmail(), member.getRoles());
-        } else {
-            throw new IllegalArgumentException("잘못된 비밀번호입니다.");
-        }
-    }
-
     private Member findMemberByEmail(String email) {
         return memberRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 아이디 입니다."));
@@ -50,5 +38,31 @@ public class MemberService {
         if (memberRepository.findByEmail(email).isPresent()) {
             throw new IllegalArgumentException("이미 가입된 아이디 입니다.");
         }
+    }
+
+    public String delegateAccessToken(Member member) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("email", member.getEmail());
+        claims.put("roles", member.getRoles());
+
+        String subject = member.getEmail();
+        Date expiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getAccessTokenExpirationMinutes());
+        String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey();
+
+        String accessToken = jwtTokenizer.generateAccessToken(claims, subject, expiration, base64EncodedSecretKey);
+
+        return accessToken;
+    }
+
+    public String delegateRefreshToken(Member member) {
+
+
+        String subject = member.getEmail();
+        Date expiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getRefreshTokenExpirationMinutes());
+        String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey();
+
+        String refreshToken = jwtTokenizer.generateRefreshToken(subject, expiration, base64EncodedSecretKey);
+
+        return refreshToken;
     }
 }
