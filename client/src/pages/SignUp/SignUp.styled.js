@@ -69,6 +69,12 @@ export const SignUpHomeAdress = styled.div`
   flex-direction: row;
   margin-left: 2vw;
 `
+
+export const SignUpPhoneNumber = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-left: 2vw;
+`
 export const SignupEmail = styled.div`
   display: flex;
   flex-direction: row;

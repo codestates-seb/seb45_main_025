@@ -1,21 +1,41 @@
 import { SignUpContainer,
-   SignUpTop, SignUpMain,
-    SignUpName, SignUpGender, DateOfBirth,SignUpHomeAdress,
-   SignupEmail, SignUpPassword, 
-   SignUpPassWordDoubleCheck, SignUpSubmit } from './SignUp.styled';
+  SignUpTop, SignUpMain,
+  SignUpName, SignUpGender, 
+  DateOfBirth,SignUpHomeAdress, SignUpPhoneNumber,
+  SignupEmail, SignUpPassword, 
+  SignUpPassWordDoubleCheck, SignUpSubmit } from './SignUp.styled';
 import { useState } from "react";
 
 export default function SignUp() {
   const [name, setName] = useState('');
   const [gender, setGender] = useState('male');
+  const [birth, setBirth] = useState('');
+  const [adress, setAdress] = useState('');
+  const [phoneNumber, setphoneNumber] = useState('');
+  const [emailFront, setEmailFront] = useState('');
   const [emailBack, setEmailBack] = useState('');
   const [passWord, setPassWord] = useState('');
   const [passWordCheck, setpassWordCheck] = useState(false);
   const [passWordDoubleCheck, setPassWordDoubleCheck] = useState('');
+  const [wrong, setWrong] = useState('');
   const passwordform = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
   
   function submitsignup(){
-    console.log(name,gender)
+    if(name === ''){
+      setWrong("'Name' is Empty");
+    }else if(birth === ''){
+      setWrong("'Date of birth' is Empty");
+    }else if(adress === ''){
+      setWrong("'Home Adress' is Empty");
+    }else if(phoneNumber === ''){
+      setWrong("'Tel' is Empty");
+    }else if(emailFront === '' || emailBack === ''){
+      setWrong("'Email' is Empty");
+    }else if(passWordCheck === false || passWord !== passWordDoubleCheck){
+      setWrong("Check your 'PassWord'");
+    }else{
+      console.log(name, gender, birth, adress,phoneNumber, emailFront, emailBack,passWord,passWordDoubleCheck)
+    }
   }
   
   return (
@@ -44,15 +64,19 @@ export default function SignUp() {
           </SignUpGender>
           <DateOfBirth>
             <div>Date Of Birth</div>
-            <input type='date'></input>
+            <input type='date' onChange={(e)=>setBirth(e.target.value)} ></input>
           </DateOfBirth>
           <SignUpHomeAdress>
             <div>Home Adress</div>
-            <input></input>
+            <input onChange={(e)=>setAdress(e.target.value)}></input>
           </SignUpHomeAdress>
+          <SignUpPhoneNumber>
+            <div>Tel</div>
+            <input type='tel' onChange={(e)=>setphoneNumber(e.target.value)}></input>
+          </SignUpPhoneNumber>
           <SignupEmail>
             <div>Email</div>
-            <input className='emailfront'></input>
+            <input className='emailfront' onChange={(e)=>setEmailFront(e.target.value)}></input>
             <p>@</p>
             <input className='emailback' value={emailBack} onChange={(e)=>setEmailBack(e.target.value)}></input>
             <select onChange={(e)=>{e.target.value !== 'Enter directly' ? setEmailBack(e.target.value) : setEmailBack('')}}>
@@ -76,12 +100,13 @@ export default function SignUp() {
           </SignUpPassword>
           <SignUpPassWordDoubleCheck>
             <div>confirm password</div>
-            <input onChange={(e)=>(setPassWordDoubleCheck(e.target.value))}></input>
+            <input type='password' onChange={(e)=>(setPassWordDoubleCheck(e.target.value))}></input>
             <div>{passWordDoubleCheck === passWord ? '✅ Your password matches' : '❌ Passwords do not match'}</div>
           </SignUpPassWordDoubleCheck>
 
         </div>
-      <SignUpSubmit onClick={submitsignup}>Submit</SignUpSubmit>
+        <div>{wrong}</div>
+      <SignUpSubmit onClick={submitsignup}>Sign Up</SignUpSubmit>
       </SignUpMain>
       
     </SignUpContainer>
