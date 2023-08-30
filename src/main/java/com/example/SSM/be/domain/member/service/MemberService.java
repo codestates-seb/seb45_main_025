@@ -4,7 +4,7 @@ import com.example.SSM.be.domain.member.entity.Member;
 import com.example.SSM.be.domain.member.repository.MemberRepository;
 import com.example.SSM.be.global.exception.BusinessLogicException;
 import com.example.SSM.be.global.exception.ExceptionCode;
-import com.example.SSM.be.domain.auth.jwt.JwtTokenizer;
+import com.example.SSM.be.domain.security.auth.jwt.JwtTokenizer;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

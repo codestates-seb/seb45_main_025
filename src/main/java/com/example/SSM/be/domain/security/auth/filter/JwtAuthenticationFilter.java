@@ -1,7 +1,7 @@
-package com.example.SSM.be.domain.auth.filter;
+package com.example.SSM.be.domain.security.auth.filter;
 
-import com.example.SSM.be.domain.auth.dto.LoginDto;
-import com.example.SSM.be.domain.auth.jwt.JwtTokenizer;
+import com.example.SSM.be.domain.security.auth.dto.LoginDto;
+import com.example.SSM.be.domain.security.auth.jwt.JwtTokenizer;
 import com.example.SSM.be.domain.member.entity.Member;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
@@ -10,7 +10,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -36,7 +35,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         ObjectMapper objectMapper = new ObjectMapper();
         LoginDto loginDto = objectMapper.readValue(request.getInputStream(),LoginDto.class);
         UsernamePasswordAuthenticationToken authenticationToken=
-                new UsernamePasswordAuthenticationToken(loginDto.getUsername(),loginDto.getPassword());
+                new UsernamePasswordAuthenticationToken(loginDto.getEmail(),loginDto.getPassword());
         return authenticationManager.authenticate(authenticationToken);
     }
 

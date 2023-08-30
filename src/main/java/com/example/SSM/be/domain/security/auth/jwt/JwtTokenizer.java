@@ -1,9 +1,9 @@
-package com.example.SSM.be.domain.auth.jwt;
+package com.example.SSM.be.domain.security.auth.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Encoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.Getter;
@@ -20,7 +20,7 @@ import java.util.Map;
 public class JwtTokenizer {
 
     @Getter
-    @Value("${JWT_SECRET_KEY}")
+    @Value("${jwt.secret-key}")
     private String secretKey;
 
     @Getter
@@ -90,8 +90,7 @@ public class JwtTokenizer {
     }
 
     private Key getKeyFromBase64EncodedKey(String base64EncodedSecretKey) {
-        byte[] keyBytes = Decoders.BASE64.decode(base64EncodedSecretKey);
-        Key key = Keys.hmacShaKeyFor( keyBytes );
+        Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
         return key;
     }
 }

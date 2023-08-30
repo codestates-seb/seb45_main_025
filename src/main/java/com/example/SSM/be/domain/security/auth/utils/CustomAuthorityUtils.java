@@ -1,4 +1,4 @@
-package com.example.SSM.be.domain.auth.utils;
+package com.example.SSM.be.domain.security.auth.utils;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;

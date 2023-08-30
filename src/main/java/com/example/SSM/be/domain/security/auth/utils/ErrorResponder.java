@@ -1,4 +1,4 @@
-package com.example.SSM.be.domain.auth.utils;
+package com.example.SSM.be.domain.security.auth.utils;
 
 
 import com.example.SSM.be.global.response.ErrorResponse;

@@ -1,10 +1,10 @@
-package com.example.SSM.be.domain.auth.dto;
+package com.example.SSM.be.domain.security.auth.dto;
 
 
 import lombok.Getter;
 
 @Getter
 public class LoginDto {
-    private String username;
+    private String email;
     private String password;
 }

@@ -50,11 +50,11 @@ logging:
     root: INFO
 
 server:
-  port: 8080
+  port: 8888
 mail:
   address:
     admin: admin@gmail.com
 jwt:
-  secret-key: ${JWT_SECRET_KEY}
+  secret-key: kevin1234123412341234123412341234
   access-token-expiration-minutes: 120
   refresh-token-expiration-minutes: 360

@@ -1,4 +1,4 @@
-package com.example.SSM.be.domain.auth.handler;
+package com.example.SSM.be.domain.security.auth.handler;
 
 import com.example.SSM.be.global.response.ErrorResponse;
 import com.google.gson.Gson;

@@ -1,7 +1,7 @@
-package com.example.SSM.be.domain.auth.filter;
+package com.example.SSM.be.domain.security.auth.filter;
 
-import com.example.SSM.be.domain.auth.jwt.JwtTokenizer;
-import com.example.SSM.be.domain.auth.utils.CustomAuthorityUtils;
+import com.example.SSM.be.domain.security.auth.jwt.JwtTokenizer;
+import com.example.SSM.be.domain.security.auth.utils.CustomAuthorityUtils;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -14,10 +14,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.security.SignatureException;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 public class JwtVerificationFilter extends OncePerRequestFilter {
     private final JwtTokenizer jwtTokenizer;

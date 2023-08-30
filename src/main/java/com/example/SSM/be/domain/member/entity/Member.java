@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -25,21 +26,27 @@ public class Member implements UserDetails, OAuth2User {
     private long userId;
 
     @Column(length = 100, nullable = false,unique = true)
+    @NotNull
     private String email;
 
     @Column(length = 100, nullable = false)
+    @NotNull
     private String username;
 
     @Column(length = 300, nullable = false)
+    @NotNull
     private String password;
 
     @Column(nullable = false)
+    @NotNull
     private String gender;
 
     @Column(nullable = false)
+    @NotNull
     private String phone;
 
     @Column(nullable = false)
+    @NotNull
     private String nick;
 
     @Column(nullable = false)

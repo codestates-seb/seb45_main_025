@@ -1,23 +1,27 @@
 package com.example.SSM.MemberTest;
-import com.example.SSM.be.domain.auth.jwt.JwtTokenizer;
+
+import com.example.SSM.be.domain.security.auth.jwt.JwtTokenizer;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import org.springframework.beans.factory.annotation.Value;
 
+import javax.crypto.SecretKey;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class JwtTokenizerTest {
+
+
     private static JwtTokenizer jwtTokenizer;
     private String secretKey;
     private String base64EncodedSecretKey;
@@ -124,5 +128,18 @@ public class JwtTokenizerTest {
         String accessToken = jwtTokenizer.generateAccessToken(claims, subject, expiration, base64EncodedSecretKey);
 
         return accessToken;
+    }
+
+
+    @Test
+    @DisplayName("sercretKey 원문으로 hmac 암호화 알고리즘에 맞는 SecretKey 객체를 만들 수 있다.")
+    void t2() {
+        // 키를 Base64 인코딩
+        String keyBase64Encoded = Base64.getEncoder().encodeToString(secretKey.getBytes());
+        // Base64 인코딩된 키를 이용하여 SecretKey 객체를 만든다.
+        SecretKey secretKey = Keys.hmacShaKeyFor(keyBase64Encoded.getBytes());
+
+        // 검증
+        assertThat(secretKey.getAlgorithm(), is(equalTo("HmacSHA256")));
     }
 }

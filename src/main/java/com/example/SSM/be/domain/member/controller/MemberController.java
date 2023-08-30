@@ -1,11 +1,11 @@
 package com.example.SSM.be.domain.member.controller;
 
-import com.example.SSM.be.domain.auth.dto.LoginDto;
+import com.example.SSM.be.domain.security.auth.dto.LoginDto;
 import com.example.SSM.be.domain.member.dto.MemberDto;
 import com.example.SSM.be.domain.member.entity.Member;
 import com.example.SSM.be.domain.member.mapper.MemberMapper;
 import com.example.SSM.be.domain.member.service.MemberService;
-import com.example.SSM.be.domain.auth.jwt.JwtTokenizer;
+import com.example.SSM.be.domain.security.auth.jwt.JwtTokenizer;
 import com.example.SSM.be.global.utils.UriCreator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -44,13 +44,13 @@ public class MemberController {
         return new ResponseEntity(location, HttpStatus.CREATED);
     }
 
-    @PostMapping("/login")
-    public ResponseEntity loginMember(@RequestBody LoginDto loginDto) {
-        String jwtToken = memberService.loginMember(membermapper.memberloginDtoToMember(loginDto));
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Authorization", "Bearer " + jwtToken);
-
-        return ResponseEntity.ok()
-                .body("Bearer " + jwtToken);
-    }
+//    @PostMapping("/auth/login")
+//    public ResponseEntity loginMember(@RequestBody LoginDto loginDto) {
+//        String jwtToken = memberService.loginMember(membermapper.memberloginDtoToMember(loginDto));
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.add("Authorization", "Bearer " + jwtToken);
+//
+//        return ResponseEntity.ok()
+//                .body("Bearer " + jwtToken);
+//    }
 }

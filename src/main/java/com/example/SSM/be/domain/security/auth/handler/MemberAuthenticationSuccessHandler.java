@@ -1,4 +1,4 @@
-package com.example.SSM.be.domain.auth.handler;
+package com.example.SSM.be.domain.security.auth.handler;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;

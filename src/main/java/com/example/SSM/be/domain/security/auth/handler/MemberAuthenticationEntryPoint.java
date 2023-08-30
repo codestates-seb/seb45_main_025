@@ -1,7 +1,6 @@
-package com.example.SSM.be.domain.auth.handler;
+package com.example.SSM.be.domain.security.auth.handler;
 
-import com.example.SSM.be.domain.auth.utils.ErrorResponder;
-import com.example.SSM.be.global.exception.ExceptionCode;
+import com.example.SSM.be.domain.security.auth.utils.ErrorResponder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
