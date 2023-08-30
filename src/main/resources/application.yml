@@ -47,7 +47,7 @@ springdoc:
 
 logging:
   level:
-    root: INFO
+    root: DEBUG
 
 server:
   port: 8888
@@ -55,6 +55,6 @@ mail:
   address:
     admin: admin@gmail.com
 jwt:
-  secret-key: kevin1234123412341234123412341234
+  secret-key: CodeStatesMainProject25team
   access-token-expiration-minutes: 120
   refresh-token-expiration-minutes: 360

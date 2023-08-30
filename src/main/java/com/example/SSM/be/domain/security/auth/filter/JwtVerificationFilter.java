@@ -42,11 +42,18 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request,response);
     }
 
+    // 만약 request에 전달받은 authorization이 없으면 해당 필터는 실행안함
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) {
+        String authorization = request.getHeader("Authorization");
+
+        return authorization == null || !authorization.startsWith("Bearer");
+    }
+
     private Map<String,Object> verifyJws(HttpServletRequest request){
         String jws = request.getHeader("Authorization").replace("Bearer ","");
-        String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(jwtTokenizer.getSecretKey());
         try {
-            Map<String, Object> claims = jwtTokenizer.getClaims(jws, base64EncodedSecretKey).getBody();
+            Map<String, Object> claims = jwtTokenizer.getClaims(jws).getBody();
             return claims;
         } catch (Exception e) {
             request.setAttribute("exception", e);
@@ -55,9 +62,9 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
         }
     }
     private void setAuthenticationToContext(Map<String,Object> claims){
-        String username = (String) claims.get("username");
+        String email = (String) claims.get("email");
         List<GrantedAuthority> authorities = authorityUtils.createAuthorities((List)claims.get("roles"));
-        Authentication authentication = new UsernamePasswordAuthenticationToken(username,null,authorities);
+        Authentication authentication = new UsernamePasswordAuthenticationToken(email,null,authorities);
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 }

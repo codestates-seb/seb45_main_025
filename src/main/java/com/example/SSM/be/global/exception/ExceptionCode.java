@@ -3,11 +3,16 @@ package com.example.SSM.be.global.exception;
 import lombok.Getter;
 
 public enum ExceptionCode {
-    COMMENT_NOT_FOUND(404, "Comment not found"),
-    POST_NOT_FOUND(404, "Post not found"),
+
     MEMBER_NOT_FOUND(404, "Member not found"),
-    MEMBER_UNAUTHORIZED(404, "Member Status is EXIT or SLEEP"),
-    STATUS_NOT_LOGIN(404,"STATUS_NOT_LOGIN");
+    MEMBER_EXISTS(409, "회원이 존재합니다"),
+    MEMBER_IS_DELETED(404, "탈퇴한 회원입니다"),
+    MEMBER_IS_SLEEPING(404,"휴면 계정입니다"),
+    STATUS_NOT_LOGIN(404,"STATUS_NOT_LOGIN"),
+    POST_NOT_FOUND(404, "Post not found"),
+    COMMENT_NOT_FOUND(404, "Comment not found"),
+
+    JWT_TOKEN_EXPIRED(404, "토큰이 만료되었습니다");
 
     @Getter
     private int status;
