@@ -29,7 +29,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-
+	implementation 'org.springframework.boot:spring-boot-starter-logging'
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.h2database:h2'
 	runtimeOnly 'com.mysql:mysql-connector-j'
@@ -39,7 +39,6 @@ dependencies {
 	testImplementation 'org.springframework.security:spring-security-test'
 
 	implementation 'mysql:mysql-connector-java:8.0.28'
-
 	implementation 'org.mapstruct:mapstruct:1.4.2.Final'
 	annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
 	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
