@@ -12,10 +12,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import javax.crypto.SecretKey;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
-import java.util.*;
+import java.util.Base64;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Map;
 
 @Component
 @Slf4j
@@ -33,7 +35,7 @@ public class JwtTokenizer {
     @Value("${jwt.refresh-token-expiration-minutes}")
     private int refreshTokenExpirationMinutes;
 
-    private final Map<String, Long> tokenBlackList = new HashMap<>();
+
 
     @PostConstruct
     protected void init(){
@@ -91,14 +93,14 @@ public class JwtTokenizer {
     // 단순히 검증만 하는 용도로 쓰일 경우
     public Jws<Claims> verifySignature(String jws) {
 
-        try {
-            return Jwts.parserBuilder()
-                    .setSigningKey(getKey())
-                    .build()
-                    .parseClaimsJws(jws);
-        } catch (ExpiredJwtException exception) {
-            throw new BusinessLogicException(ExceptionCode.JWT_TOKEN_EXPIRED);
-        }
+            try {
+                return Jwts.parserBuilder()
+                        .setSigningKey(getKey())
+                        .build()
+                        .parseClaimsJws(jws);
+            } catch (ExpiredJwtException exception) {
+                throw new BusinessLogicException(ExceptionCode.JWT_TOKEN_EXPIRED);
+            }
     }
 
     public Date getTokenExpiration(int expirationMinutes) {
@@ -114,17 +116,11 @@ public class JwtTokenizer {
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public void addToTokenBlackList(String jws) {
-        SecretKey key = Keys.hmacShaKeyFor(secretKey.getBytes());
-        Long expirationTime = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(jws)
-                .getBody().get("refreshTokenExpirationMinutes", Long.class);
-
-        tokenBlackList.put(jws, expirationTime);
-    }
-
     private Key getKey() {
         String base64EncodedSecretKey = encodeBase64SecretKey();
 
         return getKeyFromBase64EncodedKey(base64EncodedSecretKey);
     }
+
+    //JWT 토큰의 만료시
 }
