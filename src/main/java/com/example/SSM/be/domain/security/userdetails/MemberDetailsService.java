@@ -1,4 +1,4 @@
-package com.example.SSM.be.domain.security.auth.userdetails;
+package com.example.SSM.be.domain.security.userdetails;
 
 import com.example.SSM.be.domain.member.entity.Member;
 import com.example.SSM.be.domain.member.repository.MemberRepository;

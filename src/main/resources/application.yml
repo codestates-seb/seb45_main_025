@@ -30,7 +30,6 @@ spring:
             scope:
               - email
               - profile
-
 springdoc:
   api-docs:
     path: /api-docs
@@ -56,5 +55,6 @@ mail:
     admin: admin@gmail.com
 jwt:
   secret-key: CodeStatesMainProject25team
-  access-token-expiration-minutes: 120
+  access-token-expiration-minutes: 1
   refresh-token-expiration-minutes: 360
+

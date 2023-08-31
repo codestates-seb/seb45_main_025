@@ -12,7 +12,9 @@ public enum ExceptionCode {
     POST_NOT_FOUND(404, "Post not found"),
     COMMENT_NOT_FOUND(404, "Comment not found"),
 
-    JWT_TOKEN_EXPIRED(404, "토큰이 만료되었습니다");
+    JWT_TOKEN_EXPIRED(404, "토큰이 만료되었습니다"),
+
+    ALREADY_ON_BLACKLIST(409,"이미 블랙리스트에 추가된 토큰입니다");
 
     @Getter
     private int status;
