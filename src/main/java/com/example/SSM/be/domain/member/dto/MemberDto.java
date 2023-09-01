@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Getter
@@ -27,7 +28,7 @@ public class MemberDto {
         private String gender;
         @NotBlank
         private String phone;
-        @NotBlank
+        @NotNull
         private LocalDate birth;
         @NotBlank
         private String address;
