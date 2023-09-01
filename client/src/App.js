@@ -9,6 +9,9 @@ import SignUpSelect from './pages/SignUpSelect/SignUpSelect';
 import MyPage from './pages/MyPage/MyPage';
 import MyPageEdit from './pages/MyPageEdit/MyPageEdit'
 import SignUpOauth from './pages/SignUpOauth/SignUpOatuh'
+import Products from './pages/Products/Products';
+import List from './pages/List/List';
+
 function App() {
   return (
     <AppContainer>
@@ -21,6 +24,8 @@ function App() {
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/mypage/edit" element={<MyPageEdit />} />
         <Route path="/signup/oauth" element={<SignUpOauth />}/>
+        <Route path="/products" element={<Products />} />
+        <Route path="/list" element={<List />} />
       </Routes>
       <Footer />
     </AppContainer>
