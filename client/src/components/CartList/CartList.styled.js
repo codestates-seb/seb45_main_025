@@ -17,7 +17,6 @@ export const CartListContainer = styled.div`
   }
 
   .subtotal-price span {
-    /* font-size: 18px; */
     font-weight: 400;
   }
 `;
@@ -96,6 +95,16 @@ export const ButtonsContainer = styled.div`
     border-radius: 5px;
     padding: 0.5rem 1rem;
     font-size: 14px;
+    font-weight: 200;
     margin: 1.5rem 0.3rem;
+
+    &:hover {
+      background-color: #f9f9f9;
+      box-shadow: 4px 4px 4px #ddd;
+    }
+
+    &:active {
+      box-shadow: inset 4px 4px 4px #ddd;
+    }
   }
 `

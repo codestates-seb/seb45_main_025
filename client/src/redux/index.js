@@ -4,12 +4,14 @@ import {
   applyMiddleware
 } from 'redux';
 import thunk from 'redux-thunk';
-// import { exampleReducer } from './reducers';
-import scrollReducer from './reducers/scrollReducer';
+
+import { scrollReducer } from './reducers/scrollReducer';
+import { cartReducer } from './reducers/cartReducer';
 
 export const store = createStore(
   combineReducers({
     scroll: scrollReducer,
+    cart: cartReducer,
   }),
   applyMiddleware(thunk)
 );

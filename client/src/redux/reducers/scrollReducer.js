@@ -1,10 +1,10 @@
-import { SET_SCROLLED } from '../actions/types';
+import { SET_SCROLLED } from '../actions/scrollActions';
 
 const initialState = {
   scrolled: false,
 };
 
-const scrollReducer = (state = initialState, action) => {
+export const scrollReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_SCROLLED:
       return {
@@ -15,5 +15,3 @@ const scrollReducer = (state = initialState, action) => {
       return state;
   }
 }
-
-export default scrollReducer;
