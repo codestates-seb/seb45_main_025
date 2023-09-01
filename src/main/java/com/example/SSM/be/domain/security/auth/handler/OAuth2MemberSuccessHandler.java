@@ -43,8 +43,8 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
         List<String> authorities = authorityUtils.createRoles(email);
 
         Member member = buildOAuth2Member(name,email,img);
-        //존재하지 않는 이메일이면 통과
         if(!memberService.existsByEmail(member.getEmail())) {
+            // db에 저장
             Member savedMember = saveMember(member);
             redirect(request, response, savedMember, authorities); // 리다이렉트를 하기위한 정보들을 보내줌
         } else {

@@ -30,6 +30,7 @@ spring:
             scope:
               - email
               - profile
+              - "https://www.googleapis.com/auth/user.phonenumbers.read"
 springdoc:
   api-docs:
     path: /api-docs
