@@ -1,16 +1,20 @@
 import { SignUpContainer,
   SignUpTop, SignUpMain,
-  SignUpName, SignUpGender, 
+  SignUpName,SignUpNickName,
+  SignUpGender, 
   DateOfBirth,SignUpHomeAdress, SignUpPhoneNumber,
   SignupEmail, SignUpPassword, 
   SignUpPassWordDoubleCheck, SignUpSubmit } from './SignUp.styled';
 import { useState } from "react";
+import { useNavigate } from 'react-router-dom';
+import axios from "axios";
 
 export default function SignUp() {
   const [name, setName] = useState('');
-  const [gender, setGender] = useState('male');
+  const [nickName, setNickName] = useState('');
+  const [gender, setGender] = useState('');
   const [birth, setBirth] = useState('');
-  const [adress, setAdress] = useState('');
+  const [address, setAddress] = useState('');
   const [phoneNumber, setphoneNumber] = useState('');
   const [emailFront, setEmailFront] = useState('');
   const [emailBack, setEmailBack] = useState('');
@@ -19,14 +23,19 @@ export default function SignUp() {
   const [passWordDoubleCheck, setPassWordDoubleCheck] = useState('');
   const [wrong, setWrong] = useState('');
   const passwordform = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+  const navigate = useNavigate();
   
   function submitsignup(){
     if(name === ''){
       setWrong("'Name' is Empty");
+    }else if(nickName === ''){
+      setWrong("'NickName' is Empty");
+    }else if(gender === ''){
+      setWrong("'Gender' is not selected");
     }else if(birth === ''){
       setWrong("'Date of birth' is Empty");
-    }else if(adress === ''){
-      setWrong("'Home Adress' is Empty");
+    }else if(address === ''){
+      setWrong("'Home Address' is Empty");
     }else if(phoneNumber === ''){
       setWrong("'Tel' is Empty");
     }else if(emailFront === '' || emailBack === ''){
@@ -34,7 +43,22 @@ export default function SignUp() {
     }else if(passWordCheck === false || passWord !== passWordDoubleCheck){
       setWrong("Check your 'PassWord'");
     }else{
-      console.log(name, gender, birth, adress,phoneNumber, emailFront, emailBack,passWord,passWordDoubleCheck)
+      console.log(name, gender, birth, address,phoneNumber, emailFront, emailBack,passWord,passWordDoubleCheck)
+      axios.post(`member/sign`,{ 
+        "email": emailFront + '@' + emailBack,
+        "password": passWord,
+        "address" : address,
+        "nick" : nickName,
+        "gender" : gender,
+        "name" : name,
+        "birth" : birth 
+      })
+      .then(()=>{
+        navigate('/')
+      })
+      .catch(()=>{
+        alert('can not make an account')
+      })
     }
   }
   
@@ -49,11 +73,15 @@ export default function SignUp() {
             <div>Name</div>
             <input onChange={(e)=>setName(e.target.value)}></input>
           </SignUpName>
+          <SignUpNickName>
+            <div>Nick Name</div>
+            <input onChange={(e)=>setNickName(e.target.value)}></input>
+          </SignUpNickName>
           <SignUpGender>
             <div>Gender</div>
-            <fieldset onChange={(e)=>setGender(e.target.value)}>
+            <fieldset>
               <div>
-                <input type='radio' value='male' id='male' name='gender' checked onClick={(e)=>setGender(e.target.value)}></input>
+                <input type='radio' value='male' id='male' name='gender' onClick={(e)=>setGender(e.target.value)}></input>
                 <label htmlFor="male" >Male</label>
               </div>
               <div>
@@ -67,8 +95,8 @@ export default function SignUp() {
             <input type='date' onChange={(e)=>setBirth(e.target.value)} ></input>
           </DateOfBirth>
           <SignUpHomeAdress>
-            <div>Home Adress</div>
-            <input onChange={(e)=>setAdress(e.target.value)}></input>
+            <div>Home Address</div>
+            <input onChange={(e)=>setAddress(e.target.value)}></input>
           </SignUpHomeAdress>
           <SignUpPhoneNumber>
             <div>Tel</div>
@@ -89,23 +117,23 @@ export default function SignUp() {
           </SignupEmail>
           <SignUpPassword>
             <div className='password_input'>
-              <div>Password</div>
+              <div className='passworddiv'>Password</div>
               <input type='password' onChange={(e)=>{
                 setPassWord(e.target.value)
                 setpassWordCheck(passwordform.test(e.target.value));
                 console.log(passWordCheck,passWord,e.target.value)
                 }}></input>
             </div>
-            <div>{passWordCheck ? '✅ valid password' : '❌ The password must be at least 8 characters and include English, numbers, and special characters.'}</div>
+            <div className='passwordcheck'>{passWordCheck ? '✅ valid password' : '❌ The password must be at least 8 characters and include English, numbers, and special characters.'}</div>
           </SignUpPassword>
           <SignUpPassWordDoubleCheck>
             <div>confirm password</div>
             <input type='password' onChange={(e)=>(setPassWordDoubleCheck(e.target.value))}></input>
-            <div>{passWordDoubleCheck === passWord ? '✅ Your password matches' : '❌ Passwords do not match'}</div>
+            <div className='passworddoublecheck'>{passWordDoubleCheck === passWord ? '✅ Your password matches' : '❌ Passwords do not match'}</div>
           </SignUpPassWordDoubleCheck>
 
         </div>
-        <div>{wrong}</div>
+        <div className='what_wrong'>{wrong}</div>
       <SignUpSubmit onClick={submitsignup}>Sign Up</SignUpSubmit>
       </SignUpMain>
       

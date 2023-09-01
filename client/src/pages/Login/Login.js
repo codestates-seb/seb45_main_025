@@ -2,15 +2,26 @@ import { LoginContainer, LoginTop,LoginMain,LoginFillBox, LoginToLogUp, LoginOau
 import google from'./google.png';
 import facebook from './facebook.png';
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export default function Login() {
   const [loginId, setLoginId] = useState('');
   const [passWord, setPassWord] = useState('');
-
+  const navigate = useNavigate();
   function loginsubmit(){
-    loginId
-    passWord
+    axios.post(`/member/login`,{
+      "email" : loginId, 
+      "password" : passWord
+      })
+    .then((res)=>{
+      const accessToken = res.headers.authorization;
+      localStorage.setItem('access_token', accessToken);
+      navigate('/');
+    })
+    .catch(()=>{
+      alert('Login failed')
+    })
   }
   return (
     <LoginContainer>

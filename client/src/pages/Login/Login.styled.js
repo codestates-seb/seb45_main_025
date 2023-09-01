@@ -1,5 +1,5 @@
 import { styled } from 'styled-components';
-
+import  head  from './head.jpeg'
 export const LoginContainer = styled.div`
   height: 120vh;
 `;
@@ -7,14 +7,16 @@ export const LoginContainer = styled.div`
 export const LoginTop = styled.div`
   height: 30vh;
   width: 100vw;
-  background-color: lightgray;
-
+  /* background-color: lightgray; */
+  background-image: url(${head}) ;
+  background-size: 100vw;
   > h1{
     text-align: center;
     display: block;
-    font-size: 40px;
+    font-size: 50px;
     color: white;
-    padding-top: 50px;
+    padding-top: 100px;
+    font-weight: bold;
   }
 `;
 
@@ -25,7 +27,8 @@ export const LoginMain = styled.div`
 
   > h2{
     padding-top: 50px;
-    font-size: 30px;
+    font-size: 40px;
+    font-weight: 40px;
   }
   .login_fillbox_oauth_container{
     width: 60vw;
