@@ -18,6 +18,7 @@ public class ProductsResponseDto {
     private String category;
     private String img;
     private String content;
+    private String productDescription;
     private Double productPrice;
     private LocalDateTime created_at;
     private LocalDateTime modified_at;

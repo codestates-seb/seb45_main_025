@@ -14,6 +14,7 @@ public class ProductsRequestDto {
     private String category;
     private String img;
     private String content;
+    private String productDescription;
     private Double productPrice;
 
     public String getProductName() {
@@ -26,6 +27,10 @@ public class ProductsRequestDto {
 
     public String getContent() {
         return content;
+    }
+
+    public String getProductDescription() {
+        return productDescription;
     }
 
     public Double getProductPrice() {

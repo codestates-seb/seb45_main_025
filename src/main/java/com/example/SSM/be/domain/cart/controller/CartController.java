@@ -128,5 +128,3 @@ public class CartController {
         return ResponseEntity.ok("장바구니 상품을 삭제했습니다.");
     }
 }
-
-//test

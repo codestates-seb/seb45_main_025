@@ -62,20 +62,21 @@ public class ProductsController {
     }
 
     // 카테고리별로 상품을 조회하는 엔드포인트
-    public ResponseEntity<Page<ProductsResponseDto>> getProductsByCategory(
+    // 카테고리별로 상품을 조회하는 엔드포인트
+    @Operation(summary = "카테고리별 상품 조회 (페이지별)")
+    @GetMapping("/{category}")
+    public ResponseEntity<List<ProductsResponseDto>> getProductsByCategory(
             @PathVariable String category,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "20") int size
+            @RequestParam(defaultValue = "1") int page,  // 기본값은 1페이지
+            @RequestParam(defaultValue = "20") int pageSize  // 기본 페이지 크기는 20개
     ) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
-        Page<Products> productsPage = productsService.getProductsByCategory(category, pageable);
+        Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by("createdAt").descending());  // 페이지와 페이지 크기를 기반으로 페이지 요청 객체 생성
+        Page<Products> productsPage = productsService.getProductsPageByCategory(category, pageable);  // 제품 페이지 조회 로직을 서비스에 위임
 
         List<ProductsResponseDto> responseDtos = productsPage.getContent().stream()
-                .map(ProductsResponseDto::new)
-                .collect(Collectors.toList());
+                .map(ProductsResponseDto::new)  // 각 제품을 응답 DTO로 변환
+                .collect(Collectors.toList());  // DTO들을 리스트로 수집
 
-        Page<ProductsResponseDto> responsePage = new PageImpl<>(responseDtos, pageable, productsPage.getTotalElements());
-
-        return ResponseEntity.ok(responsePage);
+        return ResponseEntity.ok(responseDtos);  // 응답 DTO 리스트 반환
     }
 }

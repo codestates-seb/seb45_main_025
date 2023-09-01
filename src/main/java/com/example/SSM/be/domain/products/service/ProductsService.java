@@ -53,7 +53,8 @@ public class ProductsService {
 
         productsRepository.delete(product);
     }
-    public Page<Products> getProductsByCategory(String category, Pageable pageable) {
-        return productsRepository.findByCategoryOrderByCreatedAtDesc(category, pageable);
+    public Page<Products> getProductsPageByCategory(String category, Pageable pageable) {
+        return productsRepository.findByCategory(category, pageable);
     }
+
 }
