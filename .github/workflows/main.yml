@@ -1,0 +1,46 @@
+name: SEB_45_Team025_MainProject
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+
+      - name: Start Session Manager session
+        run: aws ssm start-session --target i-0d17096306308a2ea
+
+      - name: Deploy to Server
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ap-northeast-2
+        run: |
+          DOCKER_IMAGE_TAG=$(echo "${{ github.sha }}" | cut -c1-7)
+          
+          aws ssm send-command \
+            --instance-ids i-030b4c959a2090555 \
+            --document-name "AWS-RunShellScript" \
+            --parameters "commands=[
+              'if sudo docker ps -a --format {{.Names}} | grep -q ^server$; then',
+              '  sudo docker stop server',
+              '  sudo docker rm server',
+              'fi',
+              'sudo docker pull rkswlska789/ssm:${DOCKER_IMAGE_TAG}',
+              'sudo docker tag rkswlska789/ssm:${DOCKER_IMAGE_TAG} ssm_025',
+              'sudo docker run -d --name server -p 8080:8080 ssm_025'
+            ]" \
+            --output text
