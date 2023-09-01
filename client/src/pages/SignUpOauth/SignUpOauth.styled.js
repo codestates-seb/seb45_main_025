@@ -1,9 +1,8 @@
-import { styled } from 'styled-components';
+import { styled } from "styled-components";
 
-export const SignUpContainer = styled.div`
+export const SignUpOauthContainer = styled.div`
   height: 140vh;
-`;
-
+`
 export const SignUpTop = styled.div`
   height: 30vh;
   width: 100vw;
@@ -14,7 +13,7 @@ export const SignUpTop = styled.div`
     display: block;
     font-size: 40px;
     color: white;
-    padding-top: 50px;
+    padding-top: 60px;
   }
 `;
 
@@ -41,7 +40,7 @@ export const SignUpMain = styled.div`
     flex-direction: column;
     padding-top: 5vh;
     padding-bottom: 5vh;
-    margin-bottom: 2px;
+    margin-bottom: 40px;
     > div{
       margin-bottom: 30px;
     }
@@ -51,17 +50,6 @@ export const SignUpMain = styled.div`
   }
 `
 export const SignUpName = styled.div`
-  display: flex;
-  flex-direction: row;
-  margin-left: 2vw;
-  > div{
-    width: 140px;
-  }
-  > input{
-    margin-left: 20px;
-  }
-`
-export const SignUpNickName = styled.div`
   display: flex;
   flex-direction: row;
   margin-left: 2vw;
@@ -122,58 +110,8 @@ export const SignUpPhoneNumber = styled.div`
     width: 15vw;
   }
 `
-export const SignupEmail = styled.div`
-  display: flex;
-  flex-direction: row;
-  margin-left: 2vw;
-  > div{
-    width: 140px;
-  }
-  .emailfront{
-    width: 15vw;
-    margin-left: 20px;
-  }
-  .emailback{
-    width: 10vw;
-  }
-`
 
-export const SignUpPassword = styled.div`
-  margin-left: 2vw;
-  display: flex;
-  flex-direction: column;
-  .password_input{
-    display: flex;
-    flex-direction: row;
-  }
-  .passworddiv{
-    width: 140px;
-  }
-  input{
-    margin-left: 20px;
-  }
-  .passwordcheck{
-    color: gray;
-  }
-`
-
-export const SignUpPassWordDoubleCheck = styled.div`
-  display: flex;
-  flex-direction: row;
-  margin-left: 2vw;
-  div:first-child{
-    width: 140px;
-  }
-  input{
-    margin-left: 20px;
-  }
-  .passworddoublecheck{
-    color: gray;
-    margin-left: 20px;
-  }
-`
-
-export const SignUpSubmit =styled.button`
+export const SignUpSubmit =styled.div`
   border: 0.2px solid black;
   padding: 5px;
 `

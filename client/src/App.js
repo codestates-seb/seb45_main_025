@@ -7,6 +7,12 @@ import Login from './pages/Login/Login';
 import SignUp from './pages/SignUp/SignUp';
 import Cart from './pages/Cart/Cart';
 import Order from './pages/Order/Order';
+import SignUpSelect from './pages/SignUpSelect/SignUpSelect';
+import MyPage from './pages/MyPage/MyPage';
+import MyPageEdit from './pages/MyPageEdit/MyPageEdit'
+import SignUpOauth from './pages/SignUpOauth/SignUpOatuh'
+import Products from './pages/Products/Products';
+import List from './pages/List/List';
 
 function App() {
   return (
@@ -14,10 +20,16 @@ function App() {
       <Header />
       <Routes>
         <Route path="/login" element={<Login />} />
-        <Route path="/sign-up" element={<SignUp />} />
+        <Route path="/signup" element={<SignUp />} />
         <Route path="/" element={<Main />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/order" element={<Order />} />
+        <Route path="/signup/select" element ={<SignUpSelect />} />
+        <Route path="/mypage" element={<MyPage />} />
+        <Route path="/mypage/edit" element={<MyPageEdit />} />
+        <Route path="/signup/oauth" element={<SignUpOauth />}/>
+        <Route path="/products" element={<Products />} />
+        <Route path="/list" element={<List />} />
       </Routes>
       <Footer />
     </AppContainer>
