@@ -3,6 +3,8 @@ package com.example.SSM.be.domain.member.dto;
 import com.example.SSM.be.domain.member.entity.Member;
 import lombok.*;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
 
 @Getter
@@ -12,13 +14,22 @@ public class MemberDto {
     @Setter
     @Getter
     public static class PostDto{
+        @Email
+        @NotBlank
         private String email;
-        private String username;
+        @NotBlank
+        private String name;
+        @NotBlank
         private String password;
+        @NotBlank
         private String conformPassword;
+        @NotBlank
         private String gender;
+        @NotBlank
         private String phone;
+        @NotBlank
         private LocalDate birth;
+        @NotBlank
         private String address;
     }
 
