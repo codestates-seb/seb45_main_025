@@ -43,7 +43,7 @@ public class MemberService {
 
     public Member findMemberByEmail(String email) {
         return memberRepository.findByEmail(email)
-                .orElse(null); // 또는 해당 로직에 맞게 처리
+                .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 아이디 입니다."));
     }
     public void verifyNotExist(String email) {
         if (memberRepository.findByEmail(email).isPresent()) {
