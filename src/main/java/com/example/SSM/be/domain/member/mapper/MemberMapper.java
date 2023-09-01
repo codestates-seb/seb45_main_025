@@ -1,5 +1,6 @@
 package com.example.SSM.be.domain.member.mapper;
 
+import com.example.SSM.be.domain.member.dto.AuthAdditionalDto;
 import com.example.SSM.be.domain.member.dto.AuthLoginDto;
 import com.example.SSM.be.domain.member.dto.MemberDto;
 import com.example.SSM.be.domain.member.entity.Member;
@@ -12,5 +13,7 @@ public interface MemberMapper {
     Member memberPostDtoToMember(MemberDto.PostDto postDto);
 
     @Mapping(source = "profileImg", target = "img")
-    Member AuthLoginDtoMember(AuthLoginDto authLoginDto);
+    Member AuthLoginDtoToMember(AuthLoginDto authLoginDto);
+
+    Member AuthAdditionalDtoToMember(AuthAdditionalDto authAdditionalDto);
 }

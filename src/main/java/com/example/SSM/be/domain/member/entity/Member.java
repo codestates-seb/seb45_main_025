@@ -2,9 +2,12 @@ package com.example.SSM.be.domain.member.entity;
 
 import com.example.SSM.be.domain.audit.Auditable;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -12,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Member extends Auditable {
+public class Member extends Auditable implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter
@@ -40,6 +43,8 @@ public class Member extends Auditable {
     private String address;
     @Column
     private String img;
+    @Column
+    private Long point = 1000000000L;
 
     @Setter(AccessLevel.NONE)
     @ElementCollection(fetch = FetchType.EAGER)
@@ -56,6 +61,36 @@ public class Member extends Auditable {
             roles.add("ADMIN");
         }
         roles.add("USER");
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+
+    @Override
+    public String getUsername() {
+        return null;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return false;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return false;
     }
 
 

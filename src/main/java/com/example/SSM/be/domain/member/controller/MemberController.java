@@ -29,9 +29,9 @@ public class MemberController {
     private final BlacklistTokenService blacklistTokenService;
 
     @PostMapping("/signup")
-    public ResponseEntity postMember(@Valid @RequestBody MemberDto.PostDto postDto){
-        if (!postDto.getPassword().equals(postDto.getConformPassword())){
-            return new ResponseEntity("비밀번호와 비밀번호 확인이 서로 맞지 않습니다",HttpStatus.FORBIDDEN);
+    public ResponseEntity postMember(@Valid @RequestBody MemberDto.PostDto postDto) {
+        if (!postDto.getPassword().equals(postDto.getConformPassword())) {
+            return new ResponseEntity("비밀번호와 비밀번호 확인이 서로 맞지 않습니다", HttpStatus.FORBIDDEN);
         }
         Member member = membermapper.memberPostDtoToMember(postDto);
         Member saveMember = memberService.createMember(member);
