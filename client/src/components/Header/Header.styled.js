@@ -23,6 +23,7 @@ export const HeaderContainer = styled.div`
     background-color: var(--white);
     padding: 0.5rem 2rem;
     margin: 0;
+    border-bottom: 1px solid #ebebeb;
   `}
 `;
 

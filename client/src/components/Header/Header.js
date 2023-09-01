@@ -42,7 +42,7 @@ export default function Header() {
           <HeaderLogo src={scrolled ? headerLogoImgSmall : headerLogoImgBig} scrolled={scrolled} />
         </Link>
         <div className='left-nav'>
-          <Link to='/shop'>SHOP</Link>
+          <Link to='/products'>SHOP</Link>
           <Link to='/community'>COMMUNITY</Link>
         </div>
       </LeftNavContainer>

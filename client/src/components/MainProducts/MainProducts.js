@@ -6,7 +6,7 @@ import MainCategoryCard from '../MainProductsCard/MainProductsCard';
 import SnackImage from '../../common/image/snack.png';
 import CookiesImage from '../../common/image/cookies.png';
 import ChocolateImage from '../../common/image/chocolate.png';
-import CandyImage from '../../common/image/candy2.png';
+import CandyImage from '../../common/image/candy3.png';
 import JellyImage from '../../common/image/jelly3.png';
 
 export default function MainProducts() {

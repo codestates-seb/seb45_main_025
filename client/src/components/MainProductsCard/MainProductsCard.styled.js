@@ -4,7 +4,7 @@ export const MainProductsCardContainer = styled.div`
   position: relative;
   background-color: var(--black);
   color: var(--white);
-  margin: 0.3rem;
+  margin: 0 0.3rem;
 
   img {
     position: relative;

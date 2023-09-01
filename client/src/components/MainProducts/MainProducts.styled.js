@@ -2,7 +2,7 @@ import { styled } from 'styled-components';
 
 export const MainProductsContainer = styled.div`
   width: 100vw;
-  height: 93vh;
+  height: 95vh;
   background-color: #EFEFEF;
   display: flex;
   flex-direction: column;
@@ -20,6 +20,6 @@ export const MainProductsContainer = styled.div`
 export const CardContainer = styled.div`
   display: flex;
   flex-direction: row;
-  height: 60vh;
+  height: 100vh;
   width: 100vw;
 `;
