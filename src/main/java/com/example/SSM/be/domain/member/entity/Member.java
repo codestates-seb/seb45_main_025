@@ -1,24 +1,18 @@
 package com.example.SSM.be.domain.member.entity;
 
+import com.example.SSM.be.domain.audit.Auditable;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class Member implements UserDetails, OAuth2User {
+public class Member extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter
@@ -28,26 +22,24 @@ public class Member implements UserDetails, OAuth2User {
     private String email;
 
     @Column(length = 100, nullable = false)
-    private String username;
+    private String name;
 
-    @Column(length = 300, nullable = false)
+    @Column(length = 300)
     private String password;
 
-    @Column(nullable = false)
+    @Column
     private String gender;
 
-    @Column(nullable = false)
+    @Column
     private String phone;
 
-    @Column(nullable = false)
+    @Column
     private String birth;
 
-    @Column(nullable = false)
+    @Column
     private String address;
-
-    @Column(nullable = false)
-    @CreationTimestamp
-    private LocalDateTime createdAt;
+    @Column
+    private String img;
 
     @Setter(AccessLevel.NONE)
     @ElementCollection(fetch = FetchType.EAGER)
@@ -66,45 +58,6 @@ public class Member implements UserDetails, OAuth2User {
         roles.add("USER");
     }
 
-    @Override
-    public <A> A getAttribute(String name) {
-        return OAuth2User.super.getAttribute(name);
-    }
-
-    @Override
-    public Map<String, Object> getAttributes() {
-        return null;
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return false;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return false;
-    }
-
-    @Override
-    public String getName() {
-        return null;
-    }
 
     public enum MemberStatus{
         MEMBER_ACTIVE("활동중"),

@@ -5,16 +5,13 @@ import com.example.SSM.be.domain.member.entity.Member;
 import com.example.SSM.be.domain.member.mapper.MemberMapper;
 import com.example.SSM.be.domain.member.service.MemberService;
 import com.example.SSM.be.domain.security.tokenblacklist.service.BlacklistTokenService;
-import com.example.SSM.be.domain.security.auth.jwt.JwtTokenizer;
 import com.example.SSM.be.global.utils.UriCreator;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -23,6 +20,7 @@ import java.net.URI;
 @RestController
 @RequestMapping("/users")
 @Validated
+@RequiredArgsConstructor
 @Slf4j
 public class MemberController {
     private final static String MEMBER_DEFAULT_URL = "/users";
@@ -30,11 +28,6 @@ public class MemberController {
     private final MemberService memberService;
     private final BlacklistTokenService blacklistTokenService;
 
-    public MemberController(MemberMapper mapper, MemberService service, JwtTokenizer jwtTokenizer, BlacklistTokenService blacklistTokenService) {
-        this.membermapper = mapper;
-        this.memberService = service;
-        this.blacklistTokenService = blacklistTokenService;
-    }
     @PostMapping("/signup")
     public ResponseEntity postMember(@Valid @RequestBody MemberDto.PostDto postDto){
         if (!postDto.getPassword().equals(postDto.getConformPassword())){
@@ -54,6 +47,5 @@ public class MemberController {
         blacklistTokenService.addToBlacklist(jws);
         return ResponseEntity.ok().body("로그아웃 성공");
     }
-
 //
 }

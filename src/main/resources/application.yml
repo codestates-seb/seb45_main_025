@@ -24,9 +24,8 @@ spring:
       client:
         registration:
           google:
-            clientId: 232398614438-4laehmm9vibdvaa8hv57miuvgpkv33kj.apps.googleusercontent.com           # (1)
-            clientSecret: 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  # (2)
-            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+            clientId: 232398614438-4laehmm9vibdvaa8hv57miuvgpkv33kj.apps.googleusercontent.com
+            clientSecret: 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
             scope:
               - email
               - profile
@@ -35,7 +34,6 @@ springdoc:
     path: /api-docs
   swagger-ui:
     path: /swagger-ui.html
-
     spring:
       mvc:
         converters:
@@ -46,8 +44,7 @@ springdoc:
 
 logging:
   level:
-    root: DEBUG
-
+    root: INFO
 server:
   port: 8888
 mail:
