@@ -10,8 +10,8 @@ export const FooterContainer = styled.div`
 `;
 
 export const FooterWrap = styled.div`
-  width: var(--main-width);
+  /* width: var(--main-width);
   height: 100%;
   padding: 12px;
-  padding-top: 32px;
+  padding-top: 32px; */
 `;

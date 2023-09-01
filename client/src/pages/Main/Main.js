@@ -1,13 +1,16 @@
-import { BaseContainer, BaseWrap } from '../../style/Global.styled';
 import { MainContainer } from './Main.styled';
+import MainImage from '../../components/MainImage/MainImage';
+import MainConceptStory from '../../components/MainConceptStory/MainConceptStory';
+import MainProducts from '../../components/MainProducts/MainProducts';
+import MainNewProducts from '../../components/MainNewProducts/MainNewProducts';
+
 export default function Main() {
   return (
-    <BaseContainer>
-      <BaseWrap>
-        <MainContainer>
-          <div>메인 페이지</div>
-        </MainContainer>
-      </BaseWrap>
-    </BaseContainer>
+    <MainContainer>
+      <MainImage />
+      <MainConceptStory />
+      <MainProducts />
+      <MainNewProducts />
+    </MainContainer>
   );
 }

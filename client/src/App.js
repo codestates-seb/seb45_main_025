@@ -5,6 +5,8 @@ import Footer from './components/Footer/Footer';
 import Main from './pages/Main/Main';
 import Login from './pages/Login/Login';
 import SignUp from './pages/SignUp/SignUp';
+import Cart from './pages/Cart/Cart';
+import Order from './pages/Order/Order';
 import SignUpSelect from './pages/SignUpSelect/SignUpSelect';
 import MyPage from './pages/MyPage/MyPage';
 import MyPageEdit from './pages/MyPageEdit/MyPageEdit'
@@ -20,6 +22,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/" element={<Main />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/order" element={<Order />} />
         <Route path="/signup/select" element ={<SignUpSelect />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/mypage/edit" element={<MyPageEdit />} />
