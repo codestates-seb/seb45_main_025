@@ -4,6 +4,8 @@ import com.example.SSM.be.domain.products.dto.ProductsRequestDto;
 import com.example.SSM.be.domain.products.entity.Products;
 import com.example.SSM.be.domain.products.repository.ProductsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.webjars.NotFoundException;
 
@@ -51,7 +53,7 @@ public class ProductsService {
 
         productsRepository.delete(product);
     }
-    public List<Products> getProductsByCategoryAndOrderByCreatedAtDesc(String category) {
-        return productsRepository.findByCategoryOrderByCreatedAtDesc(category);
+    public Page<Products> getProductsByCategory(String category, Pageable pageable) {
+        return productsRepository.findByCategoryOrderByCreatedAtDesc(category, pageable);
     }
 }

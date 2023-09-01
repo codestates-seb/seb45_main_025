@@ -32,6 +32,7 @@ public class Products {
 
     @Column(name = "modified_at")
     private LocalDateTime modifiedAt;
+
     public Long getProductId() {
         return productId;
     }
@@ -95,4 +96,8 @@ public class Products {
     public void setCategory(String category) {
         this.category = category;
     }
+    public Double getPrice() {
+        return productPrice;
+    }
+    
 }
