@@ -97,14 +97,19 @@ export const ButtonsContainer = styled.div`
     font-size: 14px;
     font-weight: 200;
     margin: 1.5rem 0.3rem;
+  }
 
-    &:hover {
-      background-color: #f9f9f9;
-      box-shadow: 4px 4px 4px #ddd;
-    }
+  button:disabled {
+    color: #ddd;
+    cursor: default;
+  }
 
-    &:active {
-      box-shadow: inset 4px 4px 4px #ddd;
-    }
+  button:not(:disabled):hover {
+    background-color: #f9f9f9;
+    box-shadow: 4px 4px 4px #ddd;
+  }
+
+  button:not(:disabled):active {
+    box-shadow: inset 4px 4px 4px #ddd;
   }
 `

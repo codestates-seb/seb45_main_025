@@ -93,8 +93,6 @@ justify-content: space - between;
 align-items: center;
 max-width: var(--main-width);
 width: 100%;
-
-
 `;
 
 export const HeaderLogo = styled.img`
