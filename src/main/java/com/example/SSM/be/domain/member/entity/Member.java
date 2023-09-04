@@ -4,18 +4,19 @@ import com.example.SSM.be.domain.audit.Auditable;
 import com.example.SSM.be.domain.products.entity.Products;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class Member extends Auditable implements UserDetails {
+public class Member extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter
@@ -46,52 +47,12 @@ public class Member extends Auditable implements UserDetails {
     @Column
     private Long point = 1000000000L;
 
-    @Setter(AccessLevel.NONE)
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     @Column
     private MemberStatus memberStatus = MemberStatus.MEMBER_ACTIVE;
-
-
-    public void setRoles(String email){
-        if(email.equals("admin@naver.com")){   //관리자 계정 이메일 넣으면 됨.
-            roles.add("USER");
-            roles.add("ADMIN");
-        }
-        roles.add("USER");
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
-    }
-
-    @Override
-    public String getUsername() {
-        return null;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return false;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return false;
-    }
 
 
     public enum MemberStatus{

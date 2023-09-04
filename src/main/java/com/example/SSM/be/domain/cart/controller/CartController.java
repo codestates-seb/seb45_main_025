@@ -2,25 +2,22 @@ package com.example.SSM.be.domain.cart.controller;
 
 
 import com.example.SSM.be.domain.cart.dto.CartItemResponseDTO;
-import com.example.SSM.be.domain.cart.entity.Cart;
 import com.example.SSM.be.domain.cart.entity.CartItem;
 import com.example.SSM.be.domain.cart.service.CartService;
 import com.example.SSM.be.domain.member.entity.Member;
 import com.example.SSM.be.domain.member.service.MemberService;
-import com.example.SSM.be.domain.security.auth.service.TokenService;
+import com.example.SSM.be.domain.security.token.service.TokenService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 @RestController

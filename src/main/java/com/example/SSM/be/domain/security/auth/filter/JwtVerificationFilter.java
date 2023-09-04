@@ -1,6 +1,7 @@
 package com.example.SSM.be.domain.security.auth.filter;
 
-import com.example.SSM.be.domain.security.auth.jwt.JwtTokenizer;
+import com.example.SSM.be.domain.security.auth.dto.TokenPrincipalDto;
+import com.example.SSM.be.domain.security.token.jwt.JwtTokenizer;
 import com.example.SSM.be.domain.security.auth.utils.CustomAuthorityUtils;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -53,7 +54,7 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
     private Map<String,Object> verifyJws(HttpServletRequest request){
         String jws = request.getHeader("Authorization").replace("Bearer ","");
         try {
-            Map<String, Object> claims = jwtTokenizer.getClaims(jws).getBody();
+            Map<String, Object> claims = jwtTokenizer.verifySignature(jws).getBody();
             return claims;
         } catch (Exception e) {
             request.setAttribute("exception", e);
@@ -62,9 +63,10 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
         }
     }
     private void setAuthenticationToContext(Map<String,Object> claims){
-        String email = (String) claims.get("email");
-        List<GrantedAuthority> authorities = authorityUtils.createAuthorities((List)claims.get("roles"));
-        Authentication authentication = new UsernamePasswordAuthenticationToken(email,null,authorities);
+        String email = (String) claims.get("sub");
+        Long id = Long.valueOf((Integer) claims.get("memberId"));
+        List<GrantedAuthority> authorities = authorityUtils.createAuthorities((List<String>)claims.get("roles"));
+        Authentication authentication = new UsernamePasswordAuthenticationToken(new TokenPrincipalDto(id, email), null, authorities);
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 }

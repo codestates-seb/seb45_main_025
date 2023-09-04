@@ -1,6 +1,6 @@
 package com.example.SSM.be.domain.security.tokenblacklist.service;
 
-import com.example.SSM.be.domain.security.auth.jwt.JwtTokenizer;
+import com.example.SSM.be.domain.security.token.jwt.JwtTokenizer;
 import com.example.SSM.be.domain.security.tokenblacklist.entity.TokenBlacklist;
 import com.example.SSM.be.domain.security.tokenblacklist.repository.TokenBlacklistRepository;
 import com.example.SSM.be.global.exception.BusinessLogicException;

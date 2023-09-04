@@ -5,9 +5,12 @@ import com.example.SSM.be.domain.member.service.MemberService;
 import com.example.SSM.be.domain.security.auth.filter.JwtAuthenticationFilter;
 import com.example.SSM.be.domain.security.auth.filter.JwtVerificationFilter;
 import com.example.SSM.be.domain.security.auth.handler.*;
-import com.example.SSM.be.domain.security.auth.jwt.JwtTokenizer;
+import com.example.SSM.be.domain.security.token.jwt.JwtTokenizer;
+import com.example.SSM.be.domain.security.auth.service.CustomOAuth2Serivce;
 import com.example.SSM.be.domain.security.auth.utils.CustomAuthorityUtils;
+import com.example.SSM.be.domain.security.token.repository.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,6 +24,7 @@ import org.springframework.security.oauth2.client.registration.ClientRegistratio
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
 import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
+import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -29,6 +33,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.Arrays;
 
 @Configuration
+@Slf4j
 @RequiredArgsConstructor
 public class SecurityConfig  {
 
@@ -41,7 +46,7 @@ public class SecurityConfig  {
     private final MemberRepository memberRepository;
     private final MemberService memberService;
     private final CustomAuthorityUtils authorityUtils;
-
+    private final RefreshTokenRepository refreshTokenRepository;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
@@ -51,7 +56,7 @@ public class SecurityConfig  {
                 .headers().frameOptions().sameOrigin()
                 .and()
                 .csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER)
                 .and()
                 .formLogin().disable()
                 .httpBasic().disable()
@@ -67,15 +72,16 @@ public class SecurityConfig  {
                         // # member관련
                         .antMatchers(HttpMethod.POST, "/users/signup").permitAll()
                         .antMatchers(HttpMethod.POST, "/users/login").permitAll()
-                        .antMatchers(HttpMethod.POST, "/users/logout").hasRole("USER")
+                        .antMatchers(HttpMethod.POST, "/users/logout").authenticated()
+                        .antMatchers(HttpMethod.GET,"/user").authenticated()
+                        .antMatchers("/").permitAll()
+                        .antMatchers("/h2-console/**").permitAll()
                         .anyRequest().permitAll()
-
                 )
-                .oauth2Login(oauth2 -> oauth2
-                        .loginPage("/oauth2/authorization/google")
-                        .successHandler(new OAuth2MemberSuccessHandler(jwtTokenizer, authorityUtils, memberService))
-                );
-
+                .oauth2Login(oauth -> oauth
+                        .successHandler(new OAuth2MemberSuccessHandler(jwtTokenizer,authorityUtils,memberService))
+                        .userInfoEndpoint().userService(new CustomOAuth2Serivce()))
+                .logout().permitAll();
         return httpSecurity.build();
     }
 
@@ -101,7 +107,8 @@ public class SecurityConfig  {
         public void configure(HttpSecurity builder)  {
             AuthenticationManager authenticationManager = builder.getSharedObject(AuthenticationManager.class);
 
-            JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(authenticationManager, jwtTokenizer, memberRepository);
+            JwtAuthenticationFilter jwtAuthenticationFilter =
+                    new JwtAuthenticationFilter(authenticationManager, jwtTokenizer, memberRepository,refreshTokenRepository);
 
 
 
@@ -121,7 +128,6 @@ public class SecurityConfig  {
         @Bean
         public ClientRegistrationRepository clientRegistrationRepository() {
             var clientRegistration = clientRegistration();    // (3-1)
-
             return new InMemoryClientRegistrationRepository(clientRegistration);   // (3-2)
         }
 
@@ -133,6 +139,8 @@ public class SecurityConfig  {
                     .getBuilder("google")
                     .clientId(clientId)
                     .clientSecret(clientSecret)
+                    .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+                    .scope("openid", "profile", "email")
                     .build();
         }
     }
