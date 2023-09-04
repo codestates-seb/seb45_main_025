@@ -1,21 +1,7 @@
 import {styled} from 'styled-components';
 
 export const MyPageEditContainer = styled.div`
-  height: 120vh;
-`
-
-export const MyPageEditTop = styled.div`
-  height: 30vh;
-  width: 100vw;
-  background-color: lightgray;
-
-  > h1{
-    text-align: center;
-    display: block;
-    font-size: 40px;
-    color: white;
-    padding-top: 50px;
-  }
+  height: 1800px;
 `
 
 export const MyPageEditMain = styled.div`
@@ -23,6 +9,7 @@ export const MyPageEditMain = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 5rem 0;
   .mypageeditetc{
     flex-direction: column;
     width: 60vw;
@@ -34,7 +21,6 @@ export const MyPageEditMain = styled.div`
 `
 
 export const MyPageEditImg = styled.div`
-  margin-top: 30px;
   position: relative;
   .myimg{
     border-radius: 100%;
@@ -45,13 +31,18 @@ export const MyPageEditImg = styled.div`
     display: none;
   }
   .btn-upload{
-
+    border: 1px solid var(--gray-10);
+    border-radius: 5px;
+    padding: 5px;
+    cursor: pointer;
   }
 `
 
 export const DeleteAccountBtn = styled.button`
   margin-left: 50vw;
-  border: 0.3px solid black;
+  border: 1px solid var(--gray-10);
+  border-radius: 5px;
+  padding: 5px;
   padding: 5px;
   display: flex;
   flex-direction: row;
@@ -164,6 +155,7 @@ export const MyPageEmail = styled.div`
 
 export const MyPageSubmit = styled.button`
   margin-top: 5vh;
-  border: 0.3px solid black;
+  border: 1px solid var(--gray-10);
+  border-radius: 5px;
   padding: 5px;
 `

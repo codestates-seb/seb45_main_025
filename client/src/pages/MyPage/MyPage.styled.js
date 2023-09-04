@@ -1,28 +1,16 @@
 import {styled} from 'styled-components';
 
 export const MyPageContainer = styled.div`
-  height: 120vh;
+  height: 1500px;
 `
 
-export const MyPageTop = styled.div`
-  height: 30vh;
-  width: 100vw;
-  background-color: lightgray;
-
-  > h1{
-    text-align: center;
-    display: block;
-    font-size: 40px;
-    color: white;
-    padding-top: 50px;
-  }
-`
 
 export const MyPageMain = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 5rem 0;
   .mypageetc{
     flex-direction: column;
     width: 60vw;
@@ -37,7 +25,6 @@ export const MyPageMain = styled.div`
 `
 
 export const MyPageImg = styled.div`
-margin-top: 30px;
   .myimg{
     border-radius: 100%;
     width: 100px;
@@ -47,7 +34,8 @@ margin-top: 30px;
 
 export const ChangeAccountBtn = styled.button`
   margin-left: 50vw;
-  border: 0.3px solid black;
+  border: 1px solid var(--gray-10);
+  border-radius: 5px;
   padding: 5px;
   display: flex;
   flex-direction: row;

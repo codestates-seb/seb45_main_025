@@ -1,8 +1,10 @@
-import {SignUpOauthContainer,SignUpTop,SignUpMain,
+import {SignUpOauthContainer,SignUpMain,
   SignUpName, SignUpGender, 
   DateOfBirth,SignUpHomeAdress,
    SignUpPhoneNumber, SignUpSubmit} from './SignUpOauth.styled';
 import { useState } from "react";
+import BackgroundImage from '../../components/BackgroundImage/BackgroundImage';
+import  potatochip  from '../../common/image/potatochip.jpeg';
 
 export default function SignUpOauth(){
   const [name, setName] = useState('');
@@ -16,7 +18,7 @@ export default function SignUpOauth(){
 
   return (
     <SignUpOauthContainer>
-      <SignUpTop><h1>Account</h1></SignUpTop>
+      <BackgroundImage imgSrc={potatochip} title='ACCOUNT'/>
       <SignUpMain>
         <h2>Sign Up</h2>
         <h3>2. Enter additional information</h3>
