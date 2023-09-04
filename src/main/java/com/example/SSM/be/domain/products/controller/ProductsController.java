@@ -4,10 +4,13 @@ import com.example.SSM.be.domain.products.dto.ProductsRequestDto;
 import com.example.SSM.be.domain.products.dto.ProductsResponseDto;
 import com.example.SSM.be.domain.products.entity.Products;
 import com.example.SSM.be.domain.products.service.ProductsService;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
@@ -21,6 +24,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -37,34 +41,21 @@ public class ProductsController {
     }
 
     // 상품을 생성하는 엔드포인트
+    // 상품을 생성하는 엔드포인트
     @Operation(summary = "새 상품 생성")
     @PostMapping("/create")
     public ResponseEntity<Products> createProduct(@RequestPart("productImage") MultipartFile productImage,
                                                   @ModelAttribute ProductsRequestDto productDto) {
-        // 파일 업로드 처리
-        String fileName = StringUtils.cleanPath(productImage.getOriginalFilename());
-
         try {
-            if (!fileName.isEmpty()) {
-                Path uploadDir = Paths.get("uploads");  // 파일 업로드 디렉토리 경로 설정
-                if (!Files.exists(uploadDir)) {
-                    Files.createDirectories(uploadDir);
-                }
+            String uploadedImagePath = productsService.uploadProductImage(productImage);
+            productDto.setImg(uploadedImagePath);
 
-                try (InputStream inputStream = productImage.getInputStream()) {
-                    Path filePath = uploadDir.resolve(fileName);
-                    Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
-                    productDto.setImg(filePath.toString());  // 이미지 파일 경로 저장
-                }
-            }
+            Products newProduct = productsService.createProduct(productDto);
+            return ResponseEntity.ok(newProduct);
         } catch (IOException e) {
-            // 파일 업로드 실패 처리
             e.printStackTrace();
-            // 실패 처리 로직 추가
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
-
-        Products newProduct = productsService.createProduct(productDto);  // 제품 생성 로직을 서비스에 위임
-        return ResponseEntity.ok(newProduct);  // 새로 생성된 제품을 OK 응답 상태로 반환
     }
 
     // ID로 상품을 조회하는 엔드포인트
@@ -81,30 +72,50 @@ public class ProductsController {
     public ResponseEntity<ProductsResponseDto> updateProduct(@PathVariable Long productId,
                                                              @RequestPart(value = "productImage", required = false) MultipartFile productImage,
                                                              @ModelAttribute ProductsRequestDto productDto) {
+        // 기존 제품을 조회
+        Products existingProduct = productsService.getProductById(productId);
+        // 이미지 업로드 및 업데이트
         if (productImage != null) {
-            // 파일 업로드 처리
-            String fileName = StringUtils.cleanPath(productImage.getOriginalFilename());
             try {
-                if (!fileName.isEmpty()) {
-                    Path uploadDir = Paths.get("uploads");  // 파일 업로드 디렉토리 경로 설정
-                    if (!Files.exists(uploadDir)) {
-                        Files.createDirectories(uploadDir);
-                    }
+                // 중복을 피하기 위해 파일 이름을 고유하게 만들기
+                String originalFileName = productImage.getOriginalFilename();
+                String fileName = UUID.randomUUID().toString() + "_" + originalFileName;
 
-                    try (InputStream inputStream = productImage.getInputStream()) {
-                        Path filePath = uploadDir.resolve(fileName);
-                        Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
-                        productDto.setImg(filePath.toString());  // 이미지 파일 경로 저장
-                    }
+                // 이미지 파일 업로드 경로 설정
+                Path uploadDir = Paths.get("uploads/products/");
+                if (!Files.exists(uploadDir)) {
+                    Files.createDirectories(uploadDir);
+                }
+                Path filePath = uploadDir.resolve(fileName);
+                // 중복 파일 검사
+                if (Files.exists(filePath)) {
+                    // 중복된 파일이 이미 존재하면 다른 이름으로 저장
+                    fileName = UUID.randomUUID().toString() + "_" + originalFileName;
+                    filePath = uploadDir.resolve(fileName);
+                }
+                try (InputStream inputStream = productImage.getInputStream()) {
+                    Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
+                    productDto.setImg(filePath.toString()); // 이미지 파일 경로 저장
                 }
             } catch (IOException e) {
                 // 파일 업로드 실패 처리
                 e.printStackTrace();
                 // 실패 처리 로직 추가
             }
+            // 기존 이미지 파일 삭제
+            if (existingProduct.getImg() != null) {
+                Path existingImagePath = Paths.get(existingProduct.getImg());
+                try {
+                    Files.deleteIfExists(existingImagePath);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    // 이미지 파일 삭제 실패 처리 로직 추가
+                }
+            }
         }
-        Products updatedProduct = productsService.updateProduct(productId, productDto);  // 제품 업데이트 로직을 서비스에 위임
-        return ResponseEntity.ok(new ProductsResponseDto(updatedProduct));  // 업데이트된 제품을 응답 DTO로 감싸 반환
+        // 제품 업데이트 로직을 서비스에 위임
+        Products updatedProduct = productsService.updateProduct(productId, productDto);
+        return ResponseEntity.ok(new ProductsResponseDto(updatedProduct)); // 업데이트된 제품을 응답 DTO로 감싸 반환
     }
 
     // 상품을 삭제하는 엔드포인트
@@ -133,4 +144,5 @@ public class ProductsController {
 
         return ResponseEntity.ok(responseDtos);  // 응답 DTO 리스트 반환
     }
+
 }

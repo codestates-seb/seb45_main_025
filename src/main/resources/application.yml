@@ -62,6 +62,5 @@ mail:
     admin: admin@gmail.com
 jwt:
   secret-key: CodeStatesMainProject25team
-  access-token-expiration-minutes: 1
+  access-token-expiration-minutes: 30
   refresh-token-expiration-minutes: 360
-

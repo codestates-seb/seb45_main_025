@@ -22,17 +22,23 @@ public class ProductsResponseDto {
     private Double productPrice;
     private LocalDateTime created_at;
     private LocalDateTime modified_at;
+    private int likes;
 
 
     public ProductsResponseDto(Products product) {
         this.id = product.getProductId();
         this.productName = product.getProductName();
         this.category = product.getCategory();
-        this.img = product.getImg();
+        if (product.getImg() != null) {
+            this.img = product.getImg();
+        } else {
+            this.img = ""; // 빈 문자열 또는 기본 이미지 URL로 설정
+        }
         this.productDescription = product.getProductDescription();
         this.content = product.getContent();
         this.productPrice = product.getProductPrice();
         this.created_at = product.getCreatedAt();
         this.modified_at = product.getModifiedAt();
+        this.likes = product.getLikes();
     }
 }

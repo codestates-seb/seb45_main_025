@@ -21,28 +21,17 @@ public class CartItem {
     @JoinColumn(name = "cart_id")
     private Cart cart;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "product_id")
-    private Products product;
-
-    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<CartItem> cartItems = new ArrayList<>();
+    private Products products;
 
     private int quantity;
 
     public CartItem() {
     }
     public CartItem(Products product, int quantity) {
-        this.product = product;
+        this.products = product;
         this.quantity = quantity;
     }
-    public void setCart(Cart cart) {
-        this.cart = cart;
-    }
-    public Products getProducts() {
-        return product;
-    }
-    public Long getId() {
-        return id;
-    }
+
 }

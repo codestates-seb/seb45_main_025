@@ -18,4 +18,5 @@ public class ProductsRequestDto {
     private String productDescription;
     private Double productPrice;
     private MultipartFile productImage;
+    private int likes;
 }
