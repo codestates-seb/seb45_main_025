@@ -19,7 +19,6 @@ export const TopContainer = styled.div`
     width: 100vw;
     align-items: flex-end;
     height: 400px;
-    background-color: rgba(15, 15, 15, 0.15);
 
     > .top__content {
       position: relative;

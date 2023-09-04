@@ -8,8 +8,10 @@ import {
     ItemTitle,
     ItemOverview,
     ItemDetail,
+    TopContainer,
 } from './Products.styled';
 import Review from "../../components/Review/Review";
+
 
 const Products = () => {
     const [curTab, setCurTab] = useState(0);
@@ -21,6 +23,7 @@ const Products = () => {
 
     return (
         <>
+        <TopContainer /> 
             <ItemWrap>
                 <ItemBox>
                     <ItemTitle>

@@ -4,6 +4,7 @@ import { useState } from "react";
 import Autocomplete from "../../components/AutoComplete/AutoComplete";
 import Section from "../../components/Section/Section";
 import Gnb from "../../components/Gnb/Gnb";
+import Search from "../../components/Search/Search";
 
 const List = () => {
     const [mode, setMode] = useState('boardId');
@@ -24,6 +25,7 @@ const List = () => {
           </div>
         </div>
       </TopContainer>
+      <Search />
       <Gnb />
       <MainContainer>
         <div className="main__header">
