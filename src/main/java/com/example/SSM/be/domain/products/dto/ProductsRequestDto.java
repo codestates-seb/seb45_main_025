@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @Setter
@@ -16,28 +17,5 @@ public class ProductsRequestDto {
     private String content;
     private String productDescription;
     private Double productPrice;
-
-    public String getProductName() {
-        return productName;
-    }
-
-    public String getImg() {
-        return img;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public String getProductDescription() {
-        return productDescription;
-    }
-
-    public Double getProductPrice() {
-        return productPrice;
-    }
-
-    public String getCategory() {
-        return category;
-    }
+    private MultipartFile productImage;
 }

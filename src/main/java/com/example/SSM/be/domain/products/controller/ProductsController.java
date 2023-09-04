@@ -9,9 +9,17 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,7 +39,30 @@ public class ProductsController {
     // 상품을 생성하는 엔드포인트
     @Operation(summary = "새 상품 생성")
     @PostMapping("/create")
-    public ResponseEntity<Products> createProduct(@RequestBody ProductsRequestDto productDto) {
+    public ResponseEntity<Products> createProduct(@RequestPart("productImage") MultipartFile productImage,
+                                                  @ModelAttribute ProductsRequestDto productDto) {
+        // 파일 업로드 처리
+        String fileName = StringUtils.cleanPath(productImage.getOriginalFilename());
+
+        try {
+            if (!fileName.isEmpty()) {
+                Path uploadDir = Paths.get("uploads");  // 파일 업로드 디렉토리 경로 설정
+                if (!Files.exists(uploadDir)) {
+                    Files.createDirectories(uploadDir);
+                }
+
+                try (InputStream inputStream = productImage.getInputStream()) {
+                    Path filePath = uploadDir.resolve(fileName);
+                    Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
+                    productDto.setImg(filePath.toString());  // 이미지 파일 경로 저장
+                }
+            }
+        } catch (IOException e) {
+            // 파일 업로드 실패 처리
+            e.printStackTrace();
+            // 실패 처리 로직 추가
+        }
+
         Products newProduct = productsService.createProduct(productDto);  // 제품 생성 로직을 서비스에 위임
         return ResponseEntity.ok(newProduct);  // 새로 생성된 제품을 OK 응답 상태로 반환
     }
@@ -48,7 +79,30 @@ public class ProductsController {
     @Operation(summary = "상품 수정")
     @PatchMapping(value = "/update/{productId}", produces = "application/json")
     public ResponseEntity<ProductsResponseDto> updateProduct(@PathVariable Long productId,
-                                                             @RequestBody ProductsRequestDto productDto) {
+                                                             @RequestPart(value = "productImage", required = false) MultipartFile productImage,
+                                                             @ModelAttribute ProductsRequestDto productDto) {
+        if (productImage != null) {
+            // 파일 업로드 처리
+            String fileName = StringUtils.cleanPath(productImage.getOriginalFilename());
+            try {
+                if (!fileName.isEmpty()) {
+                    Path uploadDir = Paths.get("uploads");  // 파일 업로드 디렉토리 경로 설정
+                    if (!Files.exists(uploadDir)) {
+                        Files.createDirectories(uploadDir);
+                    }
+
+                    try (InputStream inputStream = productImage.getInputStream()) {
+                        Path filePath = uploadDir.resolve(fileName);
+                        Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
+                        productDto.setImg(filePath.toString());  // 이미지 파일 경로 저장
+                    }
+                }
+            } catch (IOException e) {
+                // 파일 업로드 실패 처리
+                e.printStackTrace();
+                // 실패 처리 로직 추가
+            }
+        }
         Products updatedProduct = productsService.updateProduct(productId, productDto);  // 제품 업데이트 로직을 서비스에 위임
         return ResponseEntity.ok(new ProductsResponseDto(updatedProduct));  // 업데이트된 제품을 응답 DTO로 감싸 반환
     }

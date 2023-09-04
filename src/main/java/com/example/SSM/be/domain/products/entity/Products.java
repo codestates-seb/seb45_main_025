@@ -24,6 +24,9 @@ public class Products {
     @Column(name = "content")
     private String content;
 
+    @Column(name = "productDescription")
+    private String productDescription;
+
     @Column(name = "product_price")
     private Double productPrice;
 
@@ -53,10 +56,6 @@ public class Products {
         return productPrice;
     }
 
-    public void setproductId(Long productId) {
-        this.productId = productId;
-    }
-
     public void setProductName(String productName) {
         this.productName = productName;
     }
@@ -67,6 +66,13 @@ public class Products {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getProductDescription() {
+        return productDescription;
+    }
+    public void setProductDescription(String productDescription) {
+        this.productDescription = productDescription;
     }
 
     public void setProductPrice(Double productPrice) {

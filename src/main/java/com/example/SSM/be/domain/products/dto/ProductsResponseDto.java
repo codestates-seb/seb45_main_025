@@ -29,6 +29,7 @@ public class ProductsResponseDto {
         this.productName = product.getProductName();
         this.category = product.getCategory();
         this.img = product.getImg();
+        this.productDescription = product.getProductDescription();
         this.content = product.getContent();
         this.productPrice = product.getProductPrice();
         this.created_at = product.getCreatedAt();

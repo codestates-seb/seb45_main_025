@@ -14,9 +14,17 @@ spring:
     hibernate:
       ddl-auto: create-drop
     database-platform: org.hibernate.dialect.H2Dialect
+    open-in-view: false
 
   jpa-auditing:
     enabled: true
+
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB  # 업로드 파일의 최대 크기 설정
+      max-request-size: 10MB  # 요청의 최대 크기 설정
+      file-size-threshold: 0
 
   application:
     name: SsmApplication
