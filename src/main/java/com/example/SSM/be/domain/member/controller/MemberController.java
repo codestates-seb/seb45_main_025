@@ -5,7 +5,7 @@ import com.example.SSM.be.domain.member.dto.MemberDto;
 import com.example.SSM.be.domain.member.entity.Member;
 import com.example.SSM.be.domain.member.mapper.MemberMapper;
 import com.example.SSM.be.domain.member.service.MemberService;
-import com.example.SSM.be.domain.security.auth.service.TokenService;
+import com.example.SSM.be.domain.security.token.service.TokenService;
 import com.example.SSM.be.domain.security.tokenblacklist.service.BlacklistTokenService;
 import com.example.SSM.be.global.utils.UriCreator;
 import io.jsonwebtoken.Claims;
@@ -50,9 +50,13 @@ public class MemberController {
         return new ResponseEntity(location, HttpStatus.CREATED);
     }
     @PostMapping("/oauth/signup")
-    public ResponseEntity postGoogle(@Valid @RequestBody AuthAdditionalDto additionalDto){
-        Member member = membermapper.AuthAdditionalDtoToMember(additionalDto);
-        Member saveMember = memberService.createMemberOAuth2withAdditionalInfo(member);
+    public ResponseEntity postGoogle(HttpServletRequest request,
+                                     @Valid @RequestBody AuthAdditionalDto additionalDto){
+        String authorizationHeader = request.getHeader("Authorization");
+        Jws<Claims> claims = tokenService.checkAccessToken(authorizationHeader);
+        String email = claims.getBody().getSubject();
+        Member addmember = membermapper.AuthAdditionalDtoToMember(additionalDto);
+        Member saveMember = memberService.createMemberOAuth2withAdditionalInfo(email,addmember);
 
         URI location = UriCreator.createUri(MEMBER_DEFAULT_URL, saveMember.getUserId());
         return new ResponseEntity(location, HttpStatus.CREATED);

@@ -1,6 +1,6 @@
 package com.example.SSM.be.domain.security.tokenblacklist.interceptor;
 
-import com.example.SSM.be.domain.security.auth.jwt.JwtTokenizer;
+import com.example.SSM.be.domain.security.token.jwt.JwtTokenizer;
 import com.example.SSM.be.domain.security.tokenblacklist.service.BlacklistTokenService;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;

@@ -2,13 +2,15 @@ package com.example.SSM.be.domain.security.auth.handler;
 
 import com.example.SSM.be.domain.member.entity.Member;
 import com.example.SSM.be.domain.member.service.MemberService;
-import com.example.SSM.be.domain.security.auth.jwt.JwtTokenizer;
 import com.example.SSM.be.domain.security.auth.utils.CustomAuthorityUtils;
+import com.example.SSM.be.domain.security.token.jwt.JwtTokenizer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.ServletException;
@@ -16,10 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URI;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -47,10 +46,10 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
         if(!memberService.existsByEmail(member.getEmail())) {
             // db에 저장
             Member savedMember = saveMember(member);
-            redirect(request, response, savedMember, authorities); // 리다이렉트를 하기위한 정보들을 보내줌
+            redirect(request, response, savedMember); // 리다이렉트를 하기위한 정보들을 보내줌
         } else {
             Member findMember = memberService.findVerifiedMember(member.getEmail());
-            redirect(request, response, findMember, authorities);
+            redirect(request, response, findMember);
         }
 
 
@@ -75,13 +74,12 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
     }
     private void redirect(HttpServletRequest request,
                           HttpServletResponse response,
-                          Member member,
-                          List<String> authorities)
+                          Member member)
         throws IOException{
-        String accessToken = delegateAccessToken(member,authorities);
-        String refreshToken = delegateRefreshToken(member);
+        String accessToken = memberService.delegateAccessToken(member);
+        String refreshToken = memberService.delegateRefreshToken(member);
 
-        String uri = createURI(request,accessToken,refreshToken).toString();
+        String uri = createURI( accessToken,refreshToken).toString();
 
         String headerValue = "Bearer " + accessToken;
         response.setHeader("Authorization",headerValue);
@@ -89,45 +87,19 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
 
         getRedirectStrategy().sendRedirect(request,response,uri);
     }
-    private String delegateAccessToken(Member member, List<String> authorities) {
 
-        Map<String, Object> claims = new HashMap<>();
-        claims.put("memberId", member.getUserId());
-        claims.put("roles", authorities);
-
-        String subject = member.getEmail();
-
-        Date expiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getAccessTokenExpirationMinutes());
-
-        String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey();
-
-        String accessToken = jwtTokenizer.generateAccessToken(claims, subject, expiration, base64EncodedSecretKey);
-
-        return accessToken;
-    }
-
-    private String delegateRefreshToken(Member member) {
-
-
-        String subject = member.getEmail();
-
-        Date expiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getRefreshTokenExpirationMinutes());
-        String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey();
-
-        String refreshToken = jwtTokenizer.generateRefreshToken(subject, expiration, base64EncodedSecretKey);
-
-        return refreshToken;
-    }
-    private URI createURI(HttpServletRequest request,
-                          String accessToken,
+    private URI createURI(String accessToken,
                           String refreshToken){
-
+        MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        queryParams.add("access_token", "Bearer " + accessToken);
+        queryParams.add("refresh_token", refreshToken);
         return UriComponentsBuilder
                 .newInstance()
                 .scheme("http")
                 .host("localhost")
                 .port(8888)
-                .path("/OauthSIgnupForm")
+                .path("/")
+                .queryParams(queryParams)
                 .build()
                 .toUri();
     }

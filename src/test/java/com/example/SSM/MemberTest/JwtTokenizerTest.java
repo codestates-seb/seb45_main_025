@@ -1,6 +1,6 @@
 package com.example.SSM.MemberTest;
 
-import com.example.SSM.be.domain.security.auth.jwt.JwtTokenizer;
+import com.example.SSM.be.domain.security.token.jwt.JwtTokenizer;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.junit.jupiter.api.BeforeAll;

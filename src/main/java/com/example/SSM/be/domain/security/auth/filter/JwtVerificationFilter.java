@@ -1,7 +1,7 @@
 package com.example.SSM.be.domain.security.auth.filter;
 
 import com.example.SSM.be.domain.security.auth.dto.TokenPrincipalDto;
-import com.example.SSM.be.domain.security.auth.jwt.JwtTokenizer;
+import com.example.SSM.be.domain.security.token.jwt.JwtTokenizer;
 import com.example.SSM.be.domain.security.auth.utils.CustomAuthorityUtils;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -66,8 +66,6 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
         String email = (String) claims.get("sub");
         Long id = Long.valueOf((Integer) claims.get("memberId"));
         List<GrantedAuthority> authorities = authorityUtils.createAuthorities((List<String>)claims.get("roles"));
-
-
         Authentication authentication = new UsernamePasswordAuthenticationToken(new TokenPrincipalDto(id, email), null, authorities);
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }

@@ -2,8 +2,8 @@ package com.example.SSM.be.domain.member.service;
 
 import com.example.SSM.be.domain.member.entity.Member;
 import com.example.SSM.be.domain.member.repository.MemberRepository;
-import com.example.SSM.be.domain.security.auth.jwt.JwtTokenizer;
 import com.example.SSM.be.domain.security.auth.utils.CustomAuthorityUtils;
+import com.example.SSM.be.domain.security.token.jwt.JwtTokenizer;
 import com.example.SSM.be.global.exception.BusinessLogicException;
 import com.example.SSM.be.global.exception.ExceptionCode;
 import lombok.RequiredArgsConstructor;
@@ -42,8 +42,13 @@ public class MemberService {
         return memberRepository.save(member);
     }
     // Todo
-    public Member createMemberOAuth2withAdditionalInfo(Member member){
-        return null;
+    public Member createMemberOAuth2withAdditionalInfo(String email,Member member){
+        Member saveMember = findVerifiedMember(email);
+        saveMember.setGender(member.getGender());
+        saveMember.setBirth(member.getBirth());
+        saveMember.setPhone(member.getPhone());
+        saveMember.setAddress(member.getAddress());
+        return memberRepository.save(saveMember);
     }
     public Member findMemberByEmail(String email) {
         return memberRepository.findByEmail(email)
@@ -108,8 +113,7 @@ public class MemberService {
         Date expiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getRefreshTokenExpirationMinutes());
         String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey();
 
-        String refreshToken = jwtTokenizer.generateRefreshToken(subject, expiration, base64EncodedSecretKey);
-
+        String refreshToken = jwtTokenizer.generateRefreshToken(member,subject, expiration, base64EncodedSecretKey);
         return refreshToken;
     }
     public void deleteMember(Long UserId, Long MemberId) {
