@@ -1,42 +1,33 @@
 import { styled } from 'styled-components';
 
 export const SignUpSelectContainer = styled.div`
-  height: 120vh;
+  height: 1500px;
 `;
 
-export const SignUpSelectTop = styled.div`
-  height: 30vh;
-  width: 100vw;
-  background-color: lightgray;
-
-  > h1{
-    text-align: center;
-    display: block;
-    font-size: 40px;
-    color: white;
-    padding-top: 50px;
-  }
-`
 
 export const SignUpSelectMain = styled.div`
   width: 100vw;
   display: flex;
   align-items: center;
   flex-direction: column;
-
+  padding: 5rem 0;
   h2{
-    padding-top: 50px;
-    font-size: 30px;
+    color: var(--gray-90);
+    font-weight: 900;
+    letter-spacing: 5px;
+    font-size: 40px;
+    margin: 2rem 0 5rem 0;
   }
   h3{
     font-size: 25px;
-    margin-top: 10vh;
     margin-right: auto;
     margin-left: 20vw;
+    color: var(--gray-90);
+    margin-bottom: 5px;
   }
   .signup_select_main_container{
     width: 60vw;
-    border: 0.3px solid black;
+    border: 1px solid var(--brown-10);
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -52,7 +43,7 @@ export const SignUpSelectMain = styled.div`
   .google_signup{
     width: 13vw;
     height: 75px;
-    border: 0.3px solid black;
+    border: 1px solid var(--brown-10);
   }
   .facebook_signup{
     background-color: #485793;
@@ -60,14 +51,14 @@ export const SignUpSelectMain = styled.div`
     margin-top: 10px;
     width: 13vw;
     height: 75px;
-    border: 0.3px solid black;
+    border: 1px solid var(--brown-10);
   }
   img{
     width: 15px;
     background-color: white;
   }
   .line{
-    border-right: 0.5px black solid;
+    border-right: 1px solid var(--gray-10);
     width: 150px;
     height: 160px;
   }
@@ -78,6 +69,6 @@ export const SignUpSelectMain = styled.div`
   .sign_up{
     width: 13vw;
     height: 80px;
-    border: 0.3px solid black;
+    border: 1px solid var(--brown-10);
   }
 `

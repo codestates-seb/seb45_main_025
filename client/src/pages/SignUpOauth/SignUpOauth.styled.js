@@ -1,41 +1,31 @@
 import { styled } from "styled-components";
 
 export const SignUpOauthContainer = styled.div`
-  height: 140vh;
+  height: 1500px;
 `
-export const SignUpTop = styled.div`
-  height: 30vh;
-  width: 100vw;
-  background-color: lightgray;
-
-  > h1{
-    text-align: center;
-    display: block;
-    font-size: 40px;
-    color: white;
-    padding-top: 60px;
-  }
-`;
 
 export const SignUpMain = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
-
+  width: 100%;
+  padding: 5rem 0;
   > h2{
-    padding-top: 50px;
-    font-size: 30px;
+    color: var(--gray-90);
+    font-weight: 900;
+    letter-spacing: 5px;
+    font-size: 40px;
+    margin: 2rem 0 5rem 0;
   }
-
   h3{
     font-size: 25px;
-    margin-top: 10vh;
     margin-right: auto;
     margin-left: 20vw;
+    margin-bottom: 5px;
   }
   .signup_border{
     width: 60vw;
-    border: 0.3px solid black;
+    border:  1px solid var(--brown-10);
     display: flex;
     flex-direction: column;
     padding-top: 5vh;
@@ -49,6 +39,7 @@ export const SignUpMain = styled.div`
     height: 50px;
   }
 `
+
 export const SignUpName = styled.div`
   display: flex;
   flex-direction: row;
@@ -112,7 +103,8 @@ export const SignUpPhoneNumber = styled.div`
 `
 
 export const SignUpSubmit =styled.div`
-  border: 0.2px solid black;
+  border: 1px solid var(--gray-10);
   padding: 5px;
+  border-radius: 5px;
 `
 
