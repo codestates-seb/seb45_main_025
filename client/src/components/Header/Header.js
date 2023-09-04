@@ -35,44 +35,48 @@ export default function Header() {
 
   const [isLogin, setIsLogin] = useState(false);
 
+  const handleLinkClick = () => {
+    window.scroll(0, 0);
+  }
+
   return (
     <HeaderContainer scrolled={scrolled} className={isHome ? 'home' : ''}>
       <LeftNavContainer scrolled={scrolled}>
-        <Link to="/">
+        <Link to="/" onClick={handleLinkClick}>
           <HeaderLogo src={scrolled ? headerLogoImgSmall : headerLogoImgBig} scrolled={scrolled} />
         </Link>
         <div className='left-nav'>
-          <Link to='/products'>SHOP</Link>
-          <Link to='/community'>COMMUNITY</Link>
+          <Link to='/products' onClick={handleLinkClick}>SHOP</Link>
+          <Link to='/community' onClick={handleLinkClick}>COMMUNITY</Link>
         </div>
       </LeftNavContainer>
 
       <RightNavContainer scrolled={scrolled}>
         {isLogin ?
           <div>
-            <Link to='/'>
+            <Link to='/' onClick={handleLinkClick}>
               <button onClick={() => setIsLogin(false)}>
                 <LogoutIcon scrolled={scrolled} />
                 Log out
               </button>
             </Link>
-            <Link to='/my-page'>
+            <Link to='/mypage' onClick={handleLinkClick}>
               <MypageIcon scrolled={scrolled} />
               My page
             </Link>
-            <Link to='/cart'>
+            <Link to='/cart' onClick={handleLinkClick}>
               <CartIcon scrolled={scrolled} />
               Cart
             </Link>
           </div> :
           <div>
-            <Link to="/login">
+            <Link to="/login" onClick={handleLinkClick}>
               <button onClick={() => setIsLogin(true)}>
                 <LoginIcon scrolled={scrolled} />
                 Log in
               </button>
             </Link>
-            <Link to="/sign-up">
+            <Link to="/signup" onClick={handleLinkClick}>
               <SignupIcon scrolled={scrolled} />
               Sign up
             </Link>

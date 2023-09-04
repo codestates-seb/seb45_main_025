@@ -20,13 +20,10 @@ export default function CartList() {
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.cartItems);
   const selected = useSelector((state) => state.cart.selected);
-  const allSelected = useSelector((state) => state.cart.isAllSelected);
+  const allSelected = useSelector((state) => state.cart.allSelected);
 
   useEffect(() => {
-    if (cartItems.length > 0) {
-      dispatch(setSelected(cartItems.map(item => item.product_id)));
-      dispatch(setAllSelected(true));
-    }
+    dispatch(setAllSelected(cartItems.length === selected.length));
   }, [cartItems]);
 
   console.log(selected);
@@ -47,16 +44,22 @@ export default function CartList() {
     dispatch(setAllSelected(updatedSelected.length === cartItems.length));
   }
 
-  const handleSelectedDelete = () => {
-    const updatedCartItems = cartItems.filter(item => !selected.includes(item.product_id));
-    dispatch(setCartItems(updatedCartItems));
-    window.scroll(0, 480);
+  const handleOrder = (isAll) => {
+    if (isAll) {
+      dispatch(setSelected(cartItems.map(item => item.product_id)));
+    }
+    window.scroll(0, 0);
   }
 
-  const handleAllDelete = () => {
-    dispatch(setCartItems([]));
-    dispatch(setAllSelected(false));
-    window.scroll(0, 480);
+  const handleDelete = (isAll) => {
+    if (isAll) {
+      dispatch(setCartItems([]));
+      dispatch(setSelected([]));
+    } else {
+      dispatch(setCartItems(cartItems.filter(item => !selected.includes(item.product_id))));
+      dispatch(setSelected([]));
+    }
+    window.scroll(0, 320);
   }
 
   return (
@@ -107,19 +110,34 @@ export default function CartList() {
           </button>
         </Link>
         <Link to='/order'>
-          <button>
+          <button
+            onClick={() => handleOrder(false)}
+            disabled={selected.length === 0}
+          >
             Order Selected
           </button>
         </Link>
-        <button onClick={handleSelectedDelete}>
+        <Link to='/order'>
+          <button
+            onClick={() => handleOrder(true)}
+            disabled={cartItems.length === 0}
+          >
+            Order All
+          </button>
+        </Link>
+        <button
+          onClick={() => handleDelete(false)}
+          disabled={selected.length === 0}
+        >
           Delete Selected
         </button>
-        <button onClick={handleAllDelete}>
+        <button
+          onClick={() => handleDelete(true)}
+          disabled={cartItems.length === 0}
+        >
           Empty Cart
         </button>
       </ButtonsContainer>
-
-
-    </CartListContainer>
+    </CartListContainer >
   )
 }
