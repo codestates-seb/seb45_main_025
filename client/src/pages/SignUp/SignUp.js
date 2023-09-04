@@ -1,5 +1,4 @@
-import { SignUpContainer,
-  SignUpTop, SignUpMain,
+import { SignUpContainer,SignUpMain,
   SignUpName,SignUpNickName,
   SignUpGender, 
   DateOfBirth,SignUpHomeAdress, SignUpPhoneNumber,
@@ -8,6 +7,8 @@ import { SignUpContainer,
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
+import BackgroundImage from '../../components/BackgroundImage/BackgroundImage';
+import  potatochip  from '../../common/image/potatochip.jpeg';
 
 export default function SignUp() {
   const [name, setName] = useState('');
@@ -64,7 +65,7 @@ export default function SignUp() {
   
   return (
     <SignUpContainer>
-      <SignUpTop><h1>Account</h1></SignUpTop>
+      <BackgroundImage imgSrc={potatochip} title='ACCOUNT'/>
       <SignUpMain>
         <h2>Sign Up</h2>
         <h3>2. Enter your information</h3>

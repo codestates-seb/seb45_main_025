@@ -1,4 +1,4 @@
-import {MyPageEditContainer, MyPageEditTop,
+import {MyPageEditContainer,
    MyPageEditMain, MyPageEditImg,DeleteAccountBtn,
     MyPageEditName, MyPageEditNickName,MyPageGender,
     MyPageDateOfBirth,MyPageHomeAdress,
@@ -6,8 +6,10 @@ import {MyPageEditContainer, MyPageEditTop,
   } from './MyPageEdit.styled';
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
-import basicimg from './basicimg.png';
-import trashcan from './trashcan.png';
+import basicimg from '../../common/image/basicimg.png';
+import trashcan from '../../common/image/trashcan.png';
+import BackgroundImage from '../../components/BackgroundImage/BackgroundImage';
+import  chococookie  from '../../common/image/darkcookies.jpg';
 
 export default function MyPageEdit(){
   const [myImg, setMyImg] = useState(null);
@@ -63,9 +65,7 @@ export default function MyPageEdit(){
   }
   return (
     <MyPageEditContainer>
-      <MyPageEditTop>
-        <h1>My Page</h1>
-      </MyPageEditTop>
+      <BackgroundImage imgSrc={chococookie} title='MY PAGE'/>
       <MyPageEditMain>
         <MyPageEditImg>
           {myImg === null ? <img src={basicimg} alt='img' className='myimg'></img> : <img src={myImg} alt="img" className='myimg'></img>}
