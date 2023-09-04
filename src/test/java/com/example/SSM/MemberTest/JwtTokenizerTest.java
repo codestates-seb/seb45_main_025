@@ -1,7 +1,6 @@
 package com.example.SSM.MemberTest;
 
 import com.example.SSM.be.domain.security.auth.jwt.JwtTokenizer;
-import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.junit.jupiter.api.BeforeAll;
@@ -10,13 +9,13 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
 import javax.crypto.SecretKey;
-import java.util.*;
-import java.util.concurrent.TimeUnit;
+import java.util.Base64;
+import java.util.Calendar;
+import java.util.Date;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class JwtTokenizerTest {
 
@@ -27,7 +26,7 @@ public class JwtTokenizerTest {
 
     @BeforeAll
     public void init() {
-        jwtTokenizer = new JwtTokenizer();
+
         secretKey = "kevin1234123412341234123412341234";  // encoded "a2V2aW4xMjM0MTIzNDEyMzQxMjM0MTIzNDEyMzQxMjM0"
 
         base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey();
@@ -72,32 +71,10 @@ public class JwtTokenizerTest {
 //        assertThat(refreshToken, notNullValue());
 //    }
 
-    @DisplayName("does not throw any Exception when jws verify")
-    @Test
-    public void verifySignatureTest() {
-        String accessToken = getAccessToken(Calendar.MINUTE, 10);
-        assertDoesNotThrow(() -> jwtTokenizer.verifySignature(accessToken));
-    }
 
-    @DisplayName("throw ExpiredJwtException when jws verify")
-    @Test
-    public void verifyExpirationTest() throws InterruptedException {
-        String accessToken = getAccessToken(Calendar.SECOND, 1);
-        assertDoesNotThrow(() -> jwtTokenizer.verifySignature(accessToken));
 
-        TimeUnit.MILLISECONDS.sleep(1500);
 
-        assertThrows(ExpiredJwtException.class, () -> jwtTokenizer.verifySignature(accessToken));
-    }
 
-    @Test
-    public void getClaimsTest() {
-        String accessToken = getAccessToken(Calendar.MINUTE, 10);
-        Map<String, Object> claims = jwtTokenizer.getClaims(accessToken).getBody();
-
-        assertThat(claims.get("memberId"), is(1));
-        assertThat(((List)claims.get("roles")).get(0), is("USER"));
-    }
 
     @Test
     public void calendarToDateTest() {

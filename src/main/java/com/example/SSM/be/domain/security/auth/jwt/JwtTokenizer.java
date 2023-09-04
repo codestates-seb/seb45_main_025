@@ -9,6 +9,7 @@ import io.jsonwebtoken.security.Keys;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -35,7 +36,11 @@ public class JwtTokenizer {
     @Value("${jwt.refresh-token-expiration-minutes}")
     private int refreshTokenExpirationMinutes;
 
+    private final UserDetailsService userDetailsService;
 
+    public JwtTokenizer(UserDetailsService userDetailsService) {
+        this.userDetailsService = userDetailsService;
+    }
 
     @PostConstruct
     protected void init(){
@@ -102,6 +107,14 @@ public class JwtTokenizer {
                 throw new BusinessLogicException(ExceptionCode.JWT_TOKEN_EXPIRED);
             }
     }
+    public boolean validateToken(String jwtToken){
+        try{
+            Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken);
+            return !claims.getBody().getExpiration().before(new Date());
+        }catch (Exception e){
+            return false;
+        }
+    }
 
     public Date getTokenExpiration(int expirationMinutes) {
         Calendar calendar = Calendar.getInstance();
@@ -121,6 +134,4 @@ public class JwtTokenizer {
 
         return getKeyFromBase64EncodedKey(base64EncodedSecretKey);
     }
-
-    //JWT 토큰의 만료시
 }

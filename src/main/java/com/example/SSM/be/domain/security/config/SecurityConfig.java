@@ -67,15 +67,15 @@ public class SecurityConfig  {
                         // # member관련
                         .antMatchers(HttpMethod.POST, "/users/signup").permitAll()
                         .antMatchers(HttpMethod.POST, "/users/login").permitAll()
-                        .antMatchers(HttpMethod.POST, "/users/logout").hasRole("USER")
+                        .antMatchers(HttpMethod.POST, "/users/logout").authenticated()
+                        .antMatchers("HttpMethod.GET","/OauthSIgnupForm").authenticated()
+                        .antMatchers("/").permitAll()
+                        .antMatchers("/h2-console/**").permitAll()
                         .anyRequest().permitAll()
-
                 )
-                .oauth2Login(oauth2 -> oauth2
-                        .loginPage("/oauth2/authorization/google")
-                        .successHandler(new OAuth2MemberSuccessHandler(jwtTokenizer, authorityUtils, memberService))
-                );
-
+                .oauth2Login(oauth -> oauth
+                        .successHandler(new OAuth2MemberSuccessHandler(jwtTokenizer,authorityUtils,memberService)))
+                .logout().permitAll();
         return httpSecurity.build();
     }
 

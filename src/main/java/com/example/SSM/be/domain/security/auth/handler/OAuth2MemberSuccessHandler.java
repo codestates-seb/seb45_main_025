@@ -9,8 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.ServletException;
@@ -39,10 +37,13 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
         String name = (String) oAuth2User.getAttributes().get("name");
         String email = String.valueOf(oAuth2User.getAttributes().get("email"));
         String img = (String) oAuth2User.getAttributes().get("picture");
-
+        String gender = (String) oAuth2User.getAttribute("gender");
+        String birthday = (String) oAuth2User.getAttribute("birthday");
+        String homeAddress = (String) oAuth2User.getAttribute("homeAddress");
+        String phoneNumber = (String) oAuth2User.getAttribute("phoneNumber");
         List<String> authorities = authorityUtils.createRoles(email);
 
-        Member member = buildOAuth2Member(name,email,img);
+        Member member = buildOAuth2Member(name,email,img,gender,birthday,homeAddress,phoneNumber);
         if(!memberService.existsByEmail(member.getEmail())) {
             // db에 저장
             Member savedMember = saveMember(member);
@@ -54,13 +55,18 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
 
 
     }
-    private Member buildOAuth2Member(String name, String email, String image) {
+    private Member buildOAuth2Member(String name, String email,
+                                     String image,String gender,
+                                     String birthday,String homeAddress,String phoneNumber) {
         Member member = new Member();
         member.setName(name);
         // 일반 유저와 구분을 위해
         member.setEmail(email+"1");
         member.setImg(image);
-
+        member.setGender(gender);
+        member.setBirth(birthday);
+        member.setAddress(homeAddress);
+        member.setPhone(phoneNumber);
         return member;
     }
 
@@ -115,19 +121,14 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
     private URI createURI(HttpServletRequest request,
                           String accessToken,
                           String refreshToken){
-        MultiValueMap<String,String> queryParams = new LinkedMultiValueMap<>();
-        queryParams.add("access_token",accessToken);
-        queryParams.add("refresh_token",refreshToken);
 
         return UriComponentsBuilder
                 .newInstance()
                 .scheme("http")
                 .host("localhost")
                 .port(8888)
-                .path("/receive-token.html")
-                .queryParams(queryParams)
+                .path("/OauthSIgnupForm")
                 .build()
                 .toUri();
     }
-
 }
