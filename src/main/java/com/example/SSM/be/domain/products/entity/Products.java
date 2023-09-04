@@ -1,11 +1,20 @@
 package com.example.SSM.be.domain.products.entity;
 
+import com.example.SSM.be.domain.member.entity.Member;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
 
 @Entity
+@Getter
+@Setter
 @EntityListeners(AuditingEntityListener.class)
 public class Products {
     @Id
@@ -24,8 +33,14 @@ public class Products {
     @Column(name = "content")
     private String content;
 
+    @Column(name = "productDescription")
+    private String productDescription;
+
     @Column(name = "product_price")
     private Double productPrice;
+
+    @Column(name = "likes")
+    private int likes;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -33,71 +48,12 @@ public class Products {
     @Column(name = "modified_at")
     private LocalDateTime modifiedAt;
 
-    public Long getProductId() {
-        return productId;
-    }
-
-    public String getProductName() {
-        return productName;
-    }
-
-    public String getImg() {
-        return img;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public Double getProductPrice() {
-        return productPrice;
-    }
-
-    public void setproductId(Long productId) {
-        this.productId = productId;
-    }
-
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
-
-    public void setImg(String img) {
-        this.img = img;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public void setProductPrice(Double productPrice) {
-        this.productPrice = productPrice;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public LocalDateTime getModifiedAt() {
-        return modifiedAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public void setModifiedAt(LocalDateTime modifiedAt) {
-        this.modifiedAt = modifiedAt;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-    public Double getPrice() {
-        return productPrice;
-    }
-    
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "member_liked_products",
+            joinColumns = @JoinColumn(name = "member_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id")
+    )
+    @JsonIgnoreProperties("likedByMembers")
+    private Set<Products> likedProducts = new HashSet<>();
 }

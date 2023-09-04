@@ -124,6 +124,9 @@ public class MemberService {
         memberRepository.delete(member);
         // 해당 상품이 장바구니에 있는지 확인
     }
+    public void saveMember(Member member) {
+        memberRepository.save(member);
+    }
 }
 
 

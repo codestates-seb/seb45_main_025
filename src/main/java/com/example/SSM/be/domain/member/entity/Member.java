@@ -1,21 +1,22 @@
 package com.example.SSM.be.domain.member.entity;
 
 import com.example.SSM.be.domain.audit.Auditable;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.example.SSM.be.domain.products.entity.Products;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class Member extends Auditable{
+public class Member extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter
@@ -53,6 +54,7 @@ public class Member extends Auditable{
     @Column
     private MemberStatus memberStatus = MemberStatus.MEMBER_ACTIVE;
 
+
     public enum MemberStatus{
         MEMBER_ACTIVE("활동중"),
         MEMBER_SLEEP("휴면계정"),
@@ -65,4 +67,12 @@ public class Member extends Auditable{
             this.status = status;
         }
     }
+    @ManyToMany
+    @JoinTable(
+            name = "member_liked_products",
+            joinColumns = @JoinColumn(name = "member_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id")
+    )
+    @JsonIgnoreProperties("likedByMembers")
+    private Set<Products> likedProducts = new HashSet<>();
 }

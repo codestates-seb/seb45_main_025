@@ -14,17 +14,14 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CartItemResponseDTO {
-    private Long cartId;
     private ProductsResponseDto product;
     private int quantity;
     private BigDecimal totalPrice; // 총 가격 정보 추가
 
     public CartItemResponseDTO(CartItem cartItem) {
-        this.cartId = cartItem.getId();
-        this.product = new ProductsResponseDto(cartItem.getProduct());
+        this.product = new ProductsResponseDto(cartItem.getProducts());
         this.quantity = cartItem.getQuantity();
-        // 수량별 가격 계산 로직 추가
-        BigDecimal unitPrice = BigDecimal.valueOf(cartItem.getProduct().getPrice());
+        BigDecimal unitPrice = BigDecimal.valueOf(cartItem.getProducts().getProductPrice()); // 수량별 가격 계산 로직 추가
         this.totalPrice = unitPrice.multiply(BigDecimal.valueOf(this.quantity));
     }
 }

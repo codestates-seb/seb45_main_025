@@ -1,5 +1,6 @@
 package com.example.SSM.be.domain.member.mapper;
 
+import com.example.SSM.be.domain.member.dto.AuthAdditionalDto;
 import com.example.SSM.be.domain.member.dto.AuthLoginDto;
 import com.example.SSM.be.domain.member.dto.MemberDto.PostDto;
 import com.example.SSM.be.domain.member.entity.Member;
@@ -9,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-09-01T12:27:10+0900",
+    date = "2023-09-04T19:31:39+0900",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 11.0.20 (Azul Systems, Inc.)"
 )
 @Component
@@ -37,7 +38,7 @@ public class MemberMapperImpl implements MemberMapper {
     }
 
     @Override
-    public Member AuthLoginDtoMember(AuthLoginDto authLoginDto) {
+    public Member AuthLoginDtoToMember(AuthLoginDto authLoginDto) {
         if ( authLoginDto == null ) {
             return null;
         }
@@ -47,6 +48,17 @@ public class MemberMapperImpl implements MemberMapper {
         member.setImg( authLoginDto.getProfileImg() );
         member.setEmail( authLoginDto.getEmail() );
         member.setName( authLoginDto.getName() );
+
+        return member;
+    }
+
+    @Override
+    public Member AuthAdditionalDtoToMember(AuthAdditionalDto authAdditionalDto) {
+        if ( authAdditionalDto == null ) {
+            return null;
+        }
+
+        Member member = new Member();
 
         return member;
     }
