@@ -2,10 +2,10 @@ import { styled } from 'styled-components';
 
 export const BackgroundImageContainer = styled.div`
   width: 100vw;
-  height: 60vh;
+  height: 400px;
   background-image: ${({ backgroundImage }) => backgroundImage};
   background-size: cover;
-  background-position: center 15%;
+  background-position: center 20%;
 
   color: white;
   display: flex;

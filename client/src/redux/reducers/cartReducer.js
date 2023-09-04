@@ -8,7 +8,7 @@ import {
 const initialState = {
   cartItems: CartDataSample,
   selected: CartDataSample.map(data => data.product_id),
-  isAllSelected: true,
+  allSelected: true,
 };
 
 export const cartReducer = (state = initialState, action) => {
