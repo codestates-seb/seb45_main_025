@@ -116,7 +116,9 @@ public class MemberService {
             throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
         }
     }
-
+    public void saveMember(Member member) {
+        memberRepository.save(member);
+    }
 }
 
 

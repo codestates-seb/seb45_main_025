@@ -1,6 +1,7 @@
 package com.example.SSM.be.domain.products.entity;
 
 import com.example.SSM.be.domain.member.entity.Member;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -46,7 +47,13 @@ public class Products {
 
     @Column(name = "modified_at")
     private LocalDateTime modifiedAt;
-    
 
-
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "member_liked_products",
+            joinColumns = @JoinColumn(name = "member_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id")
+    )
+    @JsonIgnoreProperties("likedByMembers")
+    private Set<Products> likedProducts = new HashSet<>();
 }

@@ -86,6 +86,11 @@ public class ProductsService {
     public Page<Products> getProductsPageByCategory(String category, Pageable pageable) {
         return productsRepository.findByCategory(category, pageable);
     }
+    public Products findProductById(Long productId) {
+        return productsRepository.findById(productId).orElse(null);
+    }
 
-
+    public void saveProduct(Products product) {
+        productsRepository.save(product);
+    }
 }

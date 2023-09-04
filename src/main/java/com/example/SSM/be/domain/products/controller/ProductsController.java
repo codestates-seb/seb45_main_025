@@ -1,9 +1,12 @@
 package com.example.SSM.be.domain.products.controller;
 
+import com.example.SSM.be.domain.member.entity.Member;
+import com.example.SSM.be.domain.member.service.MemberService;
 import com.example.SSM.be.domain.products.dto.ProductsRequestDto;
 import com.example.SSM.be.domain.products.dto.ProductsResponseDto;
 import com.example.SSM.be.domain.products.entity.Products;
 import com.example.SSM.be.domain.products.service.ProductsService;
+import com.example.SSM.be.domain.security.auth.service.TokenService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,11 +15,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -34,10 +37,14 @@ import java.util.stream.Collectors;
 public class ProductsController {
 
     private final ProductsService productsService;
+    private final MemberService memberService;
+    private final TokenService tokenService;
 
     @Autowired  // ProductsService 의존성을 생성자 주입으로 받음
-    public ProductsController(ProductsService productsService) {
+    public ProductsController(ProductsService productsService, MemberService memberService, TokenService tokenService) {
         this.productsService = productsService;
+        this.memberService = memberService;
+        this.tokenService = tokenService;
     }
 
     // 상품을 생성하는 엔드포인트
@@ -143,6 +150,42 @@ public class ProductsController {
                 .collect(Collectors.toList());  // DTO들을 리스트로 수집
 
         return ResponseEntity.ok(responseDtos);  // 응답 DTO 리스트 반환
+    }
+
+    @Transactional
+    @PostMapping("/product/{productId}/like")
+    public ResponseEntity<String> likeOrUnlikeProduct(@PathVariable Long productId,
+                                                      @RequestHeader("Authorization") String authorizationHeader) {
+        // 토큰 처리 및 사용자 인증 로직
+        Jws<Claims> claims = tokenService.checkAccessToken(authorizationHeader);
+        String email = claims.getBody().getSubject();
+        Member currentUser = memberService.findMemberByEmail(email);
+        if (currentUser == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("유효하지 않은 사용자입니다.");
+        }
+
+        // 상품 가져오기
+        Products product = productsService.findProductById(productId);
+
+        if (product == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Product not found");
+        }
+
+        // 이미 좋아요를 눌렀는지 확인하고, 눌렀으면 취소하고 아니면 좋아요 추가
+        if (currentUser.getLikedProducts().contains(product)) {
+            // 좋아요 취소 로직
+            product.setLikes(product.getLikes() - 1);
+            currentUser.getLikedProducts().remove(product);
+        } else {
+            // 좋아요 추가 로직
+            product.setLikes(product.getLikes() + 1);
+            currentUser.getLikedProducts().add(product);
+        }
+
+        productsService.saveProduct(product);
+        memberService.saveMember(currentUser);
+
+        return ResponseEntity.ok("Success");
     }
 
 }
