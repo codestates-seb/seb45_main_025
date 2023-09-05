@@ -1,9 +1,9 @@
 package com.example.SSM.be.domain.security.auth.filter;
 
-import com.example.SSM.be.domain.security.auth.dto.TokenPrincipalDto;
-import com.example.SSM.be.domain.security.token.jwt.JwtTokenizer;
 import com.example.SSM.be.domain.security.auth.utils.CustomAuthorityUtils;
+import com.example.SSM.be.domain.security.token.jwt.JwtTokenizer;
 import io.jsonwebtoken.ExpiredJwtException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 public class JwtVerificationFilter extends OncePerRequestFilter {
     private final JwtTokenizer jwtTokenizer;
     private final CustomAuthorityUtils authorityUtils;
@@ -64,9 +65,8 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
     }
     private void setAuthenticationToContext(Map<String,Object> claims){
         String email = (String) claims.get("sub");
-        Long id = Long.valueOf((Integer) claims.get("memberId"));
         List<GrantedAuthority> authorities = authorityUtils.createAuthorities((List<String>)claims.get("roles"));
-        Authentication authentication = new UsernamePasswordAuthenticationToken(new TokenPrincipalDto(id, email), null, authorities);
+        Authentication authentication = new UsernamePasswordAuthenticationToken(email, null, authorities);
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 }

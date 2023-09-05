@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Service
@@ -30,6 +31,17 @@ public class TokenService {
         return jwtTokenizer.verifySignature(refresh);
     }
 
+    public String  getRemainingTime(Jws<Claims> claims ){
+        long currentTime = System.currentTimeMillis();
+        long jwsTime = claims.getBody().getExpiration().getTime();
+        long remainingTimeMilliSecond = jwsTime - currentTime;
+
+        long hours = TimeUnit.MILLISECONDS.toHours(remainingTimeMilliSecond);
+        long minutes = TimeUnit.MILLISECONDS.toMinutes(remainingTimeMilliSecond) % 60;
+        long seconds = TimeUnit.MILLISECONDS.toSeconds(remainingTimeMilliSecond) % 60;
+
+        return hours + "시간 " + minutes + "분 " + seconds + "초";
+    }
     @Scheduled(fixedRate = 60000) // 매 분마다 실행
     public void cleanupExpiredTokens() {
         Date currentDate = new Date();
