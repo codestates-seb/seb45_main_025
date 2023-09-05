@@ -12,6 +12,7 @@ import java.util.List;
 @Repository
 public interface ProductsRepository extends JpaRepository<Products, Long> {
     Page<Products> findByCategory(String category, Pageable pageable);
+    Page<Products> findByCategoryOrderByLikesDescCreatedAtDesc(String category, Pageable pageable);
 
     Page<Products> findAll(Specification<Products> specification, Pageable pageable);
 }

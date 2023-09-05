@@ -119,4 +119,8 @@ public class ProductsService {
         // 검색 조건을 적용하여 페이지로 상품 목록을 조회
         return productsRepository.findAll(specification, pageable);
     }
+    public Page<Products> getProductsByCategoryAndSort(String category, Pageable pageable) {
+        return productsRepository.findByCategoryOrderByLikesDescCreatedAtDesc(category, pageable);
+    }
+
 }

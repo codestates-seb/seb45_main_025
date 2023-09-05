@@ -197,4 +197,18 @@ public class ProductsController {
 
         return ResponseEntity.ok(responseDtos);
     }
+    @GetMapping("/category/{category}/likes")
+    public ResponseEntity<List<ProductsResponseDto>> getProductsByCategoryAndSort(@PathVariable String category,
+                                                                                  @RequestParam(defaultValue = "1") int page,
+                                                                                  @RequestParam(defaultValue = "20") int pageSize
+    ) {
+        Pageable pageable = PageRequest.of(page - 1, pageSize);
+        Page<Products> productsPage = productsService.getProductsByCategoryAndSort(category, pageable);
+
+        List<ProductsResponseDto> responseDtos = productsPage.getContent().stream()
+                .map(ProductsResponseDto::new)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(responseDtos);
+    }
 }
