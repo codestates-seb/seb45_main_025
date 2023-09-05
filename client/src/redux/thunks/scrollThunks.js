@@ -1,6 +1,6 @@
-import { setScrolled } from '../actions/scrollActions';
+import { setScrollY } from '../actions/scrollActions';
 
-export const handleScroll = () => (dispatch) => {
-  const isScrolled = window.scrollY > 0;
-  dispatch(setScrolled(isScrolled));
+export const handleScrollY = () => (dispatch) => {
+  const scrollY = window.scrollY;
+  dispatch(setScrollY(scrollY));
 };

@@ -21,6 +21,7 @@ export const GlobalStyle = createGlobalStyle`
     --main-width: 1920px;
     --brown-50: #2b2821;
     --brown-10: #bd8961;
+    --brown-20: #ab7952;
     --white: #ffffff;
     --black: #000000;
     --black-10: #0000001a;

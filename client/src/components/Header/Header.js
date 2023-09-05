@@ -1,7 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { handleScroll } from '../../redux/thunks/scrollThunks';
+import { handleScrollY } from '../../redux/thunks/scrollThunks';
 import {
   HeaderContainer,
   HeaderLogo,
@@ -18,17 +18,17 @@ import { ReactComponent as CartIcon } from '../../common/image/HeaderIcon/cart.s
 
 export default function Header() {
   const dispatch = useDispatch();
-  const scrolled = useSelector((state) => state.scroll.scrolled);
+  const scrollY = useSelector((state) => state.scroll.scrollY);
   const isHome = useLocation().pathname === '/';
 
   useEffect(() => {
     window.addEventListener('scroll', () => {
-      dispatch(handleScroll());
+      dispatch(handleScrollY());
     });
 
     return () => {
       window.removeEventListener('scroll', () => {
-        dispatch(handleScroll());
+        dispatch(handleScrollY());
       });
     };
   }, [dispatch]);
@@ -40,10 +40,10 @@ export default function Header() {
   }
 
   return (
-    <HeaderContainer scrolled={scrolled} className={isHome ? 'home' : ''}>
-      <LeftNavContainer scrolled={scrolled}>
+    <HeaderContainer scrolled={scrollY} className={isHome ? 'home' : ''}>
+      <LeftNavContainer scrolled={scrollY}>
         <Link to="/" onClick={handleLinkClick}>
-          <HeaderLogo src={scrolled ? headerLogoImgSmall : headerLogoImgBig} scrolled={scrolled} />
+          <HeaderLogo src={scrollY ? headerLogoImgSmall : headerLogoImgBig} scrolled={scrollY} />
         </Link>
         <div className='left-nav'>
           <Link to='/products' onClick={handleLinkClick}>SHOP</Link>
@@ -51,33 +51,33 @@ export default function Header() {
         </div>
       </LeftNavContainer>
 
-      <RightNavContainer scrolled={scrolled}>
+      <RightNavContainer scrolled={scrollY}>
         {isLogin ?
           <div>
             <Link to='/' onClick={handleLinkClick}>
               <button onClick={() => setIsLogin(false)}>
-                <LogoutIcon scrolled={scrolled} />
+                <LogoutIcon scrolled={scrollY} />
                 Log out
               </button>
             </Link>
             <Link to='/mypage' onClick={handleLinkClick}>
-              <MypageIcon scrolled={scrolled} />
+              <MypageIcon scrolled={scrollY} />
               My page
             </Link>
             <Link to='/cart' onClick={handleLinkClick}>
-              <CartIcon scrolled={scrolled} />
+              <CartIcon scrolled={scrollY} />
               Cart
             </Link>
           </div> :
           <div>
             <Link to="/login" onClick={handleLinkClick}>
               <button onClick={() => setIsLogin(true)}>
-                <LoginIcon scrolled={scrolled} />
+                <LoginIcon scrolled={scrollY} />
                 Log in
               </button>
             </Link>
             <Link to="/signup" onClick={handleLinkClick}>
-              <SignupIcon scrolled={scrolled} />
+              <SignupIcon scrolled={scrollY} />
               Sign up
             </Link>
           </div>
