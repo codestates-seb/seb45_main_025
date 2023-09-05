@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { keyframes }from "styled-components";
 import Snack1 from "../../common/image/snacks1.webp";
 
 export const TopContainer = styled.div`
@@ -97,5 +97,36 @@ export const ItemDetail = styled.div`
   @media (max-width: 768px) {
     width: 100%;
     padding-left: 0;
+  }
+`;
+
+export const likeClicked = keyframes`
+  0% {opacity: 1; transform: translateY(0);}
+  100% {opacity: 0; transform: translateY(-20px);}
+`;
+
+export const LikeWrap = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end;
+  margin-bottom: 10px;
+  > button {
+    font-size: 20px;
+    color: var(--mainbl);
+    position: relative;
+    > span {
+      position: absolute;
+      left: 0;
+      top: -10px;
+      font-size: 24px;
+      opacity: 0;
+    }
+    &.liked span {
+      animation: ${likeClicked} 1s forwards;
+    }
+  }
+  > p {
+    padding: 3px 0 0 5px;
+    color: var(--mainbl);
   }
 `;
