@@ -16,6 +16,9 @@ public class ProductsRequestDto {
     private String img;
     private String content;
     private String productDescription;
+    private String rawmaterial;
+    private String precautions;
+    private String manufacturer;
     private Double productPrice;
     private MultipartFile productImage;
     private int likes;

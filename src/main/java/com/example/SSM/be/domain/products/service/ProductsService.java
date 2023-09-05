@@ -31,6 +31,9 @@ public class ProductsService {
         product.setImg(productsRequestDto.getImg());
         product.setProductDescription(productsRequestDto.getProductDescription());
         product.setContent(productsRequestDto.getContent());
+        product.setRawmaterial(productsRequestDto.getRawmaterial());
+        product.setPrecautions(productsRequestDto.getPrecautions());
+        product.setManufacturer(productsRequestDto.getManufacturer());
         product.setProductPrice(productsRequestDto.getProductPrice());
         product.setCategory(productsRequestDto.getCategory());
 
@@ -68,6 +71,9 @@ public class ProductsService {
         existingProduct.setImg(productsRequestDto.getImg());
         existingProduct.setProductDescription(productsRequestDto.getProductDescription());
         existingProduct.setContent(productsRequestDto.getContent());
+        existingProduct.setRawmaterial(productsRequestDto.getRawmaterial());
+        existingProduct.setPrecautions(productsRequestDto.getPrecautions());
+        existingProduct.setManufacturer(productsRequestDto.getManufacturer());
         existingProduct.setProductPrice(productsRequestDto.getProductPrice());
         existingProduct.setModifiedAt(LocalDateTime.now());
 

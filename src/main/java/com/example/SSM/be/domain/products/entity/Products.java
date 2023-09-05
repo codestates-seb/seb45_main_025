@@ -1,16 +1,12 @@
 package com.example.SSM.be.domain.products.entity;
 
-import com.example.SSM.be.domain.member.entity.Member;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
 
 @Entity
 @Getter
@@ -36,6 +32,15 @@ public class Products {
     @Column(name = "productDescription")
     private String productDescription;
 
+    @Column(name = "rawmaterial")
+    private String rawmaterial;
+
+    @Column(name = "precautions")
+    private String precautions;
+
+    @Column(name = "manufacturer")
+    private String manufacturer;
+
     @Column(name = "product_price")
     private Double productPrice;
 
@@ -47,13 +52,4 @@ public class Products {
 
     @Column(name = "modified_at")
     private LocalDateTime modifiedAt;
-
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "member_liked_products",
-            joinColumns = @JoinColumn(name = "member_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id")
-    )
-    @JsonIgnoreProperties("likedByMembers")
-    private Set<Products> likedProducts = new HashSet<>();
 }

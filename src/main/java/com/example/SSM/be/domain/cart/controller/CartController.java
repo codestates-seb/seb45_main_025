@@ -68,7 +68,7 @@ public class CartController {
         Jws<Claims> claims = tokenService.checkAccessToken(authorizationHeader);
         String email = claims.getBody().getSubject();
 
-        List<CartItem> cartItems = cartService.getCartItems(email);
+        List<CartItem> cartItems = cartService.getCartItemsByUsername(email); // 서비스 메서드 사용
         List<CartItemResponseDTO> cartItemDTOs = new ArrayList<>();
         for (CartItem cartItem : cartItems) {
             cartItemDTOs.add(new CartItemResponseDTO(cartItem));

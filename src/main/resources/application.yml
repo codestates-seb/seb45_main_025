@@ -52,7 +52,7 @@ springdoc:
 
 logging:
   level:
-    root: INFO
+    root: DEBUG
 server:
   port: 8888
 mail:

@@ -74,4 +74,10 @@ public class CartService {
             cartRepository.save(cart);
         }
     }
+    public List<CartItem> getCartItemsByUsername(String username) {
+        // 리포지토리에서 사용자의 장바구니 항목을 검색하거나 필요한 비즈니스 로직 수행
+        return cartRepository.findByUsername(username)
+                .orElseThrow(() -> new EntityNotFoundException("장바구니를 찾을 수 없습니다."))
+                .getCartItems();
+    }
 }
