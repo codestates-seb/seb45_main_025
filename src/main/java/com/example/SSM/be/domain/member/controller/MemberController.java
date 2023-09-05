@@ -45,11 +45,13 @@ public class MemberController {
         URI location = UriCreator.createUri(MEMBER_DEFAULT_URL, saveMember.getUserId());
         return new ResponseEntity(location, HttpStatus.CREATED);
     }
-    @PostMapping("/oauth/google/signup/")
+    @PostMapping("/oauth/google/signup")
     public ResponseEntity postGoogle(HttpServletRequest request,
                                      @Valid @RequestBody AuthAdditionalDto additionalDto){
         String authorizationHeader = request.getHeader("Authorization");
+        log.info(authorizationHeader);
         Jws<Claims> claims = tokenService.checkAccessToken(authorizationHeader);
+        log.info(claims.getBody().getSubject());
         Member addmember = membermapper.AuthAdditionalDtoToMember(additionalDto);
         Member saveMember = memberService.createMemberOAuth2withAdditionalInfo(claims,addmember);
 

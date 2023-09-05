@@ -99,6 +99,7 @@ public class MemberService {
     /*토큰을 분해해 얻은 클레임으로 Member 얻기*/
     public Member findVerifiedMemberWithClaims(Jws<Claims> claims) {
         String email = claims.getBody().getSubject();
+        log.info(email);
         Member member = findVerifiedMember(email);
         return member;
     }

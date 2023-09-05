@@ -56,10 +56,6 @@ public class BlacklistTokenService {
         blacklistEntry.setToken(token);
         Claims claims =  jwtTokenizer.verifySignature(token).getBody();
         blacklistEntry.setExpiryDate(claims.getExpiration());
-        // 토큰의 만료 시간을 얻어와서 설정하는 로직을 추가해야 합니다.
-        // 예를 들어, jwtTokenizer.verifySignature(token) 등을 활용하여 만료 시간을 얻어와야 합니다.
-        // blacklistEntry.setExpiryDate(expiryDate);
-
 
         tokenBlacklistRepository.save(blacklistEntry);
         log.info("Token added to blacklist: {}", token);
