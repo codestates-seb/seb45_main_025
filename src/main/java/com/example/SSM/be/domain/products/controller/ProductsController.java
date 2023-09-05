@@ -184,5 +184,17 @@ public class ProductsController {
 
         return ResponseEntity.ok("Success");
     }
+    @GetMapping("/search")
+    public ResponseEntity<List<ProductsResponseDto>> searchProducts(@RequestParam(required = false) String productName,
+                                                                    @RequestParam(defaultValue = "1") int page,
+                                                                    @RequestParam(defaultValue = "20") int pageSize) {
+        Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by("createdAt").descending());
+        Page<Products> productsPage = productsService.searchProductsByProductName(productName, pageable);
 
+        List<ProductsResponseDto> responseDtos = productsPage.getContent().stream()
+                .map(ProductsResponseDto::new)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(responseDtos);
+    }
 }

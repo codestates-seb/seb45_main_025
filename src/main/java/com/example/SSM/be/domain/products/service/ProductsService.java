@@ -7,16 +7,20 @@ import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.webjars.NotFoundException;
 
+import javax.persistence.criteria.Predicate;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -98,5 +102,21 @@ public class ProductsService {
 
     public void saveProduct(Products product) {
         productsRepository.save(product);
+    }
+    public Page<Products> searchProductsByProductName(String productName, Pageable pageable) {
+        Specification<Products> specification = (root, query, builder) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            // productName이 비어 있지 않으면 productName으로 검색 조건 추가
+            if (!StringUtils.isEmpty(productName)) {
+                predicates.add(builder.like(root.get("productName"), "%" + productName + "%"));
+            }
+            // 검색 조건이 없을 때는 모든 상품을 반환
+            if (predicates.isEmpty()) {
+                return null;
+            }
+            return builder.and(predicates.toArray(new Predicate[0]));
+        };
+        // 검색 조건을 적용하여 페이지로 상품 목록을 조회
+        return productsRepository.findAll(specification, pageable);
     }
 }
