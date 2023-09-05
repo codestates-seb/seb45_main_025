@@ -68,11 +68,14 @@ export default function CartList() {
         <thead>
           <tr>
             <th>
-              <input
-                type='checkbox'
-                checked={allSelected && cartItems.length > 0}
-                onClick={handleAllCheckClick}
-                disabled={cartItems.length === 0} />
+              <button
+                className='checkbox-container'
+                onClick={handleAllCheckClick} >
+                <input
+                  type='checkbox'
+                  checked={allSelected && cartItems.length > 0}
+                  disabled={cartItems.length === 0} />
+              </button>
             </th>
             <th>Product Name</th>
             <th>Price</th>
@@ -84,11 +87,28 @@ export default function CartList() {
           {cartItems.length > 0
             ? cartItems.map(item => (
               <tr key={item.product_id}>
-                <td><input type='checkbox' checked={selected.includes(item.product_id)} onClick={() => handleCheckClick(item.product_id)}></input></td>
-                <td className='name'><img src={item.product_img} alt='' />{item.product_name}</td>
-                <td className='price'>{item.product_price.toLocaleString()}</td>
-                <td className='quantity'>{item.quantity}</td>
-                <td className='total-price'>{(Number(item.product_price) * Number(item.quantity)).toLocaleString()}</td>
+                <td>
+                  <button className='checkbox-container' onClick={() => handleCheckClick(item.product_id)}>
+                    <input
+                      type='checkbox'
+                      checked={selected.includes(item.product_id)} />
+                  </button>
+                </td>
+                <td className='name'>
+                  <Link to={`/products/${item.product_id}`}>
+                    <img src={item.product_img} alt='' />
+                    {item.product_name}
+                  </Link>
+                </td>
+                <td className='price'>
+                  {item.product_price.toLocaleString()}
+                </td>
+                <td className='quantity'>
+                  {item.quantity}
+                </td>
+                <td className='total-price'>
+                  {(Number(item.product_price) * Number(item.quantity)).toLocaleString()}
+                </td>
               </tr>
             ))
             : <tr>
@@ -96,7 +116,6 @@ export default function CartList() {
             </tr>}
         </tbody>
       </CartTable>
-
       {cartItems.length > 0
         && <div className='subtotal-price'>
           <span>Subtotal : </span>
@@ -105,38 +124,28 @@ export default function CartList() {
       }
       <ButtonsContainer>
         <Link to='/products'>
-          <button>
-            Keep Shopping
-          </button>
+          <button>Keep Shopping</button>
         </Link>
         <Link to='/order'>
           <button
             onClick={() => handleOrder(false)}
             disabled={selected.length === 0}
-          >
-            Order Selected
-          </button>
+          >Order Selected</button>
         </Link>
         <Link to='/order'>
           <button
             onClick={() => handleOrder(true)}
             disabled={cartItems.length === 0}
-          >
-            Order All
-          </button>
+          >Order All</button>
         </Link>
         <button
           onClick={() => handleDelete(false)}
           disabled={selected.length === 0}
-        >
-          Delete Selected
-        </button>
+        >Delete Selected</button>
         <button
           onClick={() => handleDelete(true)}
           disabled={cartItems.length === 0}
-        >
-          Empty Cart
-        </button>
+        >Empty Cart</button>
       </ButtonsContainer>
     </CartListContainer >
   )

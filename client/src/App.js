@@ -7,6 +7,7 @@ import Login from './pages/Login/Login';
 import SignUp from './pages/SignUp/SignUp';
 import Cart from './pages/Cart/Cart';
 import Order from './pages/Order/Order';
+import OrderList from './pages/OrderList/OrderList';
 import SignUpSelect from './pages/SignUpSelect/SignUpSelect';
 import MyPage from './pages/MyPage/MyPage';
 import MyPageEdit from './pages/MyPageEdit/MyPageEdit'
@@ -26,10 +27,11 @@ function App() {
         <Route path="/" element={<Main />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/order" element={<Order />} />
-        <Route path="/signup/select" element ={<SignUpSelect />} />
+        <Route path="/order-list" element={<OrderList />} />
+        <Route path="/signup/select" element={<SignUpSelect />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/mypage/edit" element={<MyPageEdit />} />
-        <Route path="/signup/oauth" element={<SignUpOauth />}/>
+        <Route path="/signup/oauth" element={<SignUpOauth />} />
         <Route path="/products" element={<Products />} />
         <Route path="/list" element={<List />} />
         <Route path='/CommunityList' element={<CommunityList />} />

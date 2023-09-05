@@ -1,6 +1,6 @@
 import { styled } from 'styled-components';
 
-export const PageContainer = styled.div`
+export const OrderPageContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -14,6 +14,7 @@ export const OrderContainer = styled.div`
   padding: 5rem 0 2rem 0;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
 
   .title {
@@ -29,7 +30,7 @@ export const FormContainer = styled.div`
   margin: 2rem 0;
   display: flex;
   flex-direction: column;
-  width: 70%;
+  width: 100%;
   position: relative;
 
   .edit-button {
@@ -90,22 +91,23 @@ export const FormCotents = styled.div`
   input {
     font-size: 13px;
     padding: 0.5rem;
-    margin-left: 0.3rem;
+    margin: 0.2rem 0 0.7rem 0.3rem;
     border: 1px solid var(--gray-10);
     border-radius: 5px;
   }
 `;
 
 export const ButtonContainer = styled.div`
+  padding: 2rem 0 0 0;
   display: flex;
   flex-direction: row;
-  width: 68%;
-  justify-content: flex-start;
+  width: 100%;
+  justify-content: center;
 
   button {
     border: 1px solid var(--gray-10);
     border-radius: 5px;
-    padding: 0.5rem 1.5rem;
+    padding: 0.5rem 1rem;
     font-size: 12px;
     font-weight: 200;
     margin: 0 0.3rem;
@@ -119,4 +121,52 @@ export const ButtonContainer = styled.div`
       box-shadow: inset 4px 4px 4px #ddd;
     }
   }
+
+  .order-btn {
+    color: var(--white);
+    background-color: var(--brown-10);
+    background-color: #b39076;
+    padding: 0.5rem 2rem;
+    border: none;
+
+    &:hover {
+      background-color: var(--brown-20);
+      box-shadow: 4px 4px 4px #d4c9c1;
+    }
+
+    &:active {
+      box-shadow: inset 4px 4px 4px #7a451c;
+    }
+
+    /* &:disabled {
+      cursor: default;
+      background-color: #ccc1b8;
+      background-color: #ddd;
+      color: #ddd;
+      border: 1px solid var(--gray-10);
+      box-shadow: none;
+    } */
+  }
 `
+
+export const FlexBox = styled.div`
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  width: 80%;
+  justify-content: space-between;
+`;
+
+export const LeftBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 65%;
+`;
+
+export const RightBox = styled.div`
+  position: ${(props) => (props.className === 'fixed' ? 'fixed' : 'absolute')};
+  right: ${(props) => (props.className === 'fixed' ? '10%' : '0')};
+  top: ${(props) => (props.className === 'fixed' ? '14.5%' : '')};
+  width: ${(props) => props.className === 'fixed' ? '28%' : '35%'};
+  transition: all 0s;
+`;
