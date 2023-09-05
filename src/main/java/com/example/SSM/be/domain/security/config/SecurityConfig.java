@@ -47,7 +47,6 @@ public class SecurityConfig  {
     private final MemberService memberService;
     private final CustomAuthorityUtils authorityUtils;
     private final RefreshTokenRepository refreshTokenRepository;
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity

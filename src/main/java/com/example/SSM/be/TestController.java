@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
+import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -54,8 +55,11 @@ public class TestController {
     }
     @GetMapping("/user")
     public String user(@AuthenticationPrincipal OAuth2User principal, Model model) {
+        DefaultOidcUser user = (DefaultOidcUser) principal;
+        System.out.println(user.getIdToken().getTokenValue());
         model.addAttribute("name", principal.getAttribute("name"));
         model.addAttribute("email", principal.getAttribute("email"));// Add access token to the model
+        System.out.println(principal.getAttributes());
         return "user";
     }
 }

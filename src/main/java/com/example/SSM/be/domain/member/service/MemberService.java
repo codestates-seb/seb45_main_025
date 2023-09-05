@@ -6,6 +6,8 @@ import com.example.SSM.be.domain.security.auth.utils.CustomAuthorityUtils;
 import com.example.SSM.be.domain.security.token.jwt.JwtTokenizer;
 import com.example.SSM.be.global.exception.BusinessLogicException;
 import com.example.SSM.be.global.exception.ExceptionCode;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -42,17 +44,25 @@ public class MemberService {
         return memberRepository.save(member);
     }
     // Todo
-    public Member createMemberOAuth2withAdditionalInfo(String email,Member member){
-        Member saveMember = findVerifiedMember(email);
+    public Member createMemberOAuth2withAdditionalInfo(Jws<Claims> claims,Member member){
+        Member saveMember = findVerifiedMemberWithClaims(claims);
+
         saveMember.setGender(member.getGender());
         saveMember.setBirth(member.getBirth());
         saveMember.setPhone(member.getPhone());
         saveMember.setAddress(member.getAddress());
         return memberRepository.save(saveMember);
     }
+    /* 비밀번호 확인 로직을 별도의 메소드로 분리*/
+    public boolean validatePassword(String password, String confirmPassword) {
+        if (!password.equals(confirmPassword)) {
+            return true;
+        }
+        return false;
+    }
     public Member findMemberByEmail(String email) {
         return memberRepository.findByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("가입되지 않은 아이디 입니다."));
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
     }
     public void verifyNotExist(String email) {
         if (memberRepository.findByEmail(email).isPresent()) {
@@ -67,7 +77,6 @@ public class MemberService {
             int randomNumber = random.nextInt(10000) + 1;
             newName = name + randomNumber;
         }
-
         return newName;
     }
     public Boolean existsByEmail(String email) {
@@ -85,11 +94,14 @@ public class MemberService {
         Optional<Member> optionalMember =  memberRepository.findByUserId(memberId);
         Member findMember = optionalMember.orElseThrow(() ->
                 new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
-
-
         return findMember;
     }
-
+    /*토큰을 분해해 얻은 클레임으로 Member 얻기*/
+    public Member findVerifiedMemberWithClaims(Jws<Claims> claims) {
+        String email = claims.getBody().getSubject();
+        Member member = findVerifiedMember(email);
+        return member;
+    }
 
 
     public String delegateAccessToken(Member member) {
@@ -107,8 +119,6 @@ public class MemberService {
     }
 
     public String delegateRefreshToken(Member member) {
-
-
         String subject = member.getEmail();
         Date expiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getRefreshTokenExpirationMinutes());
         String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey();
@@ -122,7 +132,6 @@ public class MemberService {
         if(member.getUserId() != MemberId)
             throw new BusinessLogicException(ExceptionCode.DIFFERENT_MEMBER);
         memberRepository.delete(member);
-        // 해당 상품이 장바구니에 있는지 확인
     }
     public void saveMember(Member member) {
         memberRepository.save(member);
