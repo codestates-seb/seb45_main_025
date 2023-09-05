@@ -11,7 +11,7 @@ import com.example.SSM.be.domain.comment.repository.CommentRepository;
 import com.example.SSM.be.domain.comment.service.CommentService;
 import com.example.SSM.be.domain.member.entity.Member;
 import com.example.SSM.be.domain.member.service.MemberService;
-import com.example.SSM.be.domain.security.auth.service.TokenService;
+import com.example.SSM.be.domain.security.token.service.TokenService;
 import com.example.SSM.be.global.exception.BusinessLogicException;
 import com.example.SSM.be.global.exception.ExceptionCode;
 import io.jsonwebtoken.Claims;
