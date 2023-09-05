@@ -1,9 +1,7 @@
 package com.example.SSM.be;
 
-import com.example.SSM.be.domain.security.auth.dto.TokenPrincipalDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -47,19 +45,18 @@ public class TestController {
     }
 
     @GetMapping("/OauthSIgnupForm")
-    public String OauthSIgnupForm(){
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        TokenPrincipalDto member = (TokenPrincipalDto) principal;
-        System.out.println(member.getEmail());
+    public String OauthSIgnupForm(@AuthenticationPrincipal OAuth2User principal){
+        DefaultOidcUser user = (DefaultOidcUser) principal;
+        System.out.println(user.getEmail());
         return "OauthSIgnupForm";
     }
     @GetMapping("/user")
     public String user(@AuthenticationPrincipal OAuth2User principal, Model model) {
         DefaultOidcUser user = (DefaultOidcUser) principal;
-        System.out.println(user.getIdToken().getTokenValue());
+        model.addAttribute("token",user.getIdToken().getTokenValue());
         model.addAttribute("name", principal.getAttribute("name"));
         model.addAttribute("email", principal.getAttribute("email"));// Add access token to the model
-        System.out.println(principal.getAttributes());
+        model.addAttribute("atts",principal.getAttributes());
         return "user";
     }
 }

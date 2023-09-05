@@ -2,8 +2,12 @@ package com.example.SSM.be.domain.member.entity;
 
 import com.example.SSM.be.domain.audit.Auditable;
 import com.example.SSM.be.domain.products.entity.Products;
+import com.example.SSM.be.domain.security.token.entity.RefreshToken;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -20,7 +24,8 @@ public class Member extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter
-    private long userId;
+    @Column(name = "user_id")
+    private Long userId;
 
     @Column(length = 100, nullable = false,unique = true)
     private String email;
@@ -54,6 +59,12 @@ public class Member extends Auditable {
     @Column
     private MemberStatus memberStatus = MemberStatus.MEMBER_ACTIVE;
 
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<RefreshToken> refreshTokens;
+//    @Enumerated(EnumType.STRING)
+//    @Column
+//    private MemberStatus Provider;
+
 
     public enum MemberStatus{
         MEMBER_ACTIVE("활동중"),
@@ -66,6 +77,10 @@ public class Member extends Auditable {
         MemberStatus(String status){
             this.status = status;
         }
+    }
+    public enum Provider{
+        GOOGLE,
+        FACEBOOK
     }
     @ManyToMany
     @JoinTable(
