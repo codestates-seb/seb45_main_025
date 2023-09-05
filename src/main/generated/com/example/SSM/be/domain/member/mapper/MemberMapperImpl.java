@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-09-04T19:31:39+0900",
+    date = "2023-09-05T10:34:52+0900",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 11.0.20 (Azul Systems, Inc.)"
 )
 @Component
@@ -59,6 +59,13 @@ public class MemberMapperImpl implements MemberMapper {
         }
 
         Member member = new Member();
+
+        member.setGender( authAdditionalDto.getGender() );
+        member.setPhone( authAdditionalDto.getPhone() );
+        if ( authAdditionalDto.getBirth() != null ) {
+            member.setBirth( DateTimeFormatter.ISO_LOCAL_DATE.format( authAdditionalDto.getBirth() ) );
+        }
+        member.setAddress( authAdditionalDto.getAddress() );
 
         return member;
     }

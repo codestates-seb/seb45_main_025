@@ -19,6 +19,9 @@ public class ProductsResponseDto {
     private String img;
     private String content;
     private String productDescription;
+    private String rawmaterial;
+    private String precautions;
+    private String manufacturer;
     private Double productPrice;
     private LocalDateTime created_at;
     private LocalDateTime modified_at;
@@ -36,6 +39,9 @@ public class ProductsResponseDto {
         }
         this.productDescription = product.getProductDescription();
         this.content = product.getContent();
+        this.rawmaterial = product.getRawmaterial();
+        this.precautions = product.getPrecautions();
+        this.manufacturer = product.getManufacturer();
         this.productPrice = product.getProductPrice();
         this.created_at = product.getCreatedAt();
         this.modified_at = product.getModifiedAt();
