@@ -36,7 +36,7 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
         String name = (String) oAuth2User.getAttributes().get("name");
         String email = String.valueOf(oAuth2User.getAttributes().get("email"));
         String img = (String) oAuth2User.getAttributes().get("picture");
-        String gender = (String) oAuth2User.getAttribute("gender");
+        String gender = (String) oAuth2User.getAttributes().get("gender");
         String birthday = (String) oAuth2User.getAttribute("birthday");
         String homeAddress = (String) oAuth2User.getAttribute("homeAddress");
         String phoneNumber = (String) oAuth2User.getAttribute("phoneNumber");
@@ -44,15 +44,15 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
 
         Member member = buildOAuth2Member(name,email,img,gender,birthday,homeAddress,phoneNumber);
         if(!memberService.existsByEmail(member.getEmail())) {
+            boolean isNewAccount = true;
             // db에 저장
             Member savedMember = saveMember(member);
-            redirect(request, response, savedMember); // 리다이렉트를 하기위한 정보들을 보내줌
+            redirect(request, response, savedMember,isNewAccount); // 리다이렉트를 하기위한 정보들을 보내줌
         } else {
+            boolean isNewAccount = false;
             Member findMember = memberService.findVerifiedMember(member.getEmail());
-            redirect(request, response, findMember);
+            redirect(request, response, findMember,isNewAccount);
         }
-
-
     }
     private Member buildOAuth2Member(String name, String email,
                                      String image,String gender,
@@ -74,12 +74,12 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
     }
     private void redirect(HttpServletRequest request,
                           HttpServletResponse response,
-                          Member member)
+                          Member member, boolean isNewAccount )
         throws IOException{
         String accessToken = memberService.delegateAccessToken(member);
         String refreshToken = memberService.delegateRefreshToken(member);
 
-        String uri = createURI( accessToken,refreshToken).toString();
+        String uri = createURI( accessToken,refreshToken,isNewAccount).toString();
 
         String headerValue = "Bearer " + accessToken;
         response.setHeader("Authorization",headerValue);
@@ -89,16 +89,19 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
     }
 
     private URI createURI(String accessToken,
-                          String refreshToken){
+                          String refreshToken,
+                          boolean isNewAccount){
         MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
         queryParams.add("access_token", "Bearer " + accessToken);
         queryParams.add("refresh_token", refreshToken);
+
+        String path = isNewAccount ? "/OauthSIgnupForm" : "/user";
         return UriComponentsBuilder
                 .newInstance()
                 .scheme("http")
                 .host("localhost")
                 .port(8888)
-                .path("/")
+                .path(path)
                 .queryParams(queryParams)
                 .build()
                 .toUri();
