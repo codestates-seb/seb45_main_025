@@ -1,4 +1,4 @@
-package com.example.SSM.be.domain.security.tokenblacklist.entity;
+package com.example.SSM.be.domain.security.token.tokenblacklist.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

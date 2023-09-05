@@ -1,6 +1,6 @@
 package com.example.SSM.be.domain.security.config;
 
-import com.example.SSM.be.domain.security.tokenblacklist.interceptor.BlacklistInterceptor;
+import com.example.SSM.be.domain.security.token.tokenblacklist.interceptor.BlacklistInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;

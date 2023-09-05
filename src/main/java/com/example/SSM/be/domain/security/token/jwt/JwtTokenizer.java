@@ -1,7 +1,6 @@
 package com.example.SSM.be.domain.security.token.jwt;
 
 import com.example.SSM.be.domain.member.entity.Member;
-import com.example.SSM.be.domain.member.repository.MemberRepository;
 import com.example.SSM.be.domain.security.token.entity.RefreshToken;
 import com.example.SSM.be.domain.security.token.repository.RefreshTokenRepository;
 import com.example.SSM.be.global.exception.BusinessLogicException;
@@ -38,7 +37,6 @@ public class JwtTokenizer {
     @Value("${jwt.refresh-token-expiration-minutes}")
     private int refreshTokenExpirationMinutes;
 
-    private final MemberRepository repository;
     private final RefreshTokenRepository refreshTokenRepository;
 
 
