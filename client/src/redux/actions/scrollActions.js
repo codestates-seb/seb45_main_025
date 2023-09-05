@@ -1,6 +1,6 @@
-export const SET_SCROLLED = 'SET_SCROLLED';
+export const SET_SCROLL_Y = 'SET_SCROLL_Y';
 
-export const setScrolled = (isScrolled) => ({
-  type: SET_SCROLLED,
-  payload: isScrolled,
+export const setScrollY = (scrollY) => ({
+  type: SET_SCROLL_Y,
+  payload: scrollY,
 });
