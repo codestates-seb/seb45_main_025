@@ -11,7 +11,7 @@ import com.example.SSM.be.domain.board.repository.BoardRepository;
 import com.example.SSM.be.domain.board.service.BoardService;
 import com.example.SSM.be.domain.member.entity.Member;
 import com.example.SSM.be.domain.member.service.MemberService;
-import com.example.SSM.be.domain.security.auth.service.TokenService;
+import com.example.SSM.be.domain.security.token.service.TokenService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import lombok.RequiredArgsConstructor;
