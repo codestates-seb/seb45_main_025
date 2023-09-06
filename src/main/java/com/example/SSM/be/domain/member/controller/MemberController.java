@@ -7,6 +7,7 @@ import com.example.SSM.be.domain.member.mapper.MemberMapper;
 import com.example.SSM.be.domain.member.service.MemberService;
 import com.example.SSM.be.domain.security.token.service.TokenService;
 import com.example.SSM.be.domain.security.token.tokenblacklist.service.BlacklistTokenService;
+import com.example.SSM.be.global.response.SingleResponseDto;
 import com.example.SSM.be.global.utils.UriCreator;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -49,14 +50,20 @@ public class MemberController {
     public ResponseEntity postGoogle(HttpServletRequest request,
                                      @Valid @RequestBody AuthAdditionalDto additionalDto){
         String authorizationHeader = request.getHeader("Authorization");
-        log.info(authorizationHeader);
         Jws<Claims> claims = tokenService.checkAccessToken(authorizationHeader);
-        log.info(claims.getBody().getSubject());
         Member addmember = membermapper.AuthAdditionalDtoToMember(additionalDto);
         Member saveMember = memberService.createMemberOAuth2withAdditionalInfo(claims,addmember);
 
         URI location = UriCreator.createUri(MEMBER_DEFAULT_URL, saveMember.getUserId());
         return new ResponseEntity(location, HttpStatus.CREATED);
+    }
+    @GetMapping("/info")
+    public ResponseEntity getMemberInfo(HttpServletRequest request){
+        Member findMember = memberService.getMemberWithAccessToken(request);
+        MemberDto.ResponseDto response = membermapper.memberToResponse(findMember);
+
+        return new ResponseEntity<>(
+                new SingleResponseDto<>(response), HttpStatus.OK);
     }
     @PostMapping("/logout")
     public ResponseEntity logout(HttpServletRequest request) {
@@ -68,9 +75,7 @@ public class MemberController {
     @DeleteMapping("/delete/{member-id}")    //Member 삭제
     public ResponseEntity deleteMember(HttpServletRequest request
                                        ,@PathVariable("member-id") @Positive long memberId){
-        String authorizationHeader = request.getHeader("Authorization");
-        Jws<Claims> claims = tokenService.checkAccessToken(authorizationHeader);
-        Member member = memberService.findVerifiedMemberWithClaims(claims);
+        Member member = memberService.getMemberWithAccessToken(request);
         memberService.deleteMember(member.getUserId(),memberId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

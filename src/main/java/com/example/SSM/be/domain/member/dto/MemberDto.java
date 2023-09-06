@@ -21,6 +21,8 @@ public class MemberDto {
         @NotBlank
         private String name;
         @NotBlank
+        private String nickName;
+        @NotBlank
         private String password;
         @NotBlank
         private String conformPassword;
@@ -43,8 +45,9 @@ public class MemberDto {
 
         private long memberId;
         private String name;
+        private String nickName;
         private String email;
-        private String image;
+        private String img;
         private Member.MemberStatus status;
         private String createdAt;
         private String modifiedAt;

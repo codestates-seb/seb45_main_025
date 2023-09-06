@@ -17,7 +17,6 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RefreshToken {
-
     @Id
     @Column(name = "token")
     private String token;
@@ -34,5 +33,4 @@ public class RefreshToken {
         this.token=token;
         this.expiryDate=expiryDate;
     }
-
 }

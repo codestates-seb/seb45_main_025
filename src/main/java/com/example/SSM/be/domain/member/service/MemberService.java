@@ -4,6 +4,7 @@ import com.example.SSM.be.domain.member.entity.Member;
 import com.example.SSM.be.domain.member.repository.MemberRepository;
 import com.example.SSM.be.domain.security.auth.utils.CustomAuthorityUtils;
 import com.example.SSM.be.domain.security.token.jwt.JwtTokenizer;
+import com.example.SSM.be.domain.security.token.service.TokenService;
 import com.example.SSM.be.global.exception.BusinessLogicException;
 import com.example.SSM.be.global.exception.ExceptionCode;
 import io.jsonwebtoken.Claims;
@@ -14,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 @Service
@@ -25,6 +27,7 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenizer jwtTokenizer;
     private final CustomAuthorityUtils authorityUtils;
+    private final TokenService tokenService;
 
     public Member createMember(Member member){
         verifyNotExist(member.getEmail());
@@ -103,7 +106,12 @@ public class MemberService {
         Member member = findVerifiedMember(email);
         return member;
     }
-
+    public Member getMemberWithAccessToken(HttpServletRequest request) {
+        String authorizationHeader = request.getHeader("Authorization");
+        Jws<Claims> claims = tokenService.checkAccessToken(authorizationHeader);
+        Member findMember = findVerifiedMemberWithClaims(claims);
+        return findMember;
+    }
 
     public String delegateAccessToken(Member member) {
         Map<String, Object> claims = new HashMap<>();
