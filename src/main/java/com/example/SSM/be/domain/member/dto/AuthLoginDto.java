@@ -18,7 +18,7 @@ public class AuthLoginDto {
     private String email;
     @NotNull
     @Size(min = 2, max = 20)
-    private String name;
+    private String nickName;
 
     private String profileImg;
 
