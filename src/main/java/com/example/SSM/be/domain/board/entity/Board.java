@@ -33,7 +33,7 @@ public class Board extends Auditable {
     @Lob
     private String content;
 
-    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Member.class)
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Member.class)
     @JoinColumn(name = "memberId", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Member member;

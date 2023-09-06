@@ -26,6 +26,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -216,7 +217,7 @@ public Board updateBoard(Member member, long boardId, BoardPatchDto patchDto) th
     //게시글 삭제하기
     public void deleteBoard(Member member, long boardId){
         Board findBoard = verifyBoardExist(boardId);
-        if(member.getEmail()==findBoard.getMember().getEmail()){
+        if(Objects.equals(member.getEmail(), findBoard.getMember().getEmail())){
             boardRepository.deleteById(boardId);
         }else{
             throw new BusinessLogicException(ExceptionCode.NOT_MATCH_USER);
