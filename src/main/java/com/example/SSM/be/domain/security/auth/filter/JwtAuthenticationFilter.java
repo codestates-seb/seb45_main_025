@@ -3,12 +3,14 @@ package com.example.SSM.be.domain.security.auth.filter;
 import com.example.SSM.be.domain.member.entity.Member;
 import com.example.SSM.be.domain.member.repository.MemberRepository;
 import com.example.SSM.be.domain.security.auth.dto.LoginDto;
-import com.example.SSM.be.domain.security.auth.jwt.JwtTokenizer;
+import com.example.SSM.be.domain.security.token.jwt.JwtTokenizer;
+import com.example.SSM.be.domain.security.token.repository.RefreshTokenRepository;
 import com.example.SSM.be.global.exception.BusinessLogicException;
 import com.example.SSM.be.global.exception.ExceptionCode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import org.springframework.http.HttpStatus;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -24,21 +26,23 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+
+@Slf4j
+@RequiredArgsConstructor
+public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {  // (1)
     private final AuthenticationManager authenticationManager;
     private final JwtTokenizer jwtTokenizer;
+
     private final MemberRepository memberRepository;
+    private final RefreshTokenRepository refreshTokenRepository;
 
-    public JwtAuthenticationFilter(AuthenticationManager authenticationManager, JwtTokenizer jwtTokenizer, MemberRepository memberRepository) {
-        this.authenticationManager = authenticationManager;
-        this.jwtTokenizer = jwtTokenizer;
-        this.memberRepository = memberRepository;
-    }
 
+
+    // (3)
     @SneakyThrows
     @Override
-    public Authentication attemptAuthentication(HttpServletRequest request,
-                                                HttpServletResponse response){
+    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) {
+
         ObjectMapper objectMapper = new ObjectMapper();
         LoginDto loginDto;
         try {
@@ -46,63 +50,69 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+
         Optional<Member> optionalMember = memberRepository.findByEmail(loginDto.getEmail());
-        Member findMember =optionalMember.orElseThrow(() ->
+
+        Member findMember = optionalMember.orElseThrow(() ->
                 new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
 
-        if(findMember.getMemberStatus() == Member.MemberStatus.MEMBER_EXIT){
+        if (findMember.getMemberStatus() == Member.MemberStatus.MEMBER_EXIT) {
             throw new BusinessLogicException(ExceptionCode.MEMBER_IS_DELETED);
         }
-        if(findMember.getMemberStatus() == Member.MemberStatus.MEMBER_SLEEP){
-            throw new BusinessLogicException(ExceptionCode.MEMBER_IS_SLEEPING);
-        }
 
+        // (3-3)
+        UsernamePasswordAuthenticationToken authenticationToken =
+                new UsernamePasswordAuthenticationToken(loginDto.getEmail(), loginDto.getPassword());
 
-        UsernamePasswordAuthenticationToken authenticationToken=
-                new UsernamePasswordAuthenticationToken(loginDto.getEmail(),loginDto.getPassword());
         return authenticationManager.authenticate(authenticationToken);
+
     }
 
     @Override
-    public void successfulAuthentication(HttpServletRequest request,
-                                         HttpServletResponse response,
-                                         FilterChain chain,
-                                         Authentication authResult)
-        throws ServletException, IOException{
+    protected void successfulAuthentication(HttpServletRequest request,
+                                            HttpServletResponse response,
+                                            FilterChain chain,
+                                            Authentication authResult) throws ServletException, IOException {
         Member member = (Member) authResult.getPrincipal();
 
-        String accessToken = delegateAccessToken(member);
-        String refreshToken = delegateRefreshToken(member);
+        String accessToken = delegateAccessToken(member); // accessToken 만들기
+        String refreshToken = delegateRefreshToken(member); // refreshToken 만들기
+        String memberId = String.valueOf(member.getUserId());
 
-        response.setHeader("Authorization", "Bearer " + accessToken );
-        response.setHeader("Refresh",refreshToken);
-        response.setHeader("MemberId",String.valueOf(member.getUserId()));
-        response.setStatus(HttpStatus.CREATED.value());
-        this.getSuccessHandler().onAuthenticationSuccess(request,response,authResult);
+        String headerValue = "Bearer " + accessToken;
+
+        response.setHeader("Authorization", headerValue);
+        response.setHeader("Refresh", refreshToken);
+        response.setHeader("MemberId", memberId);
+
+
+        this.getSuccessHandler().onAuthenticationSuccess(request, response, authResult);
     }
+
 
     private String delegateAccessToken(Member member) {
         Map<String, Object> claims = new HashMap<>();
-//        claims.put("memberId", member.getMemberId());  // 식별자도 포함할 수 있다.
         claims.put("memberId", member.getUserId());
         claims.put("roles", member.getRoles());
 
-
         String subject = member.getEmail();
         Date expiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getAccessTokenExpirationMinutes());
+
         String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey();
-        String accessToken = jwtTokenizer.generateAccessToken(claims, subject, expiration,base64EncodedSecretKey);
+
+        String accessToken = jwtTokenizer.generateAccessToken(claims, subject, expiration, base64EncodedSecretKey);
 
         return accessToken;
     }
 
+    // (6)
     private String delegateRefreshToken(Member member) {
         String subject = member.getEmail();
         Date expiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getRefreshTokenExpirationMinutes());
         String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey();
-
-        String refreshToken = jwtTokenizer.generateRefreshToken(subject, expiration,base64EncodedSecretKey);
-
+        // 이미 있는 토큰인지 판별하기 위해
+        String refreshToken = jwtTokenizer.generateRefreshToken(member,subject, expiration, base64EncodedSecretKey);
         return refreshToken;
     }
 }

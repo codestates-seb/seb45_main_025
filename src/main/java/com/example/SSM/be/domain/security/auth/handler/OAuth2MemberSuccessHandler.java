@@ -1,9 +1,8 @@
 package com.example.SSM.be.domain.security.auth.handler;
 
-import com.example.SSM.be.domain.member.entity.Member;
 import com.example.SSM.be.domain.member.service.MemberService;
-import com.example.SSM.be.domain.security.auth.jwt.JwtTokenizer;
 import com.example.SSM.be.domain.security.auth.utils.CustomAuthorityUtils;
+import com.example.SSM.be.domain.security.token.jwt.JwtTokenizer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -18,10 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URI;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -39,28 +35,36 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
         String name = (String) oAuth2User.getAttributes().get("name");
         String email = String.valueOf(oAuth2User.getAttributes().get("email"));
         String img = (String) oAuth2User.getAttributes().get("picture");
-
+        String gender = (String) oAuth2User.getAttributes().get("gender");
+        String birthday = (String) oAuth2User.getAttribute("birthday");
+        String homeAddress = (String) oAuth2User.getAttribute("homeAddress");
+        String phoneNumber = (String) oAuth2User.getAttribute("phoneNumber");
         List<String> authorities = authorityUtils.createRoles(email);
 
-        Member member = buildOAuth2Member(name,email,img);
+        Member member = buildOAuth2Member(name,email,img,gender,birthday,homeAddress,phoneNumber);
         if(!memberService.existsByEmail(member.getEmail())) {
+            boolean isNewAccount = true;
             // db에 저장
             Member savedMember = saveMember(member);
-            redirect(request, response, savedMember, authorities); // 리다이렉트를 하기위한 정보들을 보내줌
+            redirect(request, response, savedMember,isNewAccount); // 리다이렉트를 하기위한 정보들을 보내줌
         } else {
+            boolean isNewAccount = false;
             Member findMember = memberService.findVerifiedMember(member.getEmail());
-            redirect(request, response, findMember, authorities);
+            redirect(request, response, findMember,isNewAccount);
         }
-
-
     }
-    private Member buildOAuth2Member(String name, String email, String image) {
+    private Member buildOAuth2Member(String name, String email,
+                                     String image,String gender,
+                                     String birthday,String homeAddress,String phoneNumber) {
         Member member = new Member();
         member.setName(name);
         // 일반 유저와 구분을 위해
         member.setEmail(email+"1");
-//        member.setImg(image);
-
+        member.setImg(image);
+        member.setGender(gender);
+        member.setBirth(birthday);
+        member.setAddress(homeAddress);
+        member.setPhone(phoneNumber);
         return member;
     }
 
@@ -69,13 +73,12 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
     }
     private void redirect(HttpServletRequest request,
                           HttpServletResponse response,
-                          Member member,
-                          List<String> authorities)
+                          Member member, boolean isNewAccount )
         throws IOException{
-        String accessToken = delegateAccessToken(member,authorities);
-        String refreshToken = delegateRefreshToken(member);
+        String accessToken = memberService.delegateAccessToken(member);
+        String refreshToken = memberService.delegateRefreshToken(member);
 
-        String uri = createURI(request,accessToken,refreshToken).toString();
+        String uri = createURI( accessToken,refreshToken,isNewAccount).toString();
 
         String headerValue = "Bearer " + accessToken;
         response.setHeader("Authorization",headerValue);
@@ -83,51 +86,23 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
 
         getRedirectStrategy().sendRedirect(request,response,uri);
     }
-    private String delegateAccessToken(Member member, List<String> authorities) {
 
-        Map<String, Object> claims = new HashMap<>();
-        claims.put("memberId", member.getUserId());
-        claims.put("roles", authorities);
+    private URI createURI(String accessToken,
+                          String refreshToken,
+                          boolean isNewAccount){
+        MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        queryParams.add("access_token", "Bearer " + accessToken);
+        queryParams.add("refresh_token", refreshToken);
 
-        String subject = member.getEmail();
-
-        Date expiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getAccessTokenExpirationMinutes());
-
-        String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey();
-
-        String accessToken = jwtTokenizer.generateAccessToken(claims, subject, expiration, base64EncodedSecretKey);
-
-        return accessToken;
-    }
-
-    private String delegateRefreshToken(Member member) {
-
-
-        String subject = member.getEmail();
-
-        Date expiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getRefreshTokenExpirationMinutes());
-        String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey();
-
-        String refreshToken = jwtTokenizer.generateRefreshToken(subject, expiration, base64EncodedSecretKey);
-
-        return refreshToken;
-    }
-    private URI createURI(HttpServletRequest request,
-                          String accessToken,
-                          String refreshToken){
-        MultiValueMap<String,String> queryParams = new LinkedMultiValueMap<>();
-        queryParams.add("access_token",accessToken);
-        queryParams.add("refresh_token",refreshToken);
-
+        String path = isNewAccount ? "/OauthSIgnupForm" : "/user";
         return UriComponentsBuilder
                 .newInstance()
                 .scheme("http")
                 .host("localhost")
                 .port(8888)
-                .path("/receive-token.html")
+                .path(path)
                 .queryParams(queryParams)
                 .build()
                 .toUri();
     }
-
 }

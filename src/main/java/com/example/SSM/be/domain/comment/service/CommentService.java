@@ -8,7 +8,6 @@ import com.example.SSM.be.domain.comment.dto.CommentResponseDto;
 import com.example.SSM.be.domain.comment.entity.Comment;
 import com.example.SSM.be.domain.comment.mapper.CommentMapper;
 import com.example.SSM.be.domain.comment.repository.CommentRepository;
-import com.example.SSM.be.domain.member.entity.Member;
 import com.example.SSM.be.global.exception.BusinessLogicException;
 import com.example.SSM.be.global.exception.ExceptionCode;
 import lombok.RequiredArgsConstructor;

@@ -1,20 +1,21 @@
 package com.example.SSM.be.domain.mypage.mapper;
-
-
-import com.example.SSM.be.domain.member.entity.Member;
-import com.example.SSM.be.domain.mypage.dto.ImagePostDto;
-import com.example.SSM.be.domain.mypage.entity.ProfileImage;
+import com.example.SSM.be.domain.mypage.dto.MypageResponseDto;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface MypageMapper {
 
-    default ProfileImage ImagePostDtoToProfileImage(Member member, String originalFileName, String saveFileName){
-        ProfileImage profileImage = new ProfileImage();
-        profileImage.setMember(member);
-        profileImage.setOriginalFileName(originalFileName);
-        profileImage.setSaveFileName(saveFileName);
 
-        return profileImage;
+    default MypageResponseDto memberToMypageResponseDto(Member member){
+        MypageResponseDto responseDto = new MypageResponseDto();
+        responseDto.setName(member.getName());
+        responseDto.setNickname(member.get);
+        responseDto.setGender(member.getGender());
+        responseDto.setBirth(member.getBirth());
+        responseDto.setAddress(member.getAddress());
+        responseDto.setPhone(member.getPhone());
+        responseDto.setEmail(member.getEmail());
+        return responseDto;
+
     }
 }

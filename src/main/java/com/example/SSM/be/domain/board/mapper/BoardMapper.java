@@ -6,7 +6,6 @@ import com.example.SSM.be.domain.board.dto.BoardPostDto;
 import com.example.SSM.be.domain.board.dto.BoardResponseDto;
 import com.example.SSM.be.domain.board.entity.Board;
 import com.example.SSM.be.domain.board.entity.Image;
-import com.example.SSM.be.domain.member.entity.Member;
 import org.mapstruct.Mapper;
 
 import java.util.ArrayList;

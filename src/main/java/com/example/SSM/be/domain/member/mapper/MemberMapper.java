@@ -12,8 +12,10 @@ public interface MemberMapper {
 
     Member memberPostDtoToMember(MemberDto.PostDto postDto);
 
-    @Mapping(source = "profileImg", target = "profileImage")
+    @Mapping(source = "profileImg", target = "img")
     Member AuthLoginDtoToMember(AuthLoginDto authLoginDto);
 
     Member AuthAdditionalDtoToMember(AuthAdditionalDto authAdditionalDto);
+
+    MemberDto.ResponseDto memberToResponse(Member member);
 }

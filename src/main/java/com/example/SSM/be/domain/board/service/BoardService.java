@@ -10,8 +10,6 @@ import com.example.SSM.be.domain.board.mapper.BoardMapper;
 import com.example.SSM.be.domain.board.repository.BoardRepository;
 
 import com.example.SSM.be.domain.board.repository.ImageRepository;
-import com.example.SSM.be.domain.member.entity.Member;
-import com.example.SSM.be.domain.member.service.MemberService;
 import com.example.SSM.be.global.exception.BusinessLogicException;
 import com.example.SSM.be.global.exception.ExceptionCode;
 import lombok.RequiredArgsConstructor;
@@ -216,7 +214,9 @@ public Board updateBoard(Member member, long boardId, BoardPatchDto patchDto) th
     //게시글 삭제하기
     public void deleteBoard(Member member, long boardId){
         Board findBoard = verifyBoardExist(boardId);
-        if(member.getEmail()==findBoard.getMember().getEmail()){
+        if (member.getEmail().equals(findBoard.getMember().getEmail())) {
+//        if(member.getEmail()==findBoard.getMember().getEmail()){
+            //if (member.getEmail().equals(existingBoard.getMember().getEmail())) {
             boardRepository.deleteById(boardId);
         }else{
             throw new BusinessLogicException(ExceptionCode.NOT_MATCH_USER);

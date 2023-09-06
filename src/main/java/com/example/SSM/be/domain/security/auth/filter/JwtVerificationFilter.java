@@ -1,8 +1,9 @@
 package com.example.SSM.be.domain.security.auth.filter;
 
-import com.example.SSM.be.domain.security.auth.jwt.JwtTokenizer;
 import com.example.SSM.be.domain.security.auth.utils.CustomAuthorityUtils;
+import com.example.SSM.be.domain.security.token.jwt.JwtTokenizer;
 import io.jsonwebtoken.ExpiredJwtException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -17,6 +18,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 public class JwtVerificationFilter extends OncePerRequestFilter {
     private final JwtTokenizer jwtTokenizer;
     private final CustomAuthorityUtils authorityUtils;
@@ -53,7 +55,7 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
     private Map<String,Object> verifyJws(HttpServletRequest request){
         String jws = request.getHeader("Authorization").replace("Bearer ","");
         try {
-            Map<String, Object> claims = jwtTokenizer.getClaims(jws).getBody();
+            Map<String, Object> claims = jwtTokenizer.verifySignature(jws).getBody();
             return claims;
         } catch (Exception e) {
             request.setAttribute("exception", e);
@@ -62,9 +64,9 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
         }
     }
     private void setAuthenticationToContext(Map<String,Object> claims){
-        String email = (String) claims.get("email");
-        List<GrantedAuthority> authorities = authorityUtils.createAuthorities((List)claims.get("roles"));
-        Authentication authentication = new UsernamePasswordAuthenticationToken(email,null,authorities);
+        String email = (String) claims.get("sub");
+        List<GrantedAuthority> authorities = authorityUtils.createAuthorities((List<String>)claims.get("roles"));
+        Authentication authentication = new UsernamePasswordAuthenticationToken(email, null, authorities);
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 }

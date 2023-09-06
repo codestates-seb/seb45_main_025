@@ -1,32 +1,39 @@
 package com.example.SSM.be.domain.member.entity;
 
-import com.example.SSM.be.domain.board.audit.Auditable;
-import com.example.SSM.be.domain.mypage.entity.ProfileImage;
-import lombok.*;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+import com.example.SSM.be.domain.audit.Auditable;
+import com.example.SSM.be.domain.products.entity.Products;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class Member extends Auditable implements UserDetails {
+public class Member extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter
-    private long userId;
+    @Column(name = "user_id")
+    private Long userId;
 
     @Column(length = 100, nullable = false,unique = true)
     private String email;
 
-    @Column(length = 100, nullable = false)
+    @Column(length = 100)
     private String name;
+
+    @Column(length = 100, nullable = false)
+    private String nickName;
 
     @Column(length = 300)
     private String password;
@@ -42,12 +49,11 @@ public class Member extends Auditable implements UserDetails {
 
     @Column
     private String address;
-//    @Column
-//    private String img;
+    @Column
+    private String img;
     @Column
     private Long point = 1000000000L;
 
-    @Setter(AccessLevel.NONE)
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
 
@@ -55,47 +61,9 @@ public class Member extends Auditable implements UserDetails {
     @Column
     private MemberStatus memberStatus = MemberStatus.MEMBER_ACTIVE;
 
-    @OneToOne(mappedBy = "member",cascade = CascadeType.REMOVE,orphanRemoval = true,fetch = FetchType.LAZY)
-    private ProfileImage profileImage;
-
-
-    public void setRoles(String email){
-        if(email.equals("admin@naver.com")){   //관리자 계정 이메일 넣으면 됨.
-            roles.add("USER");
-            roles.add("ADMIN");
-        }
-        roles.add("USER");
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
-    }
-
-    @Override
-    public String getUsername() {
-        return null;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return false;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return false;
-    }
+//    @Enumerated(EnumType.STRING)
+//    @Column
+//    private MemberStatus Provider;
 
 
     public enum MemberStatus{
@@ -110,4 +78,16 @@ public class Member extends Auditable implements UserDetails {
             this.status = status;
         }
     }
+    public enum Provider{
+        GOOGLE,
+        FACEBOOK
+    }
+    @ManyToMany
+    @JoinTable(
+            name = "member_liked_products",
+            joinColumns = @JoinColumn(name = "member_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id")
+    )
+    @JsonIgnoreProperties("likedByMembers")
+    private Set<Products> likedProducts = new HashSet<>();
 }
