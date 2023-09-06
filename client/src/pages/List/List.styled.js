@@ -1,93 +1,204 @@
-import styled from "styled-components";
-import Snack1 from "../../common/image/snacks1.webp"
+import styled, { keyframes } from 'styled-components';
 
-export const LogContainer = styled.div`
-  position: relative;
+export const dots = keyframes`
+  0% {transform: translateY(0);}
+  50% {transform: translateY(-20px);}
+  100% {transform: translateY(0);}
 `;
 
-export const TopContainer = styled.div`
-  position: relative;  
+export const BackgroundImage = styled.div`
   width: 100vw;
-  height: 400px;
-  background-image: url(${Snack1});
+  height: 25rem;
   background-size: cover;
-  background-position: 25% 60%;
+  background-position: center 20%;
 
-  > .top__container {
-    position: absolute;
-    display: flex;
-    width: 100vw;
-    align-items: flex-end;
-    height: 400px;
-
-    > .top__content {
-      position: relative;
-      margin: 0px auto;
-      padding: 50px;
-      padding-left: 650px;
-      width: 100%;
-      min-width: 1024px;
-      max-width: 1920px;
-    }
-  }
-
-  h1 {
-    margin-bottom: var(--spacing-4);
-    font-size: 50px;
-    line-height: var(--xx-large-heading-line-height);
-    font-weight: 500;
-    color: var(--white);
-  }
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 55px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+  font-weight: 600;
+  letter-spacing: 3px;
+  padding-top: 3rem;
 `;
 
-export const MainContainer = styled.div`
-  position: relative;
-  margin: 50px;
-
-  > .main__header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: var(--spacing-4);
-
-    .selection__tab {
-      margin-left: 60%;
-
-      > .mode--button {
-        padding: 10px 14px;
-        font-weight: 500;
-        background-color: transparent;
-        border-radius: 3px;
-        font-weight: 400;
-        margin: 0 5px;
-        border: 1px solid var(--light-gray-5);
-      }
-
-      > .mode--selected {
-        background-color: var(--primary-blue-light-2);
-        color: var(--dark-gray-1);
+export const ContentList = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  margin-top: 80px;
+  .page-end {
+    display: none;
+  }
+  @media (max-width: 768px) {
+    margin-top: 50px;
+    .page-end {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      margin-top: 50px;
+      position: relative;
+      > span {
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        margin: 0 10px;
+        background: var(--mainbl);
+        animation: ${dots} 1s forwards infinite;
+        &:nth-of-type(1) {
+        }
+        &:nth-of-type(2) {
+          animation-delay: 0.3s;
+        }
+        &:nth-of-type(3) {
+          animation-delay: 0.5s;
+        }
       }
     }
   }
-
-  h2 {
-    font-size: var(--large-heading-font-size);
-    line-height: var(--large-heading-line-height);
-    font-weight: 600;
-    color: var(--black);
+`;
+export const ContentBox = styled.div`
+  position: relative;
+  cursor: pointer;
+  transition: 0.2s;
+  width: calc((100% - 60px) / 4);
+  margin-right: 20px;
+  margin-bottom: 20px;
+  &:nth-of-type(4n) {
+    margin-right: 0;
   }
-
-  .button--top {
-    position: fixed;
-    color: white;
-    bottom: 50px;
-    right: 50px;
-    padding: 0;
-    width: var(--spacing-5);
-    height: var(--spacing-5);
-    border-radius: 50%;
-    background-color: transparent;
-    font-weight: 500;
-    transition: all 0.2s ease-in;
+  border-radius: 6px;
+  padding: 15px;
+  height: 250px;
+  background: var(--bl-1);
+  > img {
+    width: auto;
+    height: 100px;
+    object-fit: contain;
+    margin: 0 auto;
+    @media (max-width: 768px) {
+      height: 80px;
+    }
+  }
+  @media (max-width: 930px) {
+    width: calc((100% - 40px) / 3);
+    &:nth-of-type(4n) {
+      margin-right: 20px;
+    }
+    &:nth-of-type(3n) {
+      margin-right: 0;
+    }
+  }
+  @media (max-width: 768px) {
+    width: calc(50% - 5px);
+    margin-right: 10px;
+    height: 220px;
+    margin-bottom: 10px;
+    padding: 15px;
+    &:nth-of-type(3n) {
+      margin-right: 10px;
+    }
+    &:nth-of-type(2n) {
+      margin-right: 0;
+    }
+  }
+  &:hover {
+    box-shadow: var(--shadow);
+    transition: box-shadow 0.2s;
+  }
+`;
+export const ContentTit = styled.h3`
+  font-size: var(--fz-base);
+  line-height: 1.2;
+  margin: 15px 0 10px;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--mainbl);
+  font-weight: 500;
+  @media (max-width: 768px) {
+    width: 90%;
+  }
+`;
+export const ContentText = styled.div`
+  width: 100%;
+  overflow: hidden;
+  font-size: var(--fz-base);
+  line-height: 20px;
+  display: -webkit-box;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  word-break: keep-all;
+  @media (max-width: 768px) {
+    -webkit-line-clamp: 3;
+  }
+`;
+export const LikeCount = styled.div`
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  right: 10px;
+  top: 10px;
+  color: var(--mainbl);
+  > p {
+    font-size: 12px;
+    padding-top: 3px;
+  }
+  @media (max-width: 768px) {
+    top: 100px;
+    right: 7px;
+  }
+`;
+export const Pagination = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;
+  > ul {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    > li {
+      height: 25px;
+      width: 25px;
+      display: flex;
+      margin: 0 3px;
+      justify-content: center;
+      align-items: center;
+      > a {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        font-size: 11px;
+      }
+      &.previous,
+      &.next {
+        border-radius: 4px;
+        background: var(--mainbl);
+        color: #fff;
+        margin: 0 5px;
+      }
+      &.active {
+        background: var(--palebl);
+        font-weight: 600;
+      }
+    }
+  }
+  @media (max-width: 768px) {
+    margin-top: 30px;
+    display: none;
+    &.always {
+      display: flex;
+    }
   }
 `;

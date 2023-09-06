@@ -4,7 +4,7 @@ import Snack1 from "../../common/image/snacks1.webp";
 export const TopContainer = styled.div`
   position: relative;  
   width: 100vw;
-  height: 400px;
+  height: 25rem;
   background-image: url(${Snack1});
   background-size: cover;
   background-position: 25% 60%;

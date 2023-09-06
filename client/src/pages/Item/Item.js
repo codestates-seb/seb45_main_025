@@ -21,6 +21,7 @@ import { useSnackItemStore } from "../../stores/SnackItemStore";
 
 
 const Item = () => {
+    const URI = process.env.REACT_APP_API_URL;
     const [curTab, setCurTab] = useState(0);
     const [like, setLike] = useState(false);
     const { userInfo } = useUserInfoStore(state => state);
@@ -45,7 +46,7 @@ const Item = () => {
             snackId,
         };
         axios
-          .post(`${process.env.REACT_APP_API_URL}/products/like`, postData)
+          .post(`${URI}/products/like`, postData)
           .then(res => console.log(res))
           .catch(err => console.log(err));
     };
@@ -56,7 +57,7 @@ const Item = () => {
 
     useEffect(() => {
         axios
-          .get(`${process.env.REACT_APP_API_URL}//products/${productpId}`)
+          .get(`${URI}//products/get/${productId}`)
           .then(res => {
             setSnackItem(res.data);
           })
@@ -72,7 +73,7 @@ const Item = () => {
                 snackId,
             };
             axios
-              .post(`${process.env.REACT_APP_API_URL}/products/like/check`, postData, {
+              .post(`${process.env.REACT_APP_API_URL}/products/product/${productId}/like`, postData, {
                 headers: {
                     withCredentials: true,
                 },

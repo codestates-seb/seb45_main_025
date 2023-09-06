@@ -6,7 +6,7 @@ export const useSearchTextStore = create(set => ({
 }));
 
 export const useSearchSelectedStore = create(set => ({
-    searchSelected: 'name',
+    searchSelected: 'search',
     setSearchSelected: state => set(() => ({ searchSelected: state })),
 }));
 
