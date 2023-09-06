@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/cart")
@@ -35,7 +36,7 @@ public class CartController {
     }
 
     @PostMapping("/add/{productId}")
-    public ResponseEntity<String> addToCart(@PathVariable("productId") Long productId,
+    public ResponseEntity<Object> addToCart(@PathVariable("productId") Long productId,
                                             @RequestParam Integer quantity,
                                             @RequestHeader("Authorization") String authorizationHeader) {
         // 토큰 처리 및 사용자 인증 로직
@@ -57,11 +58,22 @@ public class CartController {
         if (isAdmin) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("관리자는 장바구니에 상품을 추가할 수 없습니다.");
         }
+
         // 일반 사용자는 장바구니에 상품을 추가
         String username = authentication.getName();
         cartService.addToCart(username, productId, quantity);
 
-        return ResponseEntity.ok("상품을 장바구니에 추가했습니다.");
+        List<CartItem> updatedCartItems = cartService.getCartItemsByUsername(username);
+        if (updatedCartItems.isEmpty()) {
+            // 장바구니가 비어 있는 경우
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("장바구니가 비어 있습니다.");
+        } else {
+            // 장바구니에 남아 있는 경우
+            List<CartItemResponseDTO> cartItemDTOs = updatedCartItems.stream()
+                    .map(CartItemResponseDTO::new)
+                    .collect(Collectors.toList());
+            return ResponseEntity.ok(cartItemDTOs);
+        }
     }
     @GetMapping("/list")
     public ResponseEntity<List<CartItemResponseDTO>> getCartList(@RequestHeader("Authorization") String authorizationHeader) {
@@ -100,9 +112,10 @@ public class CartController {
 
         return ResponseEntity.ok("장바구니 상품 수량을 수정했습니다.");
     }
-    @DeleteMapping("/remove/{productId}")
-    public ResponseEntity<String> removeFromCart(@PathVariable("productId") Long productId,
-                                                 @RequestHeader("Authorization") String authorizationHeader) {
+    @DeleteMapping("/remove-multiple")
+    public ResponseEntity<Object> removeCartItems(@RequestParam List<Long> productIds,
+                                                  @RequestHeader("Authorization") String authorizationHeader
+    ) {
         // 토큰 처리 및 사용자 인증 로직
         Jws<Claims> claims = tokenService.checkAccessToken(authorizationHeader);
         String email = claims.getBody().getSubject();
@@ -119,9 +132,42 @@ public class CartController {
 
         String username = authentication.getName();
 
-        // 장바구니에서 상품을 삭제
-        cartService.removeFromCart(username, productId);
+        // 장바구니에서 선택한 상품들을 한 번에 제거
+        cartService.removeCartItems(username, productIds);
 
-        return ResponseEntity.ok("장바구니 상품을 삭제했습니다.");
+        List<CartItem> updatedCartItems = cartService.getCartItemsByUsername(username);
+        if (updatedCartItems.isEmpty()) {
+            // 장바구니가 비어 있는 경우
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("장바구니가 비어 있습니다.");
+        } else {
+            // 장바구니에 남아 있는 경우
+            List<CartItemResponseDTO> cartItemDTOs = updatedCartItems.stream()
+                    .map(CartItemResponseDTO::new)
+                    .collect(Collectors.toList());
+            return ResponseEntity.ok(cartItemDTOs);
+        }
+    }
+    @DeleteMapping("/clear")
+    public ResponseEntity<Void> clearCart(@RequestHeader("Authorization") String authorizationHeader) {
+        // 토큰 처리 및 사용자 인증 로직
+        Jws<Claims> claims = tokenService.checkAccessToken(authorizationHeader);
+        String email = claims.getBody().getSubject();
+        Member member = memberService.findMemberByEmail(email);
+        if (member == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null); // 상태 코드만 반환
+        }
+        Authentication authentication = new UsernamePasswordAuthenticationToken(
+                member.getEmail(),
+                null,
+                AuthorityUtils.createAuthorityList("ROLE_USER")
+        );
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        String username = authentication.getName();
+
+        // 장바구니 비우기
+        cartService.clearCart(username);
+
+        return ResponseEntity.noContent().build(); // 응답 본문 없이 204 No Content 반환
     }
 }
