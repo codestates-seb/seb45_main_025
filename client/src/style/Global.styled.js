@@ -18,7 +18,7 @@ export const BaseWrap = styled.div`
 
 export const GlobalStyle = createGlobalStyle`
  :root {
-    --main-width: 1920px;
+    --main-width: 1024px;
     --brown-50: #2b2821;
     --brown-10: #bd8961;
     --brown-20: #ab7952;
@@ -42,6 +42,7 @@ export const GlobalStyle = createGlobalStyle`
       text-decoration: none;
       color: var(--black);
       transition: 0.3s ease all;
+      font-size: 16px;
     }
 
   body {

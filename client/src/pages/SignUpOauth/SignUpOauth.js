@@ -5,15 +5,28 @@ import {SignUpOauthContainer,SignUpMain,
 import { useState } from "react";
 import BackgroundImage from '../../components/BackgroundImage/BackgroundImage';
 import  potatochip  from '../../common/image/potatochip.jpeg';
+import axios from 'axios';
 
 export default function SignUpOauth(){
   const [name, setName] = useState('');
   const [gender, setGender] = useState('');
   const [birth, setBirth] = useState('');
-  const [adress, setAdress] = useState('');
+  const [address, setAddress] = useState('');
   const [phoneNumber, setphoneNumber] = useState('');
   function submitsignup(){
-    console.log(name,gender,birth,adress,phoneNumber)
+    axios.patch(`/users/oauth/google/signup`,{
+        "address" : address,
+        "phoneNumber": phoneNumber,
+        "gender" : gender,
+        "name" : name,
+        "birth" : birth })
+    .then((res)=>{
+      console.log(res);
+    })
+    .catch((res)=>{
+      console.log(res);
+    })
+    console.log(name,gender,birth,address,phoneNumber)
   }
 
   return (
@@ -46,7 +59,7 @@ export default function SignUpOauth(){
           </DateOfBirth>
           <SignUpHomeAdress>
             <div>Home Adress</div>
-            <input onChange={(e)=>setAdress(e.target.value)}></input>
+            <input onChange={(e)=>setAddress(e.target.value)}></input>
           </SignUpHomeAdress>
           <SignUpPhoneNumber>
             <div>Tel</div>

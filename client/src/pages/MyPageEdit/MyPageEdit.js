@@ -2,7 +2,9 @@ import {MyPageEditContainer,
    MyPageEditMain, MyPageEditImg,DeleteAccountBtn,
     MyPageEditName, MyPageEditNickName,MyPageGender,
     MyPageDateOfBirth,MyPageHomeAdress,
-    MyPagePhoneNumber,MyPageEmail,MyPageSubmit
+    MyPagePhoneNumber,MyPageEmail
+    ,MyPagePassword,MyPagePassWordDoubleCheck
+    ,MyPageSubmit
   } from './MyPageEdit.styled';
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
@@ -10,6 +12,7 @@ import basicimg from '../../common/image/basicimg.png';
 import trashcan from '../../common/image/trashcan.png';
 import BackgroundImage from '../../components/BackgroundImage/BackgroundImage';
 import  chococookie  from '../../common/image/darkcookies.jpg';
+import axios from 'axios';
 
 export default function MyPageEdit(){
   const [myImg, setMyImg] = useState(null);
@@ -21,6 +24,10 @@ export default function MyPageEdit(){
   const [phoneNumber, setphoneNumber] = useState('');
   const [emailFront, setEmailFront] = useState('');
   const [emailBack, setEmailBack] = useState('');
+  const [passWord, setPassWord] = useState('');
+  const [passWordCheck, setpassWordCheck] = useState(false);
+  const [passWordDoubleCheck, setPassWordDoubleCheck] = useState('');
+  const passwordform = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
   const [wrong, setWrong] = useState('');
   const navigate = useNavigate();
 
@@ -37,10 +44,15 @@ export default function MyPageEdit(){
   }
 
   function deleteaccount(){
-    
     const del = confirm('계정을 삭제하시겠습니까?');
     if (del){
       console.log("계정 삭제")
+      axios.delete('/memver/withdrawl')
+      .then((res)=>{
+        console.log(res);
+
+      })
+      .catch((res)=>console.log(res))
       navigate('/')
     }else{
       console.log('계정 삭제 취소')
@@ -60,9 +72,18 @@ export default function MyPageEdit(){
       setWrong("'Home Adress' is Empty");
     }else if(phoneNumber === ''){
       setWrong("'Tel' is Empty");
+    }else if(passWordCheck === false || passWord !== passWordDoubleCheck){
+      setWrong("Check your 'PassWord'");
+    }else{
+      axios.patch('/users',{
+        
+      },{ headers: {Authorization: localStorage.getItem('access_token')} })
+      .then((res)=>console.log(res))
+      .catch((res)=>console.log(res))
     }
     console.log(name,nickName,gender,birth,adress,phoneNumber,emailFront)
   }
+  
   return (
     <MyPageEditContainer>
       <BackgroundImage imgSrc={chococookie} title='MY PAGE'/>
@@ -92,11 +113,11 @@ export default function MyPageEdit(){
             <fieldset>
               <div>
                 <input type='radio' value='male' id='male' name='gender' onClick={(e)=>setGender(e.target.value)}></input>
-                <label htmlFor="male" >Male</label>
+                <label htmlFor="male" > Male</label>
               </div>
               <div>
                 <input type='radio' value='female' id='female' name='gender' onClick={(e)=>setGender(e.target.value)}></input>
-                <label htmlFor="female">Female</label>
+                <label htmlFor="female"> Female</label>
               </div>
             </fieldset>
           </MyPageGender>
@@ -125,6 +146,22 @@ export default function MyPageEdit(){
               <option>icloud.com</option>
             </select>
           </MyPageEmail>
+          <MyPagePassword>
+            <div className='password_input'>
+              <div className='passworddiv'>Password</div>
+              <input type='password' onChange={(e)=>{
+                setPassWord(e.target.value)
+                setpassWordCheck(passwordform.test(e.target.value));
+                console.log(passWordCheck,passWord,e.target.value)
+                }}></input>
+            </div>
+            <div className='passwordcheck'>{passWordCheck ? '✅ valid password' : '❌ The password must be at least 8 characters and include English, numbers, and special characters.'}</div>
+          </MyPagePassword>
+          <MyPagePassWordDoubleCheck>
+            <div>confirm password</div>
+            <input type='password' onChange={(e)=>(setPassWordDoubleCheck(e.target.value))}></input>
+            <div className='passworddoublecheck'>{passWordDoubleCheck === passWord ? '✅ Your password matches' : '❌ Passwords do not match'}</div>
+          </MyPagePassWordDoubleCheck>
         </div>
         <div className='what_wrong'>{wrong}</div>
         <MyPageSubmit onClick={submitsignup}>Save change</MyPageSubmit>
