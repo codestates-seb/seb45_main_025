@@ -65,6 +65,19 @@ public class MemberController {
         return new ResponseEntity<>(
                 new SingleResponseDto<>(response), HttpStatus.OK);
     }
+    @PatchMapping("/nickname")
+    public ResponseEntity updateMemberNickname(HttpServletRequest request,
+                                               @Valid @RequestBody MemberDto.PatchDto patchDto){
+        Member findMember = memberService.getMemberWithAccessToken(request);
+        log.info(findMember.getUserId().toString());
+        Member forUpdateMember = membermapper.memberPathchDtoToMember(patchDto);
+        Member updatedMember = memberService.updateMember(findMember,forUpdateMember);
+        MemberDto.ResponseDto response = membermapper.memberToResponse(updatedMember);
+
+        return new ResponseEntity<>(
+                new SingleResponseDto<>(response), HttpStatus.OK);
+
+    }
     @PostMapping("/logout")
     public ResponseEntity logout(HttpServletRequest request) {
         String authorizationHeader = request.getHeader("Authorization");
