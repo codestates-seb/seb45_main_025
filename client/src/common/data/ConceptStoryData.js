@@ -13,7 +13,7 @@ export const conceptStoryData = [
     title: "명장의 땀",
     tags: ["노력"],
     description: "명장은 땀으로 말한다.",
-    image: require('../image/candy-bottle.png'),
+    image: require('../image/jelly-bottle.png'),
   }, {
     title: "명장의 주름",
     tags: ["세월", "깊이", "고객", "1000년의 약속"],
