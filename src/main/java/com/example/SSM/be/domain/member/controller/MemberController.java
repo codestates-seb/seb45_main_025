@@ -38,7 +38,8 @@ public class MemberController {
     @PostMapping("/signup")
     public ResponseEntity postMember(@Valid @RequestBody MemberDto.PostDto postDto) {
         if (memberService.validatePassword(postDto.getPassword(),postDto.getConformPassword())) {
-            return new ResponseEntity("비밀번호와 비밀번호 확인이 서로 맞지 않습니다", HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>(
+                    new SingleResponseDto<>("비밀번호와 비밀번호 확인이 서로 맞지 않습니다"), HttpStatus.FORBIDDEN);
         }
         Member member = membermapper.memberPostDtoToMember(postDto);
         Member saveMember = memberService.createMember(member);
