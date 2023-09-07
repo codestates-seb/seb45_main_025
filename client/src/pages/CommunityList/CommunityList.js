@@ -13,8 +13,8 @@ function CommunityList() {
   };
 
   const mockData = Array.from({ length: totalItems }, (_, index) => `Item ${index + 1}`);
-  const escapedSearchTerm = searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  const searchTermRegex = new RegExp(escapedSearchTerm, 'i');
+  const escapedSearchTerm = searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); //특수기호 처리
+  const searchTermRegex = new RegExp(escapedSearchTerm, 'i'); //대소문자 구분x
   const filteredItems = mockData.filter(item => searchTermRegex.test(item));
 
   const totalFilteredItems = filteredItems.length;
@@ -47,7 +47,7 @@ function CommunityList() {
           fontWeight: 'bold',
           paddingBottom: '40px',
           paddingTop: '35px',
-          fontSize: '30px'
+          fontSize: '2.5rem'
         }}
       >
         Community
