@@ -100,6 +100,7 @@ public class MemberService {
     }
     public Member getMemberWithAccessToken(HttpServletRequest request) {
         String authorizationHeader = request.getHeader("Authorization");
+        log.info(authorizationHeader);
         Jws<Claims> claims = tokenService.checkAccessToken(authorizationHeader);
         return findVerifiedMemberWithClaims(claims);
     }
