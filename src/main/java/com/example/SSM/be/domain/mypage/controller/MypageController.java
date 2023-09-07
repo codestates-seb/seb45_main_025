@@ -13,6 +13,7 @@ import com.example.SSM.be.domain.security.token.service.TokenService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.coyote.http2.HpackDecoder;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -28,6 +29,7 @@ import java.util.List;
 @RequestMapping("/mypage")
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 public class MypageController {
 
     private final TokenService tokenService;
@@ -35,6 +37,7 @@ public class MypageController {
     private final MypageService mypageService;
     private final MypageMapper mypageMapper;
     //마이페이지 읽어오기
+
     @GetMapping
     @Transactional
     private ResponseEntity getMyInfo(@RequestHeader("Authorization") String authorizationHeader){
