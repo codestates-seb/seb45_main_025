@@ -10,14 +10,19 @@ export const CartListContainer = styled.div`
     display: flex;
     justify-content: flex-end;
     align-items: flex-end;
-    padding: 1.3rem 5rem;
-    font-size: 23px;
-    color: var(--brown-50);
+    padding: 1.3rem 6% 1.3rem 5rem;
+    font-size: 24px;
+    color: var(--brown-10);
     font-weight: 600;
   }
 
   .subtotal-price span {
-    font-weight: 400;
+    /* color: var(--brown-10); */
+    font-weight: 200;
+    padding-right: 8px;
+    padding-bottom: 3px;
+    font-size: 18px;
+    color: var(--gray-90);
   }
 `;
 
@@ -33,6 +38,7 @@ export const CartTable = styled.div`
   thead, tbody {
     width: 100%;
     flex-grow: 1;
+    font-size: 16px;
   }
 
   tr {
@@ -50,15 +56,19 @@ export const CartTable = styled.div`
     width: 18%;
     border-bottom: 1px solid #ddd;
     flex-grow: 1;
+    font-weight: 200;
   }
 
   th {
     border-bottom: 1px solid var(--brown-10);
+    color: var(--gray-90);
+    font-weight: 500;
+    font-size: 1rem;
   }
 
   img {
-    max-width: 80px;
-    max-height: 90px;
+    max-width: 20%;
+    height: 70px;
     margin: 0 1rem;
   }
 
@@ -67,7 +77,8 @@ export const CartTable = styled.div`
   }
 
   th:nth-child(2), td:nth-child(2) {
-    width: 35%;
+    width: 30%;
+    padding-left: 3rem;
   }
 
   .name {
@@ -78,6 +89,21 @@ export const CartTable = styled.div`
     height: 30vh;
     font-size: 26px;
     font-weight: 600;
+  }
+
+  .checkbox-container {
+    padding: 15px;
+  }
+
+  input[type=checkbox] {
+    cursor: pointer;
+    accent-color: #a1856f;
+  }
+
+  a {
+    width: 100%;
+    display: flex;
+    align-items: center;
   }
 `;
 
@@ -97,14 +123,19 @@ export const ButtonsContainer = styled.div`
     font-size: 14px;
     font-weight: 200;
     margin: 1.5rem 0.3rem;
+  }
 
-    &:hover {
-      background-color: #f9f9f9;
-      box-shadow: 4px 4px 4px #ddd;
-    }
+  button:disabled {
+    color: #ddd;
+    cursor: default;
+  }
 
-    &:active {
-      box-shadow: inset 4px 4px 4px #ddd;
-    }
+  button:not(:disabled):hover {
+    background-color: #f9f9f9;
+    box-shadow: 4px 4px 4px #ddd;
+  }
+
+  button:not(:disabled):active {
+    box-shadow: inset 4px 4px 4px #ddd;
   }
 `

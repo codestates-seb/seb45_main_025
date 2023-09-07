@@ -1,21 +1,7 @@
 import {styled} from 'styled-components';
 
 export const MyPageEditContainer = styled.div`
-  height: 120vh;
-`
-
-export const MyPageEditTop = styled.div`
-  height: 30vh;
-  width: 100vw;
-  background-color: lightgray;
-
-  > h1{
-    text-align: center;
-    display: block;
-    font-size: 40px;
-    color: white;
-    padding-top: 50px;
-  }
+  height: 1800px;
 `
 
 export const MyPageEditMain = styled.div`
@@ -23,42 +9,59 @@ export const MyPageEditMain = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 5rem 0;
   .mypageeditetc{
     flex-direction: column;
     width: 60vw;
     margin-top: 5vh;
     > div{
-      margin-bottom: 30px;
+      margin-bottom: 1.7rem;
     }
   }
 `
 
 export const MyPageEditImg = styled.div`
-  margin-top: 30px;
   position: relative;
   .myimg{
     border-radius: 100%;
-    width: 100px;
-    height: 100px;
+    width: 6rem;
+    height: 6rem;
   }
   #upload{
     display: none;
   }
   .btn-upload{
-
+    border: 1px solid var(--gray-10);
+    border-radius: 5px;
+    padding: 0.3rem;
+    font-size: 0.8rem;
+    text-align: center;
+    cursor: pointer;
+    &:hover{
+      background-color: var(--gray-10);;
+    }
   }
+  
 `
 
 export const DeleteAccountBtn = styled.button`
   margin-left: 50vw;
-  border: 0.3px solid black;
-  padding: 5px;
+  border: 1px solid var(--gray-10);
+  border-radius: 5px;
+  padding: 0.3rem;
   display: flex;
   flex-direction: row;
+  align-items: center;
   margin-bottom: 30px;
   > img{
-    width: 25px;
+    width: 1.2rem;
   }
+  > p{
+    font-size: 0.8rem;
+  }
+  &:hover{
+      background-color: var(--gray-10);;
+    }
 `
 
 export const MyPageEditName = styled.div`
@@ -66,25 +69,30 @@ export const MyPageEditName = styled.div`
   flex-direction: row;
   margin-left: 2vw;
   > div{
-    width: 140px;
-    font-size: large;
-    font-weight: bold;
+    width: 8.5rem;
+    color: var(--gray-90);
+    font-size: 0.9rem;
+    font-weight: 600;
   }
   > input{
-    margin-left: 20px;
+    margin-left: 1rem;
+    height: 1.6rem;
   }
 `
+
 export const MyPageEditNickName = styled.div`
   display: flex;
   flex-direction: row;
   margin-left: 2vw;
   > div{
-    width: 140px;
-    font-size: large;
-    font-weight: bold;
+    width: 8.5rem;
+    color: var(--gray-90);
+    font-size: 0.9rem;
+    font-weight: 600;
   }
   > input{
-    margin-left: 20px;
+    margin-left: 1rem;
+    height: 1.6rem;
   }
 `
 
@@ -93,9 +101,9 @@ export const MyPageGender = styled.div`
   flex-direction: row;
   margin-left: 2vw;
   > div{
-    width: 140px;
-    font-size: large;
-    font-weight: bold;
+    width: 8.5rem;
+    font-size: 0.9rem;
+    font-weight: 600;
   }
   fieldset{
     border: none;
@@ -107,12 +115,14 @@ export const MyPageDateOfBirth = styled.div`
   flex-direction: row;
   margin-left: 2vw;
   > div{
-    width: 140px;
-    font-size: large;
-    font-weight: bold;
+    width: 8.5rem;
+    color: var(--gray-90);
+    font-size: 0.9rem;
+    font-weight: 600;
   }
   > input{
-    margin-left: 20px;
+    margin-left: 1rem;
+    height: 1.6rem;
   }
 `
 export const MyPageHomeAdress = styled.div`
@@ -120,13 +130,14 @@ export const MyPageHomeAdress = styled.div`
   flex-direction: row;
   margin-left: 2vw;
   > div{
-    width: 140px;
-    font-size: large;
-    font-weight: bold;
+    width: 8.5rem;
+    color: var(--gray-90);
+    font-size: 0.9rem;
+    font-weight: 600;
   }
   > input{
-    margin-left: 20px;
-    width: 40vw;
+    margin-left: 1rem;
+    height: 1.6rem;
   }
 `
 
@@ -135,13 +146,14 @@ export const MyPagePhoneNumber = styled.div`
   flex-direction: row;
   margin-left: 2vw;
   > div{
-    width: 140px;
-    font-size: large;
-    font-weight: bold;
+    width: 8.5rem;
+    color: var(--gray-90);
+    font-size: 0.9rem;
+    font-weight: 600;
   }
   > input{
-    margin-left: 20px;
-    width: 15vw;
+    margin-left: 1rem;
+    height: 1.6rem;
   }
 `
 export const MyPageEmail = styled.div`
@@ -149,21 +161,71 @@ export const MyPageEmail = styled.div`
   flex-direction: row;
   margin-left: 2vw;
   > div{
-    width: 140px;
-    font-size: large;
-    font-weight: bold;
+    width: 8.5rem;
+    color: var(--gray-90);
+    font-size: 0.9rem;
+    font-weight: 600;
   }
   .emailfront{
     width: 15vw;
-    margin-left: 20px;
+    margin-left: 1rem;
+    height: 1.6rem;
   }
   .emailback{
     width: 10vw;
+    height: 1.6rem;
+  }
+`
+
+export const MyPagePassword = styled.div`
+  margin-left: 2vw;
+  display: flex;
+  flex-direction: column;
+  .password_input{
+    display: flex;
+    flex-direction: row;
+    height: 1.6rem;
+  }
+  .passworddiv{
+    width: 8.5rem;
+    color: var(--gray-90);
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+  input{
+    margin-left: 1rem;
+  }
+  .passwordcheck{
+    color: gray;
+  }
+`
+
+export const MyPagePassWordDoubleCheck = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-left: 2vw;
+  div:first-child{
+    width: 8.5rem;
+    color: var(--gray-90);
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+  input{
+    margin-left: 1rem;
+    height: 1.6rem;
+  }
+  .passworddoublecheck{
+    color: gray;
+    margin-left: 1rem;
   }
 `
 
 export const MyPageSubmit = styled.button`
   margin-top: 5vh;
-  border: 0.3px solid black;
+  border: 1px solid var(--gray-10);
+  border-radius: 5px;
   padding: 5px;
+  &:hover{
+      background-color: var(--gray-10);;
+    }
 `

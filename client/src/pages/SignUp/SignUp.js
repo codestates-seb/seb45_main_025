@@ -1,5 +1,4 @@
-import { SignUpContainer,
-  SignUpTop, SignUpMain,
+import { SignUpContainer,SignUpMain,
   SignUpName,SignUpNickName,
   SignUpGender, 
   DateOfBirth,SignUpHomeAdress, SignUpPhoneNumber,
@@ -8,6 +7,8 @@ import { SignUpContainer,
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
+import BackgroundImage from '../../components/BackgroundImage/BackgroundImage';
+import  potatochip  from '../../common/image/potatochip.jpeg';
 
 export default function SignUp() {
   const [name, setName] = useState('');
@@ -43,9 +44,10 @@ export default function SignUp() {
     }else if(passWordCheck === false || passWord !== passWordDoubleCheck){
       setWrong("Check your 'PassWord'");
     }else{
-      console.log(name, gender, birth, address,phoneNumber, emailFront, emailBack,passWord,passWordDoubleCheck)
+      console.log(name, gender, birth, address,phoneNumber, emailFront, emailBack,passWord,passWordDoubleCheck,passWordCheck)
       axios.post(`member/sign`,{ 
         "email": emailFront + '@' + emailBack,
+        "phoneNumber": phoneNumber,
         "password": passWord,
         "address" : address,
         "nick" : nickName,
@@ -57,14 +59,14 @@ export default function SignUp() {
         navigate('/')
       })
       .catch(()=>{
-        alert('can not make an account')
+        alert('can not make an account');
       })
     }
   }
   
   return (
     <SignUpContainer>
-      <SignUpTop><h1>Account</h1></SignUpTop>
+      <BackgroundImage imgSrc={potatochip} title='ACCOUNT'/>
       <SignUpMain>
         <h2>Sign Up</h2>
         <h3>2. Enter your information</h3>
@@ -82,11 +84,11 @@ export default function SignUp() {
             <fieldset>
               <div>
                 <input type='radio' value='male' id='male' name='gender' onClick={(e)=>setGender(e.target.value)}></input>
-                <label htmlFor="male" >Male</label>
+                <label htmlFor="male" > Male</label>
               </div>
               <div>
                 <input type='radio' value='female' id='female' name='gender' onClick={(e)=>setGender(e.target.value)}></input>
-                <label htmlFor="female">Female</label>
+                <label htmlFor="female"> Female</label>
               </div>
             </fieldset>
           </SignUpGender>
@@ -119,9 +121,9 @@ export default function SignUp() {
             <div className='password_input'>
               <div className='passworddiv'>Password</div>
               <input type='password' onChange={(e)=>{
-                setPassWord(e.target.value)
+                setPassWord(e.target.value);
                 setpassWordCheck(passwordform.test(e.target.value));
-                console.log(passWordCheck,passWord,e.target.value)
+                console.log(passWordCheck,passWord,e.target.value);
                 }}></input>
             </div>
             <div className='passwordcheck'>{passWordCheck ? '✅ valid password' : '❌ The password must be at least 8 characters and include English, numbers, and special characters.'}</div>

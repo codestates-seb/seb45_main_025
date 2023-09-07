@@ -7,10 +7,11 @@ import Login from './pages/Login/Login';
 import SignUp from './pages/SignUp/SignUp';
 import Cart from './pages/Cart/Cart';
 import Order from './pages/Order/Order';
+import OrderList from './pages/OrderList/OrderList';
 import SignUpSelect from './pages/SignUpSelect/SignUpSelect';
 import MyPage from './pages/MyPage/MyPage';
 import MyPageEdit from './pages/MyPageEdit/MyPageEdit'
-import SignUpOauth from './pages/SignUpOauth/SignUpOatuh'
+import SignUpOauth from './pages/SignUpOauth/SignUpOauth'
 import Products from './pages/Products/Products';
 import List from './pages/List/List';
 import CommunityList from './pages/CommunityList/CommunityList';
@@ -26,6 +27,7 @@ function App() {
         <Route path="/" element={<Main />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/order" element={<Order />} />
+        <Route path="/order-list" element={<OrderList />} />
         <Route path="/signup/select" element={<SignUpSelect />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/mypage/edit" element={<MyPageEdit />} />

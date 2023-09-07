@@ -1,28 +1,16 @@
 import {styled} from 'styled-components';
 
 export const MyPageContainer = styled.div`
-  height: 120vh;
+  height: 1500px;
 `
 
-export const MyPageTop = styled.div`
-  height: 30vh;
-  width: 100vw;
-  background-color: lightgray;
-
-  > h1{
-    text-align: center;
-    display: block;
-    font-size: 40px;
-    color: white;
-    padding-top: 50px;
-  }
-`
 
 export const MyPageMain = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 5rem 0;
   .mypageetc{
     flex-direction: column;
     width: 60vw;
@@ -37,7 +25,6 @@ export const MyPageMain = styled.div`
 `
 
 export const MyPageImg = styled.div`
-margin-top: 30px;
   .myimg{
     border-radius: 100%;
     width: 100px;
@@ -47,61 +34,113 @@ margin-top: 30px;
 
 export const ChangeAccountBtn = styled.button`
   margin-left: 50vw;
-  border: 0.3px solid black;
-  padding: 5px;
+  border: 1px solid var(--gray-10);
+  border-radius: 5px;
+  padding: 0.3rem;
   display: flex;
   flex-direction: row;
-  margin-bottom: 30px;
+  align-items: center;
+  margin-bottom: 2rem;
+  font-size: 0.9rem;
   > img{
-    width: 25px;
+    width: 1.2rem;
   }
+  > p{
+    font-size: 0.8rem;
+  } 
+  &:hover{
+      background-color: var(--gray-10);;
+    }
 `
 
 export const MyPageName = styled.div`
-margin-left: 2vw;
- div:first-child{
-  font-size: large;
-  font-weight: bold;
+  margin-left: 2vw;
+  div:first-child{
+  font-weight: 600;
+  color: var(--gray-50);
+  font-size: 0.9rem;
+  }
+  div:nth-child(2){
+  color: var(--gray-50);
+  margin-left: 0.3rem;
+  font-size: 0.9rem;
  }
 `
 export const MyPageNickName = styled.div`
 margin-left: 2vw;
- div:first-child{
-  font-size: large;
-  font-weight: bold;
+  div:first-child{
+  font-weight: 600;
+  color: var(--gray-50);
+  font-size: 0.9rem;
+  }
+  div:nth-child(2){
+  color: var(--gray-50);
+  margin-left: 0.3rem;
+  font-size: 0.9rem;
  }
 `
 export const MyPageGender = styled.div`
-margin-left: 2vw;
-div:first-child{
-  font-size: large;
-  font-weight: bold;
- }
+  margin-left: 2vw;
+  div:first-child{
+  font-weight: 600;
+  color: var(--gray-50);
+  font-size: 0.9rem;
+  }
+  div:nth-child(2){
+  color: var(--gray-50);
+  margin-left: 0.3rem;
+  font-size: 0.9rem;
+  }
 `
 export const MyPageBirth = styled.div`
 margin-left: 2vw;
 div:first-child{
-  font-size: large;
-  font-weight: bold;
+  font-weight: 600;
+  color: var(--gray-50);
+  font-size: 0.9rem;
+ }
+ div:nth-child(2){
+  color: var(--gray-50);
+  margin-left: 0.3rem;
+  font-size: 0.9rem;
  }
 `
 export const MyPageAddress = styled.div`
-margin-left: 2vw;
-div:first-child{
-  font-size: large;
-  font-weight: bold;
+  margin-left: 2vw;
+  div:first-child{
+  font-weight: 600;
+  color: var(--gray-50);
+  font-size: 0.9rem;
+  }
+  div:nth-child(2){
+  color: var(--gray-50);
+  margin-left: 0.3rem;
+  font-size: 0.9rem;
  }
 `
 export const MyPageTel = styled.div`
-margin-left: 2vw;div:first-child{
-  font-size: large;
-  font-weight: bold;
+  margin-left: 2vw;
+  div:first-child{
+  font-weight: 600;
+  color: var(--gray-50);
+  font-size: 0.9rem;
+  }
+  div:nth-child(2){
+  color: var(--gray-50);
+  margin-left: 0.3rem;
+  font-size: 0.9rem;
  }
 `
 export const MyPageEmail = styled.div`
-margin-left: 2vw;
-div:first-child{
-  font-size: large;
-  font-weight: bold;
- }
+  margin-left: 2vw;
+  div:first-child{
+  font-weight: 600;
+  color: var(--gray-50);
+  font-size: 0.9rem;
+  }
+  div:nth-child(2){
+  color: var(--gray-50);
+  margin-left: 0.3rem;
+  font-size: 0.9rem;
+  }
 `

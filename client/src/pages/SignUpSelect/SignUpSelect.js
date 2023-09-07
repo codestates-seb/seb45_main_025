@@ -1,16 +1,22 @@
-import { SignUpSelectContainer, SignUpSelectTop, SignUpSelectMain } from './SignUpSelect.styled'
-import google from'./google.png';
-import facebook from './facebook.png';
+import { SignUpSelectContainer, SignUpSelectMain } from './SignUpSelect.styled'
+import google from'../../common/image/google.png';
+import facebook from '../../common/image/facebook.png';
 import { Link } from "react-router-dom";
 import axios from 'axios';
+import BackgroundImage from '../../components/BackgroundImage/BackgroundImage';
+import  potatochip  from '../../common/image/potatochip.jpeg';
 
 export default function SignUpSelect(){
   function googlesignup(){
     axios.post(`/oauth2/authorization/google?response_type=code&client_id={}&redirect_uri={}&scope=email+profile`)
+    .then((res)=>{
+      console.log(res)
+    })
+    .catch((res)=>console.log(res))
   }
   return (
     <SignUpSelectContainer>
-      <SignUpSelectTop><h1>Account</h1></SignUpSelectTop>
+      <BackgroundImage imgSrc={potatochip} title='ACCOUNT'/>
       <SignUpSelectMain>
         <h2>Sign Up</h2>
         <h3>1. Choose how to sign up</h3>

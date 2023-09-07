@@ -1,33 +1,35 @@
-import { LoginContainer, LoginTop,LoginMain,LoginFillBox, LoginToLogUp, LoginOauth } from './Login.styled';
-import google from'./google.png';
-import facebook from './facebook.png';
+import { LoginContainer,LoginMain,LoginFillBox, LoginToLogUp, LoginOauth } from './Login.styled';
+import google from '../../common/image/google.png';
+import facebook from '../../common/image/facebook.png';
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import BackgroundImage from '../../components/BackgroundImage/BackgroundImage';
+import  potatochip  from '../../common/image/potatochip.jpeg';
+
 
 export default function Login() {
   const [loginId, setLoginId] = useState('');
   const [passWord, setPassWord] = useState('');
   const navigate = useNavigate();
+  
   function loginsubmit(){
     axios.post(`/member/login`,{
       "email" : loginId, 
       "password" : passWord
       })
     .then((res)=>{
-      const accessToken = res.headers.authorization;
-      localStorage.setItem('access_token', accessToken);
+      console.log(res)
       navigate('/');
     })
     .catch(()=>{
       alert('Login failed')
     })
   }
+
   return (
     <LoginContainer>
-      <LoginTop>
-        <h1>Account</h1>
-      </LoginTop>
+      <BackgroundImage imgSrc={potatochip} title='ACCOUNT'/>
       <LoginMain>
         <h2>Login</h2>
         <div className='login_fillbox_oauth_container'>
@@ -48,7 +50,6 @@ export default function Login() {
           <Link to = '/signup/select'><button className='login_to_signup'>Sign up</button></Link>
         </LoginToLogUp>
       </LoginMain>
-      
     </LoginContainer>
   );
 }

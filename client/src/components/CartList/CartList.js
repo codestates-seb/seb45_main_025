@@ -20,13 +20,10 @@ export default function CartList() {
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.cartItems);
   const selected = useSelector((state) => state.cart.selected);
-  const allSelected = useSelector((state) => state.cart.isAllSelected);
+  const allSelected = useSelector((state) => state.cart.allSelected);
 
   useEffect(() => {
-    if (cartItems.length > 0) {
-      dispatch(setSelected(cartItems.map(item => item.product_id)));
-      dispatch(setAllSelected(true));
-    }
+    dispatch(setAllSelected(cartItems.length === selected.length));
   }, [cartItems]);
 
   console.log(selected);
@@ -47,16 +44,22 @@ export default function CartList() {
     dispatch(setAllSelected(updatedSelected.length === cartItems.length));
   }
 
-  const handleSelectedDelete = () => {
-    const updatedCartItems = cartItems.filter(item => !selected.includes(item.product_id));
-    dispatch(setCartItems(updatedCartItems));
-    window.scroll(0, 480);
+  const handleOrder = (isAll) => {
+    if (isAll) {
+      dispatch(setSelected(cartItems.map(item => item.product_id)));
+    }
+    window.scroll(0, 0);
   }
 
-  const handleAllDelete = () => {
-    dispatch(setCartItems([]));
-    dispatch(setAllSelected(false));
-    window.scroll(0, 480);
+  const handleDelete = (isAll) => {
+    if (isAll) {
+      dispatch(setCartItems([]));
+      dispatch(setSelected([]));
+    } else {
+      dispatch(setCartItems(cartItems.filter(item => !selected.includes(item.product_id))));
+      dispatch(setSelected([]));
+    }
+    window.scroll(0, 320);
   }
 
   return (
@@ -65,11 +68,14 @@ export default function CartList() {
         <thead>
           <tr>
             <th>
-              <input
-                type='checkbox'
-                checked={allSelected && cartItems.length > 0}
-                onClick={handleAllCheckClick}
-                disabled={cartItems.length === 0} />
+              <button
+                className='checkbox-container'
+                onClick={handleAllCheckClick} >
+                <input
+                  type='checkbox'
+                  checked={allSelected && cartItems.length > 0}
+                  disabled={cartItems.length === 0} />
+              </button>
             </th>
             <th>Product Name</th>
             <th>Price</th>
@@ -81,11 +87,28 @@ export default function CartList() {
           {cartItems.length > 0
             ? cartItems.map(item => (
               <tr key={item.product_id}>
-                <td><input type='checkbox' checked={selected.includes(item.product_id)} onClick={() => handleCheckClick(item.product_id)}></input></td>
-                <td className='name'><img src={item.product_img} alt='' />{item.product_name}</td>
-                <td className='price'>{item.product_price.toLocaleString()}</td>
-                <td className='quantity'>{item.quantity}</td>
-                <td className='total-price'>{(Number(item.product_price) * Number(item.quantity)).toLocaleString()}</td>
+                <td>
+                  <button className='checkbox-container' onClick={() => handleCheckClick(item.product_id)}>
+                    <input
+                      type='checkbox'
+                      checked={selected.includes(item.product_id)} />
+                  </button>
+                </td>
+                <td className='name'>
+                  <Link to={`/products/${item.product_id}`}>
+                    <img src={item.product_img} alt='' />
+                    {item.product_name}
+                  </Link>
+                </td>
+                <td className='price'>
+                  {item.product_price.toLocaleString()}
+                </td>
+                <td className='quantity'>
+                  {item.quantity}
+                </td>
+                <td className='total-price'>
+                  {(Number(item.product_price) * Number(item.quantity)).toLocaleString()}
+                </td>
               </tr>
             ))
             : <tr>
@@ -93,7 +116,6 @@ export default function CartList() {
             </tr>}
         </tbody>
       </CartTable>
-
       {cartItems.length > 0
         && <div className='subtotal-price'>
           <span>Subtotal : </span>
@@ -102,24 +124,29 @@ export default function CartList() {
       }
       <ButtonsContainer>
         <Link to='/products'>
-          <button>
-            Keep Shopping
-          </button>
+          <button>Keep Shopping</button>
         </Link>
         <Link to='/order'>
-          <button>
-            Order Selected
-          </button>
+          <button
+            onClick={() => handleOrder(false)}
+            disabled={selected.length === 0}
+          >Order Selected</button>
         </Link>
-        <button onClick={handleSelectedDelete}>
-          Delete Selected
-        </button>
-        <button onClick={handleAllDelete}>
-          Empty Cart
-        </button>
+        <Link to='/order'>
+          <button
+            onClick={() => handleOrder(true)}
+            disabled={cartItems.length === 0}
+          >Order All</button>
+        </Link>
+        <button
+          onClick={() => handleDelete(false)}
+          disabled={selected.length === 0}
+        >Delete Selected</button>
+        <button
+          onClick={() => handleDelete(true)}
+          disabled={cartItems.length === 0}
+        >Empty Cart</button>
       </ButtonsContainer>
-
-
-    </CartListContainer>
+    </CartListContainer >
   )
 }
