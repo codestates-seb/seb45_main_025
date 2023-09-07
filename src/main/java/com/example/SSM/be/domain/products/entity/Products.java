@@ -52,4 +52,7 @@ public class Products {
 
     @Column(name = "modified_at")
     private LocalDateTime modifiedAt;
+
+    @Column(name = "bookmarked")
+    private boolean bookmarked;
 }

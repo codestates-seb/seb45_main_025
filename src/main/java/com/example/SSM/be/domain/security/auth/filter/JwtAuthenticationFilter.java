@@ -18,6 +18,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -86,6 +87,16 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         response.setHeader("Refresh", refreshToken);
         response.setHeader("MemberId", memberId);
 
+        Cookie accessTokenCookie = new Cookie("access_token", accessToken);
+        accessTokenCookie.setHttpOnly(true); // JavaScript로 접근을 막음
+        accessTokenCookie.setSecure(true); // HTTPS 연결에서만 쿠키 사용
+        accessTokenCookie.setMaxAge(3600); // 쿠키 만료 시간 설정 (초 단위)
+        response.addCookie(accessTokenCookie);
+        Cookie refreshTokenCookie = new Cookie("refresh_token", refreshToken);
+        refreshTokenCookie.setHttpOnly(true);
+        refreshTokenCookie.setSecure(true);
+        refreshTokenCookie.setMaxAge(3600);
+        response.addCookie(refreshTokenCookie);
 
         this.getSuccessHandler().onAuthenticationSuccess(request, response, authResult);
     }

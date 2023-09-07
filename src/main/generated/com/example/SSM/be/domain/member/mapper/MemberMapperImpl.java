@@ -3,14 +3,16 @@ package com.example.SSM.be.domain.member.mapper;
 import com.example.SSM.be.domain.member.dto.AuthAdditionalDto;
 import com.example.SSM.be.domain.member.dto.AuthLoginDto;
 import com.example.SSM.be.domain.member.dto.MemberDto.PostDto;
-
+import com.example.SSM.be.domain.member.dto.MemberDto.ResponseDto;
+import com.example.SSM.be.domain.member.dto.MemberDto.ResponseDto.ResponseDtoBuilder;
+import com.example.SSM.be.domain.member.entity.Member;
 import java.time.format.DateTimeFormatter;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-09-05T10:34:52+0900",
+    date = "2023-09-06T11:36:33+0900",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 11.0.20 (Azul Systems, Inc.)"
 )
 @Component
@@ -26,6 +28,7 @@ public class MemberMapperImpl implements MemberMapper {
 
         member.setEmail( postDto.getEmail() );
         member.setName( postDto.getName() );
+        member.setNickName( postDto.getNickName() );
         member.setPassword( postDto.getPassword() );
         member.setGender( postDto.getGender() );
         member.setPhone( postDto.getPhone() );
@@ -47,7 +50,7 @@ public class MemberMapperImpl implements MemberMapper {
 
         member.setImg( authLoginDto.getProfileImg() );
         member.setEmail( authLoginDto.getEmail() );
-        member.setName( authLoginDto.getName() );
+        member.setNickName( authLoginDto.getNickName() );
 
         return member;
     }
@@ -60,6 +63,7 @@ public class MemberMapperImpl implements MemberMapper {
 
         Member member = new Member();
 
+        member.setNickName( authAdditionalDto.getNickName() );
         member.setGender( authAdditionalDto.getGender() );
         member.setPhone( authAdditionalDto.getPhone() );
         if ( authAdditionalDto.getBirth() != null ) {
@@ -68,5 +72,27 @@ public class MemberMapperImpl implements MemberMapper {
         member.setAddress( authAdditionalDto.getAddress() );
 
         return member;
+    }
+
+    @Override
+    public ResponseDto memberToResponse(Member member) {
+        if ( member == null ) {
+            return null;
+        }
+
+        ResponseDtoBuilder responseDto = ResponseDto.builder();
+
+        responseDto.name( member.getName() );
+        responseDto.nickName( member.getNickName() );
+        responseDto.email( member.getEmail() );
+        responseDto.img( member.getImg() );
+        if ( member.getCreatedAt() != null ) {
+            responseDto.createdAt( DateTimeFormatter.ISO_LOCAL_DATE_TIME.format( member.getCreatedAt() ) );
+        }
+        if ( member.getModifiedAt() != null ) {
+            responseDto.modifiedAt( DateTimeFormatter.ISO_LOCAL_DATE_TIME.format( member.getModifiedAt() ) );
+        }
+
+        return responseDto.build();
     }
 }

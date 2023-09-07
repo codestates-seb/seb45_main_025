@@ -1,9 +1,9 @@
-
 name: SEB_45_Team025_MainProject
+
 on:
   push:
-    branches: [ "main" ]
-
+    branches:
+      - main
 
 jobs:
   deploy:
@@ -32,15 +32,15 @@ jobs:
           DOCKER_IMAGE_TAG=$(echo "${{ github.sha }}" | cut -c1-7)
           
           aws ssm send-command \
-            --instance-ids i-0d17096306308a2ea \
+            --instance-ids i-030b4c959a2090555 \
             --document-name "AWS-RunShellScript" \
             --parameters "commands=[
-              'if sudo docker ps -a --format \\'{{.Names}}\\' | grep -q \'^server$\\'; then',
+              'if sudo docker ps -a --format {{.Names}} | grep -q ^server$; then',
               '  sudo docker stop server',
               '  sudo docker rm server',
               'fi',
-              'sudo docker pull yoongunyong/ssm:${DOCKER_IMAGE_TAG}',
-              'sudo docker tag yoongunyong/ssm:${DOCKER_IMAGE_TAG} ssm',
-              'sudo docker run -d --name server -p 8080:8080 ssm'
+              'sudo docker pull rkswlska789/ssm:${DOCKER_IMAGE_TAG}',
+              'sudo docker tag rkswlska789/ssm:${DOCKER_IMAGE_TAG} ssm_025',
+              'sudo docker run -d --name server -p 8080:8080 ssm_025'
             ]" \
             --output text

@@ -14,6 +14,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -33,7 +34,7 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
                                         Authentication authentication)
             throws IOException, ServletException {
         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
-        String name = (String) oAuth2User.getAttributes().get("name");
+        String nickName = (String) oAuth2User.getAttributes().get("name");
         String email = String.valueOf(oAuth2User.getAttributes().get("email"));
         String img = (String) oAuth2User.getAttributes().get("picture");
         String gender = (String) oAuth2User.getAttributes().get("gender");
@@ -42,7 +43,7 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
         String phoneNumber = (String) oAuth2User.getAttribute("phoneNumber");
         List<String> authorities = authorityUtils.createRoles(email);
 
-        Member member = buildOAuth2Member(name,email,img,gender,birthday,homeAddress,phoneNumber);
+        Member member = buildOAuth2Member(nickName,email,img,gender,birthday,homeAddress,phoneNumber);
         if(!memberService.existsByEmail(member.getEmail())) {
             boolean isNewAccount = true;
             // db에 저장
@@ -54,11 +55,11 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
             redirect(request, response, findMember,isNewAccount);
         }
     }
-    private Member buildOAuth2Member(String name, String email,
-                                     String image, String gender,
-                                     String birthday, String homeAddress, String phoneNumber) {
+    private Member buildOAuth2Member(String nickName, String email,
+                                     String image,String gender,
+                                     String birthday,String homeAddress,String phoneNumber) {
         Member member = new Member();
-        member.setName(name);
+        member.setNickName(nickName);
         // 일반 유저와 구분을 위해
         member.setEmail(email+"1");
         member.setImg(image);
@@ -84,6 +85,18 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
         String headerValue = "Bearer " + accessToken;
         response.setHeader("Authorization",headerValue);
         response.setHeader("Refresh",refreshToken);
+
+        // 토큰을 쿠키에 저장
+        Cookie accessTokenCookie = new Cookie("access_token", accessToken);
+        accessTokenCookie.setHttpOnly(true); // JavaScript로 접근을 막음
+        accessTokenCookie.setSecure(true); // HTTPS 연결에서만 쿠키 사용
+        accessTokenCookie.setMaxAge(3600); // 쿠키 만료 시간 설정 (초 단위)
+        response.addCookie(accessTokenCookie);
+        Cookie refreshTokenCookie = new Cookie("refresh_token", refreshToken);
+        refreshTokenCookie.setHttpOnly(true);
+        refreshTokenCookie.setSecure(true);
+        refreshTokenCookie.setMaxAge(3600);
+        response.addCookie(refreshTokenCookie);
 
         getRedirectStrategy().sendRedirect(request,response,uri);
     }

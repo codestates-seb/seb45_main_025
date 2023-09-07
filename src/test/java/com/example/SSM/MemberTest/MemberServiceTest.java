@@ -2,6 +2,7 @@ package com.example.SSM.MemberTest;
 
 
 import com.example.SSM.be.domain.member.dto.MemberDto;
+import com.example.SSM.be.domain.member.entity.Member;
 import com.example.SSM.be.domain.member.mapper.MemberMapper;
 import com.example.SSM.be.domain.member.repository.MemberRepository;
 import com.example.SSM.be.domain.member.service.MemberService;

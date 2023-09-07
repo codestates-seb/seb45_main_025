@@ -68,7 +68,7 @@ public class JwtTokenizer {
 
     // Refresh Token 생성 메서드 : Access Token이 만료되었을 경우, Access Token을 새로 생성하는 토큰
 
-    public String generateRefreshToken(Member member, String subject, Date expiration, String base64EncodedSecretKey) {
+    public String generateRefreshToken(Member member,String subject, Date expiration, String base64EncodedSecretKey) {
 
         Optional<RefreshToken> existingTokenOptional = refreshTokenRepository.findByMember(member);
 

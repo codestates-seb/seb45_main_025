@@ -1,10 +1,7 @@
 package com.example.SSM.be.domain.member.entity;
 
 import com.example.SSM.be.domain.audit.Auditable;
-import com.example.SSM.be.domain.board.entity.Image;
-import com.example.SSM.be.domain.mypage.entity.ProfileImage;
 import com.example.SSM.be.domain.products.entity.Products;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -56,10 +53,6 @@ public class Member extends Auditable {
     private String img;
     @Column
     private Long point = 1000000000L;
-
-    @JsonIgnore
-    @OneToOne(mappedBy = "member", cascade = CascadeType.PERSIST, orphanRemoval = true, fetch = FetchType.LAZY)
-    private ProfileImage image;
 
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();

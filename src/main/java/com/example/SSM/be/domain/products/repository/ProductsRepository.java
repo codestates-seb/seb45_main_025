@@ -15,4 +15,5 @@ public interface ProductsRepository extends JpaRepository<Products, Long> {
     Page<Products> findByCategoryOrderByLikesDescCreatedAtDesc(String category, Pageable pageable);
 
     Page<Products> findAll(Specification<Products> specification, Pageable pageable);
+    List<Products> findByBookmarked(boolean bookmarked);
 }

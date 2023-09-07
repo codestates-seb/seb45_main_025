@@ -1,8 +1,10 @@
 package com.example.SSM.be.domain.products.service;
 
+import com.example.SSM.be.domain.member.entity.Member;
 import com.example.SSM.be.domain.products.dto.ProductsRequestDto;
 import com.example.SSM.be.domain.products.entity.Products;
 import com.example.SSM.be.domain.products.repository.ProductsRepository;
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -121,5 +123,32 @@ public class ProductsService {
     public Page<Products> getProductsByCategoryAndSort(String category, Pageable pageable) {
         return productsRepository.findByCategoryOrderByLikesDescCreatedAtDesc(category, pageable);
     }
+    public Products bookmarkProduct(Long productId, Member user) {
+        Products product = productsRepository.findById(productId)
+                .orElseThrow(() -> new NotFoundException("ID에 해당하는 제품을 찾을 수 없습니다: " + productId));
 
+        // 북마크 상태 설정
+        product.setBookmarked(true);
+
+        // 사용자와 연관된 북마크 업데이트
+        user.getLikedProducts().add(product);
+
+        return productsRepository.save(product);
+    }
+
+    public Products unbookmarkProduct(Long productId, Member user) {
+        Products product = productsRepository.findById(productId)
+                .orElseThrow(() -> new NotFoundException("ID에 해당하는 제품을 찾을 수 없습니다: " + productId));
+
+        // 북마크 상태 취소
+        product.setBookmarked(false);
+
+        // 사용자와 연관된 북마크 업데이트
+        user.getLikedProducts().remove(product);
+
+        return productsRepository.save(product);
+    }
+    public List<Products> getBookmarkedProducts() {
+        return productsRepository.findByBookmarked(true);
+    }
 }

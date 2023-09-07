@@ -1,5 +1,6 @@
 package com.example.SSM.be.domain.products.controller;
 
+import com.example.SSM.be.domain.member.entity.Member;
 import com.example.SSM.be.domain.member.service.MemberService;
 import com.example.SSM.be.domain.products.dto.ProductsRequestDto;
 import com.example.SSM.be.domain.products.dto.ProductsResponseDto;
@@ -20,7 +21,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import com.example.SSM.be.domain.member.entity.Member;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
@@ -210,5 +210,59 @@ public class ProductsController {
                 .collect(Collectors.toList());
 
         return ResponseEntity.ok(responseDtos);
+    }
+    @Transactional
+    @PostMapping("/bookmark/{productId}")
+    public ResponseEntity<String> bookmarkProduct(@PathVariable Long productId,
+                                                  @RequestHeader("Authorization") String authorizationHeader) {
+        // 토큰 처리 및 사용자 인증 로직
+        Jws<Claims> claims = tokenService.checkAccessToken(authorizationHeader);
+        String email = claims.getBody().getSubject();
+        Member currentUser = memberService.findMemberByEmail(email);
+        if (currentUser == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("유효하지 않은 사용자입니다.");
+        }
+
+        // 북마크 상태 설정
+        Products updatedProduct = productsService.bookmarkProduct(productId, currentUser);
+
+        return ResponseEntity.ok("북마크가 추가되었습니다.");
+    }
+
+    @Transactional
+    @PostMapping("/unbookmark/{productId}")
+    public ResponseEntity<String> unbookmarkProduct(@PathVariable Long productId,
+                                                    @RequestHeader("Authorization") String authorizationHeader) {
+        // 토큰 처리 및 사용자 인증 로직
+        Jws<Claims> claims = tokenService.checkAccessToken(authorizationHeader);
+        String email = claims.getBody().getSubject();
+        Member currentUser = memberService.findMemberByEmail(email);
+        if (currentUser == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("유효하지 않은 사용자입니다.");
+        }
+
+        // 북마크 상태 취소
+        Products updatedProduct = productsService.unbookmarkProduct(productId, currentUser);
+
+        return ResponseEntity.ok("북마크가 취소되었습니다.");
+    }
+    @GetMapping("/bookmarked")
+    public ResponseEntity<?> getBookmarkedProducts(@RequestHeader("Authorization") String authorizationHeader) {
+        try {
+            Jws<Claims> claims = tokenService.checkAccessToken(authorizationHeader);
+            String email = claims.getBody().getSubject();
+            Member currentUser = memberService.findMemberByEmail(email);
+            if (currentUser == null) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("유효하지 않은 사용자입니다.");
+            }
+            List<Products> bookmarkedProducts = productsService.getBookmarkedProducts();  // 북마크된 상품 조회 로직을 서비스에 위임
+            List<ProductsResponseDto> responseDtos = bookmarkedProducts.stream()
+                    .map(ProductsResponseDto::new)  // 각 제품을 응답 DTO로 변환
+                    .collect(Collectors.toList());  // DTO들을 리스트로 수집
+            return ResponseEntity.ok(responseDtos);  // 북마크된 상품 리스트 반환
+        } catch (Exception e) {
+            // 예외 발생 시 에러 응답을 반환
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("서버 오류가 발생했습니다.");
+        }
     }
 }
