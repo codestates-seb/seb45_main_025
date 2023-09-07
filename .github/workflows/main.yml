@@ -39,8 +39,8 @@ jobs:
               '  sudo docker stop server',
               '  sudo docker rm server',
               'fi',
-              'sudo docker pull rkswlska789/ssm:${DOCKER_IMAGE_TAG}',
-              'sudo docker tag rkswlska789/ssm:${DOCKER_IMAGE_TAG} ssm_025',
+              'sudo docker pull rkswlska789/ssm:${GITHUB_SHA::7}',
+              'sudo docker tag rkswlska789/ssm:${GITHUB_SHA::7} ssm_025',
               'sudo docker run -d --name server -p 8080:8080 ssm_025'
             ]" \
             --output text
