@@ -4,14 +4,12 @@ package com.example.SSM.be.domain.board.entity;
 import com.example.SSM.be.domain.board.audit.Auditable;
 import com.example.SSM.be.domain.comment.entity.Comment;
 import com.example.SSM.be.domain.member.entity.Member;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PUBLIC)
