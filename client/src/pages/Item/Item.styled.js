@@ -32,7 +32,7 @@ export const ItemTitle = styled.div`
   height: 63px;
   border-bottom: 2px solid grey;
   margin-bottom: 15px;
-  font-size: 40px;
+  font-size: 2rem;
   font-weight: bold;
   > h3 {
     color: black;
@@ -68,13 +68,13 @@ export const ItemOverview = styled.div`
         flex: none;
         width: 80px;
         white-space: nowrap;
-        color: var(--mainbl);
+        color: var(--brown-50);
         &:after {
           content: '';
           position: absolute;
           left: 0;
           top: 2px;
-          background: var(--mainbl);
+          background: var(--brown-20);
           width: 3px;
           height: 20px;
         }
@@ -112,7 +112,7 @@ export const LikeWrap = styled.div`
   margin-bottom: 10px;
   > button {
     font-size: 20px;
-    color: var(--mainbl);
+    color: var(--brown-20);
     position: relative;
     > span {
       position: absolute;
@@ -127,6 +127,6 @@ export const LikeWrap = styled.div`
   }
   > p {
     padding: 3px 0 0 5px;
-    color: var(--mainbl);
+    color: var(--brown-20);
   }
 `;
