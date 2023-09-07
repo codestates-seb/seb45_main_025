@@ -4,6 +4,7 @@ import com.example.SSM.be.domain.board.entity.Board;
 import com.example.SSM.be.domain.comment.dto.CommentDto;
 import com.example.SSM.be.domain.comment.dto.CommentResponseDto;
 import com.example.SSM.be.domain.comment.entity.Comment;
+import com.example.SSM.be.domain.member.entity.Member;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")

@@ -1,5 +1,6 @@
 package com.example.SSM.be.domain.security.auth.handler;
 
+import com.example.SSM.be.domain.member.entity.Member;
 import com.example.SSM.be.domain.member.service.MemberService;
 import com.example.SSM.be.domain.security.auth.utils.CustomAuthorityUtils;
 import com.example.SSM.be.domain.security.token.jwt.JwtTokenizer;
@@ -54,8 +55,8 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
         }
     }
     private Member buildOAuth2Member(String name, String email,
-                                     String image,String gender,
-                                     String birthday,String homeAddress,String phoneNumber) {
+                                     String image, String gender,
+                                     String birthday, String homeAddress, String phoneNumber) {
         Member member = new Member();
         member.setName(name);
         // 일반 유저와 구분을 위해

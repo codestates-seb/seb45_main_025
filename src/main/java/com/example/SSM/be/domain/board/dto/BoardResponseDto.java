@@ -17,6 +17,7 @@ public class BoardResponseDto extends Auditable {
     private long boardId;
     private String title;
     private String content;
+    private String author;
     private long view;
     private int fileAttached;
     private List<String> originalFileName;

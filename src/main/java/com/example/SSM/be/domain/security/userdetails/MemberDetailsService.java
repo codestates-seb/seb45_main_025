@@ -1,5 +1,6 @@
 package com.example.SSM.be.domain.security.userdetails;
 
+import com.example.SSM.be.domain.member.entity.Member;
 import com.example.SSM.be.domain.member.service.MemberService;
 import com.example.SSM.be.domain.security.auth.utils.CustomAuthorityUtils;
 import org.springframework.security.core.GrantedAuthority;

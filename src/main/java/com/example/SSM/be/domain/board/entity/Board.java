@@ -3,6 +3,7 @@ package com.example.SSM.be.domain.board.entity;
 
 import com.example.SSM.be.domain.board.audit.Auditable;
 import com.example.SSM.be.domain.comment.entity.Comment;
+import com.example.SSM.be.domain.member.entity.Member;
 import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;

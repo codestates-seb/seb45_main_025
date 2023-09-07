@@ -10,6 +10,7 @@ import com.example.SSM.be.domain.board.mapper.BoardMapper;
 import com.example.SSM.be.domain.board.repository.BoardRepository;
 
 import com.example.SSM.be.domain.board.repository.ImageRepository;
+import com.example.SSM.be.domain.member.entity.Member;
 import com.example.SSM.be.global.exception.BusinessLogicException;
 import com.example.SSM.be.global.exception.ExceptionCode;
 import lombok.RequiredArgsConstructor;
@@ -145,78 +146,15 @@ public class BoardService {
                 Board board1 = boardRepository.save(board);
                 return board1;
             }
-            // 새 이미지 업로드 및 이미지 엔티티 생성 및 저장
-            // 다른 업데이트 작업 수행 (이미지 외의 다른 필드 업데이트 등)
-
-        } else {//기존 이
+        } else {
             throw new BusinessLogicException(ExceptionCode.NOT_MATCH_USER);
         }
     }
-        /*
-        @Transactional
-public Board updateBoard(Member member, long boardId, BoardPatchDto patchDto) throws IOException {
-    Board existingBoard = findByBoardId(boardId);
 
-    if (member.getEmail().equals(existingBoard.getMember().getEmail())) {
-        // 기존 이미지 삭제
-        if (existingBoard.getImageList() != null) {
-            for (Image image : existingBoard.getImageList()) {
-                // 이미지 파일 경로 생성
-                String existingImagePath = "C:/Users/yoongunyong/Desktop/images/" + image.getSaveFileName();
-
-                try {
-                    // 이미지 파일 삭제
-                    Files.deleteIfExists(Paths.get(existingImagePath));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        // 이미지 엔티티 리스트 초기화
-        existingBoard.getImageList().clear();
-
-        // 새 이미지 업로드 및 이미지 엔티티 생성 및 저장
-        List<Image> newImages = new ArrayList<>();
-        for (MultipartFile imageFile : patchDto.getImage()) {
-            String originFileName = imageFile.getOriginalFilename();
-            String saveFileName = System.currentTimeMillis() + "_" + originFileName;
-            String savePath = "C:/Users/yoongunyong/Desktop/images/" + saveFileName;
-
-            // 새 이미지 파일 저장
-            imageFile.transferTo(new File(savePath));
-
-            // 이미지 엔티티 생성 및 저장
-            Image image = new Image();
-            image.setOriginalFileName(originFileName);
-            image.setSaveFileName(saveFileName);
-            image.setBoard(existingBoard); // 부모 엔티티 설정
-
-            // 이미지를 부모 엔티티의 컬렉션에 추가
-            existingBoard.getImageList().add(image);
-
-            // 이미지 엔티티 저장
-            imageRepository.save(image);
-            newImages.add(image);
-        }
-
-        // 다른 업데이트 작업 수행 (이미지 외의 다른 필드 업데이트 등)
-        Board board = BoardMapper.patchDtoToBoardEntity(member, existingBoard, patchDto);
-        boardRepository.save(board);
-
-        return board;
-    } else {
-        throw new BusinessLogicException(ExceptionCode.NOT_MATCH_USER);
-    }
-}
-
-         */
     //게시글 삭제하기
     public void deleteBoard(Member member, long boardId){
         Board findBoard = verifyBoardExist(boardId);
         if (member.getEmail().equals(findBoard.getMember().getEmail())) {
-//        if(member.getEmail()==findBoard.getMember().getEmail()){
-            //if (member.getEmail().equals(existingBoard.getMember().getEmail())) {
             boardRepository.deleteById(boardId);
         }else{
             throw new BusinessLogicException(ExceptionCode.NOT_MATCH_USER);

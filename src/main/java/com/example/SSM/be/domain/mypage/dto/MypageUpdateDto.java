@@ -8,7 +8,7 @@ import lombok.Setter;
 public class MypageUpdateDto {
 
     private String name;
-    private String nickname;
+    private String nickName;
     private String gender;
     private String birth;
     private String address;

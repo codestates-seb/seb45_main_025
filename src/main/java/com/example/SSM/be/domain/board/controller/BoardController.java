@@ -10,7 +10,7 @@ import com.example.SSM.be.domain.board.mapper.BoardMapper;
 import com.example.SSM.be.domain.board.repository.BoardRepository;
 import com.example.SSM.be.domain.board.service.BoardService;
 import com.example.SSM.be.domain.member.service.MemberService;
-
+import com.example.SSM.be.domain.member.entity.Member;
 import com.example.SSM.be.domain.security.token.service.TokenService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -25,6 +25,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
@@ -44,23 +45,15 @@ public class BoardController {
     private final TokenService tokenService;
     private final MemberService memberService;
 
-//    게시글 생성하기 작동확인
+//    게시글 생성하기
     @PostMapping
 
     public ResponseEntity postBoard(@ModelAttribute BoardPostDto postDto,@RequestHeader("Authorization")String authorizationHeader) throws IOException {
         Jws<Claims> claims = tokenService.checkAccessToken(authorizationHeader);
         String email = claims.getBody().getSubject();
-        Member member = memberService.findMemberByEmail(email);
-        if (member == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("유효하지 않은 사용자입니다.");
-        }
-        Authentication authentication = new UsernamePasswordAuthenticationToken(
-                member.getEmail(),
-                null,
-                AuthorityUtils.createAuthorityList("ROLE_USER")
-        );
-        Member saveMember = boardService.createBoard(member, postDto);
-        return new ResponseEntity(saveMember.getEmail(),HttpStatus.OK);
+        Member findMember = memberService.findMemberByEmail(email);
+        Member saveMember = boardService.createBoard(findMember, postDto);
+        return new ResponseEntity(saveMember.getNickName(),HttpStatus.OK);
     }
     //특정 게시글 상세보기 작동확인
     @GetMapping("/{board_id}")
@@ -97,6 +90,7 @@ public class BoardController {
     //게시글 가져오기 + 게시글 검색기능
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/posts")
+    @Transactional
     public Page<BoardResponseListDto> searchBoard(@RequestParam(required = false,value = "search") String search,
                                                   @RequestParam(defaultValue = "1") int page, @PageableDefault(size = 2, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable){
 
@@ -114,43 +108,25 @@ public class BoardController {
 
         return response;
     }
+    //게시글 업데이트
     @PatchMapping("{board-id}/update")
     public ResponseEntity<String> updateBoard(@PathVariable("board-id")long boardId, @ModelAttribute BoardPatchDto patchDto,
                                               @RequestHeader("Authorization")String authorizationHeader)throws IOException{
 
         Jws<Claims> claims = tokenService.checkAccessToken(authorizationHeader);
         String email = claims.getBody().getSubject();
-        Member member = memberService.findMemberByEmail(email);
-        if (member == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("유효하지 않은 사용자입니다.");
-        }
-        Authentication authentication = new UsernamePasswordAuthenticationToken(
-                member.getEmail(),
-                null,
-                AuthorityUtils.createAuthorityList("ROLE_USER")
-        );
-        Board saveBoard = boardService.updateBoard(member,boardId,patchDto);
-        return new ResponseEntity(saveBoard,HttpStatus.OK);
+        Member findMember = memberService.findMemberByEmail(email);
+        Board saveBoard = boardService.updateBoard(findMember,boardId,patchDto);
+        return new ResponseEntity("게시물이 업데이트 되었습니다.",HttpStatus.OK);
     }
+    //게시글 삭제
     @DeleteMapping("{board-id}/delete")
     public ResponseEntity deleteBoard(@PathVariable("board-id")long boardId, @RequestHeader("Authorization")String authorizationHeader){
         Jws<Claims> claims = tokenService.checkAccessToken(authorizationHeader);
         String email = claims.getBody().getSubject();
-        Member member = memberService.findMemberByEmail(email);
-        if (member == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("유효하지 않은 사용자입니다.");
-        }
-        Authentication authentication = new UsernamePasswordAuthenticationToken(
-                member.getEmail(),
-                null,
-                AuthorityUtils.createAuthorityList("ROLE_USER")
-        );
+        Member findMember = memberService.findMemberByEmail(email);
 
-        boardService.deleteBoard(member, boardId);
-        return new ResponseEntity(HttpStatus.OK);
+        boardService.deleteBoard(findMember, boardId);
+        return new ResponseEntity("게시물이 삭제되었습니다.",HttpStatus.OK);
     }
-
-
-
-
 }

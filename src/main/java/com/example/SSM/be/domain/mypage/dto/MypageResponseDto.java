@@ -1,4 +1,5 @@
 package com.example.SSM.be.domain.mypage.dto;
+import com.example.SSM.be.domain.mypage.entity.ProfileImage;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -6,14 +7,13 @@ import lombok.Setter;
 @Setter
 public class MypageResponseDto {
     private String name;
-    private String nickname;
+    private String nickName;
     private String gender;
     private String birth;
     private String address;
     private String phone;
     private String email;
-    private String img;
-//    private int fileAttached;
-//    private String originalFileName;
-//    private String saveFileName;
+    private ProfileImage image;
+    private String originalFileName;
+    private String saveFileName;
 }

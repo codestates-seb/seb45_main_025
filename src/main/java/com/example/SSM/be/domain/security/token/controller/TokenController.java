@@ -1,5 +1,6 @@
 package com.example.SSM.be.domain.security.token.controller;
 
+import com.example.SSM.be.domain.member.entity.Member;
 import com.example.SSM.be.domain.member.service.MemberService;
 import com.example.SSM.be.domain.security.token.service.TokenService;
 import com.example.SSM.be.global.exception.BusinessLogicException;
