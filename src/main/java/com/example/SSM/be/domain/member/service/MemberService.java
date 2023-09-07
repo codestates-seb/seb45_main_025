@@ -89,8 +89,6 @@ public class MemberService {
         Optional<Member> optionalMember =  memberRepository.findByEmail(email);
         Member findMember = optionalMember.orElseThrow(() ->
                 new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
-
-
         return findMember;
     }
     public Member findVerifiedMember(long memberId) {
@@ -113,6 +111,10 @@ public class MemberService {
         return findMember;
     }
 
+
+    public void saveMember(Member member) {
+        memberRepository.save(member);
+    }
     public String delegateAccessToken(Member member) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("memberId", member.getUserId());
@@ -126,7 +128,6 @@ public class MemberService {
 
         return accessToken;
     }
-
     public String delegateRefreshToken(Member member) {
         String subject = member.getEmail();
         Date expiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getRefreshTokenExpirationMinutes());
@@ -135,15 +136,18 @@ public class MemberService {
         String refreshToken = jwtTokenizer.generateRefreshToken(member,subject, expiration, base64EncodedSecretKey);
         return refreshToken;
     }
+
+    public Member updateMember(Member findMember,Member forUpdateMember) {
+        findMember.setNickName(forUpdateMember.getNickName());
+        return memberRepository.save(findMember);
+    }
+
     public void deleteMember(Long UserId, Long MemberId) {
         // 사용자가 있는지 확인
         Member member =findVerifiedMember(UserId);
         if(member.getUserId() != MemberId)
             throw new BusinessLogicException(ExceptionCode.DIFFERENT_MEMBER);
         memberRepository.delete(member);
-    }
-    public void saveMember(Member member) {
-        memberRepository.save(member);
     }
 }
 
