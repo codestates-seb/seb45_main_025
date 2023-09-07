@@ -17,7 +17,7 @@ export const BaseWrap = styled.div`
 `;
 
 export const GlobalStyle = createGlobalStyle`
- :root {
+  :root {
     --main-width: 1024px;
     --brown-50: #2b2821;
     --brown-10: #bd8961;

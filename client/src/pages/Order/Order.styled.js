@@ -21,7 +21,7 @@ export const OrderContainer = styled.div`
     color: var(--gray-90);
     font-weight: 900;
     letter-spacing: 5px;
-    font-size: 40px;
+    font-size: 2.5rem;
     margin: 2rem 0 3rem 0;
   }
 `;
@@ -68,9 +68,8 @@ export const FormCotents = styled.div`
   flex-direction: column;
 
   div {
-    font-size: 14px;
+    font-size: 1rem;
     color: var(--gray-50);
-    margin: 0.4rem 0;
   }
 
   .info-title {
@@ -78,23 +77,54 @@ export const FormCotents = styled.div`
   }
 
   .info-contents {
-    margin-left: 0.3rem;
+    margin: 0.2rem 0.3rem 0.8rem 0.5rem;
   }
 
   label {
-    font-size: 14px;
+    font-size: 1rem;
     color: var(--gray-50);
     font-weight: 600;
     margin: 0.5rem 0;
   }
 
   input {
-    font-size: 13px;
+    font-size: 0.9rem;
     padding: 0.5rem;
     margin: 0.2rem 0 0.7rem 0.3rem;
     border: 1px solid var(--gray-10);
     border-radius: 5px;
   }
+
+  .order-list {
+    .product-name {
+      display: flex;
+      justify-content: flex-start;
+      font-weight: 600;
+      /* margin-top: 1rem; */
+      font-size: 1rem;
+    } 
+
+    .flex-row {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+
+      div {
+        font-size: 0.9rem;
+        margin: 0 0.3rem;
+      }
+  } 
+  }
+
+  .subtotal-price {
+      margin-top: 0.5rem;
+      border-top: 1px solid var(--gray-10);
+      padding-top: 0.7rem;
+      display: flex;
+      justify-content: flex-end;
+      color: var(--brown-10);
+      font-size: 1rem;
+    }
 `;
 
 export const ButtonContainer = styled.div`

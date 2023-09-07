@@ -1,12 +1,13 @@
-// TODO: quantity +, -버튼으로 수정 가능하게 (1일땐 - 안되게)
-// DONE: 장바구니 리스트 redux로 상태관리하기 (수량, 선택여부도)
-// DONE: 선택 상품 상태관리 추가
-// TODO: 상품 수량, 체크 여부는 클라이언트에서 관리하는지? 
-// 주문할 때랑, 삭제할 때만 API요청해야할듯
-// 수량 변하는 것도 api요청해야될거같기도. 그럼 체크 여부만 클라이언트에서 상태관리하고, 
-// 주문할 때 전달
-// TODO: 각 상품 삭제, 좋아요 버튼 추가 (삭제 버튼 없어도 될거같음)
-import { CartListContainer, CartTable, ButtonsContainer } from './CartList.styled';
+// 장바구니 추가  /cart/add/{{productId}}?quantity=개수
+// 장바구니 조회  /cart/list 
+// 장바구니 수정  /cart/update/{{productId}}?quantity=개수/
+// 장바구니 삭제  /cart/remove/{{productId}}
+import {
+  CartListContainer,
+  CartTable,
+  ButtonsContainer,
+  FlexBox
+} from './CartList.styled';
 import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -15,6 +16,7 @@ import {
   setSelected,
   setAllSelected
 } from '../../redux/actions/cartActions';
+import axios from 'axios';
 
 export default function CartList() {
   const dispatch = useDispatch();
@@ -22,9 +24,20 @@ export default function CartList() {
   const selected = useSelector((state) => state.cart.selected);
   const allSelected = useSelector((state) => state.cart.allSelected);
 
+  const fetchCartItems = () => {
+    axios.get('/cart/list')
+      .then((response) => {
+        dispatch(setCartItems(response.data));
+      })
+      .catch((error) => {
+        console.error('Failed to load cart items: ', error);
+      });
+  }
+
   useEffect(() => {
-    dispatch(setAllSelected(cartItems.length === selected.length));
-  }, [cartItems]);
+    fetchCartItems();
+    // dispatch(setAllSelected(cartItems.length === selected.length));
+  }, [dispatch]);
 
   console.log(selected);
 
@@ -33,33 +46,70 @@ export default function CartList() {
       dispatch(setSelected([]));
       dispatch(setAllSelected(false));
     } else {
-      dispatch(setSelected(cartItems.map(item => item.product_id)));
+      dispatch(setSelected(cartItems.map(item => item.product.id)));
       dispatch(setAllSelected(true));
     }
   };
 
-  const handleCheckClick = (product_id) => {
-    const updatedSelected = (selected.includes(product_id)) ? selected.filter(id => id !== product_id) : [...selected, product_id];
+  const handleQuantityChange = (productId, event) => {
+    console.log(productId, event.target.value);
+
+    axios.patch(`/cart/update/${productId}?quantity=${event.target.value}`)
+      .then((response) => {
+        dispatch(setCartItems(response.data));
+      })
+      .catch((error) => {
+        console.error(`Failed to update item's quantity: `, error);
+      })
+  }
+
+  const handleCheckClick = (productId) => {
+    const updatedSelected = (selected.includes(productId)) ? selected.filter(id => id !== productId) : [...selected, productId];
     dispatch(setSelected(updatedSelected));
     dispatch(setAllSelected(updatedSelected.length === cartItems.length));
   }
 
   const handleOrder = (isAll) => {
     if (isAll) {
-      dispatch(setSelected(cartItems.map(item => item.product_id)));
+      dispatch(setSelected(cartItems.map(item => item.product.id)));
     }
     window.scroll(0, 0);
   }
 
   const handleDelete = (isAll) => {
     if (isAll) {
-      dispatch(setCartItems([]));
-      dispatch(setSelected([]));
+      axios.delete(`/cart/clear`)
+        .then((response) => {
+          if (response.ok) {
+            alert('delete all item success');
+            dispatch(setCartItems(response.data));
+            dispatch(setSelected([]));
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     } else {
-      dispatch(setCartItems(cartItems.filter(item => !selected.includes(item.product_id))));
-      dispatch(setSelected([]));
+      let params = '';
+      for (const id of selected) {
+        params += `productIds=${id}&`;
+      }
+      params = params.slice(0, -1);
+      const apiUrl = `/cart/remove-multiple?${params}`;
+      console.log(apiUrl);
+      axios.delete('/cart/remove-multiple', { data: { selected } })
+        .then((response) => {
+          if (response.ok) {
+            alert('delete selected item success');
+            dispatch(setCartItems(response.data));
+            dispatch(setSelected([]));
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        })
     }
-    window.scroll(0, 320);
+    window.scroll(0, 340);
   }
 
   return (
@@ -86,28 +136,34 @@ export default function CartList() {
         <tbody>
           {cartItems.length > 0
             ? cartItems.map(item => (
-              <tr key={item.product_id}>
+              <tr key={item.product.id}>
                 <td>
-                  <button className='checkbox-container' onClick={() => handleCheckClick(item.product_id)}>
+                  <button className='checkbox-container' onClick={() => handleCheckClick(item.product.id)}>
                     <input
                       type='checkbox'
-                      checked={selected.includes(item.product_id)} />
+                      checked={selected.includes(item.product.id)} />
                   </button>
                 </td>
                 <td className='name'>
-                  <Link to={`/products/${item.product_id}`}>
-                    <img src={item.product_img} alt='' />
-                    {item.product_name}
+                  <Link to={`/products/${item.product.id}`}>
+                    <img src={item.product.img} alt='' />
+                    {item.product.productName}
                   </Link>
                 </td>
                 <td className='price'>
-                  {item.product_price.toLocaleString()}
+                  {item.product.productPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                 </td>
                 <td className='quantity'>
-                  {item.quantity}
+                  <input
+                    type='number'
+                    placeholder={item.quantity}
+                    min='1'
+                    max='99'
+                    onChange={(event) => handleQuantityChange(item.product.id, event)}
+                  />
                 </td>
                 <td className='total-price'>
-                  {(Number(item.product_price) * Number(item.quantity)).toLocaleString()}
+                  {(item.totalPrice).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                 </td>
               </tr>
             ))
@@ -116,37 +172,41 @@ export default function CartList() {
             </tr>}
         </tbody>
       </CartTable>
-      {cartItems.length > 0
-        && <div className='subtotal-price'>
-          <span>Subtotal : </span>
-          $ {cartItems.filter(item => selected.includes(item.product_id)).reduce((total, item) => total + item.product_price * item.quantity, 0).toLocaleString()}
-        </div>
-      }
-      <ButtonsContainer>
-        <Link to='/products'>
-          <button>Keep Shopping</button>
-        </Link>
-        <Link to='/order'>
+      <FlexBox>
+        <ButtonsContainer>
+          <Link to='/products'>
+            <button>Keep Shopping</button>
+          </Link>
+
+          {/* <Link to='/order'>
+            <button
+              onClick={() => handleOrder(true)}
+              disabled={cartItems.length === 0}
+            >Order All</button>
+          </Link> */}
           <button
-            onClick={() => handleOrder(false)}
+            onClick={() => handleDelete(allSelected)}
             disabled={selected.length === 0}
-          >Order Selected</button>
-        </Link>
-        <Link to='/order'>
-          <button
-            onClick={() => handleOrder(true)}
+          >Delete Selected</button>
+          {/* <button
+            onClick={() => handleDelete(allSelected)}
             disabled={cartItems.length === 0}
-          >Order All</button>
-        </Link>
-        <button
-          onClick={() => handleDelete(false)}
-          disabled={selected.length === 0}
-        >Delete Selected</button>
-        <button
-          onClick={() => handleDelete(true)}
-          disabled={cartItems.length === 0}
-        >Empty Cart</button>
-      </ButtonsContainer>
+          >Empty Cart</button> */}
+          <Link to='/order'>
+            <button
+              onClick={() => handleOrder(false)}
+              disabled={selected.length === 0}
+            >Order Selected</button>
+          </Link>
+        </ButtonsContainer>
+        {
+          cartItems.length > 0
+          && <div className='subtotal-price'>
+            <span>Subtotal : </span>
+            $ {cartItems.filter(item => selected.includes(item.product.id)).reduce((total, item) => total + item.totalPrice, 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+          </div>
+        }
+      </FlexBox>
     </CartListContainer >
   )
 }

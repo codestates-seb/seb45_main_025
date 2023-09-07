@@ -10,7 +10,6 @@ export const CartListContainer = styled.div`
     display: flex;
     justify-content: flex-end;
     align-items: flex-end;
-    padding: 1.3rem 6% 1.3rem 5rem;
     font-size: 24px;
     color: var(--brown-10);
     font-weight: 600;
@@ -73,7 +72,7 @@ export const CartTable = styled.div`
   }
 
   th:first-child, td:first-child {
-    width: 5%;
+    width: 1%;
   }
 
   th:nth-child(2), td:nth-child(2) {
@@ -83,6 +82,13 @@ export const CartTable = styled.div`
 
   .name {
     justify-content: flex-start;
+  }
+
+  .quantity {
+    input {
+      width: 3rem;
+      text-align: center;
+    }
   }
 
   .empty {
@@ -122,7 +128,7 @@ export const ButtonsContainer = styled.div`
     padding: 0.5rem 1rem;
     font-size: 14px;
     font-weight: 200;
-    margin: 1.5rem 0.3rem;
+    margin: 0 0.2rem;
   }
 
   button:disabled {
@@ -139,3 +145,12 @@ export const ButtonsContainer = styled.div`
     box-shadow: inset 4px 4px 4px #ddd;
   }
 `
+
+export const FlexBox = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin: 2rem 0.5rem;
+  margin-right: 7%;
+`;

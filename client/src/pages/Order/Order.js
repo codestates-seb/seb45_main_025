@@ -1,7 +1,5 @@
-// TODO: 주문자 정보는 회원 정보 중 이름, 전화번호, 이메일 보여줌
 // TODO: 배송지 정보는 배송지 주소 선택, 추가할 수 있게 + 이름 + 전화번호 + 요청사항
 // TODO: 결제 정보는 포인트로 결제하도록
-// TODO: 주문 상품은 항상 오른쪽에 띄우고 밑에 주문 버튼 넣기
 import {
   OrderPageContainer,
   OrderContainer,
@@ -26,7 +24,7 @@ export default function Order() {
   const scrollY = useSelector((state) => state.scroll.scrollY);
   const cartItems = useSelector((state) => state.cart.cartItems);
   const selectedId = useSelector((state) => state.cart.selected);
-  const selectedItems = cartItems.filter(item => selectedId.includes(item.product_id));
+  const selectedItems = cartItems.filter(item => selectedId.includes(item.product.id));
   const [inputName, setInputName] = useState('');
   const [inputAddress, setInputAddress] = useState('');
   const [inputPhone, setInputPhone] = useState('');
@@ -64,7 +62,7 @@ export default function Order() {
 
   const handleOrder = (event) => {
     if (!isInputValid) {
-      window.scroll(0, 905);
+      window.scroll(0, 940);
     }
     if (!inputName) {
       alert(`Please enter the recipient's name`);
@@ -165,14 +163,27 @@ export default function Order() {
               </FormCotents>
             </FormContainer>
           </LeftBox>
-          <RightBox className={scrollY > 500 ? 'fixed' : 'absolute'}>
+          <RightBox className={scrollY > 520 ? 'fixed' : 'absolute'}>
             <FormContainer>
               <FormTitle>ORDER LIST</FormTitle>
               <FormCotents>
-                {selectedItems.map(item => (
-                  <div key={item.product_id}>
-                    {item.product_name}</div>
+                {selectedItems.map((item) => (
+                  <div key={item.product.id} className='order-list'>
+                    <div className='product-name'>{item.product.productName}</div>
+                    <div
+                      className='flex-row'
+                      key={item.product.id}>
+                      <div className='product-price'>$ {item.product.productPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+                      <div>x</div>
+                      <div className='product-quantity'>{item.quantity}</div>
+                      <div>=</div>
+                      <div className='total-price'>$ {item.totalPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+                    </div>
+                  </div>
                 ))}
+                <div className='subtotal-price'>
+                  $ {selectedItems.reduce((total, item) => total + item.totalPrice, 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                </div>
                 <ButtonContainer>
                   <Link to='/cart'>
                     <button onClick={() => window.scroll(0, 0)}>
