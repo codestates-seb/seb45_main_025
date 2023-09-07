@@ -33,7 +33,7 @@ import Search from "../../components/Search/Search";
 const List = () => {
   const navigate = useNavigate();
   const URI = process.env.REACT_APP_API_URL;
-  const { searchText, setSearchText } = useSearchTextStore(state => state);
+  const { searchText } = useSearchTextStore(state => state);
   const { searchSelected } = useSearchSelectedStore(state => state);
   const { searchIsUpdate, setSearchIsUpdate } = useSearchIsUpdateStore(state => state);
   const { searchApi } = useSearchApiStore(state => state);
