@@ -19,7 +19,6 @@ import Search from '../../components/Search/Search';
 import Review from "../../components/Review/Review";
 import { useSnackItemStore } from "../../stores/SnackItemStore";
 
-
 const Item = () => {
     const URI = process.env.REACT_APP_API_URL;
     const [curTab, setCurTab] = useState(0);
