@@ -128,5 +128,7 @@ public class BoardController {
 
         boardService.deleteBoard(findMember, boardId);
         return new ResponseEntity("게시물이 삭제되었습니다.",HttpStatus.OK);
+
+        //머지해야함
     }
 }
