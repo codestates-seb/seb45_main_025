@@ -11,12 +11,12 @@ import OrderList from './pages/OrderList/OrderList';
 import SignUpSelect from './pages/SignUpSelect/SignUpSelect';
 import MyPage from './pages/MyPage/MyPage';
 import MyPageEdit from './pages/MyPageEdit/MyPageEdit'
-import SignUpOauth from './pages/SignUpOauth/SignUpOatuh'
+import SignUpOauth from './pages/SignUpOauth/SignUpOauth'
 import Products from './pages/Products/Products';
 import List from './pages/List/List';
 import CommunityList from './pages/CommunityList/CommunityList';
 import WritePost from './pages/WritePost/WritePost';
-
+import CommunityBoard from './pages/CommunityBoard/CommunityBoard';
 function App() {
   return (
     <AppContainer>
@@ -36,7 +36,7 @@ function App() {
         <Route path="/list" element={<List />} />
         <Route path='/CommunityList' element={<CommunityList />} />
         <Route path='/WritePost' element={<WritePost />} />
-
+        <Route path='/CommunityBoard' element={<CommunityBoard />} />
 
       </Routes>
       <Footer />

@@ -15,15 +15,15 @@ export const SignUpSelectMain = styled.div`
     color: var(--gray-90);
     font-weight: 900;
     letter-spacing: 5px;
-    font-size: 40px;
+    font-size: 2.5rem;
     margin: 2rem 0 5rem 0;
   }
   h3{
-    font-size: 25px;
+    font-size: 1.5rem;
     margin-right: auto;
     margin-left: 20vw;
     color: var(--gray-90);
-    margin-bottom: 5px;
+    margin-bottom: 0.5rem;
   }
   .signup_select_main_container{
     width: 60vw;
@@ -43,7 +43,8 @@ export const SignUpSelectMain = styled.div`
   .google_signup{
     width: 13vw;
     height: 75px;
-    border: 1px solid var(--brown-10);
+    border: 1px solid var(--gray-10);
+    font-size: 0.8rem;
   }
   .facebook_signup{
     background-color: #485793;
@@ -51,7 +52,8 @@ export const SignUpSelectMain = styled.div`
     margin-top: 10px;
     width: 13vw;
     height: 75px;
-    border: 1px solid var(--brown-10);
+    border: 1px solid var(--gray-10);
+    font-size: 0.8rem;
   }
   img{
     width: 15px;
@@ -59,16 +61,19 @@ export const SignUpSelectMain = styled.div`
   }
   .line{
     border-right: 1px solid var(--gray-10);
-    width: 150px;
+    width: 8vw;
     height: 160px;
   }
   .rightline{
-    width: 150px;
+    width: 8vw;
     height: 160px;
   }
   .sign_up{
     width: 13vw;
     height: 80px;
-    border: 1px solid var(--brown-10);
+    border: 1px solid var(--gray-10);
+    &:hover{
+      background-color: var(--gray-10);;
+    }
   }
 `

@@ -1,4 +1,14 @@
-import styled from "styled-components";
+import styled, { keyframes }from "styled-components";
+import Snack1 from "../../common/image/snacks1.webp";
+
+export const TopContainer = styled.div`
+  position: relative;  
+  width: 100vw;
+  height: 25rem;
+  background-image: url(${Snack1});
+  background-size: cover;
+  background-position: 25% 60%;
+  `;
 
 export const ItemWrap = styled.div`
   display: flex;
@@ -22,7 +32,7 @@ export const ItemTitle = styled.div`
   height: 63px;
   border-bottom: 2px solid grey;
   margin-bottom: 15px;
-  font-size: 40px;
+  font-size: 2rem;
   font-weight: bold;
   > h3 {
     color: black;
@@ -58,13 +68,13 @@ export const ItemOverview = styled.div`
         flex: none;
         width: 80px;
         white-space: nowrap;
-        color: var(--mainbl);
+        color: var(--brown-50);
         &:after {
           content: '';
           position: absolute;
           left: 0;
           top: 2px;
-          background: var(--mainbl);
+          background: var(--brown-20);
           width: 3px;
           height: 20px;
         }
@@ -87,5 +97,36 @@ export const ItemDetail = styled.div`
   @media (max-width: 768px) {
     width: 100%;
     padding-left: 0;
+  }
+`;
+
+export const likeClicked = keyframes`
+  0% {opacity: 1; transform: translateY(0);}
+  100% {opacity: 0; transform: translateY(-20px);}
+`;
+
+export const LikeWrap = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end;
+  margin-bottom: 10px;
+  > button {
+    font-size: 20px;
+    color: var(--brown-20);
+    position: relative;
+    > span {
+      position: absolute;
+      left: 0;
+      top: -10px;
+      font-size: 24px;
+      opacity: 0;
+    }
+    &.liked span {
+      animation: ${likeClicked} 1s forwards;
+    }
+  }
+  > p {
+    padding: 3px 0 0 5px;
+    color: var(--brown-20);
   }
 `;

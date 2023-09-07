@@ -7,6 +7,7 @@ import axios from "axios";
 import BackgroundImage from '../../components/BackgroundImage/BackgroundImage';
 import  potatochip  from '../../common/image/potatochip.jpeg';
 
+
 export default function Login() {
   const [loginId, setLoginId] = useState('');
   const [passWord, setPassWord] = useState('');
@@ -18,8 +19,7 @@ export default function Login() {
       "password" : passWord
       })
     .then((res)=>{
-      const accessToken = res.headers.authorization;
-      localStorage.setItem('access_token', accessToken);
+      console.log(res)
       navigate('/');
     })
     .catch(()=>{

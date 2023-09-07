@@ -10,6 +10,8 @@ import edit from '../../common/image/edit.png';
 import { Link } from "react-router-dom";
 import BackgroundImage from '../../components/BackgroundImage/BackgroundImage';
 import  chococookie  from '../../common/image/darkcookies.jpg';
+import axios from "axios";
+import getAccessToken from '../../common/utils/getToken';
 
 export default function MyPage(){
   const [myImg,  setMyImg] = useState(null);
@@ -31,6 +33,17 @@ export default function MyPage(){
     setphoneNumber('+19797645565');
     setEmailFront('juseongyu56');
     setEmailBack('gmail.com');
+    axios.get('/users',{ headers: {Authorization: getAccessToken()} })
+    .then((res)=>{
+      setName(res.name);
+      setNickName(res.nickname)
+      setGender(res.gender);
+      setBirth(res.birth);
+      setAddress(res.address);
+      setphoneNumber(res.tel);
+      setEmailFront(res.emailfront);
+      setEmailBack(res.emailBack);
+    }).catch((res)=>{console.log(res)})
   });
   return (
     <MyPageContainer>

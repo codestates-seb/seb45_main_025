@@ -42,6 +42,7 @@ export const GlobalStyle = createGlobalStyle`
       text-decoration: none;
       color: var(--black);
       transition: 0.3s ease all;
+      font-size: 16px;
     }
 
   body {
