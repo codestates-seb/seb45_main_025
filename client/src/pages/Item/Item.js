@@ -2,9 +2,9 @@ import { useState, useEffect } from "react";
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { Tab } from "../../style/Global.styled";
-import { BsSuitHeartFill, BsSuitHeart} from 'react-icons/bs';
+import { BsSuitHeartFill, BsSuitHeart } from 'react-icons/bs';
 import { FaRegThumbsUp } from "react-icons/fa";
-import ItemInfo from  "../../components/ItemInfo/ItemInfo";
+import ItemInfo from "../../components/ItemInfo/ItemInfo";
 import { useUserInfoStore } from "../../stores/userInfoStore";
 import {
     ItemWrap,
@@ -29,13 +29,14 @@ const Item = () => {
     const location = useLocation();
     const snackId = location.pathname.split('/')[2];
     const tabArr = ['Information', 'Review'];
+    const productId = 1;
 
     const tabHandler = idx => {
         setCurTab(idx);
     };
 
     const likeHandler = () => {
-        setLike (!like);
+        setLike(!like);
         if (like) {
             setLikeDecrease();
         } else {
@@ -46,9 +47,9 @@ const Item = () => {
             snackId,
         };
         axios
-          .post(`${URI}/products/like`, postData)
-          .then(res => console.log(res))
-          .catch(err => console.log(err));
+            .post(`${URI}/products/like`, postData)
+            .then(res => console.log(res))
+            .catch(err => console.log(err));
     };
 
     const handleImageError = e => {
@@ -57,15 +58,15 @@ const Item = () => {
 
     useEffect(() => {
         axios
-          .get(`${URI}//products/get/${productId}`)
-          .then(res => {
-            setSnackItem(res.data);
-          })
-          .catch(err => {
-            console.log(err);
-          });
+            .get(`${URI}//products/get/${productId}`)
+            .then(res => {
+                setSnackItem(res.data);
+            })
+            .catch(err => {
+                console.log(err);
+            });
 
-          if (sessionStorage.getItem('isLogin')) {
+        if (sessionStorage.getItem('isLogin')) {
             const sessionUserInfo = JSON.parse(sessionStorage.getItem('userInfo'));
             console.log(sessionUserInfo);
             const postData = {
@@ -73,87 +74,87 @@ const Item = () => {
                 snackId,
             };
             axios
-              .post(`${process.env.REACT_APP_API_URL}/products/product/${productId}/like`, postData, {
-                headers: {
-                    withCredentials: true,
-                },
-              })
-              .then(res => {
-                setLike(res.data);
-              })
-              .catch(err => {
-                console.log(err);
-              });
-          }
+                .post(`${process.env.REACT_APP_API_URL}/products/product/${productId}/like`, postData, {
+                    headers: {
+                        withCredentials: true,
+                    },
+                })
+                .then(res => {
+                    setLike(res.data);
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        }
     }, []);
 
     return (
         <>
-          <TopContainer>
-            <div>Product Detail</div>
-          </TopContainer>
-          <div className="bodywrap">
-            <Search />
-            <ItemWrap>
-                <ItemBox>
-                    <ItemTitle>
-                        <LikeWrap>
-                            <button
-                              onClick={likeHandler}
-                              className={like ? 'like-btn liked' : 'like-btn'}
-                              disabled={!sessionStorage.getItem('isLogin')}
-                            >
-                                {like ? <BsSuitHeartFill /> : <BsSuitHeart />}
-                                <span>
-                                    <FaRegThumbsUp />
-                                </span>
-                            </button>
-                            <p>{snackItem.likes}</p>
-                        </LikeWrap>
-                        <h3>{snackItem.productName}</h3>
-                    </ItemTitle>
-                    <ItemOverview>
-                        <img
-                          src={snackItem.img}
-                          alt={snackItem.productName}
-                          onError={handleImageError}
-                        />
-                        <ul>
-                            <li>
-                                <span>Name</span>
-                                <div>{snackItem.productName}</div>
-                            </li>
-                            <li>
-                                <span>Price</span>
-                                <div>{snackItem.productPrice}</div>
-                            </li>
-                            <li>
-                                <span>Content</span>
-                                <div>{snackItem.content}</div>
-                            </li>
-                        </ul>
-                    </ItemOverview>
-                </ItemBox>
+            <TopContainer>
+                <div>Product Detail</div>
+            </TopContainer>
+            <div className="bodywrap">
+                <Search />
+                <ItemWrap>
+                    <ItemBox>
+                        <ItemTitle>
+                            <LikeWrap>
+                                <button
+                                    onClick={likeHandler}
+                                    className={like ? 'like-btn liked' : 'like-btn'}
+                                    disabled={!sessionStorage.getItem('isLogin')}
+                                >
+                                    {like ? <BsSuitHeartFill /> : <BsSuitHeart />}
+                                    <span>
+                                        <FaRegThumbsUp />
+                                    </span>
+                                </button>
+                                <p>{snackItem.likes}</p>
+                            </LikeWrap>
+                            <h3>{snackItem.productName}</h3>
+                        </ItemTitle>
+                        <ItemOverview>
+                            <img
+                                src={snackItem.img}
+                                alt={snackItem.productName}
+                                onError={handleImageError}
+                            />
+                            <ul>
+                                <li>
+                                    <span>Name</span>
+                                    <div>{snackItem.productName}</div>
+                                </li>
+                                <li>
+                                    <span>Price</span>
+                                    <div>{snackItem.productPrice}</div>
+                                </li>
+                                <li>
+                                    <span>Content</span>
+                                    <div>{snackItem.content}</div>
+                                </li>
+                            </ul>
+                        </ItemOverview>
+                    </ItemBox>
 
-                <ItemDetail>
-                    <Tab>
-                        {tabArr.map((item, idx) => (
-                            <li
-                              onClick={() => tabHandler(idx)}
-                              onKeyUp={item.tabHandler}
-                              onKeyDown={item.tabHandler}
-                              key={idx}
-                              className={idx === curTab ? 'active tabmenu' : 'tabmenu'}
-                              role="tab"
-                            >
-                                {item}
-                            </li>
-                        ))}
-                    </Tab>
-                    {curTab === 0 ? <ItemInfo /> : <Review />}
-                </ItemDetail>
-            </ItemWrap>
-          </div>
+                    <ItemDetail>
+                        <Tab>
+                            {tabArr.map((item, idx) => (
+                                <li
+                                    onClick={() => tabHandler(idx)}
+                                    onKeyUp={item.tabHandler}
+                                    onKeyDown={item.tabHandler}
+                                    key={idx}
+                                    className={idx === curTab ? 'active tabmenu' : 'tabmenu'}
+                                    role="tab"
+                                >
+                                    {item}
+                                </li>
+                            ))}
+                        </Tab>
+                        {curTab === 0 ? <ItemInfo /> : <Review />}
+                    </ItemDetail>
+                </ItemWrap>
+            </div>
         </>
     );
 };
