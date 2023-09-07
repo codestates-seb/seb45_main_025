@@ -1,112 +1,8 @@
-// import { useState } from 'react';
-
-// function WritePost() {
-//     const [title, setTitle] = useState("");
-//     const [content, setContent] = useState("");
-//     const [image, setImage] = useState(null);
-
-//     const handleImageChange = (e) => {
-//         const selectedImage = e.target.files[0];
-//         setImage(selectedImage);
-//     };
-//     return (
-//         <div style={{ height: '100vh', backgroundColor: 'white', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-//             <div
-//                 style={{
-//                     height: '2px',
-//                     width: '40px',
-//                     backgroundColor: '#FFA500',
-//                     zIndex: 2,
-//                 }}
-//             ></div>
-//             <div
-//                 style={{
-//                     height: '70px',
-//                     width: '300px',
-//                     backgroundColor: 'white',
-//                     zIndex: 1,
-//                     display: 'flex',
-//                     flexDirection: 'column',
-//                     justifyContent: 'center',
-//                     alignItems: 'center',
-//                     fontWeight: 'bold',
-//                     paddingBottom: '40px',
-//                     paddingTop: '35px',
-//                     fontSize: '30px'
-//                 }}
-//             >
-//                 Community
-//             </div>
-//             <div
-//                 style={{
-//                     height: '2px',
-//                     width: '1000px',
-//                     backgroundColor: '#FFA500',
-//                     zIndex: 2,
-
-//                 }}
-//             ></div>
-//             <div
-//                 style={{
-//                     width: '1000px',
-//                     height: '50px',
-//                     justifyContent: 'center',
-//                     alignItems: 'center',
-//                     backgroundColor: 'white',
-//                     border: '1px solid gray',
-//                     display: 'flex',
-//                 }}
-//             >
-//                 <textarea
-//                     placeholder="제목을 입력하세요."
-//                     value={title}
-//                     onChange={(e) => setTitle(e.target.value)}
-//                     style={{ width: '900px', height: '40px', padding: '5px', resize: 'none' }}
-//                 ></textarea>
-//             </div>
-//             <div
-//                 style={{
-//                     width: '1000px',
-//                     height: '720px',
-//                     justifyContent: 'center',
-//                     alignItems: 'center',
-//                     backgroundColor: 'white',
-//                     display: 'flex',
-//                     flexDirection: 'column',
-//                     border: '1px solid gray',
-//                 }}
-//             >
-//                 <div style={{ marginBottom: '10px', width: '900px', height: '660px' }}>
-//                     <textarea
-//                         placeholder="내용을 입력하세요."
-//                         value={content}
-//                         onChange={(e) => setContent(e.target.value)}
-//                         style={{ width: '100%', height: '100%', padding: '5px', resize: 'none' }}
-//                     ></textarea>
-//                 </div>
-//                 <div style={{ display: 'flex', flexDirection: 'column', paddingLeft: '5px', width: '900px' }}>
-//                     <input
-//                         type="file"
-//                         accept="image/*" // 이미지 파일첨부
-//                         onChange={handleImageChange}
-//                     />
-//                     {image && (
-//                         <img
-//                             src={URL.createObjectURL(image)}
-//                             alt="첨부 이미지"
-//                             style={{ maxWidth: '100%', maxHeight: '200px', marginTop: '10px' }}
-//                         />
-//                     )}
-//                 </div>
-//             </div>
-//         </div>
-//     )
-// }
-// export default WritePost;
 import { useState } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import PropTypes from 'prop-types';
+import axios from 'axios'
 
 const Editor = ({ placeholder, value, onChange }) => {
     const modules = {
@@ -167,18 +63,24 @@ function WritePost() {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
 
-    const handleTitleChange = (newTitle) => {
-        setTitle(newTitle);
-    };
-
     const handleContentChange = (newContent) => {
         setContent(newContent);
     };
-    const handlePublish = () => {
-        console.log('제목:', title);
-        console.log('내용:', content);
-        // 여기서 백엔드로 보내는 코드를 작성
-    }
+    const handlePublish = async () => {
+        try {
+            // 데이터
+            const response = await axios.post('/백엔드 엔드포인트', {
+                title: title,
+                content: content,
+            });
+
+
+            console.log('백엔드 응답:', response.data);
+        } catch (error) {
+            console.error('에러 발생:', error);
+
+        }
+    };
     return (
         <div style={{ height: '100vh', backgroundColor: 'white', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
             <div
@@ -187,6 +89,7 @@ function WritePost() {
                     width: '40px',
                     backgroundColor: '#FFA500',
                     zIndex: 2,
+                    marginTop: '20vh'
                 }}
             ></div>
 
@@ -203,7 +106,7 @@ function WritePost() {
                     fontWeight: 'bold',
                     paddingBottom: '80px',
                     paddingTop: '35px',
-                    fontSize: '30px'
+                    fontSize: '2.5rem'
                 }}
             >
                 Community
@@ -226,15 +129,15 @@ function WritePost() {
                     backgroundColor: 'white',
                     border: '1px solid gray',
                     display: 'flex',
-                    marginBottom: '-1px'
+                    marginBottom: '-2px'
                 }}
             >
                 <input
                     type="text"
                     placeholder="제목을 입력하세요."
                     value={title}
-                    onChange={(e) => handleTitleChange(e.target.value)}
-                    style={{ width: '900px', height: '40px', padding: '5px' }}
+                    onChange={(e) => setTitle(e.target.value)}
+                    style={{ width: '900px', height: '45px', padding: '5px', fontSize: '1.5rem' }}
                 />
             </div>
             <div
@@ -268,10 +171,8 @@ function WritePost() {
             }}>
                 <button
                     style={{
-
-
                         border: '1px solid gray',
-                        padding: '5px 20px 5px 20px'
+                        padding: '5px 20px 5px 20px',
                     }}
                     onClick={handlePublish}
                 >

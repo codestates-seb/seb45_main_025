@@ -15,7 +15,7 @@ import Products from './pages/Products/Products';
 import List from './pages/List/List';
 import CommunityList from './pages/CommunityList/CommunityList';
 import WritePost from './pages/WritePost/WritePost';
-
+import CommunityBoard from './pages/CommunityBoard/CommunityBoard';
 function App() {
   return (
     <AppContainer>
@@ -26,15 +26,15 @@ function App() {
         <Route path="/" element={<Main />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/order" element={<Order />} />
-        <Route path="/signup/select" element ={<SignUpSelect />} />
+        <Route path="/signup/select" element={<SignUpSelect />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/mypage/edit" element={<MyPageEdit />} />
-        <Route path="/signup/oauth" element={<SignUpOauth />}/>
+        <Route path="/signup/oauth" element={<SignUpOauth />} />
         <Route path="/products" element={<Products />} />
         <Route path="/list" element={<List />} />
         <Route path='/CommunityList' element={<CommunityList />} />
         <Route path='/WritePost' element={<WritePost />} />
-
+        <Route path='/CommunityBoard' element={<CommunityBoard />} />
 
       </Routes>
       <Footer />
