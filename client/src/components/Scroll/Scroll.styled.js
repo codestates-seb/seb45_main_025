@@ -4,24 +4,7 @@ export const dots = keyframes`
   0% {transform: translateY(0);}
   50% {transform: translateY(-20px);}
   100% {transform: translateY(0);}
-`;
-
-export const BackgroundImage = styled.div`
-  width: 100vw;
-  height: 25rem;
-  background-size: cover;
-  background-position: center 20%;
-
-  color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 3.5rem;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
-  font-weight: 600;
-  letter-spacing: 3px;
-  padding-top: 3rem;
-`;
+  `;
 
 export const ContentList = styled.div`
   display: flex;
@@ -46,7 +29,7 @@ export const ContentList = styled.div`
         height: 15px;
         border-radius: 50%;
         margin: 0 10px;
-        background: var(--brown-20);
+        background: var(--mainbl);
         animation: ${dots} 1s forwards infinite;
         &:nth-of-type(1) {
         }
@@ -73,7 +56,7 @@ export const ContentBox = styled.div`
   border-radius: 6px;
   padding: 15px;
   height: 250px;
-  background: var(--brown-10);
+  background: var(--bl-1);
   > img {
     width: auto;
     height: 100px;
@@ -118,7 +101,7 @@ export const ContentTit = styled.h3`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  color: var(--brown-20);
+  color: var(--mainbl);
   font-weight: 500;
   @media (max-width: 768px) {
     width: 90%;
@@ -147,7 +130,7 @@ export const LikeCount = styled.div`
   align-items: center;
   right: 10px;
   top: 10px;
-  color: var(--brown-20);
+  color: var(--mainbl);
   > p {
     font-size: 12px;
     padding-top: 3px;
@@ -155,50 +138,5 @@ export const LikeCount = styled.div`
   @media (max-width: 768px) {
     top: 100px;
     right: 7px;
-  }
-`;
-export const Pagination = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 50px;
-  > ul {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    > li {
-      height: 25px;
-      width: 25px;
-      display: flex;
-      margin: 0 3px;
-      justify-content: center;
-      align-items: center;
-      > a {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-        height: 100%;
-        font-size: 11px;
-      }
-      &.previous,
-      &.next {
-        border-radius: 4px;
-        background: var(--brown-20);
-        color: #fff;
-        margin: 0 5px;
-      }
-      &.active {
-        background: var(--brown-50);
-        font-weight: 600;
-      }
-    }
-  }
-  @media (max-width: 768px) {
-    margin-top: 30px;
-    display: none;
-    &.always {
-      display: flex;
-    }
   }
 `;
