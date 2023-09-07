@@ -73,7 +73,7 @@ public class BoardController {
             responseBoardDto = boardService.findById(boardId, isAlreadyViewed); // 조회수 증가
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(new Date());
-            calendar.add(Calendar.MINUTE, 1);
+            calendar.add(Calendar.MINUTE, 30);    //변경해야함
             Date expirationDate = calendar.getTime();
             int maxAgeInSeconds = (int) (expirationDate.getTime() - System.currentTimeMillis()) / 1000;
             // 쿠키 생성 및 설정 (게시글 ID를 쿠키에 저장)
