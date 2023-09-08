@@ -1,50 +1,51 @@
-name: Java CI with Gradle
+name: SEB_45_Team025_MainProject
 
 on:
   push:
-    branches: [ feat/be-directory ]
+    branches:
+      - main
+
+env:
+  TZ: Asia/Seoul  # 서울 시간대로 설정
 
 jobs:
-  CI:
-    env:
-      working-directory: ./ssm
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Set up JDK 11
-        uses: actions/setup-java@v2
-        with:
-          java-version: '11'
-          distribution: 'adopt'
-          cache: gradle
-      - name: Grant execute permission for gradlew
-        run: chmod +x ssm/gradlew
-      - name: Build with Gradle
-        run: |
-          cd ssm
-          sudo ./gradlew build
-      - name: Build Docker Image
-        uses: mr-smithers-excellent/docker-build-push@v5
-        with:
-          image: yoongunyong/ssm
-          tags: latest
-          registry: docker.io
-          username: ${{ DOCKER_HUB_USERNAME }}
-          password: ${{ DOCKER_HUB_PASSWORD }}
-
   deploy:
-    needs: CI
-    name: Deploy
-    runs-on: [ self-hosted ]
+    runs-on: ubuntu-latest
+
     steps:
-      - name: Login to Docker
-        uses: docker/login-action@v1
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
         with:
-          registry: docker.io
-          username: ${{ secrets.DOCKER_HUB_USERNAME }}
-          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
-      - name: Docker run
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+
+      - name: Start Session Manager session
+        run: aws ssm start-session --target i-027d04f3d6691fb34
+
+      - name: Deploy to Server
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ap-northeast-2
         run: |
-          docker stop ssm && docker rm -fv ssm
-          docker rmi -f yoongunyong/ssm
-          docker run -d -p 8080:8080 --name ssm --restart always yoongunyong/ssm:latest
+          DOCKER_IMAGE_TAG=$(echo "${{ github.sha }}" | cut -c1-7)
+          
+          aws ssm send-command \
+            --instance-ids i-027d04f3d6691fb34 \
+            --document-name "AWS-RunShellScript" \
+            --parameters "commands=[
+              'if sudo docker ps -a --format {{.Names}} | grep -q ^server$; then',
+              '  sudo docker stop server',
+              '  sudo docker rm server',
+              'fi',
+              'sudo docker build -t toyp/ssm_025:latset .',
+              'sudo docker push toyp/ssm_025:latest',
+              'sudo docker pull toyp/ssm_025:${DOCKER_IMAGE_TAG}',
+              'sudo docker tag toyp/ssm_025:${DOCKER_IMAGE_TAG} ssm_025',
+              'sudo docker run -d --name server -p 8080:8080 ssm_025'
+            ]" \
+            --output text
