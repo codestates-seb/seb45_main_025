@@ -13,11 +13,11 @@ java {
 }
 
 bootJar {
-	enabled = false
+	enabled = true // Spring Boot 실행 가능한 JAR 생성 비활성화
 }
 
 jar {
-	enabled = true
+	enabled = false // 일반 JAR 생성 활성화
 }
 
 configurations {
