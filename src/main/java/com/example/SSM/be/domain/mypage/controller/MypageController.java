@@ -39,7 +39,7 @@ public class MypageController {
     //마이페이지 읽어오기
 
     @GetMapping
-    private ResponseEntity getMyInfo(@RequestHeader("Authorization") String authorizationHeader){
+    public ResponseEntity getMyInfo(@RequestHeader("Authorization") String authorizationHeader){
         log.info(authorizationHeader);
         Jws<Claims> claims = tokenService.checkAccessToken(authorizationHeader);
         String email = claims.getBody().getSubject();
@@ -49,7 +49,7 @@ public class MypageController {
     }
     //마이페이지 업데이트
     @PatchMapping
-    private ResponseEntity updateMyInfo(@RequestBody MypageUpdateDto updateDto,
+    public ResponseEntity updateMyInfo(@RequestBody MypageUpdateDto updateDto,
                                         @RequestHeader("Authorization") String authorizationHeader){
         Jws<Claims> claims = tokenService.checkAccessToken(authorizationHeader);
         String email = claims.getBody().getSubject();
