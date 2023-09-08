@@ -58,7 +58,7 @@ const List = () => {
   useEffect(() => {
     if (searchText === '') {
       axios
-        .get(`${URI}/products/search?/page=${listCurrentPage}&pageSize=${PER_PAGE}`)
+        .get(`${URI}/products/search?page=${listCurrentPage}&pageSize=${PER_PAGE}`)
         .then(res => {
           console.log(res);
           setItemList(res.data.data);
