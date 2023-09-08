@@ -159,11 +159,11 @@ export default function Order() {
             <FormContainer>
               <FormTitle>PAYMENT METHOD</FormTitle>
               <FormCotents>
-                <div>PAYMENT INFO</div>
+                <div>Point</div>
               </FormCotents>
             </FormContainer>
           </LeftBox>
-          <RightBox className={scrollY > 520 ? 'fixed' : 'absolute'}>
+          <RightBox className={scrollY > 490 ? 'fixed' : 'absolute'}>
             <FormContainer>
               <FormTitle>ORDER LIST</FormTitle>
               <FormCotents>
