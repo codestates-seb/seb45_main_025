@@ -17,7 +17,7 @@
     "sourceType": "module"
   },
   "globals": {
-    "process": "readonly"
+    "process": "readonly" // 'process'를 'readonly'로 정의하여 'no-undef' 규칙 예외로 처리
   },
   "rules": {
     "react/react-in-jsx-scope": 0,

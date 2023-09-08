@@ -25,6 +25,7 @@ export default function SignUp() {
   const [wrong, setWrong] = useState('');
   const passwordform = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
   const navigate = useNavigate();
+  const URI = process.env.REACT_APP_API_URL;
   
   function submitsignup(){
     if(name === ''){
@@ -44,21 +45,25 @@ export default function SignUp() {
     }else if(passWordCheck === false || passWord !== passWordDoubleCheck){
       setWrong("Check your 'PassWord'");
     }else{
-      console.log(name, gender, birth, address,phoneNumber, emailFront, emailBack,passWord,passWordDoubleCheck,passWordCheck)
-      axios.post(`member/sign`,{ 
+      console.log(name, gender, birth, address,phoneNumber, emailFront, emailBack,passWord,passWordDoubleCheck,passWordCheck);
+      console.log(URI);
+      axios.post(`${URI}/users/signup`,{ 
         "email": emailFront + '@' + emailBack,
-        "phoneNumber": phoneNumber,
-        "password": passWord,
-        "address" : address,
-        "nick" : nickName,
-        "gender" : gender,
         "name" : name,
-        "birth" : birth 
+        "nickName" : nickName,
+        "password": passWord,
+        "conformPassword": passWord,
+        "gender" : gender,
+        "phone": phoneNumber,
+        "birth" : birth ,
+        "address" : address
       })
-      .then(()=>{
+      .then((res)=>{
+        console.log(res)
         navigate('/')
       })
-      .catch(()=>{
+      .catch((res)=>{
+        console.log(res)
         alert('can not make an account');
       })
     }
