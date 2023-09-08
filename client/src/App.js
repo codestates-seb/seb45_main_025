@@ -12,7 +12,6 @@ import SignUpSelect from './pages/SignUpSelect/SignUpSelect';
 import MyPage from './pages/MyPage/MyPage';
 import MyPageEdit from './pages/MyPageEdit/MyPageEdit'
 import SignUpOauth from './pages/SignUpOauth/SignUpOauth'
-// import Products from './pages/Products/Products';
 import Item from './pages/Item/Item';
 import List from './pages/List/List';
 import CommunityList from './pages/CommunityList/CommunityList';

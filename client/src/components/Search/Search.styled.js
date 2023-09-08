@@ -15,7 +15,7 @@ export const SearchBox = styled.div`
     width: 350px;
     height: 40px;
     border-radius: 6px;
-    border: 1px solid var(--bl-2);
+    border: 1px solid var(--brown-50);
     padding: 0 10px;
   }
   @media (max-width: 768px) {
@@ -34,7 +34,7 @@ export const SearchBtn = styled.button`
   height: 40px;
   width: 80px;
   border-radius: 6px;
-  background-color: var(--mainbl);
+  background-color: var(--brown-20);
   text-align: center;
   color: #fff;
   @media (max-width: 768px) {
@@ -45,10 +45,10 @@ export const SearchBtn = styled.button`
 export const SearchSelBox = styled.div`
   position: relative;
   height: 40px;
-  border: 1px solid var(--mainbl);
+  border: 1px solid var(--brown-20);
   border-radius: 6px;
   margin-right: 5px;
-  background: var(--mainbl);
+  background: var(--brown-20);
   color: #fff;
   @media (max-width: 768px) {
     height: 34px;
@@ -59,7 +59,7 @@ export const SearchSelect = styled.select`
   height: 100%;
   padding: 0 25px 0 10px;
   option {
-    color: var(--mainbl);
+    color: var(--brown-20);
   }
   @media (max-width: 768px) {
     width: 70px;
