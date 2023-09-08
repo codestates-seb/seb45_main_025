@@ -12,9 +12,10 @@ export default function Login() {
   const [loginId, setLoginId] = useState('');
   const [passWord, setPassWord] = useState('');
   const navigate = useNavigate();
+  const URI = process.env.REACT_APP_API_URL;
   
   function loginsubmit(){
-    axios.post(`/member/login`,{
+    axios.post(`${URI}/member/login`,{
       "email" : loginId, 
       "password" : passWord
       })
