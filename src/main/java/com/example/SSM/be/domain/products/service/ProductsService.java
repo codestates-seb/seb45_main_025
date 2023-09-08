@@ -152,10 +152,7 @@ public class ProductsService {
     public List<Products> getBookmarkedProducts() {
         return productsRepository.findByBookmarked(true);
     }
-    public List<Products> getAllProducts() {
-        // 최신 상품을 먼저 보여주기 위해 'createdAt' 필드를 기준으로 내림차순으로 정렬합니다.
-        Sort sortByCreatedAtDesc = Sort.by(Sort.Direction.DESC, "createdAt");
-        return productsRepository.findAll(sortByCreatedAtDesc);
+    public Page<Products> getAllProducts(Pageable pageable) {
+        return productsRepository.findAll(pageable);
     }
-
 }

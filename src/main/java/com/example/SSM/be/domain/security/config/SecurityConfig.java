@@ -85,18 +85,28 @@ public class SecurityConfig  {
     }
 
     @Bean
-    CorsConfigurationSource corsConfigurationSource() {
+    public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedOrigin("http://localhost:3000");
-        configuration.addAllowedOrigin("http://main025.s3-website.ap-northeast-2.amazonaws.com");
-        configuration.setAllowedMethods(Arrays.asList("*"));
 
-        configuration.setAllowedHeaders(Arrays.asList("*"));
-        configuration.setExposedHeaders(Arrays.asList("*"));
-        configuration.addAllowedHeader("*");
+        configuration.setAllowCredentials(true);
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000/", "http://localhost:8080/", "http://main025.s3-website.ap-northeast-2.amazonaws.com//");
+                configuration.setAllowedOriginPatterns(Arrays.asList("")); // 모든
+                configuration.setAllowedMethods(Arrays.asList("GET","POST","DELETE","PATCH"));
+        configuration.setAllowedHeaders(Arrays.asList(""));
+        configuration.addExposedHeader("Authorization");
+        configuration.addExposedHeader("Location");
+//        configuration.setExposedHeaders(Arrays.asList(""));
+
+
+//        configuration.setAllowedOrigins(Arrays.asList(""));
+//        configuration.setAllowedMethods(Arrays.asList(""));
+//        configuration.setAllowedHeaders(Arrays.asList(""));
+//        configuration.setExposedHeaders(Arrays.asList(""));
+//        configuration.addAllowedHeader("");
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
+        source.registerCorsConfiguration("/**", configuration); // CORS 설정 등록
+
         return source;
     }
     // (3)
