@@ -159,7 +159,11 @@ export default function Order() {
             <FormContainer>
               <FormTitle>PAYMENT METHOD</FormTitle>
               <FormCotents>
-                <div>Point</div>
+                <label htmlFor='point'>Point</label>
+                <div className='point'>
+                  <input id='point' type="text" />
+                  <button>Use All</button>
+                </div>
               </FormCotents>
             </FormContainer>
           </LeftBox>

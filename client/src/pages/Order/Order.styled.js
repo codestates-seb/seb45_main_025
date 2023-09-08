@@ -116,6 +116,13 @@ export const FormCotents = styled.div`
         margin-bottom: 0.5rem;
       }
     } 
+
+    .point {
+      border: 1px solid red;
+      display: flex;
+      width: 100%;
+      justify-content: space-between;
+    }
   }
 
   .subtotal-price {
