@@ -17,8 +17,10 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-      - name: 스크립트 실행 권한 부여
-        run: chmod +x gradlew
+      - name: Gradle 설치
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gradle
       - name: 스프링부트 애플리케이션 빌드 # (1)
         run: ./gradlew build
 
