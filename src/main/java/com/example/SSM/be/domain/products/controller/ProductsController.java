@@ -265,7 +265,6 @@ public class ProductsController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("서버 오류가 발생했습니다.");
         }
     }
-    @CrossOrigin(origins = {"http://ec2-3-34-197-51.ap-northeast-2.compute.amazonaws.com:8080", "http://main025.s3-website.ap-northeast-2.amazonaws.com"})
     @GetMapping("/list")
     public ResponseEntity<List<ProductsResponseDto>> getAllProducts() {
         List<Products> allProducts = productsService.getAllProducts();  // 모든 상품 조회 로직을 서비스에 위임
