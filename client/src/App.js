@@ -17,6 +17,7 @@ import List from './pages/List/List';
 import CommunityList from './pages/CommunityList/CommunityList';
 import WritePost from './pages/WritePost/WritePost';
 import CommunityBoard from './pages/CommunityBoard/CommunityBoard';
+
 function App() {
   return (
     <AppContainer>

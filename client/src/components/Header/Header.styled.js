@@ -32,12 +32,12 @@ export const LeftNavContainer = styled.div`
   flex-direction: row;
   align-items: center;
   font-weight: 600;
-  font-size: 1.2rem;
   padding: 0 1.5rem;
 
   a {
     margin: 0 0.5rem;
     color: var(--white);
+    font-size: 1.2rem;
 
     ${({ scrolled }) => scrolled && css`
       color: var(--brown-50);
