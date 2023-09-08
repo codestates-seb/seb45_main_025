@@ -2,7 +2,7 @@ import { CartItemContainer } from './CartItem.styled';
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setSelected, setAllSelected, setCartItems, setQuantity } from '../../redux/actions/cartActions';
+import { setSelected, setAllSelected, setCartItems } from '../../redux/actions/cartActions';
 import axios from 'axios';
 
 export default function CartItem({ item }) {
