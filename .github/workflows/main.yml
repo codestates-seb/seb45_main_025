@@ -18,10 +18,10 @@ jobs:
           distribution: 'adopt'
           cache: gradle
       - name: Grant execute permission for gradlew
-        run: chmod +x BarkingCat/gradlew
+        run: chmod +x ssm/gradlew
       - name: Build with Gradle
         run: |
-          cd BarkingCat
+          cd ssm
           sudo ./gradlew build
       - name: Build Docker Image
         uses: mr-smithers-excellent/docker-build-push@v5
