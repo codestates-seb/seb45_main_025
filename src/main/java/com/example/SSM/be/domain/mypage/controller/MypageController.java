@@ -40,6 +40,7 @@ public class MypageController {
 
     @GetMapping
     private ResponseEntity getMyInfo(@RequestHeader("Authorization") String authorizationHeader){
+        log.info(authorizationHeader);
         Jws<Claims> claims = tokenService.checkAccessToken(authorizationHeader);
         String email = claims.getBody().getSubject();
         Member findMember = memberService.findMemberByEmail(email);
