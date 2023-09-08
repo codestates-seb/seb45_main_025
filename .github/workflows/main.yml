@@ -18,6 +18,9 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
+      - name: 스프링부트 애플리케이션 빌드 # (1)
+        run: ./gradlew build
+
       - name: 도커 이미지 빌드
         run: docker build -t rkswlska789/ssm:${{ github.sha }} .
 
