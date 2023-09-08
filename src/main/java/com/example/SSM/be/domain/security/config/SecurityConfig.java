@@ -89,7 +89,7 @@ public class SecurityConfig  {
         CorsConfiguration configuration = new CorsConfiguration();
 
         configuration.setAllowCredentials(true);
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000/", "http://localhost:8080/", "http://main025.s3-website.ap-northeast-2.amazonaws.com/");
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000/", "http://localhost:8080/", "http://main025.s3-website.ap-northeast-2.amazonaws.com/"));
                 configuration.setAllowedMethods(Arrays.asList("GET", "POST", "DELETE", "PATCH"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type")); // 필요한 헤더 추가
         configuration.addExposedHeader("Authorization");
