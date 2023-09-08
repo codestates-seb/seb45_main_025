@@ -62,14 +62,15 @@ Editor.propTypes = {
 function WritePost() {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
-
+    const URI = process.env.REACT_APP_API_URL;
     const handleContentChange = (newContent) => {
         setContent(newContent);
     };
     const handlePublish = async () => {
         try {
             // 데이터
-            const response = await axios.post('/board', {
+            
+            const response = await axios.post(`${URI}/board`, {
                 title: title,
                 content: content,
             });
