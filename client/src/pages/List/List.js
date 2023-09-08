@@ -33,7 +33,7 @@ import Search from "../../components/Search/Search";
 const List = () => {
   const navigate = useNavigate();
   const URI = process.env.REACT_APP_API_URL;
-  const { searchText, setSearchText } = useSearchTextStore(state => state);
+  const { searchText } = useSearchTextStore(state => state);
   const { searchSelected } = useSearchSelectedStore(state => state);
   const { searchIsUpdate, setSearchIsUpdate } = useSearchIsUpdateStore(state => state);
   const { searchApi } = useSearchApiStore(state => state);
@@ -58,7 +58,7 @@ const List = () => {
   useEffect(() => {
     if (searchText === '') {
       axios
-        .get(`${URI}/products/search?/page=${listCurrentPage}&pageSize=${PER_PAGE}`)
+        .get(`${URI}/products/search?page=${listCurrentPage}&pageSize=${PER_PAGE}`)
         .then(res => {
           console.log(res);
           setItemList(res.data.data);
@@ -112,7 +112,8 @@ const List = () => {
       </BackgroundImage>
       <Gnb />
       <div className="bodywrap">
-        <Search />
+      <Search />
+
           {windowSize > 768 ? (
             <ContentList>
               {itemList.map((item, idx) => (
@@ -121,7 +122,7 @@ const List = () => {
                 onClick={() => itemOnClickHandler(item.id)}
               >
                 <img
-                  src={item.img}
+                  src={item.productImage}
                   alt={item.productName}
                   onError={handleImageError}
                 />

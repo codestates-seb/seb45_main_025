@@ -45,7 +45,7 @@ export const LoginFillBox = styled.form`
   .login_id{
     width: 20vw;
     height: 3rem;
-    font-size: 1.5rem;
+    font-size: 1rem;
     border-top:  1px solid var(--brown-10);
     border-right: none;
     border-bottom:  1px solid var(--brown-10);
@@ -67,6 +67,7 @@ export const LoginFillBox = styled.form`
     font-size: 20px;
     border: 1px solid var(--brown-10);
     background-color: rgba(189, 137, 97, 0.8);
+    text-align: center;
     color: var(--gray-90);
     &:hover {
       background-color: var(--brown-10);

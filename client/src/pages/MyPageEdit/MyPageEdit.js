@@ -30,24 +30,25 @@ export default function MyPageEdit(){
   const passwordform = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
   const [wrong, setWrong] = useState('');
   const navigate = useNavigate();
+  const URI = process.env.REACT_APP_API_URL;
 
   function imgupload(e){
-    if(e.target.value !==''){
+      if(e.target.value !==''){
       const reader = new FileReader();
       reader.onload = (e) => {	
         setMyImg(e.target.result); // 파일의 컨텐츠
         console.log(myImg)
       };
       reader.readAsDataURL(e.target.files[0]);
-    }
-    
+      axios.post(`${URI}`)
+  }
   }
 
   function deleteaccount(){
     const del = confirm('계정을 삭제하시겠습니까?');
     if (del){
       console.log("계정 삭제")
-      axios.delete('/memver/withdrawl')
+      axios.delete(`${URI}/users/delete2`)
       .then((res)=>{
         console.log(res);
 
@@ -75,7 +76,7 @@ export default function MyPageEdit(){
     }else if(passWordCheck === false || passWord !== passWordDoubleCheck){
       setWrong("Check your 'PassWord'");
     }else{
-      axios.patch('/users',{
+      axios.patch(`${URI}/users`,{
         
       },{ headers: {Authorization: localStorage.getItem('access_token')} })
       .then((res)=>console.log(res))

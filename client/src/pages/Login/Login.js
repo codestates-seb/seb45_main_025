@@ -7,17 +7,17 @@ import axios from "axios";
 import BackgroundImage from '../../components/BackgroundImage/BackgroundImage';
 import  potatochip  from '../../common/image/potatochip.jpeg';
 
-
 export default function Login() {
   const [loginId, setLoginId] = useState('');
   const [passWord, setPassWord] = useState('');
   const navigate = useNavigate();
+  const URI = process.env.REACT_APP_API_URL;
   
   function loginsubmit(){
-    axios.post(`/member/login`,{
+    axios.post(`${URI}/users/login`,{
       "email" : loginId, 
       "password" : passWord
-      })
+      },{ withCredentials : true })
     .then((res)=>{
       console.log(res)
       navigate('/');
@@ -38,7 +38,7 @@ export default function Login() {
               <input className='login_id' onChange={(e)=>setLoginId(e.target.value)}></input>
               <input type='password' className='login_pw' onChange={(e)=>setPassWord(e.target.value)}></input>
             </div>
-            <input type='submit' className='submit' value='login' onClick={loginsubmit}></input>
+            <input type='button' className='submit' value='login' onClick={loginsubmit}></input>
           </LoginFillBox>
           <LoginOauth>
             <button className='google_login'><img src={google} alt='google' /> Login with Google</button>

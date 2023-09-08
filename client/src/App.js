@@ -12,7 +12,7 @@ import SignUpSelect from './pages/SignUpSelect/SignUpSelect';
 import MyPage from './pages/MyPage/MyPage';
 import MyPageEdit from './pages/MyPageEdit/MyPageEdit'
 import SignUpOauth from './pages/SignUpOauth/SignUpOauth'
-
+import Item from './pages/Item/Item';
 import List from './pages/List/List';
 import CommunityList from './pages/CommunityList/CommunityList';
 import WritePost from './pages/WritePost/WritePost';

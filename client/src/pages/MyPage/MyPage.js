@@ -1,8 +1,9 @@
 import {MyPageContainer,
-   MyPageMain, MyPageImg,
-   ChangeAccountBtn,MyPageName,MyPageNickName,
-   MyPageGender,MyPageBirth, MyPageAddress, MyPageTel,
-   MyPageEmail
+  MyPageMain, MyPageImg,
+  ChangeAccountBtn, MyPageName,
+  MyPageNickName, MyPageGender,
+  MyPageBirth, MyPageAddress,
+  MyPageTel, MyPageEmail
   } from './MyPage.styled';
 import { useState , useEffect} from "react";
 import basicimg from '../../common/image/basicimg.png';
@@ -23,6 +24,8 @@ export default function MyPage(){
   const [phoneNumber, setphoneNumber] = useState('');
   const [emailFront, setEmailFront] = useState('');
   const [emailBack, setEmailBack] = useState('');
+  const URI = process.env.REACT_APP_API_URL;
+
   useEffect(() => {
     setMyImg(null);
     setName('유주성');
@@ -33,8 +36,9 @@ export default function MyPage(){
     setphoneNumber('+19797645565');
     setEmailFront('juseongyu56');
     setEmailBack('gmail.com');
-    axios.get('/users',{ headers: {Authorization: getAccessToken()} })
+    axios.get(`${URI}/users`,{ headers: {Authorization: getAccessToken()} })
     .then((res)=>{
+      console.log(res);
       setName(res.name);
       setNickName(res.nickname)
       setGender(res.gender);
@@ -45,6 +49,7 @@ export default function MyPage(){
       setEmailBack(res.emailBack);
     }).catch((res)=>{console.log(res)})
   });
+
   return (
     <MyPageContainer>
       <BackgroundImage imgSrc={chococookie} title='MY PAGE'/>

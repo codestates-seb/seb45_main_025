@@ -29,7 +29,7 @@ export const ContentList = styled.div`
         height: 15px;
         border-radius: 50%;
         margin: 0 10px;
-        background: var(--mainbl);
+        background: var(--brown-20);
         animation: ${dots} 1s forwards infinite;
         &:nth-of-type(1) {
         }
@@ -56,7 +56,7 @@ export const ContentBox = styled.div`
   border-radius: 6px;
   padding: 15px;
   height: 250px;
-  background: var(--bl-1);
+  background: var(--brown-10);
   > img {
     width: auto;
     height: 100px;
@@ -101,7 +101,7 @@ export const ContentTit = styled.h3`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  color: var(--mainbl);
+  color: var(--brown-20);
   font-weight: 500;
   @media (max-width: 768px) {
     width: 90%;
@@ -130,7 +130,7 @@ export const LikeCount = styled.div`
   align-items: center;
   right: 10px;
   top: 10px;
-  color: var(--mainbl);
+  color: var(--brown-20);
   > p {
     font-size: 12px;
     padding-top: 3px;

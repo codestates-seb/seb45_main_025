@@ -13,8 +13,10 @@ export default function SignUpOauth(){
   const [birth, setBirth] = useState('');
   const [address, setAddress] = useState('');
   const [phoneNumber, setphoneNumber] = useState('');
+  const URI = process.env.REACT_APP_API_URL;
+
   function submitsignup(){
-    axios.patch(`/users/oauth/google/signup`,{
+    axios.patch(`${URI}/users/oauth/google/signup`,{
         "address" : address,
         "phoneNumber": phoneNumber,
         "gender" : gender,
