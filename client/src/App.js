@@ -32,12 +32,11 @@ function App() {
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/mypage/edit" element={<MyPageEdit />} />
         <Route path="/signup/oauth" element={<SignUpOauth />} />
-        <Route path="/products" element={<Item />} />
+
         <Route path="/list" element={<List />} />
         <Route path='/CommunityList' element={<CommunityList />} />
         <Route path='/WritePost' element={<WritePost />} />
         <Route path='/CommunityBoard' element={<CommunityBoard />} />
-
       </Routes>
       <Footer />
     </AppContainer>
