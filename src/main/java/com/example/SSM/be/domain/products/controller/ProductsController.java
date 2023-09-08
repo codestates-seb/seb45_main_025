@@ -12,10 +12,7 @@ import io.jsonwebtoken.Jws;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -264,5 +261,19 @@ public class ProductsController {
             // 예외 발생 시 에러 응답을 반환
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("서버 오류가 발생했습니다.");
         }
+    }
+    @GetMapping("/all/list/")
+    public ResponseEntity<Page<ProductsResponseDto>> getAllProducts(@RequestParam(defaultValue = "1", name = "page") int page,
+                                                                    @RequestParam(defaultValue = "15", name = "pageSize") int pageSize
+    ) {
+        Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(Sort.Direction.DESC, "createdAt"));
+
+        Page<Products> productsPage = productsService.getAllProducts(pageable);
+
+        List<ProductsResponseDto> responseDtos = productsPage.getContent().stream()
+                .map(ProductsResponseDto::new)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(new PageImpl<>(responseDtos, pageable, productsPage.getTotalElements()));
     }
 }

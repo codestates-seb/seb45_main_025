@@ -151,4 +151,7 @@ public class ProductsService {
     public List<Products> getBookmarkedProducts() {
         return productsRepository.findByBookmarked(true);
     }
+    public Page<Products> getAllProducts(Pageable pageable) {
+        return productsRepository.findAll(pageable);
+    }
 }
