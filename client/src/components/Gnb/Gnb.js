@@ -15,7 +15,7 @@ const Gnb = () => {
             <Container>
                 <CustomLink>
                     <NavItem>
-                        <GiChipsBag className="icon" />Chips
+                        <GiChipsBag className="icon" />Snacks
                     </NavItem>
                 </CustomLink>
 
