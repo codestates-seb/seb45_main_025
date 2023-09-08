@@ -47,17 +47,19 @@ export default function SignUp() {
     }else{
       console.log(name, gender, birth, address,phoneNumber, emailFront, emailBack,passWord,passWordDoubleCheck,passWordCheck);
       console.log(URI);
-      axios.post(`${URI}member/sign`,{ 
+      axios.post(`${URI}/users/signup`,{ 
         "email": emailFront + '@' + emailBack,
-        "phoneNumber": phoneNumber,
-        "password": passWord,
-        "address" : address,
-        "nick" : nickName,
-        "gender" : gender,
         "name" : name,
-        "birth" : birth 
+        "nickName" : nickName,
+        "password": passWord,
+        "conformPassword": passWord,
+        "gender" : gender,
+        "phone": phoneNumber,
+        "birth" : birth ,
+        "address" : address
       })
-      .then(()=>{
+      .then((res)=>{
+        console.log(res)
         navigate('/')
       })
       .catch((res)=>{
