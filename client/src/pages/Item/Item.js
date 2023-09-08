@@ -28,6 +28,7 @@ const Item = () => {
     const location = useLocation();
     const snackId = location.pathname.split('/')[2];
     const tabArr = ['Information', 'Review'];
+    const productId = 1;
 
     const tabHandler = idx => {
         setCurTab(idx);
