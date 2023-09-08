@@ -12,23 +12,24 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      - name: Build JAR
+        run: ./gradlew build
+
       - name: Docker Hub 로그인
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKER_HUB_USERNAME }}
           password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
-      - name: Gradle 설치
+
+      - name: Build Docker Image
         run: |
-          sudo apt-get update
-          sudo apt-get install -y gradle
-      - name: 스프링부트 애플리케이션 빌드 # (1)
-        run: ./gradlew build
+            docker build -t rkswlska789/ssm:${{ github.sha }} .
+            docker tag rkswlska789/ssm:${{ github.sha }} rkswlska789/ssm:latest
 
-      - name: 도커 이미지 빌드
-        run: docker build -t rkswlska789/ssm:${{ github.sha }} .
-
-      - name: Docker Hub 퍼블리시
-        run: docker push rkswlska789/ssm:${{ github.sha }}
+      - name: Push Docker Image
+        run: |
+            docker push rkswlska789/ssm:${{ github.sha }}
+            docker push rkswlska789/ssm:latest
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
