@@ -57,7 +57,7 @@ const Item = () => {
 
     useEffect(() => {
         axios
-            .get(`${URI}//products/get/${productId}`)
+            .get(`${URI}/products/get/${productId}`)
             .then(res => {
                 setSnackItem(res.data);
             })

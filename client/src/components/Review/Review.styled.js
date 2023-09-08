@@ -5,12 +5,12 @@ export const SmBtn = styled.button`
   border-radius: 4px;
   text-align: center;
   font-size: var()(--fz-sm);
-  border: 1px solid var(--mainb1);
+  border: 1px solid var(--brown-20);
   background: #fff;
-  color: var(--mainb1);
+  color: var(--brown-20);
   transition: 0.4s;
   &:hover {
-    background: var(--mainb1);
+    background: var(--brown-20);
     color: #fff;
     transition: 0.4s;
   }
@@ -25,7 +25,7 @@ export const ReviewBtn = styled.button`
   align-items: center;
   padding: 0 7px;
   height: 30px;
-  color: var(--mainbl);
+  color: var(--brown-20);
   background: var(--bl-1);
   border-radius: 6px;
   > span {
@@ -33,12 +33,12 @@ export const ReviewBtn = styled.button`
     font-weight: 600;
   }
   &:hover {
-    background: var(--mainbl);
+    background: var(--brown-20);
     color: #fff;
     transition: 0.4s;
   }
   @media (max-width: 768px) {
-    background: var(--mainbl);
+    background: var(--brown-20);
     color: #fff;
   }
 `;
@@ -49,7 +49,7 @@ export const ReviewItem = styled.li`
   position: relative;
   width: 100%;
   border-radius: 6px;
-  background: var(--palebl);
+  background: var(--brown-10);
   padding: 20px;
   margin-bottom: 10px;
   height: 120px;
@@ -66,7 +66,7 @@ export const ReviewItem = styled.li`
     position: absolute;
     right: 10px;
     bottom: 15px;
-    color: var(--mainbl);
+    color: var(--brown-20);
     font-weight: 600;
     cursor: pointer;
   }
@@ -167,7 +167,7 @@ export const ReviewImage = styled.div`
   width: 100%;
   height: 130px;
   padding: 10px;
-  border: 1px dashed var(--bl-2);
+  border: 1px dashed var(--brown-50);
   border-radius: 6px;
   overflow: auto;
   > label {
@@ -177,7 +177,7 @@ export const ReviewImage = styled.div`
     top: 50%;
     width: 100%;
     transform: translate(-50%, -50%);
-    color: var(--mainbl);
+    color: var(--brown-20);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -208,7 +208,7 @@ export const ReviewText = styled.textarea`
   width: 100%;
   height: 130px;
   resize: none;
-  border: 1px solid var(--mainbl);
+  border: 1px solid var(--brown-20);
   border-radius: 6px;
   padding: 10px;
   font-size: var(--fz-sm);
@@ -217,11 +217,11 @@ export const ReviewText = styled.textarea`
 export const ReviewMedSelect = styled.div`
   margin-top: 15px;
   width: 100%;
-  background: var(--bl-1);
+  background: var(--brown-10);
   border-radius: 6px;
   padding: 10px;
   > input {
-    border-bottom: 1px solid var(--mainbl);
+    border-bottom: 1px solid var(--brown-20);
   }
   .entered-med {
     display: flex;
@@ -235,7 +235,7 @@ export const ReviewMedSelect = styled.div`
     justify-content: flex-start;
     align-items: center;
     padding: 3px 4px 4px 6px;
-    background: var(--lightbl);
+    background: var(--brown-50);
     border-radius: 4px;
     margin-right: 4px;
     cursor: pointer;
@@ -249,7 +249,7 @@ export const ReviewSubmitBtn = styled.button`
   height: ${props => props.height || '34px'};
   text-align: center;
   border-radius: 6px;
-  background: ${props => props.background || 'var(--mainbl)'};
+  background: ${props => props.background || 'var(--brown-20)'};
   color: ${props => props.color || '#fff'};
   border-width: 1px;
   border-style: solid;
@@ -292,12 +292,12 @@ export const Pagination = styled.div`
       &.previous,
       &.next {
         border-radius: 4px;
-        background: var(--mainbl);
+        background: var(--brown-20);
         color: #fff;
         margin: 0 5px;
       }
       &.active {
-        background: var(--palebl);
+        background: var(--brown-10);
         font-weight: 600;
       }
     }
