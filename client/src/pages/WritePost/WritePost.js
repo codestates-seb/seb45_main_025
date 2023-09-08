@@ -69,7 +69,7 @@ function WritePost() {
     const handlePublish = async () => {
         try {
             // 데이터
-            const response = await axios.post('/백엔드 엔드포인트', {
+            const response = await axios.post('/board', {
                 title: title,
                 content: content,
             });
