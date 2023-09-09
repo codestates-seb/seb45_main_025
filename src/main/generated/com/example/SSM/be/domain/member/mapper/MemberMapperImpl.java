@@ -1,7 +1,7 @@
 package com.example.SSM.be.domain.member.mapper;
 
 import com.example.SSM.be.domain.member.dto.AuthAdditionalDto;
-import com.example.SSM.be.domain.member.dto.AuthLoginDto;
+import com.example.SSM.be.domain.member.dto.MemberDto.PatchDto;
 import com.example.SSM.be.domain.member.dto.MemberDto.PostDto;
 import com.example.SSM.be.domain.member.dto.MemberDto.ResponseDto;
 import com.example.SSM.be.domain.member.dto.MemberDto.ResponseDto.ResponseDtoBuilder;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-09-06T11:36:33+0900",
+    date = "2023-09-08T14:29:20+0900",
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 11.0.20 (Azul Systems, Inc.)"
 )
 @Component
@@ -41,16 +41,14 @@ public class MemberMapperImpl implements MemberMapper {
     }
 
     @Override
-    public Member AuthLoginDtoToMember(AuthLoginDto authLoginDto) {
-        if ( authLoginDto == null ) {
+    public Member memberPathchDtoToMember(PatchDto patchDto) {
+        if ( patchDto == null ) {
             return null;
         }
 
         Member member = new Member();
 
-        member.setImg( authLoginDto.getProfileImg() );
-        member.setEmail( authLoginDto.getEmail() );
-        member.setNickName( authLoginDto.getNickName() );
+        member.setNickName( patchDto.getNickName() );
 
         return member;
     }
@@ -82,10 +80,14 @@ public class MemberMapperImpl implements MemberMapper {
 
         ResponseDtoBuilder responseDto = ResponseDto.builder();
 
+        if ( member.getUserId() != null ) {
+            responseDto.userId( member.getUserId() );
+        }
         responseDto.name( member.getName() );
         responseDto.nickName( member.getNickName() );
         responseDto.email( member.getEmail() );
         responseDto.img( member.getImg() );
+        responseDto.memberStatus( member.getMemberStatus() );
         if ( member.getCreatedAt() != null ) {
             responseDto.createdAt( DateTimeFormatter.ISO_LOCAL_DATE_TIME.format( member.getCreatedAt() ) );
         }

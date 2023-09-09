@@ -85,16 +85,19 @@ public class SecurityConfig  {
     }
 
     @Bean
-    CorsConfigurationSource corsConfigurationSource() {
+    public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("*"));   // (8-1)
-        configuration.setAllowedMethods(Arrays.asList("*"));
-        configuration.setAllowedHeaders(Arrays.asList("*"));
-        configuration.setExposedHeaders(Arrays.asList("*"));
-        configuration.addAllowedHeader("*");
+
+        configuration.setAllowCredentials(false);
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000/", "http://localhost:8080/", "http://main025.s3-website.ap-northeast-2.amazonaws.com/"));
+                configuration.setAllowedMethods(Arrays.asList("GET", "POST", "DELETE", "PATCH"));
+        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type")); // 필요한 헤더 추가
+        configuration.addExposedHeader("Authorization");
+        configuration.addExposedHeader("Location");
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
+        source.registerCorsConfiguration("/**", configuration); // CORS 설정 등록
+
         return source;
     }
     // (3)
