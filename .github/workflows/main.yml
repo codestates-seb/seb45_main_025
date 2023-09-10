@@ -38,14 +38,14 @@ jobs:
             --instance-ids i-027d04f3d6691fb34 \
             --document-name "AWS-RunShellScript" \
             --parameters "commands=[
-              'if docker ps -a --format {{.Names}} | grep -q ^server$; then',
-              '  docker stop server',
-              '  docker rm server',
+              'if sudo docker ps -a --format {{.Names}} | grep -q ^server$; then',
+              '  sudo docker stop server',
+              '  sudo docker rm server',
               'fi',
-              'docker build -t toyp/ssm025_test:${DOCKER_IMAGE_TAG} .',
-              'docker push toyp/ssm025_test:latest',
-              'docker pull toyp/ssm025_test:${DOCKER_IMAGE_TAG}',
-              'docker tag toyp/ssm025_test:${DOCKER_IMAGE_TAG} toyp/ssm025_test:latest',
-              'docker run -d --name server -p 8080:8080 toyp/ssm025_test:latest'
+              'sudo docker build -t toyp/ssm025_test:${DOCKER_IMAGE_TAG} .',
+              'sudo docker push toyp/ssm025_test:latest',
+              'sudo docker pull toyp/ssm025_test:${DOCKER_IMAGE_TAG}',
+              'sudo docker tag toyp/ssm025_test:${DOCKER_IMAGE_TAG} toyp/ssm025_test:latest',
+              'sudo docker run -d --name server -p 8080:8080 toyp/ssm025_test:latest'
             ]" \
             --output text
