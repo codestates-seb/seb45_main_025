@@ -89,8 +89,12 @@ public class SecurityConfig  {
         CorsConfiguration configuration = new CorsConfiguration();
 
         configuration.setAllowCredentials(false);
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000/", "http://localhost:8080/", "http://main025.s3-website.ap-northeast-2.amazonaws.com/"));
-                configuration.setAllowedMethods(Arrays.asList("GET", "POST", "DELETE", "PATCH"));
+        configuration.setAllowedOrigins(Arrays.asList(
+                "http://localhost:3000", // 로컬 개발 서버
+                "http://localhost:8080", // 백엔드 서버
+                "http://main025.s3-website.ap-northeast-2.amazonaws.com" // S3 웹 사이트
+        ));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "DELETE", "PATCH"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type")); // 필요한 헤더 추가
         configuration.addExposedHeader("Authorization");
         configuration.addExposedHeader("Location");
