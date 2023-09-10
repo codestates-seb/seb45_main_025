@@ -33,7 +33,7 @@ jobs:
           AWS_REGION: ap-northeast-2
         run: |
           DOCKER_IMAGE_TAG=$(echo "${{ github.sha }}" | cut -c1-7)
-          
+
           aws ssm send-command \
             --instance-ids i-027d04f3d6691fb34 \
             --document-name "AWS-RunShellScript" \
@@ -42,7 +42,7 @@ jobs:
               '  sudo docker stop server',
               '  sudo docker rm server',
               'fi',
-              'sudo docker build -t toyp/ssm_025:latset .',
+              'sudo docker build -t toyp/ssm_025:latest .',
               'sudo docker push toyp/ssm_025:latest',
               'sudo docker pull toyp/ssm_025:latest',
               'sudo docker tag toyp/ssm_025:latest ssm_025',
