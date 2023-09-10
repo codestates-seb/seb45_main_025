@@ -42,10 +42,10 @@ jobs:
               '  sudo docker stop server',
               '  sudo docker rm server',
               'fi',
-              'sudo docker build -t toyp/ssm025_test:${DOCKER_IMAGE_TAG} .',
+              'sudo docker build -t toyp/ssm025_test:latest .',
               'sudo docker push toyp/ssm025_test:latest',
-              'sudo docker pull toyp/ssm025_test:${DOCKER_IMAGE_TAG}',
-              'sudo docker tag toyp/ssm025_test:${DOCKER_IMAGE_TAG} toyp/ssm025_test:latest',
+              'sudo docker pull toyp/ssm025_test:latest',
+              'sudo docker tag toyp/ssm025_test:latest toyp/ssm025_test:latest',
               'sudo docker run -d --name server -p 8080:8080 toyp/ssm025_test:latest'
             ]" \
             --output text
