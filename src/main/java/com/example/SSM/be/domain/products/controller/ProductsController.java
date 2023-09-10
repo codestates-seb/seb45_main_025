@@ -265,7 +265,7 @@ public class ProductsController {
     }
     @GetMapping("/all/list/")
     public ResponseEntity<Page<ProductsResponseDto>> getAllProducts(@RequestParam(defaultValue = "1", name = "page") int page,
-                                                                    @RequestParam(defaultValue = "15", name = "pageSize") int pageSize
+                                                                    @RequestParam(defaultValue = "20", name = "pageSize") int pageSize
     ) {
         Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(Sort.Direction.DESC, "createdAt"));
 

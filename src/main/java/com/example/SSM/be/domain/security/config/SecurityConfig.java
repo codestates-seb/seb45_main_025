@@ -88,7 +88,7 @@ public class SecurityConfig  {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.setAllowCredentials(false);
+        configuration.setAllowCredentials(true); // 'true'로 설정하여 credentials를 허용
         configuration.setAllowedOrigins(Arrays.asList(
                 "http://localhost:3000", // 로컬 개발 서버
                 "http://localhost:8080", // 백엔드 서버
