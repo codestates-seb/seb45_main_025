@@ -1,11 +1,9 @@
 HELP.md
 .gradle
-build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
-Dockerfile
-.github/workflows/main.yml
+
 
 ### STS ###
 .apt_generated
