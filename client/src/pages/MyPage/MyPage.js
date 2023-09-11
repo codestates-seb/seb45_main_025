@@ -36,7 +36,9 @@ export default function MyPage(){
     setphoneNumber('+19797645565');
     setEmailFront('juseongyu56');
     setEmailBack('gmail.com');
-    axios.get(`${URI}/users`,{ headers: {Authorization: getAccessToken()} })
+    let access_token = getAccessToken();
+    console.log(access_token);
+    axios.get(`${URI}/users`,{ headers: {Authorization: access_token} })
     .then((res)=>{
       console.log(res);
       setName(res.name);
