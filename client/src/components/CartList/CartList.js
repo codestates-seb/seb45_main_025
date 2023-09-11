@@ -14,6 +14,7 @@ import {
 } from '../../redux/actions/cartActions';
 import axios from 'axios';
 import CartItem from '../CartItem/CartItem';
+import getAccessToken from '../../common/utils/getToken';
 
 export default function CartList() {
   const dispatch = useDispatch();
@@ -23,7 +24,10 @@ export default function CartList() {
   const apiUrl = process.env.REACT_APP_API_URL;
 
   const fetchCartItems = () => {
-    axios.get(`${apiUrl}/cart`)
+    const accessToken = getAccessToken();
+    console.log('Access Token: ', localStorage);
+    // axios.get(`${apiUrl}/cart/list`, { headers: { Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJVU0VSIl0sIm1lbWJlcklkIjoyLCJzdWIiOiJzb25AZ21haWwuY29tIiwiaWF0IjoxNjk0NDIxNzg5LCJleHAiOjE2OTQ0MjM1ODl9.vdRg6KgkigFQrgdoCoQVkHAYVQOCcS1IBPmL9IpO8i0" } })
+    axios.get(`${apiUrl}/cart/list`, { headers: { Authorization: accessToken } })
       .then((response) => {
         dispatch(setCartItems(response.data));
         console.log(response.data);
