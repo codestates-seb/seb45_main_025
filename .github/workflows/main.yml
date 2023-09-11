@@ -18,7 +18,7 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          sudo docker build -t toyp/ssm_025:${{ github.sha }} .,
+          sudo docker build -t toyp/ssm_025:${{ github.sha }} . ,
           sudo docker tag toyp/ssm_025:${{ github.sha }} toyp/ssm_025:latest
 
       - name: Push Docker Image
