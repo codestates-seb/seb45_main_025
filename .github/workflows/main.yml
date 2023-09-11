@@ -46,6 +46,6 @@ jobs:
               '  sudo docker rm server',
               'fi',
               'sudo docker pull toyp/ssm_025:latest',
-              'sudo docker run -d --name server -p 8080:8080 latest'
+              'sudo docker run -d --name server -p 8080:8080 toyp/ssm_025:latest'
             ]" \
             --output text
