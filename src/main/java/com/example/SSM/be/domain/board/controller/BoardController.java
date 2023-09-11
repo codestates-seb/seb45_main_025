@@ -89,49 +89,49 @@ public class BoardController {
     }
     //게시글 가져오기 + 게시글 검색기능
 
-//    @CrossOrigin(origins = "*", allowedHeaders = "*")
-//    @GetMapping("/posts?")
-//    @Transactional
-//    public Page<BoardResponseListDto> searchAndSortBoard(
-//            @RequestParam(required = false, value = "search") String search,
-//            @RequestParam(defaultValue = "1") int page,
-//            @PageableDefault(size = 2, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
-//            @RequestParam(name = "sortType", defaultValue = "latest") String sortType) {
-//
-//        System.out.println("search 쿼리 : "  + search);
-//
-//        int adjustedPage = page - 1;
-//        Pageable adjustedPageable = PageRequest.of(adjustedPage, pageable.getPageSize(), pageable.getSort());
-//        Page<Board> boardList;
-//
-//        if (search != null && !search.isEmpty()) {
-//            boardList = boardRepository.findByTitleContains(search, adjustedPageable);
-//        } else {
-//            boardList = boardRepository.findAll(adjustedPageable);
-//        }
-//        System.out.println(boardList);
-//
-//        if ("latest".equals(sortType)) {
-//            // 최신 순 정렬
-//            adjustedPageable = PageRequest.of(adjustedPage, pageable.getPageSize(), Sort.by("createdAt").descending());
-//        } else if ("oldest".equals(sortType)) {
-//            // 과거순 정렬
-//            adjustedPageable = PageRequest.of(adjustedPage, pageable.getPageSize(), Sort.by("createdAt").ascending());
-//        } else if ("popular".equals(sortType)) {
-//            // 조회수 높은 순 정렬
-//            adjustedPageable = PageRequest.of(adjustedPage, pageable.getPageSize(), Sort.by("view").descending());
-//        } else if ("mostCommented".equals(sortType)) {
-//            // 댓글 많은 순 정렬
-//            adjustedPageable = PageRequest.of(adjustedPage, pageable.getPageSize(), Sort.by("commentCount").descending());
-//        }
-//
-//        boardList = boardRepository.findAll(adjustedPageable);
-//
-//        Page<BoardResponseListDto> response = boardList.map(
-//                board -> new BoardResponseListDto(board));
-//
-//        return response;
-//    }
+    @CrossOrigin(origins = "*", allowedHeaders = "*")
+    @GetMapping("/posts?")
+    @Transactional
+    public Page<BoardResponseListDto> searchAndSortBoard(
+            @RequestParam(required = false, value = "search") String search,
+            @RequestParam(defaultValue = "1") int page,
+            @PageableDefault(size = 2, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
+            @RequestParam(name = "sortType", defaultValue = "latest") String sortType) {
+
+        System.out.println("search 쿼리 : "  + search);
+
+        int adjustedPage = page - 1;
+        Pageable adjustedPageable = PageRequest.of(adjustedPage, pageable.getPageSize(), pageable.getSort());
+        Page<Board> boardList;
+
+        if (search != null && !search.isEmpty()) {
+            boardList = boardRepository.findByTitleContains(search, adjustedPageable);
+        } else {
+            boardList = boardRepository.findAll(adjustedPageable);
+        }
+        System.out.println(boardList);
+
+        if ("latest".equals(sortType)) {
+            // 최신 순 정렬
+            adjustedPageable = PageRequest.of(adjustedPage, pageable.getPageSize(), Sort.by("createdAt").descending());
+        } else if ("oldest".equals(sortType)) {
+            // 과거순 정렬
+            adjustedPageable = PageRequest.of(adjustedPage, pageable.getPageSize(), Sort.by("createdAt").ascending());
+        } else if ("popular".equals(sortType)) {
+            // 조회수 높은 순 정렬
+            adjustedPageable = PageRequest.of(adjustedPage, pageable.getPageSize(), Sort.by("view").descending());
+        } else if ("mostCommented".equals(sortType)) {
+            // 댓글 많은 순 정렬
+            adjustedPageable = PageRequest.of(adjustedPage, pageable.getPageSize(), Sort.by("commentCount").descending());
+        }
+
+        boardList = boardRepository.findAll(adjustedPageable);
+
+        Page<BoardResponseListDto> response = boardList.map(
+                board -> new BoardResponseListDto(board));
+
+        return response;
+    }
     @CrossOrigin(origins = "*", allowedHeaders = "*")
     @GetMapping("/posts")
     @Transactional
