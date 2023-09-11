@@ -1,51 +1,25 @@
-name: SEB_45_Team025_MainProject
+name: Build and Deploy to EC2
 
 on:
   push:
-    branches:
-      - main
-
-env:
-  TZ: Asia/Seoul  # 서울 시간대로 설정
+    branches: [ "feat/be-directory" ]
+  pull_request:
+    branches: [ "feat/be-directory" ]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
+      - name: Set up JDK 11
+        uses: actions/setup-java@v1
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ap-northeast-2
+          java-version: 11
 
-      - name: Start Session Manager session
-        run: aws ssm start-session --target i-027d04f3d6691fb34
+      - name: Grant execute permission for gradlew
+        run: chmod +x ./gradlew
+        shell: bash
 
-      - name: Deploy to Server
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: ap-northeast-2
-        run: |
-          DOCKER_IMAGE_TAG=$(echo "${{ github.sha }}" | cut -c1-7)
-          
-          aws ssm send-command \
-            --instance-ids i-027d04f3d6691fb34 \
-            --document-name "AWS-RunShellScript" \
-            --parameters "commands=[
-              'if sudo docker ps -a --format {{.Names}} | grep -q ^server$; then',
-              '  sudo docker stop server',
-              '  sudo docker rm server',
-              'fi',
-              'sudo docker build -t toyp/ssm_025:latset .',
-              'sudo docker push toyp/ssm_025:latest',
-              'sudo docker pull toyp/ssm_025:${DOCKER_IMAGE_TAG}',
-              'sudo docker tag toyp/ssm_025:${DOCKER_IMAGE_TAG} ssm_025',
-              'sudo docker run -d --name server -p 8080:8080 ssm_025'
-            ]" \
-            --output text
+      - name: Build and Test
+        run: ./gradlew build test
