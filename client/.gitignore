@@ -11,6 +11,8 @@
 # production
 /build
 .env
+cert.pem
+key.pem
 # misc
 .DS_Store
 .env
