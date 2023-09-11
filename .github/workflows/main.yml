@@ -1,7 +1,7 @@
 name: SSM
 
 on:
-  pull_request:
+  push_request:
     branches: [ feat/be-directory ]
 
 env:
