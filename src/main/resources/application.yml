@@ -54,7 +54,7 @@ logging:
   level:
     root: DEBUG
 server:
-  port: 8888
+  port: 8080
 mail:
   address:
     admin: admin@gmail.com
