@@ -24,13 +24,12 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          sudo docker rmi toyp/ssm_025:latest
           sudo docker build -t toyp/ssm_025:${{ github.sha }} .
-          sudo docker tag toyp/ssm_025:${{ github.sha }} toyp/ssm_025:latest
+          sudo docker tag toyp/ssm_025:${{ github.sha }} toyp/ssm_025:latest.0.0.1
 
       - name: Push Docker Image
         run: |
-          sudo docker push toyp/ssm_025:latest
+          sudo docker push toyp/ssm_025:latest.0.0.1
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
