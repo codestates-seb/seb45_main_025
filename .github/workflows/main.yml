@@ -22,7 +22,7 @@ jobs:
 
       - name: Push Docker Image
         run: |
-          docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }},
+          docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} -p ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
           sudo docker push toyp/ssm_025:latest
 
       - name: Configure AWS credentials
