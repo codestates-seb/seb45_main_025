@@ -29,7 +29,6 @@ jobs:
 
       - name: Push Docker Image
         run: |
-          sudo docker push toyp/ssm_025:${{ github.sha }}
           sudo docker push toyp/ssm_025:latest
 
       - name: Configure AWS credentials
