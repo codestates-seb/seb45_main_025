@@ -91,7 +91,9 @@ public class SecurityConfig  {
         configuration.setAllowCredentials(true); // 'true'로 설정하여 credentials를 허용
         configuration.setAllowedOrigins(Arrays.asList(
                 "http://localhost:3000", // 로컬 개발 서버
+                "https://localhost:3000", // 로컬 개발 서버
                 "http://localhost:8080", // 백엔드 서버
+                "https://localhost:8080", // 백엔드 서버
                 "http://main025.s3-website.ap-northeast-2.amazonaws.com" // S3 웹 사이트
         ));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "DELETE", "PATCH"));
