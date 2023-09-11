@@ -87,21 +87,16 @@ public class SecurityConfig  {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
+        configuration.addAllowedOrigin("http://localhost:3000");
+        configuration.addAllowedOrigin("http://main025.s3-website.ap-northeast-2.amazonaws.com");
+        configuration.setAllowedMethods(Arrays.asList("*"));
 
-        configuration.setAllowCredentials(true); // 'true'로 설정하여 credentials를 허용
-        configuration.setAllowedOrigins(Arrays.asList(
-                "http://localhost:3000", // 로컬 개발 서버
-                "http://localhost:8080", // 백엔드 서버
-                "https://main025.s3-website.ap-northeast-2.amazonaws.com" // S3 웹 사이트
-        ));
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "DELETE", "PATCH"));
-        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type")); // 필요한 헤더 추가
-        configuration.addExposedHeader("Authorization");
-        configuration.addExposedHeader("Location");
+        configuration.setAllowedHeaders(Arrays.asList("*"));
+        configuration.setExposedHeaders(Arrays.asList("*"));
+        configuration.addAllowedHeader("*");
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration); // CORS 설정 등록
-
+        source.registerCorsConfiguration("/**", configuration);
         return source;
     }
     // (3)
