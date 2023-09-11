@@ -2,7 +2,7 @@ name: SSM
 
 on:
   pull_request:
-    branches: [ "feat/be-directory" ]
+    branches: [ feat/be-directory ]
 
 env:
   NAME: yoongunyong
