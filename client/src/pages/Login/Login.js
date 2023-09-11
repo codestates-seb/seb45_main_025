@@ -20,7 +20,7 @@ export default function Login() {
       },{ withCredentials: true })
     .then((res)=>{
       console.log(res)
-      localStorage.setItem('accesstoken')
+      localStorage.setItem('access_token')
       navigate('/');
     })
     .catch(()=>{
