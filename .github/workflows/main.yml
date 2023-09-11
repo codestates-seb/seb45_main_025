@@ -3,7 +3,10 @@ name: SEB_45_Team025_MainProject
 on:
   pull_request:
     branches:
-      - feat/be-directory
+      [ feat/be-directory ]
+  push:
+    branches:
+      [ main ]
 
 jobs:
   deploy:
