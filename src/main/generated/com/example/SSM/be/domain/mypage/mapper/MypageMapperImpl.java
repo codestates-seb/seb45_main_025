@@ -1,4 +1,4 @@
-package com.example.SSM.be.domain.board.mapper;
+package com.example.SSM.be.domain.mypage.mapper;
 
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
@@ -9,5 +9,5 @@ import org.springframework.stereotype.Component;
     comments = "version: 1.4.2.Final, compiler: javac, environment: Java 11.0.20 (Azul Systems, Inc.)"
 )
 @Component
-public class BoardMapperImpl implements BoardMapper {
+public class MypageMapperImpl implements MypageMapper {
 }

@@ -1,10 +1,13 @@
 HELP.md
 .gradle
+build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
-build/
+Dockerfile
 .github
+
+build
 ### STS ###
 .apt_generated
 .classpath

@@ -8,6 +8,9 @@ on:
     branches:
       - main
 
+env:
+  TZ: Asia/Seoul  # 서울 시간대로 설정
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -15,7 +18,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
