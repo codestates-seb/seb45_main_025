@@ -71,8 +71,8 @@ function WritePost() {
             // 데이터
             
             const response = await axios.post(`${URI}/board`, {
-                title: title,
-                content: content,
+                "title": title,
+                "content": content,
             });
 
 
