@@ -29,6 +29,7 @@ jobs:
 
       - name: Push Docker Image
         run: |
+          sudo docker rmi toyp/ssm_025:latest
           sudo docker push toyp/ssm_025:latest
 
       - name: Configure AWS credentials
