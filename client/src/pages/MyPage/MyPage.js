@@ -1,21 +1,22 @@
-import {MyPageContainer,
+import {
+  MyPageContainer,
   MyPageMain, MyPageImg,
   ChangeAccountBtn, MyPageName,
   MyPageNickName, MyPageGender,
   MyPageBirth, MyPageAddress,
   MyPageTel, MyPageEmail
-  } from './MyPage.styled';
-import { useState , useEffect} from "react";
+} from './MyPage.styled';
+import { useState, useEffect } from "react";
 import basicimg from '../../common/image/basicimg.png';
 import edit from '../../common/image/edit.png';
 import { Link } from "react-router-dom";
 import BackgroundImage from '../../components/BackgroundImage/BackgroundImage';
-import  chococookie  from '../../common/image/darkcookies.jpg';
+import chococookie from '../../common/image/darkcookies.jpg';
 import axios from "axios";
 import getAccessToken from '../../common/utils/getToken';
 
-export default function MyPage(){
-  const [myImg,  setMyImg] = useState(null);
+export default function MyPage() {
+  const [myImg, setMyImg] = useState(null);
   const [name, setName] = useState('');
   const [nickName, setNickName] = useState('')
   const [gender, setGender] = useState('');
@@ -54,10 +55,10 @@ export default function MyPage(){
 
   return (
     <MyPageContainer>
-      <BackgroundImage imgSrc={chococookie} title='MY PAGE'/>
+      <BackgroundImage imgSrc={chococookie} title='MY PAGE' />
       <MyPageMain>
         <MyPageImg>
-        {myImg === null ? <img src={basicimg} alt='img' className='myimg'></img> : <img src={myImg} alt="img" className='myimg'></img>}
+          {myImg === null ? <img src={basicimg} alt='img' className='myimg'></img> : <img src={myImg} alt="img" className='myimg'></img>}
         </MyPageImg>
         <div className='mypageetc'>
           <Link to='edit'>
