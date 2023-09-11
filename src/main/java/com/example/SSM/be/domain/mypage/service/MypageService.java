@@ -1,9 +1,7 @@
 package com.example.SSM.be.domain.mypage.service;
-import com.example.SSM.be.domain.board.dto.BoardResponseDto;
+
 import com.example.SSM.be.domain.board.dto.BoardResponseListDto;
 import com.example.SSM.be.domain.board.entity.Board;
-import com.example.SSM.be.domain.board.entity.Image;
-import com.example.SSM.be.domain.board.mapper.BoardMapper;
 import com.example.SSM.be.domain.board.repository.BoardRepository;
 import com.example.SSM.be.domain.member.entity.Member;
 import com.example.SSM.be.domain.member.repository.MemberRepository;
@@ -22,11 +20,8 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.transaction.Transactional;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;

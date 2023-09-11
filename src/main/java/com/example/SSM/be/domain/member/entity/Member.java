@@ -58,14 +58,13 @@ public class Member extends Auditable {
 
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
+    @JsonIgnore
+    @OneToOne(mappedBy = "member", cascade = CascadeType.PERSIST, orphanRemoval = true, fetch = FetchType.LAZY)
+    private ProfileImage image;
 
     @Enumerated(EnumType.STRING)
     @Column
     private MemberStatus memberStatus = MemberStatus.MEMBER_ACTIVE;
-
-    @JsonIgnore
-    @OneToOne(mappedBy = "member", cascade = CascadeType.PERSIST, orphanRemoval = true, fetch = FetchType.LAZY)
-    private ProfileImage image;
 
 //    @Enumerated(EnumType.STRING)
 //    @Column

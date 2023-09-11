@@ -89,12 +89,12 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         Cookie accessTokenCookie = new Cookie("access_token", accessToken);
         accessTokenCookie.setHttpOnly(true); // JavaScript로 접근을 막음
-        accessTokenCookie.setSecure(true); // HTTPS 연결에서만 쿠키 사용
+        accessTokenCookie.setSecure(false); // HTTPS 연결에서만 쿠키 사용
         accessTokenCookie.setMaxAge(3600); // 쿠키 만료 시간 설정 (초 단위)
         response.addCookie(accessTokenCookie);
         Cookie refreshTokenCookie = new Cookie("refresh_token", refreshToken);
         refreshTokenCookie.setHttpOnly(true);
-        refreshTokenCookie.setSecure(true);
+        refreshTokenCookie.setSecure(false);
         refreshTokenCookie.setMaxAge(3600);
         response.addCookie(refreshTokenCookie);
 
