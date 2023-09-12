@@ -81,7 +81,10 @@ public class CartController {
         String email = claims.getBody().getSubject();
 
         List<CartItem> cartItems = cartService.getCartItems(email);
-        List<CartItemResponseDTO> cartItemDTOs = CartItemResponseDTO.fromCartItem(cartItems);
+        List<CartItemResponseDTO> cartItemDTOs = new ArrayList<>();
+        for (CartItem cartItem : cartItems) {
+            cartItemDTOs.add(new CartItemResponseDTO(cartItem));
+        }
         return ResponseEntity.ok(cartItemDTOs);
     }
     @PatchMapping("/update/{productId}")
