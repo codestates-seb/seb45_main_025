@@ -1,4 +1,4 @@
-package com.example.SSM.be.domain.order.dto;
+package com.example.SSM.be.domain.payment.dto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -8,8 +8,8 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class OrderDTO {
-    private Long id;
+public class PaymentDTO {
+    private Long paymentid;
     private Long memberId; // 주문 회원 ID
     private LocalDateTime orderDate;
     private BigDecimal totalAmount;

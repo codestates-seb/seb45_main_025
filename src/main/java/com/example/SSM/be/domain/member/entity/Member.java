@@ -54,7 +54,7 @@ public class Member extends Auditable {
     @Column
     private String img;
     @Column
-    private Long point = 1000000000L;
+    private Long point = 100000L;
 
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
@@ -87,12 +87,6 @@ public class Member extends Auditable {
         GOOGLE,
         FACEBOOK
     }
-    @ManyToMany
-    @JoinTable(
-            name = "member_liked_products",
-            joinColumns = @JoinColumn(name = "member_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id")
-    )
-    @JsonIgnoreProperties("likedByMembers")
-    private Set<Products> likedProducts = new HashSet<>();
+    @OneToMany(mappedBy = "member",fetch = FetchType.LAZY)
+    private List<Products> likedProducts;
 }

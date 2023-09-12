@@ -1,4 +1,4 @@
-package com.example.SSM.be.domain.order.entity;
+package com.example.SSM.be.domain.payment.entity;
 
 import com.example.SSM.be.domain.products.entity.Products;
 import lombok.Getter;
@@ -10,16 +10,16 @@ import java.math.BigDecimal;
 @Entity
 @Getter
 @Setter
-public class OrderItem {
+public class PaymentItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long paymentid;
 
-    @ManyToOne
-    private Order order; // 어떤 주문에 속한 상품인지
+    @ManyToOne(fetch = FetchType.EAGER) // 즉시로딩으로 변경
+    private Payment payment; // 어떤 주문에 속한 상품인지
 
-    @ManyToOne
-    private Products product; // 주문한 상품 정보
+    @ManyToOne(fetch = FetchType.EAGER) // 즉시로딩으로 변경
+    private Products products; // 주문한 상품 정보
 
     private int quantity;
 
