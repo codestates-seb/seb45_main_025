@@ -60,7 +60,7 @@ export default function Order() {
     setInputRequest(event.target.value);
   }
 
-  const handleOrder = (event) => {
+  const handleOrder = () => {
     if (!isInputValid) {
       window.scroll(0, 940);
     }
@@ -86,12 +86,6 @@ export default function Order() {
     };
 
     console.log(data);
-
-    const orderConfirm = window.confirm(`Order`);
-    if (!orderConfirm) {
-      event.preventDefault();
-      return;
-    }
 
     // TODO: [POST] /order
 
@@ -156,7 +150,7 @@ export default function Order() {
                   onChange={inputRequestHandler} />
               </FormCotents>
             </FormContainer>
-            <FormContainer>
+            {/* <FormContainer>
               <FormTitle>PAYMENT METHOD</FormTitle>
               <FormCotents>
                 <label htmlFor='point'>Point</label>
@@ -165,7 +159,7 @@ export default function Order() {
                   <button>Use All</button>
                 </div>
               </FormCotents>
-            </FormContainer>
+            </FormContainer> */}
           </LeftBox>
           <RightBox className={scrollY > 490 ? 'fixed' : 'absolute'}>
             <FormContainer>
@@ -193,7 +187,7 @@ export default function Order() {
                     <button onClick={() => window.scroll(0, 0)}>
                       RETURN TO CART</button>
                   </Link>
-                  <Link to={isInputValid ? '/order-list' : '#'}>
+                  <Link to={isInputValid ? '/order/checkout' : '#'}>
                     <button
                       className='order-btn'
                       onClick={handleOrder}>ORDER</button>

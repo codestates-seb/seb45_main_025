@@ -17,9 +17,9 @@ import List from './pages/List/List';
 import CommunityList from './pages/CommunityList/CommunityList';
 import WritePost from './pages/WritePost/WritePost';
 import CommunityBoard from './pages/CommunityBoard/CommunityBoard';
-import OrderCheckout from './pages/OrderChcckout/OrderCheckout';
-import OrderSuccess from './pages/OrderSuccess/OrderSuccess';
+import OrderCheckout from './pages/OrderCheckout/OrderCheckout';
 import OrderFail from './pages/OrderFail/OrderFail';
+import OrderSuccess from './pages/OrderSuccess/OrderSuccess';
 
 function App() {
   return (

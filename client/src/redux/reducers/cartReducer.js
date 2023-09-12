@@ -7,7 +7,7 @@ import {
 
 const initialState = {
   cartItems: CartDataSample,
-  selected: CartDataSample.map(data => data.product.id),
+  selected: CartDataSample,
   allSelected: true,
 };
 

@@ -126,7 +126,7 @@ export const ButtonsContainer = styled.div`
     border: 1px solid var(--gray-10);
     border-radius: 5px;
     padding: 0.5rem 1rem;
-    font-size: 14px;
+    font-size: 1rem;
     font-weight: 200;
     margin: 0 0.2rem;
   }

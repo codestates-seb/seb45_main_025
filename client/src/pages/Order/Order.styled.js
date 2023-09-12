@@ -100,7 +100,6 @@ export const FormCotents = styled.div`
       display: flex;
       justify-content: flex-start;
       font-weight: 600;
-      /* margin-top: 1rem; */
       font-size: 1rem;
       margin-bottom: 0.3rem;
     } 
@@ -116,13 +115,6 @@ export const FormCotents = styled.div`
         margin-bottom: 0.5rem;
       }
     } 
-
-    .point {
-      border: 1px solid red;
-      display: flex;
-      width: 100%;
-      justify-content: space-between;
-    }
   }
 
   .subtotal-price {
