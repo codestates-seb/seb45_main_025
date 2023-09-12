@@ -15,7 +15,7 @@ export const Wrapper = styled.div`
 export const Container = styled.div`
   height: 4rem;
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   margin-left: 22vw;
   align-items: center;
   background-color: var()(--white-color);

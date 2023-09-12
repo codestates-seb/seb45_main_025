@@ -102,7 +102,7 @@ const List = () => {
   }, [listCurrentPage, searchText, searchApi, searchSelected]);
 
   const itemOnClickHandler = productId => {
-    navigate(`/get/${productId}`);
+    navigate(`/products/get/${productId}`);
   };
 
   return (

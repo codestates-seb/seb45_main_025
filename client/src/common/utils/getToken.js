@@ -16,5 +16,5 @@ export default function getAccessToken(){
 //     return accesstoken
 //   }
 let access_token = localStorage.getItem('access_token');
-return access_token
+return access_token;
 }
