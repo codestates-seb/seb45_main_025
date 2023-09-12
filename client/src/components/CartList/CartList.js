@@ -14,7 +14,7 @@ import {
 } from '../../redux/actions/cartActions';
 import axios from 'axios';
 import CartItem from '../CartItem/CartItem';
-import getAccessToken from '../../common/utils/getToken';
+// import getAccessToken from '../../common/utils/getToken';
 
 export default function CartList() {
   const dispatch = useDispatch();
@@ -22,14 +22,26 @@ export default function CartList() {
   const selected = useSelector((state) => state.cart.selected);
   const allSelected = useSelector((state) => state.cart.allSelected);
   const apiUrl = process.env.REACT_APP_API_URL;
+  // const accessToken = getAccessToken();
+  const accessToken = `Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJVU0VSIl0sIm1lbWJlcklkIjoxLCJzdWIiOiJzb25AZ21haWwuY29tIiwiaWF0IjoxNjk0NTAzNDYzLCJleHAiOjE2OTQ1MDUyNjN9.RgI7S1guK_BbIX6O1mMl4tCYm7u3CXEuzYcJvD2_4cw`;
+  // const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
+
+  // FIXME: 장바구니 post 요청 테스트 용. 나중에 삭제
+  const addHandler = () => {
+    axios.post(`${apiUrl}/cart/add/1?quantity=2`, { headers: { Authorization: accessToken } })
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
 
   const fetchCartItems = () => {
-    const accessToken = getAccessToken();
-    console.log('Access Token: ', localStorage);
-    // axios.get(`${apiUrl}/cart/list`, { headers: { Authorization: "Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJVU0VSIl0sIm1lbWJlcklkIjoyLCJzdWIiOiJzb25AZ21haWwuY29tIiwiaWF0IjoxNjk0NDIxNzg5LCJleHAiOjE2OTQ0MjM1ODl9.vdRg6KgkigFQrgdoCoQVkHAYVQOCcS1IBPmL9IpO8i0" } })
     axios.get(`${apiUrl}/cart/list`, { headers: { Authorization: accessToken } })
       .then((response) => {
         dispatch(setCartItems(response.data));
+        dispatch(setSelected(response.data));
         console.log(response.data);
       })
       .catch((error) => {
@@ -39,7 +51,7 @@ export default function CartList() {
 
   useEffect(() => {
     fetchCartItems();
-    // dispatch(setAllSelected(cartItems.length === selected.length));
+    dispatch(setAllSelected(cartItems.length === selected.length));
   }, [dispatch]);
 
   console.log(selected);
@@ -49,26 +61,24 @@ export default function CartList() {
       dispatch(setSelected([]));
       dispatch(setAllSelected(false));
     } else {
-      dispatch(setSelected(cartItems.map(item => item.product.id)));
+      dispatch(setSelected(cartItems));
       dispatch(setAllSelected(true));
     }
   };
 
-  const handleOrder = (isAll) => {
-    if (isAll) {
-      dispatch(setSelected(cartItems.map(item => item.product.id)));
-    }
+  const handleOrder = () => {
     window.scroll(0, 0);
   }
 
   const handleDelete = (isAll) => {
     if (isAll) {
-      axios.delete(`${apiUrl}/cart/clear`)
+      axios.delete(`${apiUrl}/cart/clear`, { headers: { Authorization: accessToken } })
         .then((response) => {
           if (response.ok) {
             alert('delete all item success');
             dispatch(setCartItems(response.data));
             dispatch(setSelected([]));
+            dispatch(setAllSelected(false));
           }
         })
         .catch((error) => {
@@ -80,8 +90,8 @@ export default function CartList() {
         params += `productIds=${id}&`;
       }
       params = params.slice(0, -1);
-      const apiUrl = `${apiUrl}/cart/remove-multiple?${params}`;
-      axios.delete(apiUrl, { data: { selected } })
+      const removeCartUrl = `${removeCartUrl}/cart/remove-multiple?${params}`;
+      axios.delete(removeCartUrl, { headers: { Authorization: accessToken } })
         .then((response) => {
           if (response.ok) {
             alert('delete selected item success');
@@ -98,6 +108,7 @@ export default function CartList() {
 
   return (
     <CartListContainer>
+      <button onClick={addHandler}>ADD</button>
       <CartTable>
         <thead>
           <tr>
@@ -134,12 +145,12 @@ export default function CartList() {
           </Link>
           <button
             onClick={() => handleDelete(allSelected)}
-            disabled={selected.length === 0}
+            disabled={selected.length === 0 || cartItems.length === 0}
           >Delete Selected</button>
           <Link to='/order'>
             <button
               onClick={() => handleOrder(false)}
-              disabled={selected.length === 0}
+              disabled={selected.length === 0 || cartItems.length === 0}
             >Order Selected</button>
           </Link>
         </ButtonsContainer>
@@ -148,7 +159,7 @@ export default function CartList() {
           && <div className='subtotal-price'>
             <span>Subtotal : </span>
             $ {cartItems
-              .filter(item => selected.includes(item.product.id))
+              .filter(item => selected.map(el => el.product.id).includes(item.product.id))
               .reduce((total, item) => total + item.totalPrice, 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
           </div>
         }

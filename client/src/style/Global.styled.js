@@ -1,21 +1,5 @@
 import { styled, createGlobalStyle } from 'styled-components';
 
-export const BaseContainer = styled.div`
-  width: 100%;
-  height: 100%;
-  padding-top: 60px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-`;
-
-export const BaseWrap = styled.div`
-  max-width: var(--main-width);
-  min-height: calc(100vh - 382px);
-  width: 100%;
-`;
-
 export const GlobalStyle = createGlobalStyle`
   :root {
     --main-width: 1024px;

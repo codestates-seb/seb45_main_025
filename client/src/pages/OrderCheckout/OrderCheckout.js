@@ -6,6 +6,8 @@ import {
 } from "@tosspayments/payment-widget-sdk";
 import { nanoid } from "nanoid";
 import { OrderCheckoutContainer } from './OrderCheckout.styled';
+import BackgroundImage from '../../components/BackgroundImage/BackgroundImage';
+import snackImg from '../../common/image/main-image.png';
 
 const selector = "#payment-widget";
 const clientKey = "test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq";
@@ -41,6 +43,7 @@ export default function OrderCheckout() {
   }, []);
 
   useEffect(() => {
+    window.scroll(0, 0);
     const paymentMethodsWidget = paymentMethodsWidgetRef.current;
 
     if (paymentMethodsWidget == null) {
@@ -56,47 +59,50 @@ export default function OrderCheckout() {
   }, [price]);
 
   return (
-    <OrderCheckoutContainer>
-      <h1>주문서</h1>
-      <span>{`${price.toLocaleString()}원`}</span>
-      <div>
-        <label>
-          <input
-            type="checkbox"
-            onChange={(event) => {
-              setPrice(event.target.checked ? price - 5000 : price + 5000);
-            }}
-          />
-          5,000원 할인 쿠폰 적용
-        </label>
-      </div>
-      <div id="payment-widget" />
-      <div id="agreement" />
-      <button
-        onClick={async () => {
-          const paymentWidget = paymentWidgetRef.current;
+    <>
+      <BackgroundImage imgSrc={snackImg} title='ACCOUNT' />
+      <OrderCheckoutContainer>
+        <h1>PAYMENT</h1>
+        <span>{`${price.toLocaleString()}원`}</span>
+        <div>
+          <label>
+            <input
+              type="checkbox"
+              onChange={(event) => {
+                setPrice(event.target.checked ? price - 5000 : price + 5000);
+              }}
+            />
+            5,000원 할인 쿠폰 적용
+          </label>
+        </div>
+        <div id="payment-widget" />
+        <div id="agreement" />
+        <button
+          onClick={async () => {
+            const paymentWidget = paymentWidgetRef.current;
 
-          try {
-            // ------ '결제하기' 버튼 누르면 결제창 띄우기 ------
-            // https://docs.tosspayments.com/reference/widget-sdk#requestpayment결제-정보
-            await paymentWidget?.requestPayment({
-              orderId: nanoid(),
-              orderName: "Korean snacks",
-              customerName: "김땡떙",
-              customerEmail: "customer123@gmail.com",
-              // successUrl: `/success`,
-              // failUrl: `/fail`,
-              successUrl: `${window.location.origin}/success`,
-              failUrl: `${window.location.origin}/fail`,
-            });
-          } catch (error) {
-            // 에러 처리하기
-            console.error(error);
-          }
-        }}
-      >
-        결제하기
-      </button>
-    </OrderCheckoutContainer>
+            try {
+              // ------ '결제하기' 버튼 누르면 결제창 띄우기 ------
+              // https://docs.tosspayments.com/reference/widget-sdk#requestpayment결제-정보
+              await paymentWidget?.requestPayment({
+                orderId: nanoid(),
+                orderName: "Korean snacks",
+                customerName: "김땡떙",
+                // customerEmail: "customer123@gmail.com",
+                // successUrl: `${window.location.origin}/order/success`,
+                failUrl: `${window.location.origin}/order/fail`,
+                successUrl: `${window.location.origin}/order/success`,
+                // failUrl: `${window.location.origin}/fail`,
+              });
+            } catch (error) {
+              // 에러 처리하기
+              console.error(error);
+            }
+          }}
+        >
+          결제하기
+        </button>
+      </OrderCheckoutContainer>
+    </>
   );
 }

@@ -16,8 +16,8 @@ export default function CartItem({ item }) {
     setCurQuantity(item.quantity);
   }, []);
 
-  const handleCheckClick = (productId) => {
-    const updatedSelected = (selected.includes(productId)) ? selected.filter(id => id !== productId) : [...selected, productId];
+  const handleCheckClick = (checkedItem) => {
+    const updatedSelected = (selected.map(item => item.product.id).includes(checkedItem.product.id)) ? selected.filter(item => item.product.id !== checkedItem.product.id) : [...selected, checkedItem];
     dispatch(setSelected(updatedSelected));
     dispatch(setAllSelected(updatedSelected.length === cartItems.length));
   }
@@ -40,10 +40,10 @@ export default function CartItem({ item }) {
   return (
     <CartItemContainer>
       <td>
-        <button className='checkbox-container' onClick={() => handleCheckClick(item.product.id)}>
+        <button className='checkbox-container' onClick={() => handleCheckClick(item)}>
           <input
             type='checkbox'
-            checked={selected.includes(item.product.id)} />
+            checked={selected.map(item => item.product.id).includes(item.product.id)} />
         </button>
       </td>
       <td className='name'>
