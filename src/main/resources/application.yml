@@ -1,16 +1,23 @@
 
 spring:
+  h2:
+    console:
+      enabled: true
+
+  datasource:
+    url: jdbc:h2:file:~/seb025db  # 파일 기반 H2 데이터베이스 사용
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
   jpa:
     hibernate:
       ddl-auto: create-drop
     database-platform: org.hibernate.dialect.H2Dialect
     open-in-view: false
 
-  datasource:
-    url: jdbc:h2:mem:testdb
-    driverClassName: org.h2.Driver
-    username: sa
-    password: password
+  jpa-auditing:
+    enabled: true
 
   servlet:
     multipart:
@@ -45,7 +52,7 @@ springdoc:
 
 logging:
   level:
-    root: INFO
+    root: DEBUG
 server:
   port: 8080
 mail:
@@ -55,3 +62,4 @@ jwt:
   secret-key: CodeStatesMainProject25team
   access-token-expiration-minutes: 30
   refresh-token-expiration-minutes: 360
+

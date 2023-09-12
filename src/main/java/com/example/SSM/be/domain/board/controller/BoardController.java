@@ -173,5 +173,5 @@ public class BoardController {
         boardService.deleteBoard(findMember, boardId);
         return new ResponseEntity("게시물이 삭제되었습니다.",HttpStatus.OK);
     }
-    ////주석테스트
+
 }
