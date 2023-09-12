@@ -2,8 +2,6 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { 
     useSearchTextStore,
-    useSearchSelectedStore,
-    useSearchApiStore,
     useSearchIsUpdateStore,
  } from "../../stores/listSearchStore";
  import {
@@ -17,8 +15,6 @@ import {
 
  const Search = () => {
     const { setSearchText } = useSearchTextStore(state => state);
-    const { setSearchSelected } = useSearchSelectedStore(state => state);
-    const { setSearchApi } = useSearchApiStore(state => state);
     const { setSearchIsUpdate } = useSearchIsUpdateStore(state => state);
     const { setListPage } = useListPageStore(state => state);
     const { setListCurrentPage } = useListCurrentPageStore(state => state);
@@ -47,8 +43,6 @@ import {
     useEffect(() => {
         //Reset
         setSearchTxt('');
-        setSearchApi('productName');
-        setSearchSelected('name');
         setSearchIsUpdate(false);
         setListCurrentPage(1);
         setListPage(1);

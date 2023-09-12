@@ -15,10 +15,10 @@ import {
 } from "./List.styled";
 
 import {
-  useSearchApiStore,
   useSearchIsUpdateStore,
-  useSearchSelectedStore,
   useSearchTextStore,
+  useSearchCategoryStore,
+  useSearchSelectedCategoryStore,
 } from '../../stores/listSearchStore'
 
 import {
@@ -34,9 +34,7 @@ const List = () => {
   const navigate = useNavigate();
   const URI = process.env.REACT_APP_API_URL;
   const { searchText } = useSearchTextStore(state => state);
-  const { searchSelected } = useSearchSelectedStore(state => state);
-  const { searchIsUpdate, setSearchIsUpdate } = useSearchIsUpdateStore(state => state);
-  const { searchApi } = useSearchApiStore(state => state);
+  const { searchIsUpdate, setSearchIsUpdate } = useSearchIsUpdateStore(state => state);  
   const [itemList, setItemList] = useState([]);
   const { listPage, setListPage, setScrollPage } = useListPageStore(state => state);
   const { listCurrentPage, setListCurrentPage } = useListCurrentPageStore(state => state);
@@ -72,7 +70,7 @@ const List = () => {
     } else {
       if (searchIsUpdate === true) {
         axios
-          .get(`${URI}/products/${searchSelected}?${searchApi}=${searchText}&page=${listCurrentPage}&pageSize=${PER_PAGE}`)
+          .get(`${URI}/products/search?productName=${searchText}page=${listCurrentPage}&pageSize=${PER_PAGE}`)
           .then(res => {
             if (!res.data) {
               setItemList([]);
@@ -99,7 +97,7 @@ const List = () => {
     return () => {
       window.removeEventListener('resize', handleWindowResize);
     };
-  }, [listCurrentPage, searchText, searchApi, searchSelected]);
+  }, [listCurrentPage, searchText]);
 
   const itemOnClickHandler = productId => {
     navigate(`/products/get/${productId}`);
@@ -141,8 +139,6 @@ const List = () => {
               setPage={setListPage}
               setScrollPage={setScrollPage}
               searchText={searchText}
-              searchSelected={searchSelected}
-              searchApi={searchApi}
               totalPageCount={totalPageCount}
               setTotalPageCount={setTotalPageCount}
               windowSize={windowSize}
