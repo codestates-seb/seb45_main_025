@@ -1,7 +1,3 @@
-// 장바구니 추가  /cart/add/{{productId}}?quantity=개수
-// 장바구니 조회  /cart/list 
-// 장바구니 수정  /cart/update/{{productId}}?quantity=개수/
-// 장바구니 삭제  /cart/remove/{{productId}}
 import {
   CartListContainer,
   CartTable,
@@ -17,17 +13,36 @@ import {
   setAllSelected
 } from '../../redux/actions/cartActions';
 import axios from 'axios';
+import CartItem from '../CartItem/CartItem';
+// import getAccessToken from '../../common/utils/getToken';
 
 export default function CartList() {
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.cartItems);
   const selected = useSelector((state) => state.cart.selected);
   const allSelected = useSelector((state) => state.cart.allSelected);
+  const apiUrl = process.env.REACT_APP_API_URL;
+  // const accessToken = getAccessToken();
+  const accessToken = `Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJVU0VSIl0sIm1lbWJlcklkIjoxLCJzdWIiOiJzb25AZ21haWwuY29tIiwiaWF0IjoxNjk0NTAzNDYzLCJleHAiOjE2OTQ1MDUyNjN9.RgI7S1guK_BbIX6O1mMl4tCYm7u3CXEuzYcJvD2_4cw`;
+  // const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
+
+  // FIXME: 장바구니 post 요청 테스트 용. 나중에 삭제
+  const addHandler = () => {
+    axios.post(`${apiUrl}/cart/add/1?quantity=2`, { headers: { Authorization: accessToken } })
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
 
   const fetchCartItems = () => {
-    axios.get('/cart/list')
+    axios.get(`${apiUrl}/cart/list`, { headers: { Authorization: accessToken } })
       .then((response) => {
         dispatch(setCartItems(response.data));
+        dispatch(setSelected(response.data));
+        console.log(response.data);
       })
       .catch((error) => {
         console.error('Failed to load cart items: ', error);
@@ -36,7 +51,7 @@ export default function CartList() {
 
   useEffect(() => {
     fetchCartItems();
-    // dispatch(setAllSelected(cartItems.length === selected.length));
+    dispatch(setAllSelected(cartItems.length === selected.length));
   }, [dispatch]);
 
   console.log(selected);
@@ -46,44 +61,24 @@ export default function CartList() {
       dispatch(setSelected([]));
       dispatch(setAllSelected(false));
     } else {
-      dispatch(setSelected(cartItems.map(item => item.product.id)));
+      dispatch(setSelected(cartItems));
       dispatch(setAllSelected(true));
     }
   };
 
-  const handleQuantityChange = (productId, event) => {
-    console.log(productId, event.target.value);
-
-    axios.patch(`/cart/update/${productId}?quantity=${event.target.value}`)
-      .then((response) => {
-        dispatch(setCartItems(response.data));
-      })
-      .catch((error) => {
-        console.error(`Failed to update item's quantity: `, error);
-      })
-  }
-
-  const handleCheckClick = (productId) => {
-    const updatedSelected = (selected.includes(productId)) ? selected.filter(id => id !== productId) : [...selected, productId];
-    dispatch(setSelected(updatedSelected));
-    dispatch(setAllSelected(updatedSelected.length === cartItems.length));
-  }
-
-  const handleOrder = (isAll) => {
-    if (isAll) {
-      dispatch(setSelected(cartItems.map(item => item.product.id)));
-    }
+  const handleOrder = () => {
     window.scroll(0, 0);
   }
 
   const handleDelete = (isAll) => {
     if (isAll) {
-      axios.delete(`/cart/clear`)
+      axios.delete(`${apiUrl}/cart/clear`, { headers: { Authorization: accessToken } })
         .then((response) => {
           if (response.ok) {
             alert('delete all item success');
             dispatch(setCartItems(response.data));
             dispatch(setSelected([]));
+            dispatch(setAllSelected(false));
           }
         })
         .catch((error) => {
@@ -95,9 +90,8 @@ export default function CartList() {
         params += `productIds=${id}&`;
       }
       params = params.slice(0, -1);
-      const apiUrl = `/cart/remove-multiple?${params}`;
-      console.log(apiUrl);
-      axios.delete('/cart/remove-multiple', { data: { selected } })
+      const removeCartUrl = `${removeCartUrl}/cart/remove-multiple?${params}`;
+      axios.delete(removeCartUrl, { headers: { Authorization: accessToken } })
         .then((response) => {
           if (response.ok) {
             alert('delete selected item success');
@@ -114,6 +108,7 @@ export default function CartList() {
 
   return (
     <CartListContainer>
+      <button onClick={addHandler}>ADD</button>
       <CartTable>
         <thead>
           <tr>
@@ -136,36 +131,7 @@ export default function CartList() {
         <tbody>
           {cartItems.length > 0
             ? cartItems.map(item => (
-              <tr key={item.product.id}>
-                <td>
-                  <button className='checkbox-container' onClick={() => handleCheckClick(item.product.id)}>
-                    <input
-                      type='checkbox'
-                      checked={selected.includes(item.product.id)} />
-                  </button>
-                </td>
-                <td className='name'>
-                  <Link to={`/products/${item.product.id}`}>
-                    <img src={item.product.img} alt='' />
-                    {item.product.productName}
-                  </Link>
-                </td>
-                <td className='price'>
-                  {item.product.productPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                </td>
-                <td className='quantity'>
-                  <input
-                    type='number'
-                    placeholder={item.quantity}
-                    min='1'
-                    max='99'
-                    onChange={(event) => handleQuantityChange(item.product.id, event)}
-                  />
-                </td>
-                <td className='total-price'>
-                  {(item.totalPrice).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                </td>
-              </tr>
+              <CartItem key={item.product.id} item={item} />
             ))
             : <tr>
               <td className='empty' colSpan='4'>Your cart is empty.</td>
@@ -177,25 +143,14 @@ export default function CartList() {
           <Link to='/products'>
             <button>Keep Shopping</button>
           </Link>
-
-          {/* <Link to='/order'>
-            <button
-              onClick={() => handleOrder(true)}
-              disabled={cartItems.length === 0}
-            >Order All</button>
-          </Link> */}
           <button
             onClick={() => handleDelete(allSelected)}
-            disabled={selected.length === 0}
+            disabled={selected.length === 0 || cartItems.length === 0}
           >Delete Selected</button>
-          {/* <button
-            onClick={() => handleDelete(allSelected)}
-            disabled={cartItems.length === 0}
-          >Empty Cart</button> */}
           <Link to='/order'>
             <button
               onClick={() => handleOrder(false)}
-              disabled={selected.length === 0}
+              disabled={selected.length === 0 || cartItems.length === 0}
             >Order Selected</button>
           </Link>
         </ButtonsContainer>
@@ -203,7 +158,9 @@ export default function CartList() {
           cartItems.length > 0
           && <div className='subtotal-price'>
             <span>Subtotal : </span>
-            $ {cartItems.filter(item => selected.includes(item.product.id)).reduce((total, item) => total + item.totalPrice, 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            $ {cartItems
+              .filter(item => selected.map(el => el.product.id).includes(item.product.id))
+              .reduce((total, item) => total + item.totalPrice, 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
           </div>
         }
       </FlexBox>

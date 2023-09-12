@@ -9,7 +9,7 @@ import  potatochip  from '../../common/image/potatochip.jpeg';
 export default function SignUpSelect(){
   const URI = process.env.REACT_APP_API_URL;
   function googlesignup(){
-    axios.post(`${URI}/login/callback`)
+    axios.post(`${URI}/oauth2/authorization/google`)
     .then((res)=>{
       console.log(res)
     })

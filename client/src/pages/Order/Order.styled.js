@@ -100,8 +100,8 @@ export const FormCotents = styled.div`
       display: flex;
       justify-content: flex-start;
       font-weight: 600;
-      /* margin-top: 1rem; */
       font-size: 1rem;
+      margin-bottom: 0.3rem;
     } 
 
     .flex-row {
@@ -112,12 +112,13 @@ export const FormCotents = styled.div`
       div {
         font-size: 0.9rem;
         margin: 0 0.3rem;
+        margin-bottom: 0.5rem;
       }
-  } 
+    } 
   }
 
   .subtotal-price {
-      margin-top: 0.5rem;
+      margin-top: 1.3rem;
       border-top: 1px solid var(--gray-10);
       padding-top: 0.7rem;
       display: flex;
