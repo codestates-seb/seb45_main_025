@@ -7,7 +7,7 @@ build/
 Dockerfile
 .github
 
-build
+
 ### STS ###
 .apt_generated
 .classpath
