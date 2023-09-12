@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaChevronDown } from 'react-icons/fa';
 import { 
     useSearchTextStore,
     useSearchSelectedStore,
@@ -13,10 +12,7 @@ import {
  } from "../../stores/listPageStore";
  import {
     SearchBox,
-    SearchSelBox,
     SearchBtn,
-    SearchSelect,
-    SearchSelectDown,
  } from "./Search.styled";
 
  const Search = () => {
@@ -36,16 +32,6 @@ import {
     const submitPageHandler = () => {
         setListCurrentPage(1);
         setListPage(1);
-    };
-    const selectHandler = e => {
-        const selected = e.target.value;
-        if (selected === 'name') {
-            setSearchApi('productName');
-        } else if (selected === 'content') {
-            setSearchApi('content');
-        }
-        setSearchSelected(selected);
-        setSearchIsUpdate(true);
     };
 
     const searchSubmit = e => {
@@ -71,15 +57,6 @@ import {
     return (
         <SearchBox>
             <label htmlFor="search">Product Search</label>
-            <SearchSelBox>
-                <SearchSelect onChange={selectHandler}>
-                    <option value="name">Product Name</option>
-                    <option value="content">Content</option>
-                </SearchSelect>
-                <SearchSelectDown>
-                    <FaChevronDown />
-                </SearchSelectDown>
-            </SearchSelBox>
             <input
               type="text"
               id="search"
