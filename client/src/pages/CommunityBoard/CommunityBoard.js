@@ -93,6 +93,7 @@ function CommunityBoard({ title, content, boardId, profilePicture, postDate, vie
 
     // 댓글 수정 함수
     const editComment = async (commentId, updatedContent) => {
+        console.log(updatedContent)
         try {
             // 서버로 수정된 댓글을 보내고, 성공 시 댓글 목록을 업데이트
             const response = await axios.patch(`${URI}/board/{board-id}/comment/{comment-id}`, {
@@ -122,6 +123,7 @@ function CommunityBoard({ title, content, boardId, profilePicture, postDate, vie
     };
 
     useEffect(() => {
+        console.log(deleteComment,editComment)
         // 컴포넌트가 마운트될 때 또는 boardId가 변경될 때 fetchData 함수를 호출합니다.
         fetchData();
         // 댓글 목록을 불러오는 함수를 호출합니다.

@@ -1,11 +1,17 @@
 import { useState } from 'react';
-import ReactQuill from 'react-quill';
+import ReactQuill, {Quill} from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import ImageResize from './imageResize/ImageResize';
+
 import PropTypes from 'prop-types';
 import axios from 'axios'
-
+Quill.register('modules/imageResize', ImageResize);
 const Editor = ({ placeholder, value, onChange }) => {
     const modules = {
+        imageResize: {
+            parchment: Quill.import('parchment')
+            // See optional "config" below
+        },
         toolbar: {
             container: [
                 ['link', 'image', 'video'],
