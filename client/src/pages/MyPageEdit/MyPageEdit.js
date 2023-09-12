@@ -6,13 +6,14 @@ import {MyPageEditContainer,
     ,MyPagePassword,MyPagePassWordDoubleCheck
     ,MyPageSubmit
   } from './MyPageEdit.styled';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import basicimg from '../../common/image/basicimg.png';
 import trashcan from '../../common/image/trashcan.png';
 import BackgroundImage from '../../components/BackgroundImage/BackgroundImage';
 import  chococookie  from '../../common/image/darkcookies.jpg';
 import axios from 'axios';
+import getAccessToken from '../../common/utils/getToken';
 
 export default function MyPageEdit(){
   const [myImg, setMyImg] = useState(null);
@@ -20,7 +21,7 @@ export default function MyPageEdit(){
   const [nickName,setNickName] = useState('');
   const [gender, setGender] = useState('');
   const [birth, setBirth] = useState('');
-  const [adress, setAdress] = useState('');
+  const [address, setAddress] = useState('');
   const [phoneNumber, setphoneNumber] = useState('');
   const [emailFront, setEmailFront] = useState('');
   const [emailBack, setEmailBack] = useState('');
@@ -33,32 +34,62 @@ export default function MyPageEdit(){
   const URI = process.env.REACT_APP_API_URL;
 
   function imgupload(e){
-      if(e.target.value !==''){
+    if(e.target.value !==''){
       const reader = new FileReader();
       reader.onload = (e) => {	
         setMyImg(e.target.result); // 파일의 컨텐츠
-        console.log(myImg)
       };
       reader.readAsDataURL(e.target.files[0]);
-      axios.post(`${URI}`)
+      let access_token = getAccessToken();
+      const formData = new FormData();
+      formData.append('image',e.target.files[0]);
+      axios.post(`${URI}/mypage/pofileImage`,{ headers: {Authorization: access_token}},{
+        "image": formData
+      })
+      .then((res)=>{
+        console.log(res.data.originalFileName, res.data.saveFileName)
+      }).catch((res)=>{
+        console.log(res)
+        console.log(formData)
+      })
   }
   }
 
   function deleteaccount(){
-    const del = confirm('계정을 삭제하시겠습니까?');
+    const del = confirm('Want to delete your account?');
     if (del){
       console.log("계정 삭제")
-      axios.delete(`${URI}/users/delete2`)
+      let access_token = getAccessToken();
+      axios.delete(`${URI}/users/delete`,{ headers: {Authorization: access_token} })
       .then((res)=>{
         console.log(res);
-
+        localStorage.clear()
+        navigate('/')
       })
       .catch((res)=>console.log(res))
-      navigate('/')
     }else{
       console.log('계정 삭제 취소')
     }
   }
+
+  useEffect(() => {
+    setMyImg(null);
+    let access_token = getAccessToken();
+    console.log(access_token);
+    axios.get(`${URI}/mypage`,{ headers: {Authorization: access_token} })
+    .then((res)=>{
+      console.log(res);
+      setName(res.data.name);
+      setNickName(res.data.nickName)
+      setGender(res.data.gender);
+      setBirth(res.data.birth);
+      setAddress(res.data.address);
+      setphoneNumber(res.data.phone);
+      let email = res.data.email.split('@');
+      setEmailFront(email[0]);
+      setEmailBack(email[1]);
+    }).catch((res)=>{console.log(res)})
+  },[]);
 
   function submitsignup(){
     if(name === ''){
@@ -69,20 +100,30 @@ export default function MyPageEdit(){
       setWrong("'Gender' is not selected");
     }else if(birth === ''){
       setWrong("'Date of birth' is Empty");
-    }else if(adress === ''){
+    }else if(address === ''){
       setWrong("'Home Adress' is Empty");
     }else if(phoneNumber === ''){
       setWrong("'Tel' is Empty");
+    }else if(emailFront === '' || emailBack === ''){
+      setWrong("'Email' is Empty");
     }else if(passWordCheck === false || passWord !== passWordDoubleCheck){
       setWrong("Check your 'PassWord'");
     }else{
-      axios.patch(`${URI}/users`,{
-        
-      },{ headers: {Authorization: localStorage.getItem('access_token')} })
+      let access_token = getAccessToken();
+      axios.patch(`${URI}/mypage`,{ headers: {Authorization: access_token} },{
+        "name" : name,
+        "nickName" : nickName,
+        "gender" : gender,
+        "birth" : birth,
+        "address" : address,
+        "phone" : phoneNumber,
+        "email" : emailFront + '@' + emailBack,
+        "password" : passWord
+      })
       .then((res)=>console.log(res))
       .catch((res)=>console.log(res))
     }
-    console.log(name,nickName,gender,birth,adress,phoneNumber,emailFront)
+    console.log(name,nickName,gender,birth,address,phoneNumber,emailFront,passWord)
   }
   
   return (
@@ -95,6 +136,7 @@ export default function MyPageEdit(){
             <div className="btn-upload">select image</div>
           </label>
           <input type="file" name="image" id="upload" accept="image/*" onChange={(e)=>imgupload(e)} />
+          
         </MyPageEditImg>
         <div className='mypageeditetc'>
           <DeleteAccountBtn onClick={deleteaccount}>
@@ -103,11 +145,11 @@ export default function MyPageEdit(){
           </DeleteAccountBtn>
           <MyPageEditName>
             <div>Name</div>
-            <input onChange={(e)=>setName(e.target.value)}></input>
+            <input onChange={(e)=>setName(e.target.value)} value={name}></input>
           </MyPageEditName>
           <MyPageEditNickName>
             <div>NickName</div>
-            <input onChange={(e)=>setNickName(e.target.value)}></input>
+            <input onChange={(e)=>setNickName(e.target.value)} value={nickName}></input>
           </MyPageEditNickName>
           <MyPageGender>
             <div>Gender</div>
@@ -124,19 +166,19 @@ export default function MyPageEdit(){
           </MyPageGender>
           <MyPageDateOfBirth>
             <div>Date Of Birth</div>
-            <input type='date' onChange={(e)=>setBirth(e.target.value)} ></input>
+            <input type='date' onChange={(e)=>setBirth(e.target.value)} value={birth}></input>
           </MyPageDateOfBirth>
           <MyPageHomeAdress>
             <div>Home Adress</div>
-            <input onChange={(e)=>setAdress(e.target.value)}></input>
+            <input onChange={(e)=>setAddress(e.target.value)} value={address}></input>
           </MyPageHomeAdress>
           <MyPagePhoneNumber>
             <div>Tel</div>
-            <input type='tel' onChange={(e)=>setphoneNumber(e.target.value)}></input>
+            <input type='tel' onChange={(e)=>setphoneNumber(e.target.value)} value={phoneNumber}></input>
           </MyPagePhoneNumber>
           <MyPageEmail>
             <div>Email</div>
-            <input className='emailfront' onChange={(e)=>setEmailFront(e.target.value)}></input>
+            <input className='emailfront' onChange={(e)=>setEmailFront(e.target.value)} value={emailFront}></input>
             <p>@</p>
             <input className='emailback' value={emailBack} onChange={(e)=>setEmailBack(e.target.value)}></input>
             <select onChange={(e)=>{e.target.value !== 'Enter directly' ? setEmailBack(e.target.value) : setEmailBack('')}}>
