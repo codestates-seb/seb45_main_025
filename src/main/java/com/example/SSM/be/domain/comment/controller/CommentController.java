@@ -20,6 +20,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -75,9 +78,6 @@ public class CommentController {
     //댓글 가져오기
     @GetMapping("/{board-id}/comment")
     public ResponseEntity getCommentList(@PathVariable("board-id") long boardId){
-//        Jws<Claims> claims = tokenService.checkAccessToken(authorizationHeader);
-//        String email = claims.getBody().getSubject();
-//        Member findMember = memberService.findMemberByEmail(email);
         List<CommentResponseDto> response = commentService.getCommentList(boardId);
         return new ResponseEntity<>(response,HttpStatus.OK);
     }
