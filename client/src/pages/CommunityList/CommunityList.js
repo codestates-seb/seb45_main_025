@@ -1,27 +1,44 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 function CommunityList() {
-  const itemsPerPage = 10;
-  const totalItems = 200;
+  const URI = process.env.REACT_APP_API_URL;
 
+  const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
+
+  const itemsPerPage = 10;
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
     setCurrentPage(1);
   };
 
-  const mockData = Array.from({ length: totalItems }, (_, index) => `Item ${index + 1}`);
-  const escapedSearchTerm = searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); //특수기호 처리
-  const searchTermRegex = new RegExp(escapedSearchTerm, 'i'); //대소문자 구분x
-  const filteredItems = mockData.filter(item => searchTermRegex.test(item));
 
-  const totalFilteredItems = filteredItems.length;
-  const totalPages = Math.ceil(totalFilteredItems / itemsPerPage);
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = Math.min(startIndex + itemsPerPage - 1, totalFilteredItems - 1);
-  const renderedItems = filteredItems.slice(startIndex, endIndex + 1);
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(`${URI}/board/posts`, {
+        
+          // "sortType":oldest,
+          // "sortType":popular,
+          // "sortType":mostCommented,
+        
+      });
+      setData(response.data.items); // 백엔드에서 받아온 데이터의 items 필드를 state에 저장
+      setTotalItems(response.data.totalItems); // 백엔드에서 받아온 totalItems를 state에 저장
+    } catch (error) {
+      console.error('에러 발생:', error);
+    }
+  };
+
+  const [totalItems, setTotalItems] = useState(0); // totalItems를 state로 유지
+
+  useEffect(() => {
+    fetchData();
+  }, [URI, currentPage, searchTerm]);
+
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
 
   return (
 
@@ -59,19 +76,26 @@ function CommunityList() {
         placeholder="검색어를 입력하여주세요"
         style={{ width: '180px', marginBottom: '10px', padding: '5px' }}
       />
-      {renderedItems.map((item, index) => (
+      {data.map((item) => (
         <div
-          key={index}
+          key={item.id}
           style={{
             marginBottom: '-2px',
             padding: '10px',
             backgroundColor: 'white',
             width: '70%',
-            textAlign: 'left',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
             border: '1px solid gray',
           }}
         >
-          {index + startIndex + 1}. {item}
+          <div style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>
+            {item.title}
+          </div>
+          <div style={{ fontSize: '0.8rem', color: 'gray' }}>
+            작성자: {item.author} | 작성일: {item.createdAt} | 조회수: {item.views}
+          </div>
         </div>
       ))}
 

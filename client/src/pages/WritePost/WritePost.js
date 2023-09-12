@@ -60,6 +60,7 @@ Editor.propTypes = {
 };
 
 function WritePost() {
+    const URI = process.env.REACT_APP_API_URL;
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const URI = process.env.REACT_APP_API_URL;
@@ -69,11 +70,11 @@ function WritePost() {
     const handlePublish = async () => {
         try {
             // 데이터
-            
             const response = await axios.post(`${URI}/board`, {
                 "title": title,
                 "content": content,
-            });
+                "image": null
+            })
 
 
             console.log('백엔드 응답:', response.data);

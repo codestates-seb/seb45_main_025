@@ -1,5 +1,7 @@
 import styled from "styled-components";
 
+
+
 export const CommunityBoardContainer = styled.div`
     height: 100vh;
     background-color: white;
@@ -40,18 +42,48 @@ export const PostBox = styled.div`
     overflow-y: auto;
 `;
 
-export const PostTitle = styled.div`
+export const PostTitleBox = styled.div`
     height: 100px;
     width: 900px;
     padding: 10px;
     padding-top: 5px;
-    font-size: 1.5rem;
     background-color: blue;
     margin: 0 auto;
     margin-top: 1.5vh;
     display: flex;
     align-items: center;
+    
 `;
+export const PostUserBox = styled.div`
+    height: 50px;
+    width: 900px;
+    padding: 10px;
+    padding-top: 5px;
+    background-color: skyblue;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    /* UserPicture와 span 사이에 간격을 줍니다. */
+    > :not(:last-child) {
+        margin-right: 15px;
+    }
+`;
+
+
+
+// export const CommunityComment = styled.div`
+//     height: 170px;
+//     max-height: auto;
+//     width: 900px;
+//     padding: 10px;
+//     padding-top: 5px;
+//     background-color: blueviolet;
+//     overflow-y: auto;
+//     margin: 0 auto;
+//     margin-bottom: 20px;
+//     margin-top: 10px;
+// `;
+
 
 export const PostBoard = styled.div`
     height: 620px;
@@ -81,26 +113,17 @@ export const PostCorrection = styled.div`
 export const PostDelete = styled.div`
     height: 30px;
     width: 60px;
-    background-color: red;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-left: 10px;
+    background-color: red;
+    margin-left: auto;
     margin-top: 6px;
     padding-bottom: 2px;
+    margin-right: 10px;
 `;
 
-export const CommunityCommentBox = styled.div`
-    height: 200px;
-    max-height: auto;
-    width: 1000px;
-    padding: 10px;
-    padding-top: 5px;
-    background-color: orange;
-    overflow-y: auto;
-    margin: 0 auto;
-    margin-bottom: 20px;
-`;
+
 
 export const CommunityCommentCorrection = styled.div`
     height: 30px;
@@ -128,40 +151,126 @@ export const CommunityCommentDelete = styled.div`
     margin-right: 10px;
 `;
 
-export const CommunityComment = styled.div`
-    height: 170px;
+export const CommunityCommentBox = styled.div`
+    height: 200px;
     max-height: auto;
-    width: 900px;
+    width: 1000px;
     padding: 10px;
     padding-top: 5px;
-    background-color: blueviolet;
+    background-color: orange;
     overflow-y: auto;
     margin: 0 auto;
     margin-bottom: 20px;
-    margin-top: 10px;
+    overflow-y: auto;
 `;
 
+// export const MenuIcon1 = styled.div`
+//     height: 30px;
+//     width: 60px;
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//     background-color: yellow;
+//     margin-left: auto;
+//     margin-top: 6px;
+//     padding-bottom: 2px;
+//     margin-right: 10px;
+// `;
 export const MenuIcon1 = styled.div`
     height: 30px;
     width: 60px;
     display: flex;
     justify-content: center;
+    flex-direction: column;
     align-items: center;
     background-color: yellow;
     margin-left: auto;
     margin-top: 6px;
     padding-bottom: 2px;
     margin-right: 10px;
+    
+   
+    svg {
+        font-size: 1.5rem; 
+        margin-left: 35px;
+    }
 `;
 export const MenuIcon2 = styled.div`
     height: 30px;
     width: 60px;
     display: flex;
     justify-content: center;
+    flex-direction: column;
     align-items: center;
     background-color: yellow;
     margin-left: auto;
     margin-top: 6px;
     padding-bottom: 2px;
     margin-right: 10px;
+    
+   
+    svg {
+        font-size: 1.5rem;
+        margin-left: 35px;
+    }
+`;
+
+export const PostTitle = styled.div`
+    height: 80px;
+    width: 650px;
+    padding: 10px;
+    padding-top: 5px;
+    font-size: 1.5rem;
+    background-color: burlywood;
+    
+    
+    display: flex;
+    align-items: center;
+`;
+
+export const UserPicture = styled.div`
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background-color: white; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden; /* 사진이 넘치는 경우를 대비하여 숨김 처리 */
+    img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 이미지가 동그라미 안에 꽉 차게 표시됩니다. */
+    
+    }
+`;
+
+export const ComuComment = styled.div`
+height: 100px;
+width: 900px;
+padding: 10px;
+padding-top: 5px;
+background-color: seashell;
+margin: 0 auto;
+display: flex;
+align-items: center;
+
+> :not(:last-child) {
+    margin-right: 10px;
+}
+`;
+
+export const ComuCommentWriting = styled.div`
+height: 100px;
+width: 900px;
+padding: 10px;
+padding-top: 5px;
+background-color: seashell;
+margin: 0 auto;
+display: flex;
+align-items: center;
+
+> :not(:last-child) {
+    margin-right: 10px;
+}
 `;
