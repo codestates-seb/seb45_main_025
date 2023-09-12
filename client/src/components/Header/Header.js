@@ -46,8 +46,8 @@ export default function Header() {
           <HeaderLogo src={scrollY ? headerLogoImgSmall : headerLogoImgBig} scrolled={scrollY} />
         </Link>
         <div className='left-nav'>
-          <Link to='/products' onClick={handleLinkClick}>SHOP</Link>
-          <Link to='/community' onClick={handleLinkClick}>COMMUNITY</Link>
+          <Link to='/list' onClick={handleLinkClick}>SHOP</Link>
+          <Link to='/CommunityList' onClick={handleLinkClick}>COMMUNITY</Link>
         </div>
       </LeftNavContainer>
 
