@@ -15,12 +15,13 @@ import { ReactComponent as SignupIcon } from '../../common/image/HeaderIcon/sign
 import { ReactComponent as LogoutIcon } from '../../common/image/HeaderIcon/logout.svg';
 import { ReactComponent as MypageIcon } from '../../common/image/HeaderIcon/mypage.svg';
 import { ReactComponent as CartIcon } from '../../common/image/HeaderIcon/cart.svg';
+import getAccessToken from '../../common/utils/getToken';
 
 export default function Header() {
   const dispatch = useDispatch();
   const scrollY = useSelector((state) => state.scroll.scrollY);
   const isHome = useLocation().pathname === '/';
-
+  const [isLogin, setIsLogin] = useState(false);
   useEffect(() => {
     window.addEventListener('scroll', () => {
       dispatch(handleScrollY());
@@ -33,10 +34,21 @@ export default function Header() {
     };
   }, [dispatch]);
 
-  const [isLogin, setIsLogin] = useState(false);
+  useEffect(() => {
+    if(getAccessToken()){
+      setIsLogin(true)
+    }else{
+      setIsLogin(false)
+    }
+  });
 
   const handleLinkClick = () => {
     window.scroll(0, 0);
+  }
+
+  const logout_btn = ()=>{
+    localStorage.clear()
+    setIsLogin(false)
   }
 
   return (
@@ -55,7 +67,7 @@ export default function Header() {
         {isLogin ?
           <div>
             <Link to='/' onClick={handleLinkClick}>
-              <button onClick={() => setIsLogin(false)}>
+              <button onClick={() => logout_btn()}>
                 <LogoutIcon scrolled={scrollY} />
                 Log out
               </button>
@@ -71,12 +83,12 @@ export default function Header() {
           </div> :
           <div>
             <Link to="/login" onClick={handleLinkClick}>
-              <button onClick={() => setIsLogin(true)}>
+              <button onClick={() => <></>}>
                 <LoginIcon scrolled={scrollY} />
                 Log in
               </button>
             </Link>
-            <Link to="/signup" onClick={handleLinkClick}>
+            <Link to="/signup/select" onClick={handleLinkClick}>
               <SignupIcon scrolled={scrollY} />
               Sign up
             </Link>

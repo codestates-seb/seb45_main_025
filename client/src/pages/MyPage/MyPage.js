@@ -9,7 +9,7 @@ import {
 import { useState, useEffect } from "react";
 import basicimg from '../../common/image/basicimg.png';
 import edit from '../../common/image/edit.png';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import BackgroundImage from '../../components/BackgroundImage/BackgroundImage';
 import chococookie from '../../common/image/darkcookies.jpg';
 import axios from "axios";
@@ -26,32 +26,30 @@ export default function MyPage() {
   const [emailFront, setEmailFront] = useState('');
   const [emailBack, setEmailBack] = useState('');
   const URI = process.env.REACT_APP_API_URL;
+  const navigate = useNavigate();
 
   useEffect(() => {
     setMyImg(null);
-    setName('유주성');
-    setNickName('거인')
-    setGender('male');
-    setBirth('1999-04-21');
-    setAddress('1101 Williams St, College Station, TX 77840, United States');
-    setphoneNumber('+19797645565');
-    setEmailFront('juseongyu56');
-    setEmailBack('gmail.com');
     let access_token = getAccessToken();
     console.log(access_token);
-    axios.get(`${URI}/users`,{ headers: {Authorization: access_token} })
+    axios.get(`${URI}/mypage`,{ headers: {Authorization: access_token} })
     .then((res)=>{
       console.log(res);
-      setName(res.name);
-      setNickName(res.nickname)
-      setGender(res.gender);
-      setBirth(res.birth);
-      setAddress(res.address);
-      setphoneNumber(res.tel);
-      setEmailFront(res.emailfront);
-      setEmailBack(res.emailBack);
-    }).catch((res)=>{console.log(res)})
-  });
+      setName(res.data.name);
+      setNickName(res.data.nickName)
+      setGender(res.data.gender);
+      setBirth(res.data.birth);
+      setAddress(res.data.address);
+      setphoneNumber(res.data.phone);
+      let email = res.data.email.split('@');
+      setEmailFront(email[0]);
+      setEmailBack(email[1]);
+    }).catch((res)=>{
+      console.log(res);
+      alert("check login")
+      navigate('/')
+    })
+  },[]);
 
   return (
     <MyPageContainer>
