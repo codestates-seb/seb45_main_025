@@ -1,6 +1,6 @@
-package com.example.SSM.be.domain.security.token.tokenblacklist.repository;
+package com.example.SSM.be.domain.security.tokenblacklist.repository;
 
-import com.example.SSM.be.domain.security.token.tokenblacklist.entity.TokenBlacklist;
+import com.example.SSM.be.domain.security.tokenblacklist.entity.TokenBlacklist;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Date;

@@ -14,7 +14,6 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -83,20 +82,9 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
         String uri = createURI( accessToken,refreshToken,isNewAccount).toString();
 
         String headerValue = "Bearer " + accessToken;
+        String headerRefreshToken = "Bearer " + refreshToken;
         response.setHeader("Authorization",headerValue);
-        response.setHeader("Refresh",refreshToken);
-
-        // 토큰을 쿠키에 저장
-        Cookie accessTokenCookie = new Cookie("access_token", accessToken);
-        accessTokenCookie.setHttpOnly(true); // JavaScript로 접근을 막음
-        accessTokenCookie.setSecure(true); // HTTPS 연결에서만 쿠키 사용
-        accessTokenCookie.setMaxAge(3600); // 쿠키 만료 시간 설정 (초 단위)
-        response.addCookie(accessTokenCookie);
-        Cookie refreshTokenCookie = new Cookie("refresh_token", refreshToken);
-        refreshTokenCookie.setHttpOnly(true);
-        refreshTokenCookie.setSecure(true);
-        refreshTokenCookie.setMaxAge(3600);
-        response.addCookie(refreshTokenCookie);
+        response.setHeader("Refresh",headerRefreshToken);
 
         getRedirectStrategy().sendRedirect(request,response,uri);
     }
@@ -107,14 +95,14 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
         MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
         queryParams.add("access_token", "Bearer " + accessToken);
         queryParams.add("refresh_token", refreshToken);
+        queryParams.add("new", String.valueOf(isNewAccount));
 
-        String path = isNewAccount ? "/OauthSIgnupForm" : "/user";
         return UriComponentsBuilder
                 .newInstance()
-                .scheme("http")
-                .host("localhost")
-                .port(8888)
-                .path(path)
+                .scheme("https")
+                .host("www.ksnacksncak.shop")
+                .port(443)
+                .path("/loading")
                 .queryParams(queryParams)
                 .build()
                 .toUri();

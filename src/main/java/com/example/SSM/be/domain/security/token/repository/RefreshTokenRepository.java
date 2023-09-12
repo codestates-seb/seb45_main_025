@@ -12,4 +12,6 @@ public interface RefreshTokenRepository extends JpaRepository<RefreshToken,Long>
     List<RefreshToken> findByExpiryDateBefore(Date currentDate);
 
     Optional<RefreshToken> findByMember(Member member);
+    Optional<RefreshToken> findByToken(String Token);
+    boolean existsByToken(String Token);
 }
