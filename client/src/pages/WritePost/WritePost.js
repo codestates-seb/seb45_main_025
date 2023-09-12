@@ -63,7 +63,6 @@ function WritePost() {
     const URI = process.env.REACT_APP_API_URL;
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
-    const URI = process.env.REACT_APP_API_URL;
     const handleContentChange = (newContent) => {
         setContent(newContent);
     };
