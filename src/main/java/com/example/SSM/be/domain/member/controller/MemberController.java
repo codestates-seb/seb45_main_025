@@ -6,7 +6,7 @@ import com.example.SSM.be.domain.member.entity.Member;
 import com.example.SSM.be.domain.member.mapper.MemberMapper;
 import com.example.SSM.be.domain.member.service.MemberService;
 import com.example.SSM.be.domain.security.token.service.TokenService;
-import com.example.SSM.be.domain.security.token.tokenblacklist.service.BlacklistTokenService;
+import com.example.SSM.be.domain.security.tokenblacklist.service.BlacklistTokenService;
 import com.example.SSM.be.global.response.SingleResponseDto;
 import com.example.SSM.be.global.utils.UriCreator;
 import io.jsonwebtoken.Claims;

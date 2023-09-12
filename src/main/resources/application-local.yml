@@ -1,0 +1,53 @@
+
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    database-platform: org.hibernate.dialect.H2Dialect
+    open-in-view: false
+
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB  # 업로드 파일의 최대 크기 설정
+      max-request-size: 10MB  # 요청의 최대 크기 설정
+      file-size-threshold: 0
+
+  application:
+    name: SsmApplication
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            clientId: 232398614438-4laehmm9vibdvaa8hv57miuvgpkv33kj.apps.googleusercontent.com
+            clientSecret: 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
+            scope:
+              - email
+              - profile
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    spring:
+      mvc:
+        converters:
+          preferred-json-mapper: jackson
+      http:
+        converters:
+          preferred-json-mapper: jackson
+
+logging:
+  level:
+    root: INFO
+server:
+  port: 8080
+mail:
+  address:
+    admin: admin@gmail.com
+jwt:
+  secret-key: CodeStatesMainProject25team
+  access-token-expiration-minutes: 30
+  refresh-token-expiration-minutes: 360
+

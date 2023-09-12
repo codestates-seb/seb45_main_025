@@ -1,4 +1,4 @@
 FROM openjdk:11
-WORKDIR /app
-COPY build/libs/*.jar app.jar
-CMD ["java", "-jar", "app.jar"]
+ARG JAR_FILE=build/libs/*.jar
+COPY ${JAR_FILE} app.jar
+ENTRYPOINT ["java","-jar","-Dspring.profiles.active=local","/app.jar"]
