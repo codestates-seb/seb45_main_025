@@ -155,5 +155,4 @@ public class ProductsService {
     public Page<Products> getAllProducts(Pageable pageable) {
         return productsRepository.findAll(pageable);
     }
-
 }

@@ -40,9 +40,10 @@ public class BoardController {
     private final TokenService tokenService;
     private final MemberService memberService;
 
-    //  게시글 생성하기
-    @PostMapping
+    //    게시글 생성하기
 
+
+    @PostMapping
     public ResponseEntity postBoard(@ModelAttribute BoardPostDto postDto,@RequestHeader("Authorization")String authorizationHeader) throws IOException {
         Jws<Claims> claims = tokenService.checkAccessToken(authorizationHeader);
         String email = claims.getBody().getSubject();
@@ -161,5 +162,5 @@ public class BoardController {
         boardService.deleteBoard(findMember, boardId);
         return new ResponseEntity("게시물이 삭제되었습니다.",HttpStatus.OK);
     }
-    ////주석테스트
+
 }
