@@ -55,7 +55,7 @@ public class SecurityConfig  {
                 .headers().frameOptions().sameOrigin()
                 .and()
                 .csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER)
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .formLogin().disable()
                 .httpBasic().disable()
@@ -71,7 +71,7 @@ public class SecurityConfig  {
                         // # member관련
                         .antMatchers(HttpMethod.POST, "/users/signup").permitAll()
                         .antMatchers(HttpMethod.POST, "/users/login").permitAll()
-                        .antMatchers(HttpMethod.POST, "/users/logout").authenticated()
+                        .antMatchers(HttpMethod.POST, "/users/logout").hasRole("USER")
                         .antMatchers(HttpMethod.GET,"/user").authenticated()
                         .antMatchers("/").permitAll()
                         .antMatchers("/h2-console/**").permitAll()
@@ -87,10 +87,10 @@ public class SecurityConfig  {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedOrigin("http://localhost:3000");
-        configuration.addAllowedOrigin("http://main025.s3-website.ap-northeast-2.amazonaws.com");
+        configuration.setAllowCredentials(true);
+        configuration.addAllowedOrigin("https://localhost:3000");
+        configuration.addAllowedOrigin("https://www.ksnacksncak.shop");
         configuration.setAllowedMethods(Arrays.asList("*"));
-
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setExposedHeaders(Arrays.asList("*"));
         configuration.addAllowedHeader("*");

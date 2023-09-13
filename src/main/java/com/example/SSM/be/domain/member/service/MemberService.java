@@ -15,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 @Service
@@ -48,7 +49,7 @@ public class MemberService {
     // Todo
     public Member createMemberOAuth2withAdditionalInfo(Jws<Claims> claims,Member member){
         Member saveMember = findVerifiedMemberWithClaims(claims);
-
+        saveMember.setName(member.getName());
         saveMember.setGender(member.getGender());
         saveMember.setBirth(member.getBirth());
         saveMember.setPhone(member.getPhone());
@@ -97,9 +98,10 @@ public class MemberService {
         log.info(email);
         return findVerifiedMember(email);
     }
-    public Member getMemberWithAccessToken(String accessToken) {
-        log.info(accessToken);
-        Jws<Claims> claims = tokenService.checkAccessToken(accessToken);
+    public Member getMemberWithAccessToken(HttpServletRequest request) {
+        String authorizationHeader = request.getHeader("Authorization");
+        log.info(authorizationHeader);
+        Jws<Claims> claims = tokenService.checkAccessToken(authorizationHeader);
         return findVerifiedMemberWithClaims(claims);
     }
 
