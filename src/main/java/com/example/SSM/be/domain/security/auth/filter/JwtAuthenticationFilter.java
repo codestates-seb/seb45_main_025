@@ -84,13 +84,13 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String headerAccessToken  = "Bearer " + accessToken;
         ResponseCookie responseAccessCookie= ResponseCookie.from("access_token", accessToken)
                 .sameSite("None")
-                .secure(false)
+                .secure(true)
                 .maxAge(60 * 5) // 5분
                 .path("/")
                 .build();
         ResponseCookie responseRefreshCookie= ResponseCookie.from("refresh_token", refreshToken)
                 .sameSite("None")
-                .secure(false)
+                .secure(true)
                 .httpOnly(true)
                 .maxAge(60 * 60*24) // 하루
                 .path("/")

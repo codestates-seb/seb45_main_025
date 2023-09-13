@@ -88,8 +88,8 @@ public class SecurityConfig  {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowCredentials(true);
-        configuration.addAllowedOrigin("http://localhost:3000");
-        configuration.addAllowedOrigin("http://main025.s3-website.ap-northeast-2.amazonaws.com");
+        configuration.addAllowedOrigin("https://localhost:3000");
+        configuration.addAllowedOrigin("https://www.ksnacksncak.shop");
         configuration.setAllowedMethods(Arrays.asList("*"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
         configuration.setExposedHeaders(Arrays.asList("*"));
