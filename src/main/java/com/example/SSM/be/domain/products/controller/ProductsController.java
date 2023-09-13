@@ -26,7 +26,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -132,9 +134,9 @@ public class ProductsController {
     // 카테고리별로 상품을 조회하는 엔드포인트
     @Operation(summary = "카테고리별 상품 조회 (페이지별)")
     @GetMapping("/category/{category}/")
-    public ResponseEntity<List<ProductsResponseDto>> getProductsByCategory(@PathVariable String category,
-                                                                           @RequestParam(defaultValue = "1", name = "page") int page,
-                                                                           @RequestParam(defaultValue = "15", name = "pageSize") int pageSize
+    public ResponseEntity<Map<String, Object>> getProductsByCategory(@PathVariable String category,
+                                                                     @RequestParam(defaultValue = "1", name = "page") int page,
+                                                                     @RequestParam(defaultValue = "20", name = "pageSize") int pageSize
     ) {
         // 이제 요청을 /products/category/snack?page=1&pageSize=15 와 같이 보낼 수 있습니다.
         Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by("createdAt").descending());
@@ -144,7 +146,11 @@ public class ProductsController {
                 .map(ProductsResponseDto::new)
                 .collect(Collectors.toList());
 
-        return ResponseEntity.ok(responseDtos);
+        Map<String, Object> response = new HashMap<>();
+        response.put("pageInfo", createPageInfo(productsPage));
+        response.put("content", responseDtos);
+
+        return ResponseEntity.ok(response);
     }
 
     @Transactional
@@ -183,9 +189,9 @@ public class ProductsController {
         return ResponseEntity.ok("Success");
     }
     @GetMapping("/search")
-    public ResponseEntity<List<ProductsResponseDto>> searchProducts(@RequestParam(required = false) String productName,
-                                                                    @RequestParam(defaultValue = "1") int page,
-                                                                    @RequestParam(defaultValue = "20") int pageSize) {
+    public ResponseEntity<Map<String, Object>> searchProducts(@RequestParam(required = false) String productName,
+                                                              @RequestParam(defaultValue = "1") int page,
+                                                              @RequestParam(defaultValue = "20") int pageSize) {
         Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by("createdAt").descending());
         Page<Products> productsPage = productsService.searchProductsByProductName(productName, pageable);
 
@@ -193,12 +199,16 @@ public class ProductsController {
                 .map(ProductsResponseDto::new)
                 .collect(Collectors.toList());
 
-        return ResponseEntity.ok(responseDtos);
+        Map<String, Object> response = new HashMap<>();
+        response.put("pageInfo", createPageInfo(productsPage));
+        response.put("content", responseDtos);
+
+        return ResponseEntity.ok(response);
     }
     @GetMapping("/category/{category}/likes")
-    public ResponseEntity<List<ProductsResponseDto>> getProductsByCategoryAndSort(@PathVariable String category,
-                                                                                  @RequestParam(defaultValue = "1") int page,
-                                                                                  @RequestParam(defaultValue = "20") int pageSize
+    public ResponseEntity<Map<String, Object>> getProductsByCategoryAndSort(@PathVariable String category,
+                                                                            @RequestParam(defaultValue = "1") int page,
+                                                                            @RequestParam(defaultValue = "20") int pageSize
     ) {
         Pageable pageable = PageRequest.of(page - 1, pageSize);
         Page<Products> productsPage = productsService.getProductsByCategoryAndSort(category, pageable);
@@ -207,7 +217,11 @@ public class ProductsController {
                 .map(ProductsResponseDto::new)
                 .collect(Collectors.toList());
 
-        return ResponseEntity.ok(responseDtos);
+        Map<String, Object> response = new HashMap<>();
+        response.put("pageInfo", createPageInfo(productsPage));
+        response.put("content", responseDtos);
+
+        return ResponseEntity.ok(response);
     }
     @Transactional
     @PostMapping("/bookmark/{productId}")
@@ -264,8 +278,8 @@ public class ProductsController {
         }
     }
     @GetMapping("/all/list/")
-    public ResponseEntity<Page<ProductsResponseDto>> getAllProducts(@RequestParam(defaultValue = "1", name = "page") int page,
-                                                                    @RequestParam(defaultValue = "20", name = "pageSize") int pageSize
+    public ResponseEntity<Object> getAllProducts(@RequestParam(defaultValue = "1", name = "page") int page,
+                                                 @RequestParam(defaultValue = "20", name = "pageSize") int pageSize
     ) {
         Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(Sort.Direction.DESC, "createdAt"));
 
@@ -275,6 +289,26 @@ public class ProductsController {
                 .map(ProductsResponseDto::new)
                 .collect(Collectors.toList());
 
-        return ResponseEntity.ok(new PageImpl<>(responseDtos, pageable, productsPage.getTotalElements()));
+        // 페이지 정보를 JSON 객체로 생성
+        Map<String, Object> pageInfo = new HashMap<>();
+        pageInfo.put("page", page);
+        pageInfo.put("size", pageSize);
+        pageInfo.put("totalElements", productsPage.getTotalElements());
+        pageInfo.put("totalPages", productsPage.getTotalPages());
+
+        // 응답 JSON 생성
+        Map<String, Object> response = new HashMap<>();
+        response.put("content", responseDtos);
+        response.put("pageInfo", pageInfo);
+
+        return ResponseEntity.ok(response);
+    }
+    private Map<String, Object> createPageInfo(Page<?> page) {
+        Map<String, Object> pageInfo = new HashMap<>();
+        pageInfo.put("size", page.getSize());
+        pageInfo.put("totalPages", page.getTotalPages());
+        pageInfo.put("page", page.getNumber() + 1); // 페이지 번호를 1부터 시작하도록 수정
+        pageInfo.put("totalElements", page.getTotalElements());
+        return pageInfo;
     }
 }
