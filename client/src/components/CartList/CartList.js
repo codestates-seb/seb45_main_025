@@ -87,8 +87,8 @@ export default function CartList() {
         });
     } else {
       let params = '';
-      for (const id of selected) {
-        params += `productIds=${id}&`;
+      for (const item of selected) {
+        params += `productIds=${item.product.id}&`
       }
       params = params.slice(0, -1);
       const removeCartUrl = `${removeCartUrl}/cart/remove-multiple?${params}`;
