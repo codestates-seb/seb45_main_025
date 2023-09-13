@@ -14,6 +14,7 @@ export const GlobalStyle = createGlobalStyle`
     --gray-10 : #D9D9D9;
     --gray-50: #666666;
     --gray-90: #2B2821;
+    --red-90: #D94F4F;
   }
 
   * {
@@ -45,6 +46,12 @@ export const GlobalStyle = createGlobalStyle`
     padding: 0;
     outline: none;
     cursor: pointer;
+  }
+
+  label {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
   }
 `;
 

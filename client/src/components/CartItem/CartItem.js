@@ -1,6 +1,6 @@
 import { CartItemContainer } from './CartItem.styled';
 import { Link } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSelected, setAllSelected, setCartItems } from '../../redux/actions/cartActions';
 import axios from 'axios';
@@ -10,11 +10,8 @@ export default function CartItem({ item }) {
   const cartItems = useSelector((state) => state.cart.cartItems);
   const selected = useSelector((state) => state.cart.selected);
   const apiUrl = process.env.REACT_APP_API_URL;
-  const [curQuantity, setCurQuantity] = useState();
-
-  useEffect(() => {
-    setCurQuantity(item.quantity);
-  }, []);
+  const [curQuantity, setCurQuantity] = useState(item.quantity);
+  const accessToken = localStorage.getItem('access_token');
 
   const handleCheckClick = (checkedItem) => {
     const updatedSelected = (selected.map(item => item.product.id).includes(checkedItem.product.id)) ? selected.filter(item => item.product.id !== checkedItem.product.id) : [...selected, checkedItem];
@@ -22,12 +19,25 @@ export default function CartItem({ item }) {
     dispatch(setAllSelected(updatedSelected.length === cartItems.length));
   }
 
+  const fetchCartItems = () => {
+    axios.get(`${apiUrl}/cart/list`, { headers: { Authorization: accessToken } })
+      .then((response) => {
+        dispatch(setCartItems(response.data));
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error('Failed to load cart items: ', error);
+      });
+  }
+
   const handleQuantityChange = (productId, newQuantity) => {
     setCurQuantity(newQuantity);
 
-    axios.patch(`${apiUrl}/cart/update/${productId}?quantity=${newQuantity}`)
+    axios.patch(`${apiUrl}/cart/update/${productId}?quantity=${curQuantity}`, { headers: { Authorization: accessToken } })
       .then((response) => {
-        dispatch(setCartItems(response.data));
+        console.log(response.data);
+        fetchCartItems();
+        // dispatch(setCartItems(response.data));
       })
       .catch((error) => {
         console.error(`Failed to update item's quantity: `, error);

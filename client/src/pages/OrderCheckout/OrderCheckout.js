@@ -43,7 +43,6 @@ export default function OrderCheckout() {
   }, []);
 
   useEffect(() => {
-    window.scroll(0, 0);
     const paymentMethodsWidget = paymentMethodsWidgetRef.current;
 
     if (paymentMethodsWidget == null) {

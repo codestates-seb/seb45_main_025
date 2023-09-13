@@ -85,6 +85,18 @@ export const FormCotents = styled.div`
     color: var(--gray-50);
     font-weight: 600;
     margin: 0.5rem 0;
+
+    .guide-msg {
+      display: flex;
+      align-items: center;
+      font-size: 0.8rem;
+      font-weight: 400;
+      color: var(--red-90);
+    }
+
+    svg {
+      margin: 0 0.6rem;
+    }
   }
 
   input {
@@ -95,7 +107,17 @@ export const FormCotents = styled.div`
     border-radius: 5px;
   }
 
+  img {
+    width: 2.3rem;
+    height: 3rem;
+    margin-right: 1rem;
+  }
+
   .order-list {
+    display: flex;
+    flex-direction: row;
+    padding: 0.4rem 0;
+
     .product-name {
       display: flex;
       justify-content: flex-start;
