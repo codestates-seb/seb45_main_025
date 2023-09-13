@@ -47,7 +47,7 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 
-	implementation 'mysql:mysql-connector-java:8.0.34'
+	implementation 'mysql:mysql-connector-java:8.0.33'
 	implementation 'org.mapstruct:mapstruct:1.4.2.Final'
 	annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
 	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
@@ -69,6 +69,4 @@ dependencies {
 test {
 	useJUnitPlatform()
 }
-jar {
-	enabled = false
-}
+

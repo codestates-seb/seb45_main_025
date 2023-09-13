@@ -1,10 +1,14 @@
 
 spring:
+  h2:
+    console:
+      enabled: true
+
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://ssmdb.cjvmex06e1xk.ap-northeast-2.rds.amazonaws.com:3306/ssmdb?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
-    username: admin
-    password: code1234!
+    url: jdbc:h2:file:~/seb025db  # 파일 기반 H2 데이터베이스 사용
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
   jpa:
     hibernate:
       ddl-auto: update
@@ -26,6 +30,7 @@ spring:
           google:
             clientId: 232398614438-4laehmm9vibdvaa8hv57miuvgpkv33kj.apps.googleusercontent.com
             clientSecret: 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
+            redirect-uri: "https://www.mainksnacks.shop/login/oauth2/code/google"
             scope:
               - email
               - profile
