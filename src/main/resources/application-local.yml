@@ -1,11 +1,10 @@
 
 spring:
-  db:
-    host: ssmdb.cjvmex06e1xk.ap-northeast-2.rds.amazonaws.com
-    port: 3306
-    user: admin
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://ssmdb.cjvmex06e1xk.ap-northeast-2.rds.amazonaws.com:3306/ssmdb?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: admin
     password: code1234!
-    database: ssmdb
   jpa:
     hibernate:
       ddl-auto: update
