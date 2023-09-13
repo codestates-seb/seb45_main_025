@@ -3,13 +3,19 @@ import styled from "styled-components";
 export const CustomLink = styled.div`
   text-decoration: none;
   color: inherit;
+  border-radius: 20px;
+  padding: .5rem;
+  border: 1px solid var(--brown-10);
+  background-color: var(white);
   &:hover {
-    background-color: #e3e6e8;
+    background-color: var(--brown-10);
   }
 `;
 
 export const Wrapper = styled.div`
   width: 100%;
+  margin-top: 2rem;
+  padding-top: 5rem;
 `;
 
 export const Container = styled.div`
@@ -18,12 +24,12 @@ export const Container = styled.div`
   grid-template-columns: repeat(6, 1fr);
   margin-left: 22vw;
   align-items: center;
-  background-color: var()(--white-color);
+  background-color: var(white);
   max-width: 1024px;
 
   .icon {
-    font-size: 26px;
-    margin-bottom: 5px;
+    font-size: 3rem;
+    margin-bottom: 1rem;
   }
 `;
 
@@ -37,5 +43,5 @@ export const NavItem = styled.div`
   flex-direction: column;
   align-items: center;
   cursor: pointer;
-  font-size: 0.8rem;
+  font-size: 1rem;
 `;

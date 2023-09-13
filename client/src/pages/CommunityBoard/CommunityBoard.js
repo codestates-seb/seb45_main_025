@@ -1,7 +1,5 @@
-import { useState } from 'react';
-import { useEffect } from 'react';
-import { BiDotsVerticalRounded } from "react-icons/bi";
-import { BiSolidUser } from "react-icons/bi";
+import { useState , useEffect } from 'react';
+import { BiDotsVerticalRounded , BiSolidUser } from "react-icons/bi";
 
 
 import {
@@ -98,6 +96,7 @@ function CommunityBoard({ title, content, boardId, profilePicture, postDate, vie
             const response = await axios.patch(`${URI}/board/{board-id}/comment/{comment-id}`, {
                 "content": content
                  });
+                 console.log(updatedContent);
             // 댓글 목록을 업데이트
             const updatedComments = comments.map((c) => (c.id === commentId ? response.data : c));
             setComments(updatedComments);
@@ -122,6 +121,7 @@ function CommunityBoard({ title, content, boardId, profilePicture, postDate, vie
     };
 
     useEffect(() => {
+        console.log(deleteComment, editComment);
         // 컴포넌트가 마운트될 때 또는 boardId가 변경될 때 fetchData 함수를 호출합니다.
         fetchData();
         // 댓글 목록을 불러오는 함수를 호출합니다.

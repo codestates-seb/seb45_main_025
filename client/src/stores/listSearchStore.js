@@ -5,11 +5,6 @@ export const useSearchTextStore = create(set => ({
     setSearchText: state => set(() => ({ searchText: state})),
 }));
 
-export const useSearchSelectedStore = create(set => ({
-    searchSelected: 'search',
-    setSearchSelected: state => set(() => ({ searchSelected: state })),
-}));
-
 export const useSearchCategoryStore = create(set => ({
     searchCategory: 'category',
     setSearchCategory: state => set(() => ({ searchCategory: state })),
@@ -18,11 +13,6 @@ export const useSearchCategoryStore = create(set => ({
 export const useSearchSelectedCategoryStore = create(set => ({
     searchSelectedCategory: 'all',
     setSearchSelectedCategory: state => set(() => ({ searchSelectedCategory: state })),
-}));
-
-export const useSearchApiStore = create(set => ({
-    searchApi: 'productName',
-    setSearchApi: state => set(() => ({ searchApi: state })),
 }));
 
 export const useSearchIsUpdateStore = create(set => ({
