@@ -72,7 +72,7 @@ function WritePost() {
         setContent(newContent);
     };
     const navigate = useNavigate();
-
+    const URI = process.env.REACT_APP_API_URL
     const handlePublish = async () => {
         try {
             // 데이터
