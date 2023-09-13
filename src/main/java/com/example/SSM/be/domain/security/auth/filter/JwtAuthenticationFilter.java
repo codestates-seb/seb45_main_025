@@ -80,17 +80,18 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String accessToken = delegateAccessToken(member); // accessToken 만들기
         String refreshToken = delegateRefreshToken(member); // refreshToken 만들기
         String memberId = String.valueOf(member.getUserId());
-
         String headerAccessToken  = "Bearer " + accessToken;
         ResponseCookie responseAccessCookie= ResponseCookie.from("access_token", accessToken)
                 .sameSite("None")
                 .secure(true)
+                .domain("localhost")
                 .maxAge(60 * 5) // 5분
                 .path("/")
                 .build();
         ResponseCookie responseRefreshCookie= ResponseCookie.from("refresh_token", refreshToken)
                 .sameSite("None")
                 .secure(true)
+                .domain("localhost")
                 .httpOnly(true)
                 .maxAge(60 * 60*24) // 하루
                 .path("/")
