@@ -6,6 +6,7 @@ import com.example.SSM.be.domain.security.auth.utils.CustomAuthorityUtils;
 import com.example.SSM.be.domain.security.token.jwt.JwtTokenizer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
@@ -78,13 +79,28 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
         throws IOException{
         String accessToken = memberService.delegateAccessToken(member);
         String refreshToken = memberService.delegateRefreshToken(member);
+        String memberId = String.valueOf(member.getUserId());
 
         String uri = createURI( accessToken,refreshToken,isNewAccount).toString();
-
+        ResponseCookie responseAccessCookie= ResponseCookie.from("access_token", accessToken)
+                .sameSite("None")
+                .secure(false)
+                .maxAge(60 * 5) // 5분
+                .path("/")
+                .build();
+        ResponseCookie responseRefreshCookie= ResponseCookie.from("refresh_token", refreshToken)
+                .sameSite("None")
+                .secure(false)
+                .httpOnly(true)
+                .maxAge(60 * 60*24) // 하루
+                .path("/")
+                .build();
         String headerValue = "Bearer " + accessToken;
-        String headerRefreshToken = "Bearer " + refreshToken;
         response.setHeader("Authorization",headerValue);
-        response.setHeader("Refresh",headerRefreshToken);
+        response.setHeader("Refresh",refreshToken);
+        response.setHeader("MemberId", memberId);
+        response.addHeader("Set-Cookie", responseAccessCookie.toString());
+        response.addHeader("Set-Cookie", responseRefreshCookie.toString());
 
         getRedirectStrategy().sendRedirect(request,response,uri);
     }

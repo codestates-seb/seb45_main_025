@@ -71,7 +71,7 @@ public class SecurityConfig  {
                         // # member관련
                         .antMatchers(HttpMethod.POST, "/users/signup").permitAll()
                         .antMatchers(HttpMethod.POST, "/users/login").permitAll()
-                        .antMatchers(HttpMethod.POST, "/users/logout").authenticated()
+                        .antMatchers(HttpMethod.POST, "/users/logout").hasRole("USER")
                         .antMatchers(HttpMethod.GET,"/user").authenticated()
                         .antMatchers("/").permitAll()
                         .antMatchers("/h2-console/**").permitAll()
