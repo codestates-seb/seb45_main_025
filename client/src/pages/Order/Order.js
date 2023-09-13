@@ -7,10 +7,7 @@ import BackgroundImage from '../../components/BackgroundImage/BackgroundImage';
 import Background from '../../common/image/main-image.png';
 import { useSelector, useDispatch } from 'react-redux';
 import {
-  setOrderName,
-  setOrderAddress,
-  setOrderPhone,
-  setOrderRequest
+  setOrderName, setOrderAddress, setOrderPhone, setOrderRequest
 } from '../../redux/actions/orderActions';
 import { Link } from 'react-router-dom';
 import { ReactComponent as EditIcon } from '../../common/image/Icons/edit.svg';
@@ -24,6 +21,7 @@ export default function Order() {
   const dispatch = useDispatch();
   const scrollY = useSelector((state) => state.scroll.scrollY);
   const selectedItems = useSelector((state) => state.cart.selected);
+  const subtotalPrice = useSelector((state) => state.cart.subtotalPrice);
   const inputName = useSelector((state) => state.order.orderName);
   const inputAddress = useSelector((state) => state.order.orderAddress);
   const inputPhone = useSelector((state) => state.order.orderPhone);
@@ -214,7 +212,8 @@ export default function Order() {
                   </div>
                 ))}
                 <div className='subtotal-price'>
-                  $ {selectedItems.reduce((total, item) => total + item.totalPrice, 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  $ {subtotalPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  {/* {selectedItems.reduce((total, item) => total + item.totalPrice, 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} */}
                 </div>
                 <ButtonContainer>
                   <Link to='/cart'>

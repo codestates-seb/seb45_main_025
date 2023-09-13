@@ -2,7 +2,7 @@ import { CartItemContainer } from './CartItem.styled';
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setSelected, setAllSelected, setCartItems } from '../../redux/actions/cartActions';
+import { setSelected, setAllSelected, setCartItems, setSubtotalPrice } from '../../redux/actions/cartActions';
 import axios from 'axios';
 
 export default function CartItem({ item }) {
@@ -13,17 +13,29 @@ export default function CartItem({ item }) {
   const [curQuantity, setCurQuantity] = useState(item.quantity);
   const accessToken = localStorage.getItem('access_token');
 
+  useEffect(() => {
+    setCurQuantity(item.quantity);
+    fetchCartItems();
+  }, [dispatch]);
+
   const handleCheckClick = (checkedItem) => {
     const updatedSelected = (selected.map(item => item.product.id).includes(checkedItem.product.id)) ? selected.filter(item => item.product.id !== checkedItem.product.id) : [...selected, checkedItem];
     dispatch(setSelected(updatedSelected));
     dispatch(setAllSelected(updatedSelected.length === cartItems.length));
+    const newSubtotal = updatedSelected.reduce((total, item) => total + item.totalPrice, 0);
+    dispatch(setSubtotalPrice(newSubtotal));
   }
 
   const fetchCartItems = () => {
+    //FIXME: 24~25 삭제
+    console.log('subtotal: ', selected.reduce((total, item) => total + item.totalPrice, 0));
+    dispatch(setSubtotalPrice(selected.reduce((total, item) => total + item.totalPrice, 0)));
+
     axios.get(`${apiUrl}/cart/list`, { headers: { Authorization: accessToken } })
       .then((response) => {
         if (response.status === 200) {
           dispatch(setCartItems(response.data));
+          dispatch(setSubtotalPrice(selected.reduce((total, item) => total + item.totalPrice, 0)));
         }
       })
       .catch((error) => {
@@ -61,11 +73,6 @@ export default function CartItem({ item }) {
       })
   }
 
-  useEffect(() => {
-    setCurQuantity(item.quantity);
-    fetchCartItems();
-  }, [dispatch]);
-
   return (
     <CartItemContainer>
       <td>
@@ -94,7 +101,6 @@ export default function CartItem({ item }) {
         />
       </td>
       <td className='total-price'>
-        {/* {(item.product.productPrice * curQuantity).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} */}
         {(item.totalPrice).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
       </td>
     </CartItemContainer>

@@ -110,7 +110,7 @@ export const FormCotents = styled.div`
   img {
     width: 2.3rem;
     height: 3rem;
-    margin-right: 1rem;
+    margin-right: 1.2rem;
   }
 
   .order-list {

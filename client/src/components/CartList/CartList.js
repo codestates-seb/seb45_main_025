@@ -10,7 +10,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   setCartItems,
   setSelected,
-  setAllSelected
+  setAllSelected,
+  setSubtotalPrice
 } from '../../redux/actions/cartActions';
 import axios from 'axios';
 import CartItem from '../CartItem/CartItem';
@@ -21,6 +22,7 @@ export default function CartList() {
   const cartItems = useSelector((state) => state.cart.cartItems);
   const selected = useSelector((state) => state.cart.selected);
   const allSelected = useSelector((state) => state.cart.allSelected);
+  const subtotalPrice = useSelector((state) => state.cart.subtotalPrice);
   const apiUrl = process.env.REACT_APP_API_URL;
   const accessToken = getAccessToken();
   console.log(accessToken);
@@ -45,12 +47,18 @@ export default function CartList() {
   }
 
   const fetchCartItems = () => {
+    //FIXME: 51~52 삭제
+    console.log('subtotal: ', selected.reduce((total, item) => total + item.totalPrice, 0));
+    dispatch(setSubtotalPrice(selected.reduce((total, item) => total + item.totalPrice, 0)));
+
     axios.get(`${apiUrl}/cart/list`, { headers: { Authorization: accessToken } })
       .then((response) => {
         if (response.status === 200) {
           dispatch(setCartItems(response.data));
           dispatch(setSelected(response.data));
           dispatch(setAllSelected(true));
+          console.log('subtotal: ', selected.reduce((total, item) => total + item.totalPrice, 0));
+          dispatch(setSubtotalPrice(selected.reduce((total, item) => total + item.totalPrice, 0)));
         }
       })
       .catch((error) => {
@@ -163,9 +171,7 @@ export default function CartList() {
           cartItems.length > 0
           && <div className='subtotal-price'>
             <span>Subtotal : </span>
-            $ {cartItems
-              .filter(item => selected.map(el => el.product.id).includes(item.product.id))
-              .reduce((total, item) => total + item.totalPrice, 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            $ {subtotalPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
           </div>
         }
       </FlexBox>
