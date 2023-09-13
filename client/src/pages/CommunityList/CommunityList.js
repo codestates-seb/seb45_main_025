@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 function CommunityList() {
@@ -15,15 +16,14 @@ function CommunityList() {
     setCurrentPage(1);
   };
 
+  const navigate = useNavigate();
 
   const fetchData = async () => {
     try {
       const response = await axios.get(`${URI}/board/posts`, {
-        
-          // "sortType":oldest,
-          // "sortType":popular,
-          // "sortType":mostCommented,
-        
+        // "sortType":oldest,
+        // "sortType":popular,
+        // "sortType":mostCommented,
       });
       setData(response.data.items); // 백엔드에서 받아온 데이터의 items 필드를 state에 저장
       setTotalItems(response.data.totalItems); // 백엔드에서 받아온 totalItems를 state에 저장
@@ -40,15 +40,26 @@ function CommunityList() {
 
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
+  const navigateToWritePost = () => {
+    navigate('/WritePost');
+  };
   return (
-
-    <div style={{ height: '100vh', backgroundColor: 'white', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+    <div
+      style={{
+        height: '100vh',
+        backgroundColor: 'white',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center'
+      }}
+    >
       <div
         style={{
           height: '2px',
           width: '40px',
           backgroundColor: '#FFA500',
-          zIndex: 2,
+          zIndex: 2
         }}
       ></div>
       <div
@@ -87,65 +98,117 @@ function CommunityList() {
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
-            border: '1px solid gray',
+            border: '1px solid gray'
           }}
         >
           <div style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>
             {item.title}
           </div>
           <div style={{ fontSize: '0.8rem', color: 'gray' }}>
-            작성자: {item.author} | 작성일: {item.createdAt} | 조회수: {item.views}
+            작성자: {item.author} | 작성일: {item.createdAt} | 조회수:{' '}
+            {item.views}
           </div>
         </div>
       ))}
 
       {/* 페이지네이션 버튼 */}
-      <div style={{ height: '50px', backgroundColor: 'white', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', marginTop: '10px' }}>
-        <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-
-          <button onClick={() => setCurrentPage(currentPage - 5)} disabled={currentPage - 5 < 1} style={{ marginRight: '5px' }}>
+      <div
+        style={{
+          height: '50px',
+          backgroundColor: 'white',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginTop: '10px'
+        }}
+      >
+        <div
+          style={{
+            marginTop: '20px',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center'
+          }}
+        >
+          <button
+            onClick={() => setCurrentPage(currentPage - 5)}
+            disabled={currentPage - 5 < 1}
+            style={{ marginRight: '5px' }}
+          >
             &#171;
           </button>
-          <button onClick={() => setCurrentPage(currentPage - 1)} disabled={currentPage === 1} style={{ marginRight: '10px' }}>
+          <button
+            onClick={() => setCurrentPage(currentPage - 1)}
+            disabled={currentPage === 1}
+            style={{ marginRight: '10px' }}
+          >
             이전
           </button>
           {/* 페이지 5씩묶음 */}
           <div style={{ display: 'flex', alignItems: 'center' }}>
-            {Array.from({ length: Math.ceil(totalPages / 5) }).map((_, groupIndex) => {
-              const startPage = groupIndex * 5 + 1;
-              const endPage = Math.min(startPage + 4, totalPages);
+            {Array.from({ length: Math.ceil(totalPages / 5) }).map(
+              (_, groupIndex) => {
+                const startPage = groupIndex * 5 + 1;
+                const endPage = Math.min(startPage + 4, totalPages);
 
-              if (currentPage >= startPage && currentPage <= endPage) {
-                return (
-                  <div key={groupIndex} style={{ display: 'flex', alignItems: 'center' }}>
-                    {Array.from({ length: endPage - startPage + 1 }).map((_, pageIndex) => {
-                      const pageNumber = startPage + pageIndex;
-                      return (
-                        <button
-                          key={pageNumber}
-                          onClick={() => setCurrentPage(pageNumber)}
-                          style={{
-                            marginRight: '5px',
-                            fontWeight: currentPage === pageNumber ? 'bold' : 'normal',
-                          }}
-                        >
-                          {pageNumber}
-                        </button>
-                      );
-                    })}
-                  </div>
-                );
-              } else {
-                return null;
+                if (currentPage >= startPage && currentPage <= endPage) {
+                  return (
+                    <div
+                      key={groupIndex}
+                      style={{ display: 'flex', alignItems: 'center' }}
+                    >
+                      {Array.from({ length: endPage - startPage + 1 }).map(
+                        (_, pageIndex) => {
+                          const pageNumber = startPage + pageIndex;
+                          return (
+                            <button
+                              key={pageNumber}
+                              onClick={() => setCurrentPage(pageNumber)}
+                              style={{
+                                marginRight: '5px',
+                                fontWeight:
+                                  currentPage === pageNumber ? 'bold' : 'normal'
+                              }}
+                            >
+                              {pageNumber}
+                            </button>
+                          );
+                        }
+                      )}
+                    </div>
+                  );
+                } else {
+                  return null;
+                }
               }
-            })}
+            )}
           </div>
 
-          <button onClick={() => setCurrentPage(currentPage + 1)} disabled={currentPage === totalPages} style={{ marginLeft: '10px' }}>
+          <button
+            onClick={() => setCurrentPage(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            style={{ marginLeft: '10px' }}
+          >
             다음
           </button>
-          <button onClick={() => setCurrentPage(currentPage + 5)} disabled={currentPage + 5 > totalPages} style={{ marginLeft: '5px' }}>
+          <button
+            onClick={() => setCurrentPage(currentPage + 5)}
+            disabled={currentPage + 5 > totalPages}
+            style={{ marginLeft: '5px' }}
+          >
             &#187;
+          </button>
+          <button
+            onClick={navigateToWritePost}
+            style={{
+              
+              padding: '10px',
+              fontSize: '1rem',
+              fontWeight: 'bold'
+            }}
+          >
+            Post
           </button>
         </div>
       </div>
