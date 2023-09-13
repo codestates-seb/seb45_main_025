@@ -72,7 +72,7 @@ const Gnb = () => {
 
                 <CustomLink>
                     <NavItem
-                      onChange={selectCategoryHandler}
+                      onClick={selectCategoryHandler}
                       value='Snacks'>
                         <GiChipsBag className="icon" />Snacks
                     </NavItem>
@@ -81,7 +81,7 @@ const Gnb = () => {
 
                 <CustomLink>
                     <NavItem
-                      onChange={selectCategoryHandler}
+                      onClick={selectCategoryHandler}
                       value='Cookies'>
                         <BiCookie className="icon" />Cookies
                     </NavItem>
@@ -90,7 +90,7 @@ const Gnb = () => {
 
                 <CustomLink>
                     <NavItem
-                      onChange={selectCategoryHandler}
+                      onClick={selectCategoryHandler}
                       value='Chocolate'>
                         <GiChocolateBar className="icon" />Chocolate
                     </NavItem>
@@ -99,7 +99,7 @@ const Gnb = () => {
 
                 <CustomLink>
                     <NavItem
-                      onChange={selectCategoryHandler}
+                      onClick={selectCategoryHandler}
                       value='Jelly'>
                         <GiJellyBeans className="icon" />Jelly
                     </NavItem>
@@ -108,7 +108,7 @@ const Gnb = () => {
 
                 <CustomLink>
                     <NavItem
-                      onChange={selectCategoryHandler}
+                      onClick={selectCategoryHandler}
                       value='Candy'>
                         <LuCandy className="icon" />Candy
                     </NavItem>
