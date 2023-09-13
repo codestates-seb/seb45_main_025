@@ -2,7 +2,7 @@ import { useState } from 'react';
 import ReactQuill, {Quill} from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import ImageResize from './imageResize/ImageResize';
-
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import axios from 'axios'
 Quill.register('modules/imageResize', ImageResize);
@@ -72,6 +72,8 @@ function WritePost() {
     const handleContentChange = (newContent) => {
         setContent(newContent);
     };
+    const navigate = useNavigate();
+
     const handlePublish = async () => {
         try {
             // 데이터
@@ -83,6 +85,7 @@ function WritePost() {
 
 
             console.log('백엔드 응답:', response.data);
+            navigate('/CommunityList');
         } catch (error) {
             console.error('에러 발생:', error);
 
@@ -141,7 +144,7 @@ function WritePost() {
             >
                 <input
                     type="text"
-                    placeholder="제목을 입력하세요."
+                    placeholder="Enter title."
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     style={{ width: '900px', height: '45px', padding: '5px', fontSize: '1.5rem' }}
@@ -163,7 +166,7 @@ function WritePost() {
             >
                 <div style={{ marginBottom: '10px', width: '900px', height: '100%', marginTop: '3px' }}>
                     <Editor
-                        placeholder="내용을 입력하세요."
+                        placeholder="Enter content."
                         value={content}
                         onChange={handleContentChange}
                     />
@@ -183,7 +186,7 @@ function WritePost() {
                     }}
                     onClick={handlePublish}
                 >
-                    등록
+                    Post
                 </button>
             </div>
         </div >
