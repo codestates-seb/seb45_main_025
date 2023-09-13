@@ -23,8 +23,8 @@ export default function CartList() {
   const allSelected = useSelector((state) => state.cart.allSelected);
   const apiUrl = process.env.REACT_APP_API_URL;
   // const accessToken = getAccessToken();
-  const accessToken = `Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJVU0VSIl0sIm1lbWJlcklkIjoxLCJzdWIiOiJzb25AZ21haWwuY29tIiwiaWF0IjoxNjk0NTAzNDYzLCJleHAiOjE2OTQ1MDUyNjN9.RgI7S1guK_BbIX6O1mMl4tCYm7u3CXEuzYcJvD2_4cw`;
-  // const accessToken = process.env.REACT_APP_ACCESS_TOKEN;
+  const accessToken = localStorage.getItem('access_token');
+  console.log(accessToken);
 
   // FIXME: 장바구니 post 요청 테스트 용. 나중에 삭제
   const addHandler = () => {
@@ -34,7 +34,7 @@ export default function CartList() {
       })
       .catch((error) => {
         console.log(error);
-      });
+      })
   }
 
   const fetchCartItems = () => {
@@ -76,7 +76,8 @@ export default function CartList() {
         .then((response) => {
           if (response.ok) {
             alert('delete all item success');
-            dispatch(setCartItems(response.data));
+            fetchCartItems();
+            // dispatch(setCartItems(response.data));
             dispatch(setSelected([]));
             dispatch(setAllSelected(false));
           }
@@ -95,14 +96,15 @@ export default function CartList() {
         .then((response) => {
           if (response.ok) {
             alert('delete selected item success');
-            dispatch(setCartItems(response.data));
-            dispatch(setSelected([]));
+            fetchCartItems();
           }
         })
         .catch((error) => {
           console.log(error);
         })
     }
+    dispatch(setSelected([]));
+    dispatch(setAllSelected(false));
     window.scroll(0, 340);
   }
 
