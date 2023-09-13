@@ -41,11 +41,11 @@ export default function MyPageEdit(){
       };
       reader.readAsDataURL(e.target.files[0]);
       let access_token = getAccessToken();
+      console.log(access_token)
       const formData = new FormData();
       formData.append('image',e.target.files[0]);
-      axios.post(`${URI}/mypage/pofileImage`,{ headers: {Authorization: access_token}},{
-        "image": formData
-      })
+      axios.patch(`${URI}/mypage/pofileImage`,formData,{ headers: {Authorization: access_token,'Content-Type': 'multipart/form-data'}}
+      )
       .then((res)=>{
         console.log(res.data.originalFileName, res.data.saveFileName)
       }).catch((res)=>{

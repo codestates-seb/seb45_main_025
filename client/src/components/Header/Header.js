@@ -16,12 +16,20 @@ import { ReactComponent as LogoutIcon } from '../../common/image/HeaderIcon/logo
 import { ReactComponent as MypageIcon } from '../../common/image/HeaderIcon/mypage.svg';
 import { ReactComponent as CartIcon } from '../../common/image/HeaderIcon/cart.svg';
 import getAccessToken from '../../common/utils/getToken';
+import detectUrlChange from 'detect-url-change';
+
 
 export default function Header() {
   const dispatch = useDispatch();
   const scrollY = useSelector((state) => state.scroll.scrollY);
   const isHome = useLocation().pathname === '/';
   const [isLogin, setIsLogin] = useState(false);
+  const [url, setUrl] = useState('')
+  
+  detectUrlChange.on('change', (newUrl) => {
+    setUrl(newUrl)
+  });
+
   useEffect(() => {
     window.addEventListener('scroll', () => {
       dispatch(handleScrollY());
@@ -35,12 +43,13 @@ export default function Header() {
   }, [dispatch]);
 
   useEffect(() => {
+    console.log("checklogin")
     if(getAccessToken()){
       setIsLogin(true)
     }else{
       setIsLogin(false)
     }
-  });
+  }, [url]);
 
   const handleLinkClick = () => {
     window.scroll(0, 0);
