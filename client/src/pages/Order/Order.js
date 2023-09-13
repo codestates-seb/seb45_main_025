@@ -114,17 +114,6 @@ export default function Order() {
       return;
     }
 
-    const data = {
-      name: inputName,
-      address: inputAddress,
-      phone: inputPhone,
-      request: inputRequest,
-    };
-
-    console.log(data);
-
-    // TODO: [POST] /order
-
     window.scroll(0, 0);
   }
 
@@ -209,16 +198,17 @@ export default function Order() {
                 {selectedItems.map((item) => (
                   <div key={item.product.id} className='order-list'>
                     <img src={item.product.img} alt='' />
-                    <div>
-                      <div className='product-name'>{item.product.productName}</div>
+                    <div className='flex-grow'>
+                      <div className='flex-row'>
+                        <div className='product-name'>{item.product.productName}</div>
+                        <div className='total-price'>$ {item.totalPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+                      </div>
                       <div
                         className='flex-row'
                         key={item.product.id}>
+                        <div className='product-quantity'>
+                          quantity {item.quantity}</div>
                         <div className='product-price'>$ {item.product.productPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
-                        <div>x</div>
-                        <div className='product-quantity'>{item.quantity}</div>
-                        <div>=</div>
-                        <div className='total-price'>$ {item.totalPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
                       </div>
                     </div>
                   </div>

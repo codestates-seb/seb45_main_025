@@ -118,24 +118,31 @@ export const FormCotents = styled.div`
     flex-direction: row;
     padding: 0.4rem 0;
 
-    .product-name {
-      display: flex;
-      justify-content: flex-start;
-      font-weight: 600;
-      font-size: 1rem;
-      margin-bottom: 0.3rem;
-    } 
+    .flex-grow {
+      flex-grow: 1;
+    }
 
-    .flex-row {
+    div .flex-row {
       display: flex;
       flex-direction: row;
-      justify-content: flex-end;
+      justify-content: space-between;
 
       div {
-        font-size: 0.9rem;
+        font-size: 0.85rem;
         margin: 0 0.3rem;
         margin-bottom: 0.5rem;
+        color: var(--gray-30);
       }
+      
+      .product-name,
+      .total-price {
+        display: flex;
+        justify-content: flex-start;
+        font-weight: 600;
+        font-size: 1rem;
+        margin-bottom: 0.3rem;
+        color: var(--gray-50);
+      } 
     } 
   }
 
