@@ -50,9 +50,9 @@ public class MemberController {
     }
     @PostMapping("/oauth/google/signup")
     public ResponseEntity postGoogle(HttpServletRequest request,
+                                     @CookieValue(name = "access_token", required = false) String accessToken,
                                      @Valid @RequestBody AuthAdditionalDto additionalDto){
-        String authorizationHeader = request.getHeader("Authorization");
-        Jws<Claims> claims = tokenService.checkAccessToken(authorizationHeader);
+        Jws<Claims> claims = tokenService.checkAccessToken(accessToken);
         Member addmember = membermapper.AuthAdditionalDtoToMember(additionalDto);
         Member saveMember = memberService.createMemberOAuth2withAdditionalInfo(claims,addmember);
 
@@ -61,8 +61,9 @@ public class MemberController {
                 new SingleResponseDto<>(location), HttpStatus.CREATED);
     }
     @GetMapping("/info")
-    public ResponseEntity getMemberInfo(HttpServletRequest request){
-        Member findMember = memberService.getMemberWithAccessToken(request);
+    public ResponseEntity getMemberInfo(HttpServletRequest request,
+                                        @CookieValue(name = "access_token", required = false) String accessToken){
+        Member findMember = memberService.getMemberWithAccessToken(accessToken);
         MemberDto.ResponseDto response = membermapper.memberToResponse(findMember);
 
         return new ResponseEntity<>(
@@ -70,8 +71,9 @@ public class MemberController {
     }
     @PatchMapping("/nickname")
     public ResponseEntity updateMemberNickname(HttpServletRequest request,
+                                               @CookieValue(name = "access_token", required = false) String accessToken,
                                                @Valid @RequestBody MemberDto.PatchDto patchDto){
-        Member findMember = memberService.getMemberWithAccessToken(request);
+        Member findMember = memberService.getMemberWithAccessToken(accessToken);
         log.info(findMember.getUserId().toString());
         Member forUpdateMember = membermapper.memberPathchDtoToMember(patchDto);
         Member updatedMember = memberService.updateMember(findMember,forUpdateMember);
@@ -82,17 +84,19 @@ public class MemberController {
 
     }
     @PostMapping("/logout")
-    public ResponseEntity logout(HttpServletRequest request) {
-        String authorizationHeader = request.getHeader("Authorization");
-        String jws = authorizationHeader.substring(7);    // "Bearer " 이후의 토큰 문자열 추출//블랙리스트에 jws 추가, 접근 막음
-        blacklistTokenService.addToBlacklist(jws);
+    public ResponseEntity logout(HttpServletRequest request,
+                                 @CookieValue(name = "access_token", required = false) String accessToken) {
+//        String authorizationHeader = request.getHeader("Authorization");
+//        String jws = authorizationHeader.substring(7);    // "Bearer " 이후의 토큰 문자열 추출//블랙리스트에 jws 추가, 접근 막음
+        blacklistTokenService.addToBlacklist(accessToken);
         return new ResponseEntity<>(
                 new SingleResponseDto<>("로그아웃 성공"), HttpStatus.OK);
     }
     @DeleteMapping("/delete/{member-id}")    //Member 삭제
-    public ResponseEntity deleteMember(HttpServletRequest request
+    public ResponseEntity deleteMember(HttpServletRequest request,
+                                       @CookieValue(name = "access_token", required = false) String accessToken
                                        ,@PathVariable("member-id") @Positive long memberId){
-        Member member = memberService.getMemberWithAccessToken(request);
+        Member member = memberService.getMemberWithAccessToken(accessToken);
         memberService.deleteMember(member.getUserId(),memberId);
         return new ResponseEntity<>(
                 new SingleResponseDto<>(member.getUserId()+"번 회원 삭제 성공"), HttpStatus.NO_CONTENT);
