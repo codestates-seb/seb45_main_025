@@ -1,20 +1,15 @@
 
 spring:
-  h2:
-    console:
-      enabled: true
-
-  datasource:
-    url: jdbc:h2:file:~/seb025db  # 파일 기반 H2 데이터베이스 사용
-    driver-class-name: org.h2.Driver
-    username: sa
-    password:
-
+  db:
+    host: ssmdb.cjvmex06e1xk.ap-northeast-2.rds.amazonaws.com
+    port: 3306
+    user: admin
+    password: code1234!
+    database: ssmdb
   jpa:
     hibernate:
-      ddl-auto: create-drop
-    database-platform: org.hibernate.dialect.H2Dialect
-    open-in-view: false
+      ddl-auto: update
+    show-sql: true # SQL 쿼리를 콘솔에 표시하려면 true로 설정합니다.
 
   servlet:
     multipart:

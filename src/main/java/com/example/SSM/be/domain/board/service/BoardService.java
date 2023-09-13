@@ -51,7 +51,7 @@ public class BoardService {
 
                 String originFileName = imageFile.getOriginalFilename();
                 String saveFileName = System.currentTimeMillis() + "_" + originFileName;
-                String savePath = "C:/Users/yoongunyong/Desktop/images/" + saveFileName;
+                String savePath = "/home/ssm-user/image/boardImage/" + saveFileName;
 //                String savePath = "/Users/yungeon-yong/springboot_img/" + saveFileName;
                 imageFile.transferTo(new File(savePath));
 
@@ -102,7 +102,7 @@ public class BoardService {
             if (existingBoard.getImageList() != null) {
                 for (Image image : existingBoard.getImageList()) {
                     // 이미지 파일 경로 생성
-                    String existingImagePath = "C:/Users/yoongunyong/Desktop/images/" + image.getSaveFileName();
+                    String existingImagePath = "/home/ssm-user/image/boardImage/" + image.getSaveFileName();
 
                     try {
                         // 이미지 파일 삭제

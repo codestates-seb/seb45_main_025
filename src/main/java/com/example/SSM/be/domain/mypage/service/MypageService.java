@@ -66,7 +66,7 @@ public class MypageService {
             MultipartFile multipartFile = imagePostDto.getImage();
             if(member.getImage()!=null){
                 ProfileImage profileImage = member.getImage();
-                String existingImagePath = "C:/Users/yoongunyong/Desktop/images/profile/" + profileImage.getSaveFileName();
+                String existingImagePath = "/home/ssm-user/image/profileImage/" + profileImage.getSaveFileName();
                 try{
                     Files.deleteIfExists(Paths.get(existingImagePath));
                 }catch (IOException e){
@@ -80,7 +80,7 @@ public class MypageService {
                 MultipartFile newImage = imagePostDto.getImage();
                 String originalFileName = newImage.getOriginalFilename();
                 String saveFileName = System.currentTimeMillis() + "_" + originalFileName;
-                String savePath = "C:/Users/yoongunyong/Desktop/images/profile/" + saveFileName;
+                String savePath = "/home/ssm-user/image/profileImage/" + saveFileName;
                 newImage.transferTo(new File(savePath));
 
                 ProfileImage image = new ProfileImage();
