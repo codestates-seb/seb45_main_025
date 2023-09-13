@@ -40,6 +40,16 @@ export default function CartItem({ item }) {
       { headers: { Authorization: accessToken } })
       .then((response) => {
         if (response.status === 200) {
+          const updateSelected = selected.map((item) => {
+            if (item.product.id === productId) {
+              return {
+                ...item,
+                quantity: newQuantity,
+              }
+            }
+            return item;
+          });
+          dispatch(setSelected(updateSelected));
           fetchCartItems();
         }
       })
