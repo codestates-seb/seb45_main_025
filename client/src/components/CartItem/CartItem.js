@@ -1,6 +1,6 @@
 import { CartItemContainer } from './CartItem.styled';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSelected, setAllSelected, setCartItems } from '../../redux/actions/cartActions';
 import axios from 'axios';
@@ -22,8 +22,9 @@ export default function CartItem({ item }) {
   const fetchCartItems = () => {
     axios.get(`${apiUrl}/cart/list`, { headers: { Authorization: accessToken } })
       .then((response) => {
-        dispatch(setCartItems(response.data));
-        console.log(response.data);
+        if (response.status === 200) {
+          dispatch(setCartItems(response.data));
+        }
       })
       .catch((error) => {
         console.error('Failed to load cart items: ', error);
@@ -33,11 +34,14 @@ export default function CartItem({ item }) {
   const handleQuantityChange = (productId, newQuantity) => {
     setCurQuantity(newQuantity);
 
-    axios.patch(`${apiUrl}/cart/update/${productId}?quantity=${curQuantity}`, { headers: { Authorization: accessToken } })
+    axios.patch(
+      `${apiUrl}/cart/update/${productId}?quantity=${newQuantity}`,
+      null,
+      { headers: { Authorization: accessToken } })
       .then((response) => {
-        console.log(response.data);
-        fetchCartItems();
-        // dispatch(setCartItems(response.data));
+        if (response.status === 200) {
+          fetchCartItems();
+        }
       })
       .catch((error) => {
         console.error(`Failed to update item's quantity: `, error);
@@ -46,6 +50,11 @@ export default function CartItem({ item }) {
         console.log(productId, newQuantity);
       })
   }
+
+  useEffect(() => {
+    setCurQuantity(item.quantity);
+    fetchCartItems();
+  }, [dispatch]);
 
   return (
     <CartItemContainer>
@@ -75,8 +84,8 @@ export default function CartItem({ item }) {
         />
       </td>
       <td className='total-price'>
-        {(item.product.productPrice * curQuantity).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-        {/* {(item.totalPrice).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} */}
+        {/* {(item.product.productPrice * curQuantity).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} */}
+        {(item.totalPrice).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
       </td>
     </CartItemContainer>
   )
