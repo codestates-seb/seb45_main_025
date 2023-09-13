@@ -17,6 +17,8 @@ import { ReactComponent as EditIcon } from '../../common/image/Icons/edit.svg';
 import { useState, useEffect, useRef } from 'react';
 import { handleScrollY } from '../../redux/thunks/scrollThunks';
 import { ReactComponent as AlertIcon } from '../../common/image/Icons/alert.svg';
+import axios from 'axios';
+import getAccessToken from '../../common/utils/getToken';
 
 export default function Order() {
   const dispatch = useDispatch();
@@ -32,8 +34,12 @@ export default function Order() {
   const [inputNameMsg, setInputNameMsg] = useState('');
   const [inputAddressMsg, setInputAddressMsg] = useState('');
   const [inputPhoneMsg, setInputPhoneMsg] = useState('');
+  const [customerInfo, setCustomerInfo] = useState([]);
+  const apiUrl = process.env.REACT_APP_API_URL;
+  const accessToken = getAccessToken();
 
   useEffect(() => {
+    fetchCustomerInfo();
     window.addEventListener('scroll', () => {
       dispatch(handleScrollY());
     });
@@ -43,6 +49,18 @@ export default function Order() {
       });
     };
   }, [dispatch]);
+
+  const fetchCustomerInfo = () => {
+    axios.get(`${apiUrl}/mypage`, { headers: { Authorization: accessToken } })
+      .then((response) => {
+        if (response.status === 200) {
+          setCustomerInfo(response.data);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
 
   const inputNameHandler = (event) => {
     const inputValue = event.target.value;
@@ -129,11 +147,11 @@ export default function Order() {
               </Link>
               <FormCotents className='customer-info'>
                 <div className='info-title'>NAME</div>
-                <div className='info-contents'>sonyoungjin</div>
+                <div className='info-contents'>{customerInfo.name}</div>
                 <div className='info-title'>PHONE</div>
-                <div className='info-contents'>012-3456-7890</div>
+                <div className='info-contents'>{customerInfo.phone}</div>
                 <div className='info-title'>EMAIL</div>
-                <div className='info-contents'>youngjin123@gmail.com</div>
+                <div className='info-contents'>{customerInfo.email}</div>
               </FormCotents>
             </FormContainer>
             <FormContainer>
