@@ -61,7 +61,7 @@ const List = () => {
 
     if ( searchCategory === 'all') {
       axios
-        .get(`{URI}/products/all/list?page=${listCurrentPage}&pageSize=${PER_PAGE}`)
+        .get(`${URI}/products/all/list?page=${listCurrentPage}&pageSize=${PER_PAGE}`)
         .then(res => {
           console.log(res);
           setItemList(res.data.data);
