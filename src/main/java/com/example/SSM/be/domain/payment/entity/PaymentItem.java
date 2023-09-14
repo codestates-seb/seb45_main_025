@@ -1,6 +1,7 @@
 package com.example.SSM.be.domain.payment.entity;
 
 import com.example.SSM.be.domain.products.entity.Products;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,8 +16,10 @@ public class PaymentItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long paymentid;
 
-    @ManyToOne(fetch = FetchType.EAGER) // 즉시로딩으로 변경
-    private Payment payment; // 어떤 주문에 속한 상품인지
+    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name = "payment_id")
+    private Payment payment;
 
     @ManyToOne(fetch = FetchType.EAGER) // 즉시로딩으로 변경
     private Products products; // 주문한 상품 정보
