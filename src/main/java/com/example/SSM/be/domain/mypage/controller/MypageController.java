@@ -38,7 +38,7 @@ public class MypageController {
     private final MypageMapper mypageMapper;
     //마이페이지 읽어오기
 
-    @GetMapping
+    @GetMapping()
     public ResponseEntity getMyInfo(@RequestHeader("Authorization") String authorizationHeader){
         log.info(authorizationHeader);
         Jws<Claims> claims = tokenService.checkAccessToken(authorizationHeader);

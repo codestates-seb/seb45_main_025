@@ -45,8 +45,9 @@ public class BoardController {
     private final MemberService memberService;
 
     //    게시글 생성하기
-    @PostMapping
 
+
+    @PostMapping
     public ResponseEntity postBoard(@ModelAttribute BoardPostDto postDto,@RequestHeader("Authorization")String authorizationHeader) throws IOException {
         Jws<Claims> claims = tokenService.checkAccessToken(authorizationHeader);
         String email = claims.getBody().getSubject();
