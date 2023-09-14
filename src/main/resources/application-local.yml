@@ -32,6 +32,7 @@ spring:
           google:
             clientId: 232398614438-4laehmm9vibdvaa8hv57miuvgpkv33kj.apps.googleusercontent.com
             clientSecret: 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
+            redirect-uri: "https://www.mainksnacks.shop/login/oauth2/code/google"
             scope:
               - email
               - profile
@@ -53,6 +54,7 @@ logging:
     root: INFO
 server:
   port: 8080
+  forward-headers-strategy: NATIVE
 mail:
   address:
     admin: admin@gmail.com
