@@ -1,17 +1,18 @@
 import { useState } from 'react';
-import ReactQuill, {Quill} from 'react-quill';
+import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import ImageResize from './imageResize/ImageResize';
+// import ImageResize from './imageResize/ImageResize';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import axios from 'axios'
-Quill.register('modules/imageResize', ImageResize);
+import getAccessToken from '../../common/utils/getToken';
+// Quill.register('modules/imageResize');
 const Editor = ({ placeholder, value, onChange }) => {
     const modules = {
-        imageResize: {
-            parchment: Quill.import('parchment')
-            // See optional "config" below
-        },
+        // imageResize: {
+        //     parchment: Quill.import('parchment')
+        //     // See optional "config" below
+        // },
         toolbar: {
             container: [
                 ['link', 'image', 'video'],
@@ -66,6 +67,8 @@ Editor.propTypes = {
 };
 
 function WritePost() {
+    const URI = process.env.REACT_APP_API_URL;
+
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const handleContentChange = (newContent) => {
@@ -74,9 +77,11 @@ function WritePost() {
     const navigate = useNavigate();
     const URI = process.env.REACT_APP_API_URL
     const handlePublish = async () => {
+        let access_token = getAccessToken();
+        console.log(access_token)
         try {
             // 데이터
-            const response = await axios.post(`${URI}/board`, {
+            const response = await axios.post(`${URI}/board`, { headers: { Authorization: access_token } }, {
                 "title": title,
                 "content": content,
                 "image": null
