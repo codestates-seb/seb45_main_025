@@ -10,6 +10,7 @@
     "@tosspayments/payment-widget-sdk": "^0.9.3",
     "aos": "^2.3.4",
     "axios": "^1.5.0",
+    "mkcert": "^3.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.11.0",

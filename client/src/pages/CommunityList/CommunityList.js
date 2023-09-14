@@ -25,7 +25,8 @@ function CommunityList() {
         // "sortType":popular,
         // "sortType":mostCommented,
       });
-      setData(response.data.items); // 백엔드에서 받아온 데이터의 items 필드를 state에 저장
+      setData([])// setData(response.data.items); // 백엔드에서 받아온 데이터의 items 필드를 state에 저장
+      console.log(123, response.data)
       setTotalItems(response.data.totalItems); // 백엔드에서 받아온 totalItems를 state에 저장
     } catch (error) {
       console.error('에러 발생:', error);
@@ -202,7 +203,7 @@ function CommunityList() {
           <button
             onClick={navigateToWritePost}
             style={{
-              
+
               padding: '10px',
               fontSize: '1rem',
               fontWeight: 'bold'
