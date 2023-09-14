@@ -35,7 +35,8 @@ spring:
 
 config:
   domain: https://www.ksnacksncak.shop
-
+server:
+  forward-headers-strategy: NATIVE
 file:
   upload-dir: ssm-user@ip-172-31-33-100:/home/ubuntu/image
 

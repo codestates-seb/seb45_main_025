@@ -9,10 +9,12 @@ spring:
     driver-class-name: org.h2.Driver
     username: sa
     password:
+
   jpa:
     hibernate:
-      ddl-auto: update
-    show-sql: true # SQL 쿼리를 콘솔에 표시하려면 true로 설정합니다.
+      ddl-auto: create-drop
+    database-platform: org.hibernate.dialect.H2Dialect
+    open-in-view: false
 
   servlet:
     multipart:
