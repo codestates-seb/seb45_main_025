@@ -54,6 +54,7 @@ logging:
     root: INFO
 server:
   port: 8080
+  forward-headers-strategy: NATIVE
 mail:
   address:
     admin: admin@gmail.com

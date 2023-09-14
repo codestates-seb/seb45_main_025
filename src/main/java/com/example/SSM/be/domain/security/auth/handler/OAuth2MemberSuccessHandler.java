@@ -119,7 +119,6 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
                 .newInstance()
                 .scheme("https")
                 .host("www.ksnacksncak.shop")
-                .port(443)
                 .path("/loading")
                 .queryParams(queryParams)
                 .build()
