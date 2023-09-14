@@ -48,8 +48,8 @@ export default function CartList() {
 
   const fetchCartItems = () => {
     //FIXME: 51~52 삭제
-    console.log('subtotal: ', selected.reduce((total, item) => total + item.totalPrice, 0));
-    dispatch(setSubtotalPrice(selected.reduce((total, item) => total + item.totalPrice, 0)));
+    // console.log('subtotal: ', selected.reduce((total, item) => total + item.totalPrice, 0));
+    // dispatch(setSubtotalPrice(selected.reduce((total, item) => total + item.totalPrice, 0)));
 
     axios.get(`${apiUrl}/cart/list`, { headers: { Authorization: accessToken } })
       .then((response) => {
