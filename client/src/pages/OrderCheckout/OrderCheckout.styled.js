@@ -17,7 +17,7 @@ export const OrderCheckoutContainer = styled.div`
   }
 
   span {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     font-weight: 600;
     color: var(--gray-90);
   }
@@ -25,6 +25,7 @@ export const OrderCheckoutContainer = styled.div`
   label {
     display: flex;
     justify-content: center;
+    font-size: 0.9rem;
     margin: 1rem 0;
     font-weight: 300;
     cursor: pointer;
@@ -56,7 +57,6 @@ export const OrderCheckoutContainer = styled.div`
     justify-content: center;
     align-items: center;
     color: var(--brown-20);
-    font-size: 1.2rem;
     margin: 1.5rem;
     
     svg {

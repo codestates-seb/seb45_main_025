@@ -1,3 +1,5 @@
+// TODO: order api 요청
+// TODO: user info 받아오기 (이름, 이메일)
 import { useRef, useEffect, useState } from "react";
 import {
   // PaymentWidgetInstance, 
