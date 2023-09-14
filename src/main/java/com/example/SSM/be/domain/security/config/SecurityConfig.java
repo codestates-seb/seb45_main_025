@@ -5,9 +5,9 @@ import com.example.SSM.be.domain.member.service.MemberService;
 import com.example.SSM.be.domain.security.auth.filter.JwtAuthenticationFilter;
 import com.example.SSM.be.domain.security.auth.filter.JwtVerificationFilter;
 import com.example.SSM.be.domain.security.auth.handler.*;
-import com.example.SSM.be.domain.security.token.jwt.JwtTokenizer;
 import com.example.SSM.be.domain.security.auth.service.CustomOAuth2Serivce;
 import com.example.SSM.be.domain.security.auth.utils.CustomAuthorityUtils;
+import com.example.SSM.be.domain.security.token.jwt.JwtTokenizer;
 import com.example.SSM.be.domain.security.token.repository.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +31,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
+import java.util.List;
 
 @Configuration
 @Slf4j
@@ -55,7 +56,7 @@ public class SecurityConfig  {
                 .headers().frameOptions().sameOrigin()
                 .and()
                 .csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER)
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .formLogin().disable()
                 .httpBasic().disable()
@@ -71,7 +72,7 @@ public class SecurityConfig  {
                         // # member관련
                         .antMatchers(HttpMethod.POST, "/users/signup").permitAll()
                         .antMatchers(HttpMethod.POST, "/users/login").permitAll()
-                        .antMatchers(HttpMethod.POST, "/users/logout").authenticated()
+                        .antMatchers(HttpMethod.POST, "/users/logout").hasRole("USER")
                         .antMatchers(HttpMethod.GET,"/user").authenticated()
                         .antMatchers("/").permitAll()
                         .antMatchers("/h2-console/**").permitAll()
@@ -87,13 +88,11 @@ public class SecurityConfig  {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedOrigin("http://localhost:3000");
-        configuration.addAllowedOrigin("http://main025.s3-website.ap-northeast-2.amazonaws.com");
-        configuration.setAllowedMethods(Arrays.asList("*"));
-
-        configuration.setAllowedHeaders(Arrays.asList("*"));
-        configuration.setExposedHeaders(Arrays.asList("*"));
+        configuration.setAllowedOrigins(List.of("https://localhost:3000","https://www.ksnacksncak.shop"));
+        configuration.setAllowCredentials(true);
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "DELETE"));
         configuration.addAllowedHeader("*");
+        configuration.setExposedHeaders(Arrays.asList("Authorization","Set-Cookie"));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);

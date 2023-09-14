@@ -11,6 +11,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -18,7 +20,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -77,30 +78,34 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                             Authentication authResult) throws ServletException, IOException {
         Member member = (Member) authResult.getPrincipal();
 
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         String accessToken = delegateAccessToken(member); // accessToken 만들기
         String refreshToken = delegateRefreshToken(member); // refreshToken 만들기
         String memberId = String.valueOf(member.getUserId());
-
-        String headerValue = "Bearer " + accessToken;
-
-        response.setHeader("Authorization", headerValue);
+        String headerAccessToken  = "Bearer " + accessToken;
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        ResponseCookie responseAccessCookie= ResponseCookie.from("access_token", accessToken)
+                .sameSite("None")
+                .secure(false)
+                .domain("localhost")
+                .maxAge(60 * 5) // 5분
+                .path("/")
+                .build();
+        ResponseCookie responseRefreshCookie= ResponseCookie.from("refresh_token", refreshToken)
+                .sameSite("None")
+                .secure(false)
+                .domain("localhost")
+                .httpOnly(true)
+                .maxAge(60 * 60*24) // 하루
+                .path("/")
+                .build();
+        response.setHeader("Authorization", headerAccessToken);
         response.setHeader("Refresh", refreshToken);
         response.setHeader("MemberId", memberId);
-
-        Cookie accessTokenCookie = new Cookie("access_token", accessToken);
-        accessTokenCookie.setHttpOnly(true); // JavaScript로 접근을 막음
-        accessTokenCookie.setSecure(true); // HTTPS 연결에서만 쿠키 사용
-        accessTokenCookie.setMaxAge(3600); // 쿠키 만료 시간 설정 (초 단위)
-        response.addCookie(accessTokenCookie);
-        Cookie refreshTokenCookie = new Cookie("refresh_token", refreshToken);
-        refreshTokenCookie.setHttpOnly(true);
-        refreshTokenCookie.setSecure(true);
-        refreshTokenCookie.setMaxAge(3600);
-        response.addCookie(refreshTokenCookie);
-
+        response.addHeader("Set-Cookie", responseAccessCookie.toString());
+        response.addHeader("Set-Cookie", responseRefreshCookie.toString());
         this.getSuccessHandler().onAuthenticationSuccess(request, response, authResult);
     }
-
 
     private String delegateAccessToken(Member member) {
         Map<String, Object> claims = new HashMap<>();

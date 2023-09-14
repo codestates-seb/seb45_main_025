@@ -78,9 +78,6 @@ public class CommentController {
     //댓글 가져오기
     @GetMapping("/{board-id}/comment")
     public ResponseEntity getCommentList(@PathVariable("board-id") long boardId){
-//        Jws<Claims> claims = tokenService.checkAccessToken(authorizationHeader);
-//        String email = claims.getBody().getSubject();
-//        Member findMember = memberService.findMemberByEmail(email);
         List<CommentResponseDto> response = commentService.getCommentList(boardId);
         return new ResponseEntity<>(response,HttpStatus.OK);
     }

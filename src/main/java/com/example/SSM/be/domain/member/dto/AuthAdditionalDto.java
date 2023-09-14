@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @Setter
 public class AuthAdditionalDto {
     @NotNull
-    private String nickName;
+    private String name;
     @NotBlank
     private String gender;
     @NotBlank

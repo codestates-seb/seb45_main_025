@@ -26,11 +26,10 @@ public class TokenController {
 
     @PostMapping("token/refresh")
     public ResponseEntity refreshAccessToken(HttpServletRequest request){
-        validateExistHeader(request);
         String refreshTokenHeader = request.getHeader("Refresh");
+        log.info(refreshTokenHeader);
         Jws<Claims> claims = tokenService.checkRefreshToken(refreshTokenHeader);
         Member member = memberService.findVerifiedMemberWithClaims(claims);
-
         String accessToken = memberService.delegateAccessToken(member);
         return ResponseEntity.ok()
                     .header("Authorization", "Bearer " + accessToken)
@@ -39,17 +38,17 @@ public class TokenController {
 
     @PostMapping("/token/check")
     public ResponseEntity checkAccessToken(HttpServletRequest request){
+        validateExistHeader(request);
         String TokenHeader = request.getHeader("Authorization");
-
-        Jws<Claims> claims = tokenService.checkAccessToken(TokenHeader);
+        Jws<Claims> claims = tokenService.checkToken(TokenHeader);
         String remainingTime = tokenService.getRemainingTime(claims);
 
         return ResponseEntity.ok().body("현재 토큰의 잔여 시간은 " + remainingTime + " 입니다");
     }
     private void validateExistHeader(HttpServletRequest request) {
         String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
-        String refreshTokenHeader = request.getHeader("Refresh-Token");
-        if (Objects.isNull(authorizationHeader) || Objects.isNull(refreshTokenHeader)) {
+        String refreshTokenHeader = request.getHeader("Refresh");
+        if (Objects.isNull(authorizationHeader) && Objects.isNull(refreshTokenHeader)) {
             throw new BusinessLogicException(ExceptionCode.TOKEN_NOT_FOUND);
         }
     }

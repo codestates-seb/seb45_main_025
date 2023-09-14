@@ -102,7 +102,7 @@ public class BoardService {
             if (existingBoard.getImageList() != null) {
                 for (Image image : existingBoard.getImageList()) {
                     // 이미지 파일 경로 생성
-                    String existingImagePath = "/home/ssm-user/image/boardImage/" + image.getSaveFileName();
+                    String existingImagePath = "C:/Users/yoongunyong/Desktop/images/" + image.getSaveFileName();
 
                     try {
                         // 이미지 파일 삭제

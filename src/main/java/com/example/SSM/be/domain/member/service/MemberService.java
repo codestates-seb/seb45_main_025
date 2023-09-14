@@ -49,7 +49,7 @@ public class MemberService {
     // Todo
     public Member createMemberOAuth2withAdditionalInfo(Jws<Claims> claims,Member member){
         Member saveMember = findVerifiedMemberWithClaims(claims);
-
+        saveMember.setName(member.getName());
         saveMember.setGender(member.getGender());
         saveMember.setBirth(member.getBirth());
         saveMember.setPhone(member.getPhone());
@@ -100,6 +100,7 @@ public class MemberService {
     }
     public Member getMemberWithAccessToken(HttpServletRequest request) {
         String authorizationHeader = request.getHeader("Authorization");
+        log.info(authorizationHeader);
         Jws<Claims> claims = tokenService.checkAccessToken(authorizationHeader);
         return findVerifiedMemberWithClaims(claims);
     }
