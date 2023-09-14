@@ -1,4 +1,6 @@
-import { useRef, useState, useEffect } from "react";
+// TODO: order api 요청
+// TODO: user info 받아오기 (이름, 이메일)
+import { useRef, useEffect, useState } from "react";
 import {
   // PaymentWidgetInstance, 
   loadPaymentWidget,
@@ -8,6 +10,8 @@ import { nanoid } from "nanoid";
 import { OrderCheckoutContainer } from './OrderCheckout.styled';
 import BackgroundImage from '../../components/BackgroundImage/BackgroundImage';
 import snackImg from '../../common/image/main-image.png';
+import { useSelector } from 'react-redux';
+import { ReactComponent as AlertIcon } from '../../common/image/Icons/alert.svg';
 
 const selector = "#payment-widget";
 const clientKey = "test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq";
@@ -16,7 +20,8 @@ const customerKey = "YbX2HuSlsC9uVJW6NMRMj";
 export default function OrderCheckout() {
   const paymentWidgetRef = useRef(null);
   const paymentMethodsWidgetRef = useRef(null);
-  const [price, setPrice] = useState(5_100);
+  const subtotalPrice = useSelector((state) => state.cart.subtotalPrice);
+  const [price, setPrice] = useState(subtotalPrice * 1000);
 
   useEffect(() => {
     (async () => {
@@ -62,7 +67,11 @@ export default function OrderCheckout() {
       <BackgroundImage imgSrc={snackImg} title='ACCOUNT' />
       <OrderCheckoutContainer>
         <h1>PAYMENT</h1>
-        <span>{`${price.toLocaleString()}원`}</span>
+        <div className='alert'>
+          <AlertIcon />
+          This is a test payment. No actual payment will be processed.
+        </div>
+        <span>&#8361; {`${price.toLocaleString()}`}</span>
         <div>
           <label>
             <input
@@ -71,7 +80,7 @@ export default function OrderCheckout() {
                 setPrice(event.target.checked ? price - 5000 : price + 5000);
               }}
             />
-            5,000원 할인 쿠폰 적용
+            Apply &#8361; 5,000 discount coupon
           </label>
         </div>
         <div id="payment-widget" />
@@ -87,19 +96,15 @@ export default function OrderCheckout() {
                 orderId: nanoid(),
                 orderName: "Korean snacks",
                 customerName: "김땡떙",
-                // customerEmail: "customer123@gmail.com",
-                // successUrl: `${window.location.origin}/order/success`,
                 failUrl: `${window.location.origin}/order/fail`,
                 successUrl: `${window.location.origin}/order/success`,
-                // failUrl: `${window.location.origin}/fail`,
               });
             } catch (error) {
-              // 에러 처리하기
               console.error(error);
             }
           }}
         >
-          결제하기
+          MAKE A PAYMENT
         </button>
       </OrderCheckoutContainer>
     </>

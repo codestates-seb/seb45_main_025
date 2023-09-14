@@ -10,27 +10,36 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   setCartItems,
   setSelected,
-  setAllSelected
+  setAllSelected,
+  setSubtotalPrice
 } from '../../redux/actions/cartActions';
 import axios from 'axios';
 import CartItem from '../CartItem/CartItem';
-// import getAccessToken from '../../common/utils/getToken';
+import getAccessToken from '../../common/utils/getToken';
 
 export default function CartList() {
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.cartItems);
   const selected = useSelector((state) => state.cart.selected);
   const allSelected = useSelector((state) => state.cart.allSelected);
+  const subtotalPrice = useSelector((state) => state.cart.subtotalPrice);
   const apiUrl = process.env.REACT_APP_API_URL;
-  // const accessToken = getAccessToken();
-  const accessToken = localStorage.getItem('access_token');
+  const accessToken = getAccessToken();
   console.log(accessToken);
 
-  // FIXME: 장바구니 post 요청 테스트 용. 나중에 삭제
+  // FIXME: 장바구니 post 요청 테스트 용. 나중에 삭제 (DONE)
   const addHandler = () => {
-    axios.post(`${apiUrl}/cart/add/1?quantity=2`, { headers: { Authorization: accessToken } })
+    const randomId = Math.floor(Math.random() * 10) + 1;
+    const randomQuantity = Math.floor(Math.random() * 5) + 1;
+    axios.post(
+      `${apiUrl}/cart/add/${randomId}?quantity=${randomQuantity}`,
+      null,
+      { headers: { Authorization: accessToken } })
       .then((response) => {
-        console.log(response.data);
+        if (response.status === 200) {
+          console.log(response.data);
+          fetchCartItems();
+        }
       })
       .catch((error) => {
         console.log(error);
@@ -38,11 +47,19 @@ export default function CartList() {
   }
 
   const fetchCartItems = () => {
+    //FIXME: 51~52 삭제
+    // console.log('subtotal: ', selected.reduce((total, item) => total + item.totalPrice, 0));
+    // dispatch(setSubtotalPrice(selected.reduce((total, item) => total + item.totalPrice, 0)));
+
     axios.get(`${apiUrl}/cart/list`, { headers: { Authorization: accessToken } })
       .then((response) => {
-        dispatch(setCartItems(response.data));
-        dispatch(setSelected(response.data));
-        console.log(response.data);
+        if (response.status === 200) {
+          dispatch(setCartItems(response.data));
+          dispatch(setSelected(response.data));
+          dispatch(setAllSelected(true));
+          console.log('subtotal: ', selected.reduce((total, item) => total + item.totalPrice, 0));
+          dispatch(setSubtotalPrice(selected.reduce((total, item) => total + item.totalPrice, 0)));
+        }
       })
       .catch((error) => {
         console.error('Failed to load cart items: ', error);
@@ -70,16 +87,13 @@ export default function CartList() {
     window.scroll(0, 0);
   }
 
+  // DONE
   const handleDelete = (isAll) => {
     if (isAll) {
       axios.delete(`${apiUrl}/cart/clear`, { headers: { Authorization: accessToken } })
         .then((response) => {
-          if (response.ok) {
-            alert('delete all item success');
+          if (response.status === 204) {
             fetchCartItems();
-            // dispatch(setCartItems(response.data));
-            dispatch(setSelected([]));
-            dispatch(setAllSelected(false));
           }
         })
         .catch((error) => {
@@ -91,11 +105,10 @@ export default function CartList() {
         params += `productIds=${item.product.id}&`
       }
       params = params.slice(0, -1);
-      const removeCartUrl = `${removeCartUrl}/cart/remove-multiple?${params}`;
+      const removeCartUrl = `${apiUrl}/cart/remove-multiple?${params}`;
       axios.delete(removeCartUrl, { headers: { Authorization: accessToken } })
         .then((response) => {
-          if (response.ok) {
-            alert('delete selected item success');
+          if (response.status === 200) {
             fetchCartItems();
           }
         })
@@ -103,8 +116,6 @@ export default function CartList() {
           console.log(error);
         })
     }
-    dispatch(setSelected([]));
-    dispatch(setAllSelected(false));
     window.scroll(0, 340);
   }
 
@@ -133,7 +144,7 @@ export default function CartList() {
         <tbody>
           {cartItems.length > 0
             ? cartItems.map(item => (
-              <CartItem key={item.product.id} item={item} />
+              <CartItem key={item.product.id} item={item} fetchCartItems={fetchCartItems} />
             ))
             : <tr>
               <td className='empty' colSpan='4'>Your cart is empty.</td>
@@ -160,9 +171,7 @@ export default function CartList() {
           cartItems.length > 0
           && <div className='subtotal-price'>
             <span>Subtotal : </span>
-            $ {cartItems
-              .filter(item => selected.map(el => el.product.id).includes(item.product.id))
-              .reduce((total, item) => total + item.totalPrice, 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            $ {subtotalPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
           </div>
         }
       </FlexBox>

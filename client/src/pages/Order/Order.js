@@ -7,21 +7,21 @@ import BackgroundImage from '../../components/BackgroundImage/BackgroundImage';
 import Background from '../../common/image/main-image.png';
 import { useSelector, useDispatch } from 'react-redux';
 import {
-  setOrderName,
-  setOrderAddress,
-  setOrderPhone,
-  setOrderRequest
+  setOrderName, setOrderAddress, setOrderPhone, setOrderRequest
 } from '../../redux/actions/orderActions';
 import { Link } from 'react-router-dom';
 import { ReactComponent as EditIcon } from '../../common/image/Icons/edit.svg';
 import { useState, useEffect, useRef } from 'react';
 import { handleScrollY } from '../../redux/thunks/scrollThunks';
 import { ReactComponent as AlertIcon } from '../../common/image/Icons/alert.svg';
+import axios from 'axios';
+import getAccessToken from '../../common/utils/getToken';
 
 export default function Order() {
   const dispatch = useDispatch();
   const scrollY = useSelector((state) => state.scroll.scrollY);
   const selectedItems = useSelector((state) => state.cart.selected);
+  const subtotalPrice = useSelector((state) => state.cart.subtotalPrice);
   const inputName = useSelector((state) => state.order.orderName);
   const inputAddress = useSelector((state) => state.order.orderAddress);
   const inputPhone = useSelector((state) => state.order.orderPhone);
@@ -32,8 +32,12 @@ export default function Order() {
   const [inputNameMsg, setInputNameMsg] = useState('');
   const [inputAddressMsg, setInputAddressMsg] = useState('');
   const [inputPhoneMsg, setInputPhoneMsg] = useState('');
+  const [customerInfo, setCustomerInfo] = useState([]);
+  const apiUrl = process.env.REACT_APP_API_URL;
+  const accessToken = getAccessToken();
 
   useEffect(() => {
+    fetchCustomerInfo();
     window.addEventListener('scroll', () => {
       dispatch(handleScrollY());
     });
@@ -43,6 +47,18 @@ export default function Order() {
       });
     };
   }, [dispatch]);
+
+  const fetchCustomerInfo = () => {
+    axios.get(`${apiUrl}/mypage`, { headers: { Authorization: accessToken } })
+      .then((response) => {
+        if (response.status === 200) {
+          setCustomerInfo(response.data);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
 
   const inputNameHandler = (event) => {
     const inputValue = event.target.value;
@@ -96,17 +112,6 @@ export default function Order() {
       return;
     }
 
-    const data = {
-      name: inputName,
-      address: inputAddress,
-      phone: inputPhone,
-      request: inputRequest,
-    };
-
-    console.log(data);
-
-    // TODO: [POST] /order
-
     window.scroll(0, 0);
   }
 
@@ -129,11 +134,11 @@ export default function Order() {
               </Link>
               <FormCotents className='customer-info'>
                 <div className='info-title'>NAME</div>
-                <div className='info-contents'>sonyoungjin</div>
+                <div className='info-contents'>{customerInfo.name}</div>
                 <div className='info-title'>PHONE</div>
-                <div className='info-contents'>012-3456-7890</div>
+                <div className='info-contents'>{customerInfo.phone}</div>
                 <div className='info-title'>EMAIL</div>
-                <div className='info-contents'>youngjin123@gmail.com</div>
+                <div className='info-contents'>{customerInfo.email}</div>
               </FormCotents>
             </FormContainer>
             <FormContainer>
@@ -191,22 +196,24 @@ export default function Order() {
                 {selectedItems.map((item) => (
                   <div key={item.product.id} className='order-list'>
                     <img src={item.product.img} alt='' />
-                    <div>
-                      <div className='product-name'>{item.product.productName}</div>
+                    <div className='flex-grow'>
+                      <div className='flex-row'>
+                        <div className='product-name'>{item.product.productName}</div>
+                        <div className='total-price'>$ {item.totalPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+                      </div>
                       <div
                         className='flex-row'
                         key={item.product.id}>
+                        <div className='product-quantity'>
+                          quantity {item.quantity}</div>
                         <div className='product-price'>$ {item.product.productPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
-                        <div>x</div>
-                        <div className='product-quantity'>{item.quantity}</div>
-                        <div>=</div>
-                        <div className='total-price'>$ {item.totalPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
                       </div>
                     </div>
                   </div>
                 ))}
                 <div className='subtotal-price'>
-                  $ {selectedItems.reduce((total, item) => total + item.totalPrice, 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  $ {subtotalPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  {/* {selectedItems.reduce((total, item) => total + item.totalPrice, 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} */}
                 </div>
                 <ButtonContainer>
                   <Link to='/cart'>

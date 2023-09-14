@@ -5,9 +5,8 @@ export const OrderSuccessContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding-top: 7rem;
-  /* text-align: center; */
-  height: 100vh;
+  padding: 5rem;
+  text-align: center;
 
   
   h1 {

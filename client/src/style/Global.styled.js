@@ -5,13 +5,14 @@ export const GlobalStyle = createGlobalStyle`
     --main-width: 1024px;
     --brown-50: #2b2821;
     --brown-10: #bd8961;
-    --brown-20: #ab7952;
+    --brown-20: #b39076;
     --white: #ffffff;
     --black: #000000;
     --black-10: #0000001a;
     --black-50: #0000005a;
     --gray: #888888;
     --gray-10 : #D9D9D9;
+    --gray-30: #A8A8A8;
     --gray-50: #666666;
     --gray-90: #2B2821;
     --red-90: #D94F4F;
