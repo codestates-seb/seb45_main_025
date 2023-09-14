@@ -75,7 +75,7 @@ function WritePost() {
         setContent(newContent);
     };
     const navigate = useNavigate();
-    const URI = process.env.REACT_APP_API_URL
+
     const handlePublish = async () => {
         let access_token = getAccessToken();
         console.log(access_token)
