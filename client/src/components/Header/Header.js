@@ -44,8 +44,7 @@ export default function Header() {
 
   useEffect(() => {
     console.log("checklogin")
-    access_token = getAccessToken()
-    if(access_token != undefined){
+    if(getAccessToken()){
       setIsLogin(true)
     }else{
       setIsLogin(false)

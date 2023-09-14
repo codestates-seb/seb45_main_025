@@ -2,18 +2,14 @@ import { SignUpSelectContainer, SignUpSelectMain } from './SignUpSelect.styled'
 import google from'../../common/image/google.png';
 import facebook from '../../common/image/facebook.png';
 import { Link } from "react-router-dom";
-import axios from 'axios';
+// import axios from 'axios';
 import BackgroundImage from '../../components/BackgroundImage/BackgroundImage';
 import  potatochip  from '../../common/image/potatochip.jpeg';
 
 export default function SignUpSelect(){
   const URI = process.env.REACT_APP_API_URL;
   function googlesignup(){
-    axios.post(`${URI}/oauth2/authorization/google`)
-    .then((res)=>{
-      console.log(res)
-    })
-    .catch((res)=>console.log(res))
+    window.location.href = `${URI}/oauth2/authorization/google`;
   }
   return (
     <SignUpSelectContainer>
