@@ -1,20 +1,18 @@
 
 spring:
-  h2:
-    console:
-      enabled: true
-
   datasource:
-    url: jdbc:h2:file:~/seb025db  # 파일 기반 H2 데이터베이스 사용
-    driver-class-name: org.h2.Driver
-    username: sa
-    password:
+    url: jdbc:mysql://ssmdb.cjvmex06e1xk.ap-northeast-2.rds.amazonaws.com:3306/ssmdb?useSSL=true&requireSSL=true&serverTimezone=UTC
+    username: admin
+    password: code1234!
+    driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
     hibernate:
-      ddl-auto: create-drop
-    database-platform: org.hibernate.dialect.H2Dialect
-    open-in-view: false
+      ddl-auto: update
+    show-sql: true
 
   servlet:
     multipart:
@@ -51,7 +49,7 @@ springdoc:
 
 logging:
   level:
-    root: INFO
+    root: ERROR
 server:
   port: 8080
   forward-headers-strategy: NATIVE
