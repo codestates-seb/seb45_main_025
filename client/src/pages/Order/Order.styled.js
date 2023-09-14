@@ -85,6 +85,18 @@ export const FormCotents = styled.div`
     color: var(--gray-50);
     font-weight: 600;
     margin: 0.5rem 0;
+
+    .guide-msg {
+      display: flex;
+      align-items: center;
+      font-size: 0.8rem;
+      font-weight: 400;
+      color: var(--red-90);
+    }
+
+    svg {
+      margin: 0 0.6rem;
+    }
   }
 
   input {
@@ -95,25 +107,42 @@ export const FormCotents = styled.div`
     border-radius: 5px;
   }
 
-  .order-list {
-    .product-name {
-      display: flex;
-      justify-content: flex-start;
-      font-weight: 600;
-      font-size: 1rem;
-      margin-bottom: 0.3rem;
-    } 
+  img {
+    width: 2.3rem;
+    height: 3rem;
+    margin-right: 1.2rem;
+  }
 
-    .flex-row {
+  .order-list {
+    display: flex;
+    flex-direction: row;
+    padding: 0.4rem 0;
+
+    .flex-grow {
+      flex-grow: 1;
+    }
+
+    div .flex-row {
       display: flex;
       flex-direction: row;
-      justify-content: flex-end;
+      justify-content: space-between;
 
       div {
-        font-size: 0.9rem;
+        font-size: 0.85rem;
         margin: 0 0.3rem;
         margin-bottom: 0.5rem;
+        color: var(--gray-30);
       }
+      
+      .product-name,
+      .total-price {
+        display: flex;
+        justify-content: flex-start;
+        font-weight: 600;
+        font-size: 1rem;
+        margin-bottom: 0.3rem;
+        color: var(--gray-50);
+      } 
     } 
   }
 

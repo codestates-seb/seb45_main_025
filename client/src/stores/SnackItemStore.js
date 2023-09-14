@@ -2,7 +2,7 @@ import { create } from 'zustand';
 
 const useSnackItemStore = create(set => ({
     snackItem: {
-        id: 0,
+        id: '',
         productName: '',
         category: '',
         content: '',
@@ -13,7 +13,7 @@ const useSnackItemStore = create(set => ({
         productPrice: '',
         created_at: '',
         modified_at: '',
-        likes: 0,
+        likes: '',
     },
     setSnackItem: state => set(() => ({ snackItem: state})),
     setLikeIncrease: () => 
