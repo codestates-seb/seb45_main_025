@@ -20,8 +20,8 @@ export default function SignUp() {
   const [emailFront, setEmailFront] = useState('');
   const [emailBack, setEmailBack] = useState('');
   const [passWord, setPassWord] = useState('');
-  const [passWordCheck, setpassWordCheck] = useState(false);
-  const [passWordDoubleCheck, setPassWordDoubleCheck] = useState('');
+  const [passWordCheck, setpassWordCheck] = useState(undefined);
+  const [passWordDoubleCheck, setPassWordDoubleCheck] = useState(undefined);
   const [wrong, setWrong] = useState('');
   const passwordform = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
   const navigate = useNavigate();
@@ -127,16 +127,22 @@ export default function SignUp() {
               <div className='passworddiv'>Password</div>
               <input type='password' onChange={(e)=>{
                 setPassWord(e.target.value);
-                setpassWordCheck(passwordform.test(e.target.value));
                 console.log(passWordCheck,passWord,e.target.value);
-                }}></input>
+                if(passwordform.test(e.target.value) === true){
+                  setpassWordCheck(true)
+                }
+                }}
+                onBlur={(e)=>{setpassWordCheck(passwordform.test(e.target.value))}}></input>
             </div>
-            <div className='passwordcheck'>{passWordCheck ? '✅ valid password' : '❌ The password must be at least 8 characters and include English, numbers, and special characters.'}</div>
+            <div className='passwordcheck_logo'>{passWordCheck === undefined ? ' ' : passWordCheck ? '✅' : '❌' }
+            <div className='passwordcheck'> The password must be at least 8 characters and include English, numbers, and special characters.</div>
+            </div>
+            
           </SignUpPassword>
           <SignUpPassWordDoubleCheck>
             <div>confirm password</div>
             <input type='password' onChange={(e)=>(setPassWordDoubleCheck(e.target.value))}></input>
-            <div className='passworddoublecheck'>{passWordDoubleCheck === passWord ? '✅ Your password matches' : '❌ Passwords do not match'}</div>
+            <div className='passworddoublecheck'>{passWordDoubleCheck === undefined ? ' ' : passWordDoubleCheck === passWord ? '✅ Your password matches' : '❌ Passwords do not match'}</div>
           </SignUpPassWordDoubleCheck>
 
         </div>
