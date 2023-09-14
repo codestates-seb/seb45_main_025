@@ -29,7 +29,7 @@ const Scroll = ({
     const fetchPins = async page => {
         if (searchText === '') {
             await axios
-              .get(`${URI}`)
+              .get(`${URI}/products/search?page=${page}&pageSize=20`)
               .then(res => {
                 setTotalPageCount(res.data.pageInfo.totalPages);
                 if (page === 1) {
@@ -42,7 +42,7 @@ const Scroll = ({
               .catch(err => console.log(err));
         } else {
             await axios
-              .get(`${URI}`)
+              .get(`${URI}/products/search?productName=${searchText}page=${page}&pageSize=20`)
               .then(res => {
                 if (!res.data) {
                     setPins([]);
