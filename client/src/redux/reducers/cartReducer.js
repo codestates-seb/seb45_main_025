@@ -3,12 +3,14 @@ import {
   SET_CART_ITEMS,
   SET_SELECTED,
   SET_ALL_SELECTED,
+  SET_SUBTOTAL_PRICE,
 } from '../actions/cartActions';
 
 const initialState = {
   cartItems: CartDataSample,
   selected: CartDataSample,
   allSelected: true,
+  subtotalPrice: 0,
 };
 
 export const cartReducer = (state = initialState, action) => {
@@ -28,6 +30,11 @@ export const cartReducer = (state = initialState, action) => {
         ...state,
         allSelected: action.payload,
       };
+    case SET_SUBTOTAL_PRICE:
+      return {
+        ...state,
+        subtotalPrice: action.payload,
+      }
     default:
       return state;
   }

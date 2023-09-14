@@ -4,6 +4,8 @@ export const SearchBox = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  padding-top: 5rem;
+  margin-top: 2rem;
   label {
     font-size: var(--fz-md);
     padding-right: 20px;
@@ -20,7 +22,7 @@ export const SearchBox = styled.div`
   }
   @media (max-width: 768px) {
     label {
-      font-size: var(--fz-base);
+      font-size: 2.5rem;
       padding-right: 15px;
     }
     input {

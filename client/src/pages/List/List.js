@@ -3,6 +3,7 @@ import axios from 'axios';
 import ReactPaginate from "react-paginate";
 import { useNavigate } from 'react-router-dom';
 import { BsHeartFill } from 'react-icons/bs';
+import koreanSnacks from '../../common/image/koreanSnacks2.jpeg';
 
 import {
   ContentList,
@@ -11,14 +12,14 @@ import {
   ContentText,
   LikeCount,
   Pagination,
-  BackgroundImage
+  BackgroundImageContainer,
 } from "./List.styled";
 
 import {
-  useSearchApiStore,
   useSearchIsUpdateStore,
-  useSearchSelectedStore,
   useSearchTextStore,
+  useSearchCategoryStore,
+  useSearchSelectedCategoryStore,
 } from '../../stores/listSearchStore'
 
 import {
@@ -34,10 +35,10 @@ const List = () => {
   const navigate = useNavigate();
   const URI = process.env.REACT_APP_API_URL;
   const { searchText } = useSearchTextStore(state => state);
-  const { searchSelected } = useSearchSelectedStore(state => state);
-  const { searchIsUpdate, setSearchIsUpdate } = useSearchIsUpdateStore(state => state);
-  const { searchApi } = useSearchApiStore(state => state);
+  const { searchIsUpdate, setSearchIsUpdate } = useSearchIsUpdateStore(state => state);  
   const [itemList, setItemList] = useState([]);
+  const { searchCategory, setSearchCategory } = useSearchCategoryStore(state => state);
+  const { searchSelectedCategory } = useSearchSelectedCategoryStore(state => state);
   const { listPage, setListPage, setScrollPage } = useListPageStore(state => state);
   const { listCurrentPage, setListCurrentPage } = useListCurrentPageStore(state => state);
   const [totalLength, setTotalLength] = useState(0);
@@ -56,9 +57,59 @@ const List = () => {
   };
 
   useEffect(() => {
-    if (searchText === '') {
+    console.log(setSearchCategory);
+
+    if ( searchCategory === 'all') {
       axios
-        .get(`${URI}/products/search?page=${listCurrentPage}&pageSize=${PER_PAGE}`)
+        .get(`${URI}/products/all/list?page=${listCurrentPage}&pageSize=${PER_PAGE}`)
+        .then(res => {
+          console.log(res);
+          setItemList(res.data.data);
+          setTotalLength(res.data.pageInfo.totalElements);
+          setTotalPageCount(res.data.pageInfo.totalPages);
+          setSearchIsUpdate(false);
+        })
+        .catch(err => {
+          console.log(err);
+        });      
+      if (searchText === '') {
+        axios
+          .get(`${URI}/products/search?page=${listCurrentPage}&pageSize=${PER_PAGE}`)
+          .then(res => {
+            console.log(res);
+            setItemList(res.data.data);
+            setTotalLength(res.data.pageInfo.totalElements);
+            setTotalPageCount(res.data.pageInfo.totalPages);
+            setSearchIsUpdate(false);
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      } else {
+        if (searchIsUpdate === true) {
+          axios
+            .get(`${URI}/products/search?productName=${searchText}page=${listCurrentPage}&pageSize=${PER_PAGE}`)
+            .then(res => {
+              if (!res.data) {
+                setItemList([]);
+                setTotalLength(0);
+                setTotalPageCount(0);
+              } else {
+                console.log(res);
+                setItemList(res.data.data);
+                setTotalLength(res.data.pageInfo.totalElements);
+                setTotalPageCount(res.data.pageInfo.totalPages);
+              }
+              setSearchIsUpdate(false);
+            })
+            .catch(err => {
+              console.log(err);
+            });
+        }
+      } 
+    } else if (searchCategory === 'Snacks') {
+      axios
+        .get(`{URI}/products/category/${searchSelectedCategory}/?page=${listCurrentPage}&pageSize=${PER_PAGE}`)
         .then(res => {
           console.log(res);
           setItemList(res.data.data);
@@ -69,27 +120,58 @@ const List = () => {
         .catch(err => {
           console.log(err);
         });
-    } else {
-      if (searchIsUpdate === true) {
-        axios
-          .get(`${URI}/products/${searchSelected}?${searchApi}=${searchText}&page=${listCurrentPage}&pageSize=${PER_PAGE}`)
-          .then(res => {
-            if (!res.data) {
-              setItemList([]);
-              setTotalLength(0);
-              setTotalPageCount(0);
-            } else {
-              console.log(res);
-              setItemList(res.data.data);
-              setTotalLength(res.data.pageInfo.totalElements);
-              setTotalPageCount(res.data.pageInfo.totalPages);
-            }
-            setSearchIsUpdate(false);
-          })
-          .catch(err => {
-            console.log(err);
-          });
-      }
+    } else if (searchCategory === 'Cookies') {
+      axios
+        .get(`{URI}/products/category/${searchSelectedCategory}/?page=${listCurrentPage}&pageSize=${PER_PAGE}`)
+        .then(res => {
+          console.log(res);
+          setItemList(res.data.data);
+          setTotalLength(res.data.pageInfo.totalElements);
+          setTotalPageCount(res.data.pageInfo.totalPages);
+          setSearchIsUpdate(false);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    } else if (searchCategory === 'Chocolate') {
+      axios
+        .get(`{URI}/products/category/${searchSelectedCategory}/?page=${listCurrentPage}&pageSize=${PER_PAGE}`)
+        .then(res => {
+          console.log(res);
+          setItemList(res.data.data);
+          setTotalLength(res.data.pageInfo.totalElements);
+          setTotalPageCount(res.data.pageInfo.totalPages);
+          setSearchIsUpdate(false);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    } else if (searchCategory === 'Candy') {
+      axios
+        .get(`{URI}/products/category/${searchSelectedCategory}/?page=${listCurrentPage}&pageSize=${PER_PAGE}`)
+        .then(res => {
+          console.log(res);
+          setItemList(res.data.data);
+          setTotalLength(res.data.pageInfo.totalElements);
+          setTotalPageCount(res.data.pageInfo.totalPages);
+          setSearchIsUpdate(false);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    } else if (searchCategory === 'Jelly') {
+      axios
+        .get(`{URI}/products/category/${searchSelectedCategory}/?page=${listCurrentPage}&pageSize=${PER_PAGE}`)
+        .then(res => {
+          console.log(res);
+          setItemList(res.data.data);
+          setTotalLength(res.data.pageInfo.totalElements);
+          setTotalPageCount(res.data.pageInfo.totalPages);
+          setSearchIsUpdate(false);
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
     
     const handleWindowResize = () => {
@@ -99,7 +181,7 @@ const List = () => {
     return () => {
       window.removeEventListener('resize', handleWindowResize);
     };
-  }, [listCurrentPage, searchText, searchApi, searchSelected]);
+  }, [listCurrentPage, searchText, searchCategory, searchSelectedCategory]);
 
   const itemOnClickHandler = productId => {
     navigate(`/products/get/${productId}`);
@@ -107,9 +189,9 @@ const List = () => {
 
   return (
     <>
-      <BackgroundImage>
-        <div>Product List</div>
-      </BackgroundImage>
+      <BackgroundImageContainer backgroundImage={`url(${koreanSnacks})`}>
+        Product List
+      </BackgroundImageContainer>
       <Gnb />
       <div className="bodywrap">
       <Search />
@@ -141,8 +223,6 @@ const List = () => {
               setPage={setListPage}
               setScrollPage={setScrollPage}
               searchText={searchText}
-              searchSelected={searchSelected}
-              searchApi={searchApi}
               totalPageCount={totalPageCount}
               setTotalPageCount={setTotalPageCount}
               windowSize={windowSize}

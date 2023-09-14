@@ -246,18 +246,18 @@ export const UserPicture = styled.div`
 `;
 
 export const ComuComment = styled.div`
-height: 100px;
-width: 900px;
-padding: 10px;
-padding-top: 5px;
-background-color: seashell;
-margin: 0 auto;
-display: flex;
-align-items: center;
+    height: 100px;
+    width: 900px;
+    padding: 10px;
+    padding-top: 5px;
+    background-color: seashell;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
 
-> :not(:last-child) {
-    margin-right: 10px;
-}
+    > :not(:last-child) {
+        margin-right: 10px;
+    }
 `;
 
 export const ComuCommentWriting = styled.div`
@@ -274,3 +274,19 @@ align-items: center;
     margin-right: 10px;
 }
 `;
+
+export const ComuCommentpost = styled.div`
+    height: 70px;
+    width: 500px;
+    padding: 10px;
+    padding-top: 5px;
+    background-color: white;
+    margin: 0; /* 왼쪽 정렬을 위해 margin을 0으로 설정 */
+    display: flex;
+    align-items: center;
+
+    > :not(:last-child) {
+        margin-right: 10px;
+    }
+`;
+

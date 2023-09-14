@@ -14,6 +14,7 @@
     "jsonwebtoken": "^9.0.2",
     "jwt-decode": "^3.1.2",
     "quill-image-resize-module-react": "^3.0.0",
+    "mkcert": "^3.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.11.0",
