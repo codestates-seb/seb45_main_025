@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSelected, setAllSelected, setCartItems, setSubtotalPrice } from '../../redux/actions/cartActions';
 import axios from 'axios';
+import getAccessToken from '../../common/utils/getToken';
 
 export default function CartItem({ item }) {
   const dispatch = useDispatch();
@@ -11,9 +12,10 @@ export default function CartItem({ item }) {
   const selected = useSelector((state) => state.cart.selected);
   const apiUrl = process.env.REACT_APP_API_URL;
   const [curQuantity, setCurQuantity] = useState(item.quantity);
-  const accessToken = localStorage.getItem('access_token');
+  let accessToken = getAccessToken();
 
   useEffect(() => {
+    accessToken = getAccessToken();
     setCurQuantity(item.quantity);
     fetchCartItems();
   }, [dispatch]);
@@ -28,14 +30,15 @@ export default function CartItem({ item }) {
 
   const fetchCartItems = () => {
     //FIXME: 24~25 삭제
-    console.log('subtotal: ', selected.reduce((total, item) => total + item.totalPrice, 0));
-    dispatch(setSubtotalPrice(selected.reduce((total, item) => total + item.totalPrice, 0)));
+    // console.log('subtotal: ', selected.reduce((total, item) => total + item.totalPrice, 0));
+    // dispatch(setSubtotalPrice(selected.reduce((total, item) => total + item.totalPrice, 0)));
 
     axios.get(`${apiUrl}/cart/list`, { headers: { Authorization: accessToken } })
       .then((response) => {
         if (response.status === 200) {
-          dispatch(setCartItems(response.data));
-          dispatch(setSubtotalPrice(selected.reduce((total, item) => total + item.totalPrice, 0)));
+          const data = response.data;
+          dispatch(setCartItems(data));
+          dispatch(setSubtotalPrice(data.reduce((total, item) => total + item.totalPrice, 0)));
         }
       })
       .catch((error) => {
