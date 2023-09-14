@@ -9,12 +9,12 @@ import {
 import { useState, useEffect } from "react";
 import basicimg from '../../common/image/basicimg.png';
 import edit from '../../common/image/edit.png';
-import { Link, useNavigate } from "react-router-dom";
+import { Link,  } from "react-router-dom";
 import BackgroundImage from '../../components/BackgroundImage/BackgroundImage';
 import chococookie from '../../common/image/darkcookies.jpg';
 import axios from "axios";
 import getAccessToken from '../../common/utils/getToken';
-
+// useNavigate
 export default function MyPage() {
   const [myImg, setMyImg] = useState(null);
   const [name, setName] = useState('');
@@ -26,13 +26,14 @@ export default function MyPage() {
   const [emailFront, setEmailFront] = useState('');
   const [emailBack, setEmailBack] = useState('');
   const URI = process.env.REACT_APP_API_URL;
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   useEffect(() => {
     setMyImg(null);
     let access_token = getAccessToken();
     console.log(access_token);
-    axios.get(`${URI}/mypage`,{ headers: {Authorization: access_token} })
+    console.log(`${URI}/mypage`)
+    axios.get(`${URI}/mypage`,{headers: {Authorization: access_token}})
     .then((res)=>{
       console.log(res);
       setName(res.data.name);
@@ -47,10 +48,9 @@ export default function MyPage() {
     }).catch((res)=>{
       console.log(res);
       alert("check login")
-      navigate('/')
     })
   },[]);
-
+      // navigate('/')
   return (
     <MyPageContainer>
       <BackgroundImage imgSrc={chococookie} title='MY PAGE' />

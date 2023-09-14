@@ -41,11 +41,11 @@ export default function MyPageEdit(){
       };
       reader.readAsDataURL(e.target.files[0]);
       let access_token = getAccessToken();
+      console.log(access_token)
       const formData = new FormData();
       formData.append('image',e.target.files[0]);
-      axios.post(`${URI}/mypage/pofileImage`,{ headers: {Authorization: access_token}},{
-        "image": formData
-      })
+      axios.patch(`${URI}/mypage/pofileImage`,formData,{ headers: {Authorization: access_token,'Content-Type': 'multipart/form-data'}}
+      )
       .then((res)=>{
         console.log(res.data.originalFileName, res.data.saveFileName)
       }).catch((res)=>{
@@ -110,7 +110,7 @@ export default function MyPageEdit(){
       setWrong("Check your 'PassWord'");
     }else{
       let access_token = getAccessToken();
-      axios.patch(`${URI}/mypage`,{ headers: {Authorization: access_token} },{
+      axios.patch(`${URI}/mypage`,{
         "name" : name,
         "nickName" : nickName,
         "gender" : gender,
@@ -119,7 +119,7 @@ export default function MyPageEdit(){
         "phone" : phoneNumber,
         "email" : emailFront + '@' + emailBack,
         "password" : passWord
-      })
+      },{ headers: {Authorization: access_token} })
       .then((res)=>console.log(res))
       .catch((res)=>console.log(res))
     }

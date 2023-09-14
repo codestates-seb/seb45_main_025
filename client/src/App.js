@@ -20,7 +20,7 @@ import CommunityBoard from './pages/CommunityBoard/CommunityBoard';
 import OrderCheckout from './pages/OrderCheckout/OrderCheckout';
 import OrderFail from './pages/OrderFail/OrderFail';
 import OrderSuccess from './pages/OrderSuccess/OrderSuccess';
-
+import OauthLoading from './pages/LoadingOauth/LoadingOauth';
 function App() {
   return (
     <AppContainer>
@@ -36,6 +36,7 @@ function App() {
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/mypage/edit" element={<MyPageEdit />} />
         <Route path="/signup/oauth" element={<SignUpOauth />} />
+        <Route path="/loading" element={<OauthLoading />} />
         <Route path="/products" element={<Item />} />
         <Route path="/list" element={<List />} />
         <Route path='/CommunityList' element={<CommunityList />} />

@@ -10,6 +10,10 @@
     "@tosspayments/payment-widget-sdk": "^0.9.3",
     "aos": "^2.3.4",
     "axios": "^1.5.0",
+    "detect-url-change": "^1.0.2",
+    "jsonwebtoken": "^9.0.2",
+    "jwt-decode": "^3.1.2",
+    "quill-image-resize-module-react": "^3.0.0",
     "mkcert": "^3.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -24,7 +28,7 @@
     "zustand": "^4.4.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "HTTPS=true SSL_CRT_FILE=cert.pem SSL_KEY_FILE=key.pem react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

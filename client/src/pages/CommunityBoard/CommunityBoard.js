@@ -28,7 +28,6 @@ const URI = process.env.REACT_APP_API_URL;
 
 function CommunityBoard({ title, content, boardId, profilePicture, postDate, viewCount, username }) {
 
-
   const [isCommentMenuOpen, setIsCommentMenuOpen] = useState(false);
   const [isPostMenuOpen, setIsPostMenuOpen] = useState(false);
 

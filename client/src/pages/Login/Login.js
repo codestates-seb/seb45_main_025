@@ -28,7 +28,7 @@ export default function Login() {
       alert('Login failed')
     })
   }
-
+ 
   return (
     <LoginContainer>
       <BackgroundImage imgSrc={potatochip} title='ACCOUNT'/>
