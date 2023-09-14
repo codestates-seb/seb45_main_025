@@ -87,6 +87,7 @@ public class Member extends Auditable {
         GOOGLE,
         FACEBOOK
     }
-    @OneToMany(mappedBy = "member",fetch = FetchType.LAZY)
+    @JsonIgnore
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     private List<Products> likedProducts;
 }
