@@ -73,7 +73,7 @@ const Item = () => {
                 snackId,
             };
             axios
-                .post(`${process.env.REACT_APP_API_URL}/products/product/${productId}/like`, postData, {
+                .post(`${URI}/products/product/${productId}/like`, postData, {
                     headers: {
                         withCredentials: true,
                     },
