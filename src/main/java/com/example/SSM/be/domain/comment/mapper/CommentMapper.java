@@ -20,6 +20,7 @@ public interface CommentMapper {
 
     default CommentResponseDto commentToCommentResponseDto(Comment comment){
          CommentResponseDto commentResponseDto = new CommentResponseDto();
+         commentResponseDto.setCommentId(comment.getCommentId());
          commentResponseDto.setName(comment.getAuthor());
          commentResponseDto.setContent(comment.getContent());
          return commentResponseDto;
