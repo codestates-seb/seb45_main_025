@@ -1,53 +1,40 @@
-cloud:
-  aws:
-    credentials:
-      accessKey: ${AWS_ACCESS_KEY}
-      secretKey: ${AWS_SECRET_KEY}
-    s3:
-      bucket: cordjg-image-bucket
-    region:
-      static: ap-northeast-2
-    stack:
-      auto: 'false'
-
 spring:
   datasource:
-    url: jdbc:mysql://ssmdb.cjvmex06e1xk.ap-northeast-2.rds.amazonaws.com:3306?serverTimezone=Asia/Seoul&useSSL=false&characterEncoding=UTF-8
+    url: jdbc:mysql://ssmdb.cjvmex06e1xk.ap-northeast-2.rds.amazonaws.com:3306/ssmdb?useSSL=true&requireSSL=true&serverTimezone=UTC
     username: admin
-    password: ${MYSQL_SECRET}
+    password: code1234!
     driver-class-name: com.mysql.cj.jdbc.Driver
-  jpa:
-    hibernate:
-      ddl-auto: update
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.MySQL8Dialect
+
+    jpa:
+      properties:
+        hibernate:
+          dialect: org.hibernate.dialect.MySQL5Dialect
+          ddl-auto: update
+      show-sql: true
+
   security:
     oauth2:
       client:
         registration:
           google:
-            clientId: ${G_CLIENT_ID}
-            clientSecret: ${G_CLIENT_SECRET}
+            clientId: 232398614438-4laehmm9vibdvaa8hv57miuvgpkv33kj.apps.googleusercontent.com
+            clientSecret: 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
             scope:
               - email
               - profile
 
-config:
-  domain: https://www.ksnacksncak.shop
 server:
+  port: 8080
   forward-headers-strategy: NATIVE
-file:
-  upload-dir: ssm-user@ip-172-31-33-100:/home/ubuntu/image
 
 logging:
   level:
-    org.hibernate.sql: debug
-    org.hibernate.type: trace
+    org.hibernate.sql: info
+    org.hibernate.type: info
 mail:
   address:
     admin: admin@gmail.com
 jwt:
-  secret-key: ${JWT_SECRET_KEY}
-  access-token-expiration-minutes: 120
+  secret-key: CodeStatesMainProject25team
+  access-token-expiration-minutes: 30
   refresh-token-expiration-minutes: 360
