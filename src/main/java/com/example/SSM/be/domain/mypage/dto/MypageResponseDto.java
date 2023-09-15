@@ -1,4 +1,5 @@
 package com.example.SSM.be.domain.mypage.dto;
+
 import com.example.SSM.be.domain.mypage.entity.ProfileImage;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,4 +17,5 @@ public class MypageResponseDto {
     private ProfileImage image;
     private String originalFileName;
     private String saveFileName;
+    private boolean isOauth;
 }

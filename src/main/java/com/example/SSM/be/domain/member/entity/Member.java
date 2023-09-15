@@ -4,7 +4,6 @@ import com.example.SSM.be.domain.audit.Auditable;
 import com.example.SSM.be.domain.mypage.entity.ProfileImage;
 import com.example.SSM.be.domain.products.entity.Products;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,9 +11,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @AllArgsConstructor
@@ -55,6 +52,8 @@ public class Member extends Auditable {
     private String img;
     @Column
     private Long point = 100000L;
+    @Column
+    private Boolean isOauth = false;
 
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();

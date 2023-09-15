@@ -44,6 +44,7 @@ public class MemberService {
         member.setRoles(roles);
         String newName = verifyExistName(member.getName());
         member.setName(newName);
+        member.setIsOauth(true);
         return memberRepository.save(member);
     }
     // Todo
@@ -54,6 +55,7 @@ public class MemberService {
         saveMember.setBirth(member.getBirth());
         saveMember.setPhone(member.getPhone());
         saveMember.setAddress(member.getAddress());
+        saveMember.setIsOauth(true);
         return memberRepository.save(saveMember);
     }
     /* 비밀번호 확인 로직을 별도의 메소드로 분리*/

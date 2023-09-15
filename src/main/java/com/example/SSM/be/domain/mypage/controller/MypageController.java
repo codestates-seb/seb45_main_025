@@ -5,24 +5,21 @@ import com.example.SSM.be.domain.member.entity.Member;
 import com.example.SSM.be.domain.member.service.MemberService;
 import com.example.SSM.be.domain.mypage.dto.ImagePostDto;
 import com.example.SSM.be.domain.mypage.dto.MypageResponseDto;
-
 import com.example.SSM.be.domain.mypage.dto.MypageUpdateDto;
 import com.example.SSM.be.domain.mypage.mapper.MypageMapper;
 import com.example.SSM.be.domain.mypage.service.MypageService;
 import com.example.SSM.be.domain.security.token.service.TokenService;
+import com.example.SSM.be.global.response.SingleResponseDto;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.coyote.http2.HpackDecoder;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import javax.imageio.IIOException;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.List;
 
@@ -57,6 +54,13 @@ public class MypageController {
         MypageResponseDto responseDto = mypageService.updateMyInfo(findMember,updateDto);
 
         return new ResponseEntity(responseDto,HttpStatus.OK);
+    }
+
+    @GetMapping("/isOauth")
+    public ResponseEntity isOauth(HttpServletRequest request){
+        Member member = memberService.getMemberWithAccessToken(request);
+        return new ResponseEntity<>(new SingleResponseDto<>(member.getIsOauth()),HttpStatus.OK);
+
     }
     //프로필 사진 업데이트
 
