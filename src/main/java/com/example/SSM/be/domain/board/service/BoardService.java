@@ -1,5 +1,6 @@
 package com.example.SSM.be.domain.board.service;
 
+import com.example.SSM.be.domain.File.FilePath;
 import com.example.SSM.be.domain.board.dto.BoardPatchDto;
 import com.example.SSM.be.domain.board.dto.BoardPostDto;
 import com.example.SSM.be.domain.board.dto.BoardResponseDto;
@@ -51,7 +52,7 @@ public class BoardService {
 
                 String originFileName = imageFile.getOriginalFilename();
                 String saveFileName = System.currentTimeMillis() + "_" + originFileName;
-                String savePath = "ssm-user@ip-172-31-39-240:/home/ubuntu/image/" + saveFileName;
+                String savePath = FilePath.imagePath + saveFileName;
 //                String savePath = "/Users/yungeon-yong/springboot_img/" + saveFileName;
                 imageFile.transferTo(new File(savePath));
 
@@ -102,7 +103,7 @@ public class BoardService {
             if (existingBoard.getImageList() != null) {
                 for (Image image : existingBoard.getImageList()) {
                     // 이미지 파일 경로 생성
-                    String existingImagePath = "ssm-user@ip-172-31-39-240:/home/ubuntu/image/" + image.getSaveFileName();
+                    String existingImagePath = FilePath.imagePath + image.getSaveFileName();
 
                     try {
                         // 이미지 파일 삭제
@@ -124,7 +125,7 @@ public class BoardService {
                 for (MultipartFile imageFile : patchDto.getImage()) {
                     String originFileName = imageFile.getOriginalFilename();
                     String saveFileName = System.currentTimeMillis() + "_" + originFileName;
-                    String savePath = "ssm-user@ip-172-31-39-240:/home/ubuntu/image/" + saveFileName;
+                    String savePath = FilePath.imagePath + saveFileName;
 
                     // 새 이미지 파일 저장
                     imageFile.transferTo(new File(savePath));

@@ -1,5 +1,6 @@
 package com.example.SSM.be.domain.products.controller;
 
+import com.example.SSM.be.domain.File.FilePath;
 import com.example.SSM.be.domain.member.entity.Member;
 import com.example.SSM.be.domain.member.service.MemberService;
 import com.example.SSM.be.domain.products.dto.ProductsRequestDto;
@@ -88,7 +89,7 @@ public class ProductsController {
                 String fileName = UUID.randomUUID().toString() + "_" + originalFileName;
 
                 // 이미지 파일 업로드 경로 설정
-                Path uploadDir = Paths.get("ssm-user@ip-172-31-39-240:/home/ubuntu/image/");
+                Path uploadDir = Paths.get(FilePath.imagePath);
                 if (!Files.exists(uploadDir)) {
                     Files.createDirectories(uploadDir);
                 }
