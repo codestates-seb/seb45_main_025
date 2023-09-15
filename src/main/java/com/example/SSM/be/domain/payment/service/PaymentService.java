@@ -1,6 +1,7 @@
 package com.example.SSM.be.domain.payment.service;
 
 import com.example.SSM.be.domain.cart.entity.CartItem;
+import com.example.SSM.be.domain.cart.service.CartService;
 import com.example.SSM.be.domain.member.entity.Member;
 import com.example.SSM.be.domain.member.repository.MemberRepository;
 import com.example.SSM.be.domain.payment.entity.Payment;
@@ -24,12 +25,24 @@ public class PaymentService {
     @Autowired
     private MemberRepository memberRepository;
 
+    @Autowired
+    private CartService cartService;
+
     @Transactional
-    public Payment createOrder(Member member, List<CartItem> cartItems) {
-        // 주문 생성 및 상품 추가
+    public Payment createOrder(
+            Member member,
+            List<CartItem> cartItems,
+            String recipientName,
+            String address,
+            String phone,
+            String request) {
         Payment payment = new Payment();
         payment.setMember(member);
         payment.setOrderDate(LocalDateTime.now());
+        payment.setRecipientName(recipientName);
+        payment.setAddress(address);
+        payment.setPhone(phone);
+        payment.setRequest(request);
 
         BigDecimal totalAmount = BigDecimal.ZERO;
         List<PaymentItem> paymentItems = new ArrayList<>();

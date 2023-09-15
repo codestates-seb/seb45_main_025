@@ -6,11 +6,10 @@ import com.example.SSM.be.domain.board.dto.BoardPostDto;
 import com.example.SSM.be.domain.board.dto.BoardResponseDto;
 import com.example.SSM.be.domain.board.dto.BoardResponseListDto;
 import com.example.SSM.be.domain.board.entity.Board;
-import com.example.SSM.be.domain.board.mapper.BoardMapper;
 import com.example.SSM.be.domain.board.repository.BoardRepository;
 import com.example.SSM.be.domain.board.service.BoardService;
-import com.example.SSM.be.domain.member.service.MemberService;
 import com.example.SSM.be.domain.member.entity.Member;
+import com.example.SSM.be.domain.member.service.MemberService;
 import com.example.SSM.be.domain.security.token.service.TokenService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -22,9 +21,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,6 +39,7 @@ public class BoardController {
     private final BoardRepository boardRepository;
     private final TokenService tokenService;
     private final MemberService memberService;
+    private final int time = 10 ;
 
     //    게시글 생성하기
 
@@ -73,7 +70,7 @@ public class BoardController {
             responseBoardDto = boardService.findById(boardId, isAlreadyViewed); // 조회수 증가
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(new Date());
-            calendar.add(Calendar.MINUTE, 30);
+            calendar.add(Calendar.MINUTE, time);
             Date expirationDate = calendar.getTime();
             int maxAgeInSeconds = (int) (expirationDate.getTime() - System.currentTimeMillis()) / 1000;
             // 쿠키 생성 및 설정 (게시글 ID를 쿠키에 저장)
