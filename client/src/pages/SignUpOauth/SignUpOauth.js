@@ -16,7 +16,7 @@ export default function SignUpOauth(){
   const URI = process.env.REACT_APP_API_URL;
 
   function submitsignup(){
-    axios.patch(`${URI}/users/oauth/google/signup`,{
+    axios.post(`${URI}/users/oauth/google/signup`,{
         "address" : address,
         "phoneNumber": phoneNumber,
         "gender" : gender,

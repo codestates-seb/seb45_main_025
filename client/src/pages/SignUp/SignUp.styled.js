@@ -90,6 +90,7 @@ export const SignUpGender = styled.div`
   }
   label{
     color: var(--gray-90);
+    display: inline;
   }
 `
 
@@ -182,8 +183,12 @@ export const SignUpPassword = styled.div`
     margin-left: 1rem;
     height: 1.6rem;
   }
+  .passwordcheck_logo{
+    display: inline;
+  }
   .passwordcheck{
     color: var(--gray-50);
+    display: inline;
   }
 `
 
