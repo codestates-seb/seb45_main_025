@@ -8,7 +8,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class MypageWebConfig implements WebMvcConfigurer {
 
     private String resourcePath = "/profile/**";
+
     private String savePath = "ssm-user@ip-172-31-39-240:/home/ubuntu/image/";
+
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {

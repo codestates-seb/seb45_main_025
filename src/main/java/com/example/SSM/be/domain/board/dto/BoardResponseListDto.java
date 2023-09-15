@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 @EntityListeners(AuditingEntityListener.class)
 @Data
 public class BoardResponseListDto  {
+    private Long boardId;
     private String title;
     private String content;
     private String author;
@@ -22,6 +23,7 @@ public class BoardResponseListDto  {
     private long countComment;
 
     public BoardResponseListDto(Board board){
+        this.boardId = board.getBoardId();
         this.title = board.getTitle();
         this.content = board.getContent();
         this.author = board.getMember().getNickName();

@@ -60,4 +60,3 @@ jwt:
   secret-key: CodeStatesMainProject25team
   access-token-expiration-minutes: 30
   refresh-token-expiration-minutes: 360
-
