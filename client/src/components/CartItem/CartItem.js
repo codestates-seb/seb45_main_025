@@ -92,7 +92,7 @@ export default function CartItem({ item }) {
         </Link>
       </td>
       <td className='price'>
-        {item.product.productPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+        {(item.product.productPrice).toLocaleString()}
       </td>
       <td className='quantity'>
         <input
@@ -104,7 +104,7 @@ export default function CartItem({ item }) {
         />
       </td>
       <td className='total-price'>
-        {(item.totalPrice).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+        {(item.totalPrice).toLocaleString()}
       </td>
     </CartItemContainer>
   )

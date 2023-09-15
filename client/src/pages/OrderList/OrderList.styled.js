@@ -19,3 +19,14 @@ export const OrderListContainer = styled.div`
     margin: 2rem 0 3rem 0;
   }
 `;
+
+export const OrderCard = styled.div`
+  border: 1px solid var(--gray-10);
+  border-radius: 5px;
+  padding: 1rem;
+  margin: 1rem;
+`;
+
+export const OrderItem = styled.div`
+
+`;

@@ -174,7 +174,7 @@ export default function CartList() {
           cartItems.length > 0
           && <div className='subtotal-price'>
             <span>Subtotal : </span>
-            $ {subtotalPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            &#8361; {subtotalPrice.toLocaleString()}
           </div>
         }
       </FlexBox>

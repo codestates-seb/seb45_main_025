@@ -21,7 +21,7 @@ export default function OrderCheckout() {
   const paymentWidgetRef = useRef(null);
   const paymentMethodsWidgetRef = useRef(null);
   const subtotalPrice = useSelector((state) => state.cart.subtotalPrice);
-  const [price, setPrice] = useState(subtotalPrice * 1000);
+  const [price, setPrice] = useState(subtotalPrice);
 
   useEffect(() => {
     (async () => {
