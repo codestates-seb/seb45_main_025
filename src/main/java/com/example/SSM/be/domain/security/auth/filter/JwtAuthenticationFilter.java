@@ -11,7 +11,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -78,23 +77,20 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                             Authentication authResult) throws ServletException, IOException {
         Member member = (Member) authResult.getPrincipal();
 
-        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         String accessToken = delegateAccessToken(member); // accessToken 만들기
         String refreshToken = delegateRefreshToken(member); // refreshToken 만들기
         String memberId = String.valueOf(member.getUserId());
         String headerAccessToken  = "Bearer " + accessToken;
-        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+
         ResponseCookie responseAccessCookie= ResponseCookie.from("access_token", accessToken)
                 .sameSite("None")
-                .secure(false)
-                .domain("localhost")
+                .secure(true)
                 .maxAge(60 * 5) // 5분
                 .path("/")
                 .build();
         ResponseCookie responseRefreshCookie= ResponseCookie.from("refresh_token", refreshToken)
                 .sameSite("None")
-                .secure(false)
-                .domain("localhost")
+                .secure(true)
                 .httpOnly(true)
                 .maxAge(60 * 60*24) // 하루
                 .path("/")
