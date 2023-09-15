@@ -1,5 +1,6 @@
 package com.example.SSM.be.domain.products.service;
 
+import com.example.SSM.be.domain.File.FilePath;
 import com.example.SSM.be.domain.member.entity.Member;
 import com.example.SSM.be.domain.products.dto.ProductsRequestDto;
 import com.example.SSM.be.domain.products.entity.Products;
@@ -50,7 +51,7 @@ public class ProductsService {
 
     public String uploadProductImage(MultipartFile productImage) throws IOException {
         String fileName = UUID.randomUUID().toString() + "_" + productImage.getOriginalFilename();
-        String uploadDir = "ssm-user@ip-172-31-39-240:/home/ubuntu/image/";
+        String uploadDir = FilePath.imagePath;
 
         Path directoryPath = Path.of(uploadDir);
         Files.createDirectories(directoryPath);
