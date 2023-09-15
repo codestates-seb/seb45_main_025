@@ -29,7 +29,7 @@ export const ContentList = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   flex-wrap: wrap;
-  margin-top: 80px;
+  margin-top: 5rem;
   .page-end {
     display: none;
   }
@@ -64,10 +64,12 @@ export const ContentList = styled.div`
 export const ContentBox = styled.div`
   position: relative;
   cursor: pointer;
+  text-align: center;
   transition: 0.2s;
-  width: calc((100% - 60px) / 4);
-  margin-right: 20px;
-  margin-bottom: 20px;
+  width: 20vw;
+  margin-left: 6vh;
+  margin-right: 3vh;
+  margin-bottom: 1.2rem;
   &:nth-of-type(4n) {
     margin-right: 0;
   }
@@ -77,7 +79,7 @@ export const ContentBox = styled.div`
   background: var(--brown-10);
   > img {
     width: auto;
-    height: 100px;
+    height: 10rem;
     object-fit: contain;
     margin: 0 auto;
     @media (max-width: 768px) {
@@ -112,14 +114,15 @@ export const ContentBox = styled.div`
   }
 `;
 export const ContentTit = styled.h3`
-  font-size: var(--fz-base);
+  font-size: 1.3rem;
   line-height: 1.2;
-  margin: 15px 0 10px;
+  text-align: center;
+  margin: 15px 0 0.25rem;
   width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  color: var(--brown-20);
+  color: black;
   font-weight: 500;
   @media (max-width: 768px) {
     width: 90%;
@@ -128,6 +131,7 @@ export const ContentTit = styled.h3`
 export const ContentText = styled.div`
   width: 100%;
   overflow: hidden;
+  text-align: center;
   font-size: var(--fz-base);
   line-height: 20px;
   display: -webkit-box;
@@ -148,9 +152,8 @@ export const LikeCount = styled.div`
   align-items: center;
   right: 10px;
   top: 10px;
-  color: var(--brown-20);
   > p {
-    font-size: 12px;
+    font-size: 1.2rem;
     padding-top: 3px;
   }
   @media (max-width: 768px) {
@@ -180,7 +183,7 @@ export const Pagination = styled.div`
         align-items: center;
         width: 100%;
         height: 100%;
-        font-size: 11px;
+        font-size: 1rem;
       }
       &.previous,
       &.next {
@@ -190,7 +193,7 @@ export const Pagination = styled.div`
         margin: 0 5px;
       }
       &.active {
-        background: var(--brown-50);
+        background: var(--brown-10);
         font-weight: 600;
       }
     }
