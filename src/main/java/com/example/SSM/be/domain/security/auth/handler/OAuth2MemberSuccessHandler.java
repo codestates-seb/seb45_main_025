@@ -61,12 +61,13 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
         Member member = new Member();
         member.setNickName(nickName);
         // 일반 유저와 구분을 위해
-        member.setEmail(email+"1");
+        member.setEmail(email);
         member.setImg(image);
         member.setGender(gender);
         member.setBirth(birthday);
         member.setAddress(homeAddress);
         member.setPhone(phoneNumber);
+        member.setIsOauth(true);
         return member;
     }
 
