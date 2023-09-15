@@ -20,20 +20,15 @@ function CommunityList() {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(`${URI}/board/posts`, {
-        // "sortType":oldest,
-        // "sortType":popular,
-        // "sortType":mostCommented,
-      });
-      setData([])// setData(response.data.items); // 백엔드에서 받아온 데이터의 items 필드를 state에 저장
-      console.log(123, response.data)
-      setTotalItems(response.data.totalItems); // 백엔드에서 받아온 totalItems를 state에 저장
+      const response = await axios.get(`${URI}/board/posts?search=${searchTerm}`);
+      setData(response.data.content);
+      setTotalItems(response.data.totalItems);
     } catch (error) {
       console.error('에러 발생:', error);
     }
   };
 
-  const [totalItems, setTotalItems] = useState(0); // totalItems를 state로 유지
+  const [totalItems, setTotalItems] = useState(0);
 
   useEffect(() => {
     fetchData();
@@ -44,6 +39,16 @@ function CommunityList() {
   const navigateToWritePost = () => {
     navigate('/WritePost');
   };
+
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+    if (isNaN(date)) {
+      return "Invalid Date";
+    }
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return date.toLocaleDateString(undefined, options);
+  }
+
   return (
     <div
       style={{
@@ -85,12 +90,15 @@ function CommunityList() {
         type="text"
         value={searchTerm}
         onChange={handleSearchChange}
-        placeholder="검색어를 입력하여주세요"
+        placeholder="검색어를 입력하세요"
         style={{ width: '180px', marginBottom: '10px', padding: '5px' }}
       />
+
       {data.map((item) => (
         <div
-          key={item.id}
+          key={item.boardID}
+          role="button"
+          tabIndex={0}
           style={{
             marginBottom: '-2px',
             padding: '10px',
@@ -99,20 +107,25 @@ function CommunityList() {
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
-            border: '1px solid gray'
+            border: '1px solid gray',
+            cursor: 'pointer'
+          }}
+          onClick={() => navigate(`/CommunityBoard/${item.boardID}`)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              navigate(`/CommunityBoard/${item.boardID}`);
+            }
           }}
         >
           <div style={{ fontSize: '1.2rem', fontWeight: 'bold' }}>
-            {item.title}
+            {item.title} [{item.countComment}]
           </div>
           <div style={{ fontSize: '0.8rem', color: 'gray' }}>
-            작성자: {item.author} | 작성일: {item.createdAt} | 조회수:{' '}
-            {item.views}
+            작성자: {item.author} | 작성일: {formatDate(item.createAt)} | 조회수: {item.view}
           </div>
         </div>
       ))}
 
-      {/* 페이지네이션 버튼 */}
       <div
         style={{
           height: '50px',
@@ -146,7 +159,6 @@ function CommunityList() {
           >
             이전
           </button>
-          {/* 페이지 5씩묶음 */}
           <div style={{ display: 'flex', alignItems: 'center' }}>
             {Array.from({ length: Math.ceil(totalPages / 5) }).map(
               (_, groupIndex) => {
@@ -185,7 +197,6 @@ function CommunityList() {
               }
             )}
           </div>
-
           <button
             onClick={() => setCurrentPage(currentPage + 1)}
             disabled={currentPage === totalPages}
@@ -203,7 +214,6 @@ function CommunityList() {
           <button
             onClick={navigateToWritePost}
             style={{
-
               padding: '10px',
               fontSize: '1rem',
               fontWeight: 'bold'
