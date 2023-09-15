@@ -91,7 +91,7 @@ public class BoardController {
     public Page<BoardResponseListDto> searchAndSortBoard(
             @RequestParam(required = false, value = "search") String search,
             @RequestParam(defaultValue = "1") int page,
-            @PageableDefault(size = 2, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
+            @PageableDefault(size = 10, sort = "createdAt", direction = Sort.Direction.DESC) Pageable pageable,
             @RequestParam(name = "sortType", defaultValue = "latest") String sortType) {
 
 
