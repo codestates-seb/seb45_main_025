@@ -77,7 +77,7 @@ function CommunityBoard({ title, content, boardId, profilePicture, postDate, vie
     try {
       // 서버로 댓글을 보내고, 성공 시 댓글 목록을 업데이트
       const response = await axios.post(`${URI}/board/${boardId}/comment`, {
-        "content": content
+        "content": comment
       });
       setComments([...comments, response.data]);
       // 댓글 입력 상태 초기화
