@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios from 'axios';
 import ReactPaginate from "react-paginate";
 import { useNavigate } from 'react-router-dom';
-import { BsHeartFill } from 'react-icons/bs';
+import { BsHeartFill } from 'react-icons/bs'; 
 import koreanSnacks from '../../common/image/koreanSnacks2.jpeg';
 
 import {
@@ -64,7 +64,7 @@ const List = () => {
         .get(`${URI}/products/all/list?page=${listCurrentPage}&pageSize=${PER_PAGE}`)
         .then(res => {
           console.log(res);
-          setItemList(res.data.data);
+          setItemList(res.data.content);
           setTotalLength(res.data.pageInfo.totalElements);
           setTotalPageCount(res.data.pageInfo.totalPages);
           setSearchIsUpdate(false);
@@ -77,7 +77,7 @@ const List = () => {
           .get(`${URI}/products/search?page=${listCurrentPage}&pageSize=${PER_PAGE}`)
           .then(res => {
             console.log(res);
-            setItemList(res.data.data);
+            setItemList(res.data.content);
             setTotalLength(res.data.pageInfo.totalElements);
             setTotalPageCount(res.data.pageInfo.totalPages);
             setSearchIsUpdate(false);
@@ -96,7 +96,7 @@ const List = () => {
                 setTotalPageCount(0);
               } else {
                 console.log(res);
-                setItemList(res.data.data);
+                setItemList(res.data.content);
                 setTotalLength(res.data.pageInfo.totalElements);
                 setTotalPageCount(res.data.pageInfo.totalPages);
               }
@@ -109,10 +109,10 @@ const List = () => {
       } 
     } else if (searchCategory === 'Snacks') {
       axios
-        .get(`{URI}/products/category/${searchSelectedCategory}/?page=${listCurrentPage}&pageSize=${PER_PAGE}`)
+        .get(`${URI}/products/category/${searchSelectedCategory}/?page=${listCurrentPage}&pageSize=${PER_PAGE}`)
         .then(res => {
           console.log(res);
-          setItemList(res.data.data);
+          setItemList(res.data.content);
           setTotalLength(res.data.pageInfo.totalElements);
           setTotalPageCount(res.data.pageInfo.totalPages);
           setSearchIsUpdate(false);
@@ -122,10 +122,10 @@ const List = () => {
         });
     } else if (searchCategory === 'Cookies') {
       axios
-        .get(`{URI}/products/category/${searchSelectedCategory}/?page=${listCurrentPage}&pageSize=${PER_PAGE}`)
+        .get(`${URI}/products/category/${searchSelectedCategory}/?page=${listCurrentPage}&pageSize=${PER_PAGE}`)
         .then(res => {
           console.log(res);
-          setItemList(res.data.data);
+          setItemList(res.data.content);
           setTotalLength(res.data.pageInfo.totalElements);
           setTotalPageCount(res.data.pageInfo.totalPages);
           setSearchIsUpdate(false);
@@ -135,10 +135,10 @@ const List = () => {
         });
     } else if (searchCategory === 'Chocolate') {
       axios
-        .get(`{URI}/products/category/${searchSelectedCategory}/?page=${listCurrentPage}&pageSize=${PER_PAGE}`)
+        .get(`${URI}/products/category/${searchSelectedCategory}/?page=${listCurrentPage}&pageSize=${PER_PAGE}`)
         .then(res => {
           console.log(res);
-          setItemList(res.data.data);
+          setItemList(res.data.content);
           setTotalLength(res.data.pageInfo.totalElements);
           setTotalPageCount(res.data.pageInfo.totalPages);
           setSearchIsUpdate(false);
@@ -148,10 +148,10 @@ const List = () => {
         });
     } else if (searchCategory === 'Candy') {
       axios
-        .get(`{URI}/products/category/${searchSelectedCategory}/?page=${listCurrentPage}&pageSize=${PER_PAGE}`)
+        .get(`${URI}/products/category/${searchSelectedCategory}/?page=${listCurrentPage}&pageSize=${PER_PAGE}`)
         .then(res => {
           console.log(res);
-          setItemList(res.data.data);
+          setItemList(res.data.content);
           setTotalLength(res.data.pageInfo.totalElements);
           setTotalPageCount(res.data.pageInfo.totalPages);
           setSearchIsUpdate(false);
@@ -161,10 +161,10 @@ const List = () => {
         });
     } else if (searchCategory === 'Jelly') {
       axios
-        .get(`{URI}/products/category/${searchSelectedCategory}/?page=${listCurrentPage}&pageSize=${PER_PAGE}`)
+        .get(`${URI}/products/category/${searchSelectedCategory}/?page=${listCurrentPage}&pageSize=${PER_PAGE}`)
         .then(res => {
           console.log(res);
-          setItemList(res.data.data);
+          setItemList(res.data.content);
           setTotalLength(res.data.pageInfo.totalElements);
           setTotalPageCount(res.data.pageInfo.totalPages);
           setSearchIsUpdate(false);
@@ -204,12 +204,12 @@ const List = () => {
                 onClick={() => itemOnClickHandler(item.id)}
               >
                 <img
-                  src={item.productImage}
+                  src={item.img}
                   alt={item.productName}
                   onError={handleImageError}
                 />
                 <ContentTit>{item.productName}</ContentTit>
-                <ContentText>${item.productPrice}</ContentText>
+                <ContentText>₩{item.productPrice}</ContentText>
                 <LikeCount>
                   <BsHeartFill /> <p>{item.likes}</p>
                 </LikeCount>
