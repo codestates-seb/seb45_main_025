@@ -24,11 +24,19 @@ export default function CartList() {
   const allSelected = useSelector((state) => state.cart.allSelected);
   const subtotalPrice = useSelector((state) => state.cart.subtotalPrice);
   const apiUrl = process.env.REACT_APP_API_URL;
-  const accessToken = getAccessToken();
-  console.log(accessToken);
+  let accessToken = getAccessToken();
+
+  useEffect(() => {
+    console.log('useEffect');
+    accessToken = getAccessToken();
+    console.log('access token: ', accessToken);
+    fetchCartItems();
+    dispatch(setAllSelected(cartItems.length === selected.length));
+  }, [dispatch]);
 
   // FIXME: 장바구니 post 요청 테스트 용. 나중에 삭제 (DONE)
   const addHandler = () => {
+    accessToken = getAccessToken();
     const randomId = Math.floor(Math.random() * 10) + 1;
     const randomQuantity = Math.floor(Math.random() * 5) + 1;
     axios.post(
@@ -54,11 +62,11 @@ export default function CartList() {
     axios.get(`${apiUrl}/cart/list`, { headers: { Authorization: accessToken } })
       .then((response) => {
         if (response.status === 200) {
-          dispatch(setCartItems(response.data));
-          dispatch(setSelected(response.data));
+          const data = response.data;
+          dispatch(setCartItems(data));
+          dispatch(setSelected(data));
           dispatch(setAllSelected(true));
-          console.log('subtotal: ', selected.reduce((total, item) => total + item.totalPrice, 0));
-          dispatch(setSubtotalPrice(selected.reduce((total, item) => total + item.totalPrice, 0)));
+          dispatch(setSubtotalPrice(data.reduce((total, item) => total + item.totalPrice, 0)));
         }
       })
       .catch((error) => {
@@ -66,20 +74,15 @@ export default function CartList() {
       });
   }
 
-  useEffect(() => {
-    fetchCartItems();
-    dispatch(setAllSelected(cartItems.length === selected.length));
-  }, [dispatch]);
-
-  console.log(selected);
-
   const handleAllCheckClick = () => {
     if (allSelected) {
       dispatch(setSelected([]));
       dispatch(setAllSelected(false));
+      dispatch(setSubtotalPrice(0));
     } else {
       dispatch(setSelected(cartItems));
       dispatch(setAllSelected(true));
+      dispatch(setSubtotalPrice(cartItems.reduce((total, item) => total + item.totalPrice, 0)));
     }
   };
 
@@ -171,7 +174,7 @@ export default function CartList() {
           cartItems.length > 0
           && <div className='subtotal-price'>
             <span>Subtotal : </span>
-            $ {subtotalPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            &#8361; {subtotalPrice.toLocaleString()}
           </div>
         }
       </FlexBox>

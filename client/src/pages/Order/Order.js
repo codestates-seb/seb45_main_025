@@ -80,7 +80,7 @@ export default function Order() {
     const inputValue = event.target.value;
     const numericValue = inputValue.replace(/[^0-9]/g, '');
     if (inputValue !== numericValue) {
-      setInputPhoneMsg('Only Numbers');
+      setInputPhoneMsg('Only numbers');
     } else {
       setInputPhoneMsg('');
     }
@@ -199,20 +199,20 @@ export default function Order() {
                     <div className='flex-grow'>
                       <div className='flex-row'>
                         <div className='product-name'>{item.product.productName}</div>
-                        <div className='total-price'>$ {item.totalPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+                        <div className='total-price'>&#8361; {item.totalPrice.toLocaleString()}</div>
                       </div>
                       <div
                         className='flex-row'
                         key={item.product.id}>
                         <div className='product-quantity'>
                           quantity {item.quantity}</div>
-                        <div className='product-price'>$ {item.product.productPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+                        <div className='product-price'>&#8361; {item.product.productPrice.toLocaleString()}</div>
                       </div>
                     </div>
                   </div>
                 ))}
                 <div className='subtotal-price'>
-                  $ {subtotalPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  &#8361; {subtotalPrice.toLocaleString()}
                   {/* {selectedItems.reduce((total, item) => total + item.totalPrice, 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} */}
                 </div>
                 <ButtonContainer>
