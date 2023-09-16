@@ -17,7 +17,7 @@ public class BoardPatchDto {
 
     private String title;
     private String content;
-    private List<MultipartFile> image;
+    private List<MultipartFile> images;
     private String originalFileName;
     private String saveFileName;
     private int fileAttached;
