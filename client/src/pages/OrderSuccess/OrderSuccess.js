@@ -7,34 +7,23 @@ import { Link, useSearchParams } from 'react-router-dom';
 import BackgroundImage from '../../components/BackgroundImage/BackgroundImage';
 import snackImg from '../../common/image/main-image.png';
 import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
-// import {
-//   setOrderName,
-//   setOrderAddress,
-//   setOrderPhone,
-//   setOrderRequest,
-// } from '../../redux/actions/orderActions';
 import axios from 'axios';
 import getAccessToken from '../../common/utils/getToken';
 
 export default function OrderSuccess() {
   // const dispatch = useDispatch();
-  const name = useSelector((state) => state.order.recipientName);
-  const address = useSelector((state) => state.order.address);
-  const phone = useSelector((state) => state.order.phone);
-  const request = useSelector((state) => state.order.request);
-  const orderItems = useSelector((state) => state.cart.selected);
   const [searchParams] = useSearchParams();
+  const name = searchParams.get("name");
+  const address = searchParams.get("address");
+  const phone = searchParams.get("phone");
+  const request = searchParams.get("request");
+  const selectedId = searchParams.getAll("productId");
   const apiUrl = process.env.REACT_APP_API_URL;
   let accessToken = getAccessToken();
 
   useEffect(() => {
     accessToken = getAccessToken();
     handleOrder();
-    // dispatch(setOrderName(''));
-    // dispatch(setOrderAddress(''));
-    // dispatch(setOrderPhone(''));
-    // dispatch(setOrderRequest(''));
   }, []);
 
   const handleOrder = () => {
@@ -43,6 +32,7 @@ export default function OrderSuccess() {
       "address": address,
       "phone": phone,
       "request": request,
+      "selectedCartItems": selectedId,
     };
 
     console.log(data);
@@ -67,10 +57,10 @@ export default function OrderSuccess() {
         <div>Payment Amount: &#8361; {`${Number(
           searchParams.get("amount")
         ).toLocaleString()}`}</div>
-        {orderItems.length > 0 &&
+        {/* {selectedId.length > 0 &&
           orderItems.map((item => {
             <div>{item.product.productName}</div>
-          }))}
+          }))} */}
         <div>
           <Link to='/products'>
             <button>Keep Shopping</button>

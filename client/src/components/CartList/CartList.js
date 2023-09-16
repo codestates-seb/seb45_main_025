@@ -79,10 +79,14 @@ export default function CartList() {
       dispatch(setSelected([]));
       dispatch(setAllSelected(false));
       dispatch(setSubtotalPrice(0));
+      console.log('isAllSelected: ', allSelected);
+      console.log(selected.map(el => el.product.id));
     } else {
       dispatch(setSelected(cartItems));
       dispatch(setAllSelected(true));
       dispatch(setSubtotalPrice(cartItems.reduce((total, item) => total + item.totalPrice, 0)));
+      console.log('isAllSelected: ', allSelected);
+      console.log(selected.map(el => el.product.id));
     }
   };
 

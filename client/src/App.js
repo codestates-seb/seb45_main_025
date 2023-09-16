@@ -37,11 +37,11 @@ function App() {
         <Route path="/mypage/edit" element={<MyPageEdit />} />
         <Route path="/signup/oauth" element={<SignUpOauth />} />
         <Route path="/loading" element={<OauthLoading />} />
-        <Route path="/products" element={<Item />} />
+        <Route path="/products/get/:productId" element={<Item />} />
         <Route path="/list" element={<List />} />
         <Route path='/CommunityList' element={<CommunityList />} />
         <Route path='/WritePost' element={<WritePost />} />
-        <Route path='/CommunityBoard' element={<CommunityBoard />} />
+        <Route path='/CommunityBoard/:boardId' element={<CommunityBoard />} />
         <Route path='/order/checkout' element={<OrderCheckout />} />
         <Route path='/order/fail' element={<OrderFail />} />
         <Route path='/order/success' element={<OrderSuccess />} />

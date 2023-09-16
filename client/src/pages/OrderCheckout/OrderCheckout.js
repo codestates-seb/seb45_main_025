@@ -22,6 +22,16 @@ export default function OrderCheckout() {
   const paymentMethodsWidgetRef = useRef(null);
   const subtotalPrice = useSelector((state) => state.cart.subtotalPrice);
   const [price, setPrice] = useState(subtotalPrice);
+  const selected = useSelector((state) => state.cart.selected);
+  const selectedId = selected.map(el => el.product.id);
+  const name = useSelector((state) => state.order.orderName);
+  const address = useSelector((state) => state.order.orderAddress);
+  const phone = useSelector((state) => state.order.orderPhone);
+  const request = useSelector((state) => state.order.orderRequest);
+  let params = `name=${name}&address=${address}&phone=${phone}&request=${request}`;
+  for (const id of selectedId) {
+    params += `&productId=${id}`;
+  }
 
   useEffect(() => {
     (async () => {
@@ -36,7 +46,6 @@ export default function OrderCheckout() {
         selector,
         { value: price }
       );
-      console.log(123, paymentMethodsWidget);
 
       // ------  이용약관 렌더링 ------
       // https://docs.tosspayments.com/reference/widget-sdk#renderagreement선택자
@@ -97,7 +106,7 @@ export default function OrderCheckout() {
                 orderName: "Korean snacks",
                 customerName: "김땡떙",
                 failUrl: `${window.location.origin}/order/fail`,
-                successUrl: `${window.location.origin}/order/success`,
+                successUrl: `${window.location.origin}/order/success?${params}`,
               });
             } catch (error) {
               console.error(error);

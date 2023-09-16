@@ -197,15 +197,6 @@ export const ButtonContainer = styled.div`
     &:active {
       box-shadow: inset 4px 4px 4px #7a451c;
     }
-
-    /* &:disabled {
-      cursor: default;
-      background-color: #ccc1b8;
-      background-color: #ddd;
-      color: #ddd;
-      border: 1px solid var(--gray-10);
-      box-shadow: none;
-    } */
   }
 `
 
