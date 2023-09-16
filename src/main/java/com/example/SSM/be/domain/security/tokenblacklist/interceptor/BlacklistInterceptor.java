@@ -1,7 +1,7 @@
-package com.example.SSM.be.domain.security.token.tokenblacklist.interceptor;
+package com.example.SSM.be.domain.security.tokenblacklist.interceptor;
 
 import com.example.SSM.be.domain.security.token.jwt.JwtTokenizer;
-import com.example.SSM.be.domain.security.token.tokenblacklist.service.BlacklistTokenService;
+import com.example.SSM.be.domain.security.tokenblacklist.service.BlacklistTokenService;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -12,10 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 @Component
 public class BlacklistInterceptor implements HandlerInterceptor {
 
-    private final JwtTokenizer jwtTokenizer;
     private final BlacklistTokenService blacklistTokenService;
     public BlacklistInterceptor(JwtTokenizer jwtTokenizer, BlacklistTokenService blacklistTokenService) {
-        this.jwtTokenizer = jwtTokenizer;
         this.blacklistTokenService = blacklistTokenService;
     }
     /*Authorizaiton 헤더에 토큰을 넣는 요청이 올 시,

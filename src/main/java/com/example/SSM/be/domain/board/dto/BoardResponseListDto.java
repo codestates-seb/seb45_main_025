@@ -4,6 +4,7 @@ package com.example.SSM.be.domain.board.dto;
 import com.example.SSM.be.domain.board.entity.Board;
 import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.EntityListeners;
@@ -13,17 +14,19 @@ import java.time.LocalDateTime;
 @EntityListeners(AuditingEntityListener.class)
 @Data
 public class BoardResponseListDto  {
+    private Long boardId;
     private String title;
     private String content;
-    private String writer;
+    private String author;
     private Long view;
     private LocalDateTime createAt;
     private long countComment;
 
     public BoardResponseListDto(Board board){
+        this.boardId = board.getBoardId();
         this.title = board.getTitle();
         this.content = board.getContent();
-        this.writer = board.getMember().getEmail();
+        this.author = board.getMember().getNickName();
         this.view = board.getView();
         this.createAt = board.getCreatedAt();
         this.countComment = board.getComments().size();

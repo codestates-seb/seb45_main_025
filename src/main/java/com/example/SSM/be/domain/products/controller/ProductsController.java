@@ -1,5 +1,6 @@
 package com.example.SSM.be.domain.products.controller;
 
+import com.example.SSM.be.domain.File.FilePath;
 import com.example.SSM.be.domain.member.entity.Member;
 import com.example.SSM.be.domain.member.service.MemberService;
 import com.example.SSM.be.domain.products.dto.ProductsRequestDto;
@@ -12,10 +13,7 @@ import io.jsonwebtoken.Jws;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -29,7 +27,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -89,7 +89,7 @@ public class ProductsController {
                 String fileName = UUID.randomUUID().toString() + "_" + originalFileName;
 
                 // 이미지 파일 업로드 경로 설정
-                Path uploadDir = Paths.get("uploads/products/");
+                Path uploadDir = Paths.get(FilePath.imagePath);
                 if (!Files.exists(uploadDir)) {
                     Files.createDirectories(uploadDir);
                 }
@@ -134,19 +134,24 @@ public class ProductsController {
     }
     // 카테고리별로 상품을 조회하는 엔드포인트
     @Operation(summary = "카테고리별 상품 조회 (페이지별)")
-    @GetMapping("/{category}")
-    public ResponseEntity<List<ProductsResponseDto>> getProductsByCategory(@PathVariable String category,
-                                                                           @RequestParam(defaultValue = "1") int page,  // 기본값은 1페이지
-                                                                           @RequestParam(defaultValue = "20") int pageSize  // 기본 페이지 크기는 20개
+    @GetMapping("/category/{category}/")
+    public ResponseEntity<Map<String, Object>> getProductsByCategory(@PathVariable String category,
+                                                                     @RequestParam(defaultValue = "1", name = "page") int page,
+                                                                     @RequestParam(defaultValue = "20", name = "pageSize") int pageSize
     ) {
-        Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by("createdAt").descending());  // 페이지와 페이지 크기를 기반으로 페이지 요청 객체 생성
-        Page<Products> productsPage = productsService.getProductsPageByCategory(category, pageable);  // 제품 페이지 조회 로직을 서비스에 위임
+        // 이제 요청을 /products/category/snack?page=1&pageSize=15 와 같이 보낼 수 있습니다.
+        Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by("createdAt").descending());
+        Page<Products> productsPage = productsService.getProductsPageByCategory(category, pageable);
 
         List<ProductsResponseDto> responseDtos = productsPage.getContent().stream()
-                .map(ProductsResponseDto::new)  // 각 제품을 응답 DTO로 변환
-                .collect(Collectors.toList());  // DTO들을 리스트로 수집
+                .map(ProductsResponseDto::new)
+                .collect(Collectors.toList());
 
-        return ResponseEntity.ok(responseDtos);  // 응답 DTO 리스트 반환
+        Map<String, Object> response = new HashMap<>();
+        response.put("pageInfo", createPageInfo(productsPage));
+        response.put("content", responseDtos);
+
+        return ResponseEntity.ok(response);
     }
 
     @Transactional
@@ -184,5 +189,127 @@ public class ProductsController {
 
         return ResponseEntity.ok("Success");
     }
+    @GetMapping("/search")
+    public ResponseEntity<Map<String, Object>> searchProducts(@RequestParam(required = false) String productName,
+                                                              @RequestParam(defaultValue = "1") int page,
+                                                              @RequestParam(defaultValue = "20") int pageSize) {
+        Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by("createdAt").descending());
+        Page<Products> productsPage = productsService.searchProductsByProductName(productName, pageable);
 
+        List<ProductsResponseDto> responseDtos = productsPage.getContent().stream()
+                .map(ProductsResponseDto::new)
+                .collect(Collectors.toList());
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("pageInfo", createPageInfo(productsPage));
+        response.put("content", responseDtos);
+
+        return ResponseEntity.ok(response);
+    }
+    @GetMapping("/category/{category}/likes")
+    public ResponseEntity<Map<String, Object>> getProductsByCategoryAndSort(@PathVariable String category,
+                                                                            @RequestParam(defaultValue = "1") int page,
+                                                                            @RequestParam(defaultValue = "20") int pageSize
+    ) {
+        Pageable pageable = PageRequest.of(page - 1, pageSize);
+        Page<Products> productsPage = productsService.getProductsByCategoryAndSort(category, pageable);
+
+        List<ProductsResponseDto> responseDtos = productsPage.getContent().stream()
+                .map(ProductsResponseDto::new)
+                .collect(Collectors.toList());
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("pageInfo", createPageInfo(productsPage));
+        response.put("content", responseDtos);
+
+        return ResponseEntity.ok(response);
+    }
+    @Transactional
+    @PostMapping("/bookmark/{productId}")
+    public ResponseEntity<String> bookmarkProduct(@PathVariable Long productId,
+                                                  @RequestHeader("Authorization") String authorizationHeader) {
+        // 토큰 처리 및 사용자 인증 로직
+        Jws<Claims> claims = tokenService.checkAccessToken(authorizationHeader);
+        String email = claims.getBody().getSubject();
+        Member currentUser = memberService.findMemberByEmail(email);
+        if (currentUser == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("유효하지 않은 사용자입니다.");
+        }
+
+        // 북마크 상태 설정
+        Products updatedProduct = productsService.bookmarkProduct(productId, currentUser);
+
+        return ResponseEntity.ok("북마크가 추가되었습니다.");
+    }
+
+    @Transactional
+    @PostMapping("/unbookmark/{productId}")
+    public ResponseEntity<String> unbookmarkProduct(@PathVariable Long productId,
+                                                    @RequestHeader("Authorization") String authorizationHeader) {
+        // 토큰 처리 및 사용자 인증 로직
+        Jws<Claims> claims = tokenService.checkAccessToken(authorizationHeader);
+        String email = claims.getBody().getSubject();
+        Member currentUser = memberService.findMemberByEmail(email);
+        if (currentUser == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("유효하지 않은 사용자입니다.");
+        }
+
+        // 북마크 상태 취소
+        Products updatedProduct = productsService.unbookmarkProduct(productId, currentUser);
+
+        return ResponseEntity.ok("북마크가 취소되었습니다.");
+    }
+    @GetMapping("/bookmarked")
+    public ResponseEntity<?> getBookmarkedProducts(@RequestHeader("Authorization") String authorizationHeader) {
+        try {
+            Jws<Claims> claims = tokenService.checkAccessToken(authorizationHeader);
+            String email = claims.getBody().getSubject();
+            Member currentUser = memberService.findMemberByEmail(email);
+            if (currentUser == null) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("유효하지 않은 사용자입니다.");
+            }
+            List<Products> bookmarkedProducts = productsService.getBookmarkedProducts();  // 북마크된 상품 조회 로직을 서비스에 위임
+            List<ProductsResponseDto> responseDtos = bookmarkedProducts.stream()
+                    .map(ProductsResponseDto::new)  // 각 제품을 응답 DTO로 변환
+                    .collect(Collectors.toList());  // DTO들을 리스트로 수집
+            return ResponseEntity.ok(responseDtos);  // 북마크된 상품 리스트 반환
+        } catch (Exception e) {
+            // 예외 발생 시 에러 응답을 반환
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("서버 오류가 발생했습니다.");
+        }
+    }
+    @GetMapping("/all/list/")
+    public ResponseEntity<Object> getAllProducts(@RequestParam(defaultValue = "1", name = "page") int page,
+                                                 @RequestParam(defaultValue = "20", name = "pageSize") int pageSize
+    ) {
+        Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(Sort.Direction.DESC, "createdAt"));
+
+        Page<Products> productsPage = productsService.getAllProducts(pageable);
+
+        List<ProductsResponseDto> responseDtos = productsPage.getContent().stream()
+                .map(ProductsResponseDto::new)
+                .collect(Collectors.toList());
+
+        // 페이지 정보를 JSON 객체로 생성
+        Map<String, Object> pageInfo = new HashMap<>();
+        pageInfo.put("page", page);
+        pageInfo.put("size", pageSize);
+        pageInfo.put("totalElements", productsPage.getTotalElements());
+        pageInfo.put("totalPages", productsPage.getTotalPages());
+
+        // 응답 JSON 생성
+        Map<String, Object> response = new HashMap<>();
+        response.put("content", responseDtos);
+        response.put("pageInfo", pageInfo);
+
+        return ResponseEntity.ok(response);
+    }
+    private Map<String, Object> createPageInfo(Page<?> page) {
+        Map<String, Object> pageInfo = new HashMap<>();
+        pageInfo.put("size", page.getSize());
+        pageInfo.put("totalPages", page.getTotalPages());
+        pageInfo.put("page", page.getNumber() + 1); // 페이지 번호를 1부터 시작하도록 수정
+        pageInfo.put("totalElements", page.getTotalElements());
+        return pageInfo;
+    }
 }

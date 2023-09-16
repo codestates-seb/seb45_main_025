@@ -4,11 +4,13 @@ package com.example.SSM.be.domain.board.mapper;
 import com.example.SSM.be.domain.board.dto.BoardPatchDto;
 import com.example.SSM.be.domain.board.dto.BoardPostDto;
 import com.example.SSM.be.domain.board.dto.BoardResponseDto;
+import com.example.SSM.be.domain.board.dto.BoardResponseListDto;
 import com.example.SSM.be.domain.board.entity.Board;
 import com.example.SSM.be.domain.board.entity.Image;
 import com.example.SSM.be.domain.member.entity.Member;
 import org.mapstruct.Mapper;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,39 +25,12 @@ public interface BoardMapper{
         existingBoard.setContent(patchDto.getContent());
         existingBoard.setMember(member);
         existingBoard.setView(existingBoard.getView());
+        existingBoard.setLast_Modifier(member.getNickName());
         existingBoard.setFileAttached(1);
         existingBoard.setImageList(existingBoard.getImageList());
 
         return existingBoard;
     }
-
-    public static BoardResponseDto boardPatchToBoardResponseDto(Board board){
-        BoardResponseDto response = new BoardResponseDto();
-        response.setBoardId(board.getBoardId());
-        response.setTitle(board.getTitle());
-        response.setContent(board.getContent());
-        response.setView(board.getView());
-        response.setCreatedAt(board.getCreatedAt());
-        response.setModifiedAt(board.getModifiedAt());
-
-        if(board.getFileAttached() == 0){
-            response.setFileAttached(board.getFileAttached());
-        }else{
-            List<String> originalFileNameList = new ArrayList<>();
-            List<String> saveFileNameList = new ArrayList<>();
-            response.setFileAttached(board.getFileAttached());
-            for(Image image : board.getImageList()) {
-                originalFileNameList.add(image.getOriginalFileName());
-                saveFileNameList.add(image.getSaveFileName());
-            }
-            response.setOriginalFileName(originalFileNameList);
-            response.setSaveFileName(saveFileNameList);
-        }
-        return response;
-
-    }
-
-
     public static Board postDtoToBoardEntity(Member member, BoardPostDto postDto){
         Board board = new Board();
         board.setTitle(postDto.getTitle());
@@ -82,6 +57,7 @@ public interface BoardMapper{
         response.setBoardId(board.getBoardId());
         response.setTitle(board.getTitle());
         response.setContent(board.getContent());
+        response.setAuthor(board.getMember().getNickName());
         response.setView(board.getView());
         response.setCreatedAt(board.getCreatedAt());
         response.setModifiedAt(board.getModifiedAt());
@@ -123,6 +99,7 @@ public interface BoardMapper{
         return existingBoard;
     }
 
-
-
 }
+
+
+

@@ -12,6 +12,14 @@ java {
 	targetCompatibility = JavaVersion.VERSION_11 // Java 11으로 설정
 }
 
+bootJar {
+	enabled = true // Spring Boot 실행 가능한 JAR 생성 비활성화
+}
+
+jar {
+	enabled = false // 일반 JAR 생성 활성화
+}
+
 
 configurations {
 	compileOnly {
@@ -39,7 +47,7 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
 
-	implementation 'mysql:mysql-connector-java:8.0.28'
+	implementation 'mysql:mysql-connector-java:8.0.33'
 	implementation 'org.mapstruct:mapstruct:1.4.2.Final'
 	annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
 	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
@@ -61,3 +69,4 @@ dependencies {
 test {
 	useJUnitPlatform()
 }
+

@@ -10,7 +10,7 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface CommentMapper {
 
-    default Comment commentDtoToComment(Board board, CommentDto postDto, Member member){
+     default Comment commentDtoToComment(Board board, CommentDto postDto, Member member){
         Comment comment = new Comment();
         comment.setContent(postDto.getContent());
         comment.setAuthor(member.getName());
@@ -19,9 +19,10 @@ public interface CommentMapper {
     }
 
     default CommentResponseDto commentToCommentResponseDto(Comment comment){
-        CommentResponseDto commentResponseDto = new CommentResponseDto();
-        commentResponseDto.setName(comment.getAuthor());
-        commentResponseDto.setContent(comment.getContent());
-        return commentResponseDto;
+         CommentResponseDto commentResponseDto = new CommentResponseDto();
+         commentResponseDto.setCommentId(comment.getCommentId());
+         commentResponseDto.setName(comment.getAuthor());
+         commentResponseDto.setContent(comment.getContent());
+         return commentResponseDto;
     }
 }

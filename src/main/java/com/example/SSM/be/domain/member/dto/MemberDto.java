@@ -21,6 +21,8 @@ public class MemberDto {
         @NotBlank
         private String name;
         @NotBlank
+        private String nickName;
+        @NotBlank
         private String password;
         @NotBlank
         private String conformPassword;
@@ -33,6 +35,14 @@ public class MemberDto {
         @NotBlank
         private String address;
     }
+    @Getter
+    @Setter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class PatchDto{
+        private String nickName;
+    }
 
     @Getter
     @Setter
@@ -41,11 +51,12 @@ public class MemberDto {
     @AllArgsConstructor
     public static class ResponseDto {
 
-        private long memberId;
+        private long userId;
         private String name;
+        private String nickName;
         private String email;
-        private String image;
-        private Member.MemberStatus status;
+        private String img;
+        private Member.MemberStatus memberStatus;
         private String createdAt;
         private String modifiedAt;
     }

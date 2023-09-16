@@ -1,9 +1,9 @@
 package com.example.SSM.be.domain.member.entity;
 
 import com.example.SSM.be.domain.audit.Auditable;
+import com.example.SSM.be.domain.mypage.entity.ProfileImage;
 import com.example.SSM.be.domain.products.entity.Products;
-import com.example.SSM.be.domain.security.token.entity.RefreshToken;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,9 +11,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @AllArgsConstructor
@@ -30,8 +28,11 @@ public class Member extends Auditable {
     @Column(length = 100, nullable = false,unique = true)
     private String email;
 
-    @Column(length = 100, nullable = false)
+    @Column(length = 100)
     private String name;
+
+    @Column(length = 100, nullable = false)
+    private String nickName;
 
     @Column(length = 300)
     private String password;
@@ -50,17 +51,20 @@ public class Member extends Auditable {
     @Column
     private String img;
     @Column
-    private Long point = 1000000000L;
+    private Long point = 100000L;
+    @Column
+    private Boolean isOauth = false;
 
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
+    @JsonIgnore
+    @OneToOne(mappedBy = "member", cascade = CascadeType.PERSIST, orphanRemoval = true, fetch = FetchType.LAZY)
+    private ProfileImage image;
 
     @Enumerated(EnumType.STRING)
     @Column
     private MemberStatus memberStatus = MemberStatus.MEMBER_ACTIVE;
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<RefreshToken> refreshTokens;
 //    @Enumerated(EnumType.STRING)
 //    @Column
 //    private MemberStatus Provider;
@@ -82,12 +86,7 @@ public class Member extends Auditable {
         GOOGLE,
         FACEBOOK
     }
-    @ManyToMany
-    @JoinTable(
-            name = "member_liked_products",
-            joinColumns = @JoinColumn(name = "member_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id")
-    )
-    @JsonIgnoreProperties("likedByMembers")
-    private Set<Products> likedProducts = new HashSet<>();
+    @JsonIgnore
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    private List<Products> likedProducts;
 }

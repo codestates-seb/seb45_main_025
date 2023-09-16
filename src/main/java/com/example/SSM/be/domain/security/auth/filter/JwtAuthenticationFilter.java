@@ -11,6 +11,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -79,17 +80,28 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String accessToken = delegateAccessToken(member); // accessToken 만들기
         String refreshToken = delegateRefreshToken(member); // refreshToken 만들기
         String memberId = String.valueOf(member.getUserId());
+        String headerAccessToken  = "Bearer " + accessToken;
 
-        String headerValue = "Bearer " + accessToken;
-
-        response.setHeader("Authorization", headerValue);
+        ResponseCookie responseAccessCookie= ResponseCookie.from("access_token", accessToken)
+                .sameSite("None")
+                .secure(true)
+                .maxAge(60 * 5) // 5분
+                .path("/")
+                .build();
+        ResponseCookie responseRefreshCookie= ResponseCookie.from("refresh_token", refreshToken)
+                .sameSite("None")
+                .secure(true)
+                .httpOnly(true)
+                .maxAge(60 * 60*24) // 하루
+                .path("/")
+                .build();
+        response.setHeader("Authorization", headerAccessToken);
         response.setHeader("Refresh", refreshToken);
         response.setHeader("MemberId", memberId);
-
-
+        response.addHeader("Set-Cookie", responseAccessCookie.toString());
+        response.addHeader("Set-Cookie", responseRefreshCookie.toString());
         this.getSuccessHandler().onAuthenticationSuccess(request, response, authResult);
     }
-
 
     private String delegateAccessToken(Member member) {
         Map<String, Object> claims = new HashMap<>();

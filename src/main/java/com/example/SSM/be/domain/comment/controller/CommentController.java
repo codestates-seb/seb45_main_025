@@ -49,21 +49,13 @@ public class CommentController {
 
         Jws<Claims> claims = tokenService.checkAccessToken(authorizationHeader);
         String email = claims.getBody().getSubject();
-        Member member = memberService.findMemberByEmail(email);
-        if (member == null || member.getEmail().isEmpty()) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("유효하지 않은 사용자입니다.");
-        }
-        Authentication authentication = new UsernamePasswordAuthenticationToken(
-                member.getEmail(),
-                null,
-                AuthorityUtils.createAuthorityList("ROLE_USER")
-        );
+        Member findMember = memberService.findMemberByEmail(email);
         Board board = new Board();
         Optional<Board> optionalBoard = boardRepository.findById(boardId);
         Comment comment = new Comment();
         if(optionalBoard.isPresent()){
             board = optionalBoard.get();
-            comment = commentService.createComment(member,board,postDto);
+            comment = commentService.createComment(findMember,board,postDto);
         }else{
             new BusinessLogicException(ExceptionCode.POST_NOT_FOUND);
         }
@@ -78,55 +70,26 @@ public class CommentController {
                                         @RequestHeader("Authorization") String authorizationHeader){
         Jws<Claims> claims = tokenService.checkAccessToken(authorizationHeader);
         String email = claims.getBody().getSubject();
-        Member member = memberService.findMemberByEmail(email);
-        if (member == null || member.getEmail().isEmpty()) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("유효하지 않은 사용자입니다.");
-        }
-        Authentication authentication = new UsernamePasswordAuthenticationToken(
-                member.getEmail(),
-                null,
-                AuthorityUtils.createAuthorityList("ROLE_USER")
-        );
-        commentService.updateComment(member,commentId,patchDto);
+        Member findMember = memberService.findMemberByEmail(email);
+        commentService.updateComment(findMember,commentId,patchDto);
         return new ResponseEntity(HttpStatus.OK);
 
     }
     //댓글 가져오기
     @GetMapping("/{board-id}/comment")
-    public ResponseEntity getCommentList(@PathVariable("board-id") long boardId,
-                                         @RequestHeader ("Authorization") String authorizationHeader){
-        Jws<Claims> claims = tokenService.checkAccessToken(authorizationHeader);
-        String email = claims.getBody().getSubject();
-        Member member = memberService.findMemberByEmail(email);
-        if (member == null || member.getEmail().isEmpty()) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("유효하지 않은 사용자입니다.");
-        }
-        Authentication authentication = new UsernamePasswordAuthenticationToken(
-                member.getEmail(),
-                null,
-                AuthorityUtils.createAuthorityList("ROLE_USER")
-        );
-
+    public ResponseEntity getCommentList(@PathVariable("board-id") long boardId){
         List<CommentResponseDto> response = commentService.getCommentList(boardId);
         return new ResponseEntity<>(response,HttpStatus.OK);
     }
 
-    //댓글 삭제하기
+    //댓글 삭제하기  수정해야함
     @DeleteMapping("/{board-id}/comment/{comment-id}")
     public void deleteComment(@PathVariable("comment-id")long commentId,@RequestHeader("Authorization") String authorizationHeader){
         Jws<Claims> claims = tokenService.checkAccessToken(authorizationHeader);
         String email = claims.getBody().getSubject();
-        Member member = memberService.findMemberByEmail(email);
-        if (member == null || member.getEmail().isEmpty()) {
-            throw new BusinessLogicException(ExceptionCode.NOT_MATCH_USER);
-        }
-        Authentication authentication = new UsernamePasswordAuthenticationToken(
-                member.getEmail(),
-                null,
-                AuthorityUtils.createAuthorityList("ROLE_USER")
-        );
+        Member findMember = memberService.findMemberByEmail(email);
 
-        commentService.delete(member, commentId);
+        commentService.delete(findMember, commentId);
     }
 
 }

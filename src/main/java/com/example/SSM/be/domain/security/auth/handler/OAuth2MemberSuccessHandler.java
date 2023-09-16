@@ -6,6 +6,7 @@ import com.example.SSM.be.domain.security.auth.utils.CustomAuthorityUtils;
 import com.example.SSM.be.domain.security.token.jwt.JwtTokenizer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
@@ -33,7 +34,7 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
                                         Authentication authentication)
             throws IOException, ServletException {
         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
-        String name = (String) oAuth2User.getAttributes().get("name");
+        String nickName = (String) oAuth2User.getAttributes().get("name");
         String email = String.valueOf(oAuth2User.getAttributes().get("email"));
         String img = (String) oAuth2User.getAttributes().get("picture");
         String gender = (String) oAuth2User.getAttributes().get("gender");
@@ -42,7 +43,7 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
         String phoneNumber = (String) oAuth2User.getAttribute("phoneNumber");
         List<String> authorities = authorityUtils.createRoles(email);
 
-        Member member = buildOAuth2Member(name,email,img,gender,birthday,homeAddress,phoneNumber);
+        Member member = buildOAuth2Member(nickName,email,img,gender,birthday,homeAddress,phoneNumber);
         if(!memberService.existsByEmail(member.getEmail())) {
             boolean isNewAccount = true;
             // db에 저장
@@ -54,18 +55,19 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
             redirect(request, response, findMember,isNewAccount);
         }
     }
-    private Member buildOAuth2Member(String name, String email,
+    private Member buildOAuth2Member(String nickName, String email,
                                      String image,String gender,
                                      String birthday,String homeAddress,String phoneNumber) {
         Member member = new Member();
-        member.setName(name);
+        member.setNickName(nickName);
         // 일반 유저와 구분을 위해
-        member.setEmail(email+"1");
+        member.setEmail(email);
         member.setImg(image);
         member.setGender(gender);
         member.setBirth(birthday);
         member.setAddress(homeAddress);
         member.setPhone(phoneNumber);
+        member.setIsOauth(true);
         return member;
     }
 
@@ -78,12 +80,28 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
         throws IOException{
         String accessToken = memberService.delegateAccessToken(member);
         String refreshToken = memberService.delegateRefreshToken(member);
+        String memberId = String.valueOf(member.getUserId());
 
         String uri = createURI( accessToken,refreshToken,isNewAccount).toString();
-
+        ResponseCookie responseAccessCookie= ResponseCookie.from("access_token", accessToken)
+                .sameSite("None")
+                .secure(true)
+                .maxAge(60 * 5) // 5분
+                .path("/")
+                .build();
+        ResponseCookie responseRefreshCookie= ResponseCookie.from("refresh_token", refreshToken)
+                .sameSite("None")
+                .secure(true)
+                .httpOnly(true)
+                .maxAge(60 * 60*24) // 하루
+                .path("/")
+                .build();
         String headerValue = "Bearer " + accessToken;
         response.setHeader("Authorization",headerValue);
         response.setHeader("Refresh",refreshToken);
+        response.setHeader("MemberId", memberId);
+        response.addHeader("Set-Cookie", responseAccessCookie.toString());
+        response.addHeader("Set-Cookie", responseRefreshCookie.toString());
 
         getRedirectStrategy().sendRedirect(request,response,uri);
     }
@@ -94,14 +112,13 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
         MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
         queryParams.add("access_token", "Bearer " + accessToken);
         queryParams.add("refresh_token", refreshToken);
+        queryParams.add("new", String.valueOf(isNewAccount));
 
-        String path = isNewAccount ? "/OauthSIgnupForm" : "/user";
         return UriComponentsBuilder
                 .newInstance()
-                .scheme("http")
-                .host("localhost")
-                .port(8888)
-                .path(path)
+                .scheme("https")
+                .host("www.ksnacksncak.shop")
+                .path("/loading")
                 .queryParams(queryParams)
                 .build()
                 .toUri();

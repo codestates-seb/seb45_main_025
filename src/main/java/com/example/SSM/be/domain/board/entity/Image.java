@@ -19,8 +19,6 @@ public class Image extends Auditable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long imageId;
 
-
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id")
     @JsonIgnore // 이미지 엔티티가 게시글 엔티티의 변경 상태를 무시하지 않도록 설정

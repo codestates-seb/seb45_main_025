@@ -1,8 +1,10 @@
 package com.example.SSM.be.domain.member.mapper;
 
 import com.example.SSM.be.domain.member.dto.AuthAdditionalDto;
-import com.example.SSM.be.domain.member.dto.AuthLoginDto;
+import com.example.SSM.be.domain.member.dto.MemberDto.PatchDto;
 import com.example.SSM.be.domain.member.dto.MemberDto.PostDto;
+import com.example.SSM.be.domain.member.dto.MemberDto.ResponseDto;
+import com.example.SSM.be.domain.member.dto.MemberDto.ResponseDto.ResponseDtoBuilder;
 import com.example.SSM.be.domain.member.entity.Member;
 import java.time.format.DateTimeFormatter;
 import javax.annotation.processing.Generated;
@@ -10,8 +12,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-09-05T10:34:52+0900",
-    comments = "version: 1.4.2.Final, compiler: javac, environment: Java 11.0.20 (Azul Systems, Inc.)"
+    date = "2023-09-17T02:32:00+0900",
+    comments = "version: 1.4.2.Final, compiler: javac, environment: Java 11.0.18 (Azul Systems, Inc.)"
 )
 @Component
 public class MemberMapperImpl implements MemberMapper {
@@ -26,6 +28,7 @@ public class MemberMapperImpl implements MemberMapper {
 
         member.setEmail( postDto.getEmail() );
         member.setName( postDto.getName() );
+        member.setNickName( postDto.getNickName() );
         member.setPassword( postDto.getPassword() );
         member.setGender( postDto.getGender() );
         member.setPhone( postDto.getPhone() );
@@ -38,16 +41,14 @@ public class MemberMapperImpl implements MemberMapper {
     }
 
     @Override
-    public Member AuthLoginDtoToMember(AuthLoginDto authLoginDto) {
-        if ( authLoginDto == null ) {
+    public Member memberPathchDtoToMember(PatchDto patchDto) {
+        if ( patchDto == null ) {
             return null;
         }
 
         Member member = new Member();
 
-        member.setImg( authLoginDto.getProfileImg() );
-        member.setEmail( authLoginDto.getEmail() );
-        member.setName( authLoginDto.getName() );
+        member.setNickName( patchDto.getNickName() );
 
         return member;
     }
@@ -60,6 +61,7 @@ public class MemberMapperImpl implements MemberMapper {
 
         Member member = new Member();
 
+        member.setName( authAdditionalDto.getName() );
         member.setGender( authAdditionalDto.getGender() );
         member.setPhone( authAdditionalDto.getPhone() );
         if ( authAdditionalDto.getBirth() != null ) {
@@ -68,5 +70,31 @@ public class MemberMapperImpl implements MemberMapper {
         member.setAddress( authAdditionalDto.getAddress() );
 
         return member;
+    }
+
+    @Override
+    public ResponseDto memberToResponse(Member member) {
+        if ( member == null ) {
+            return null;
+        }
+
+        ResponseDtoBuilder responseDto = ResponseDto.builder();
+
+        if ( member.getUserId() != null ) {
+            responseDto.userId( member.getUserId() );
+        }
+        responseDto.name( member.getName() );
+        responseDto.nickName( member.getNickName() );
+        responseDto.email( member.getEmail() );
+        responseDto.img( member.getImg() );
+        responseDto.memberStatus( member.getMemberStatus() );
+        if ( member.getCreatedAt() != null ) {
+            responseDto.createdAt( DateTimeFormatter.ISO_LOCAL_DATE_TIME.format( member.getCreatedAt() ) );
+        }
+        if ( member.getModifiedAt() != null ) {
+            responseDto.modifiedAt( DateTimeFormatter.ISO_LOCAL_DATE_TIME.format( member.getModifiedAt() ) );
+        }
+
+        return responseDto.build();
     }
 }

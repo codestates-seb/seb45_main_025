@@ -1,6 +1,7 @@
 package com.example.SSM.be.domain.products.entity;
 
 
+import com.example.SSM.be.domain.member.entity.Member;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -52,4 +53,10 @@ public class Products {
 
     @Column(name = "modified_at")
     private LocalDateTime modifiedAt;
+
+    @Column(name = "bookmarked")
+    private boolean bookmarked;
+
+    @ManyToOne
+    private Member member;
 }

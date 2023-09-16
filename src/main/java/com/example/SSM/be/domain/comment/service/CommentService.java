@@ -77,7 +77,7 @@ public class CommentService {
             if(member.getName().equals(comment.getAuthor())){
                 commentRepository.deleteById(commentId);
             }
-        }else{
+        }else if(!optionalComment.isPresent()){
             new BusinessLogicException(ExceptionCode.NOT_MATCH_USER);
         }
     }
