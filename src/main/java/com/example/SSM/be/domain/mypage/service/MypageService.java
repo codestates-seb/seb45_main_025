@@ -82,6 +82,15 @@ public class MypageService {
                 String originalFileName = newImage.getOriginalFilename();
                 String saveFileName = System.currentTimeMillis() + "_" + originalFileName;
                 String savePath = FilePath.imagePath + saveFileName;
+
+                if (!Files.exists(Paths.get(FilePath.imagePath))) {
+                    try {
+                        Files.createDirectories(Paths.get(FilePath.imagePath));
+                    } catch (IOException e) {
+                        // 디렉토리 생성 중 오류 발생 시 처리
+                        e.printStackTrace();
+                    }
+                }
                 newImage.transferTo(new File(savePath));
 
                 ProfileImage image = new ProfileImage();

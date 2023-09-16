@@ -78,32 +78,7 @@ public class BoardService {
         }
         return member;
     }
-//    public Member createBoard(Member member, BoardPostDto postDto) throws IOException {
-//
-//        if (postDto.getImage()==null || postDto.getImage().isEmpty()) {
-//            Board board = BoardMapper.postDtoToBoardEntity(member, postDto);
-//            boardRepository.save(board);
-//        }
-//
-//        else {
-//            Board board = BoardMapper.postDtoWithImageToBoardEntity(member, postDto);
-//            long saveId = boardRepository.save(board).getBoardId();
-//            Board findBoard = boardRepository.findById(saveId).get();
-//            for (MultipartFile imageFile : postDto.getImage()) {
-//
-//                String originFileName = imageFile.getOriginalFilename();
-//                String saveFileName = System.currentTimeMillis() + "_" + originFileName;
-//                String savePath = FilePath.imagePath + saveFileName;
-////                String savePath = "/Users/yungeon-yong/springboot_img/" + saveFileName;
-//                imageFile.transferTo(new File(savePath));
-//
-//
-//                Image image = BoardMapper.boardToImage(findBoard, originFileName, saveFileName);
-//                imageRepository.save(image);
-//            }
-//        }
-//        return member;
-//    }
+
     //특정 게시글 상세보기
     @Transactional
     public BoardResponseDto findById(long boardId,Boolean notYet) {
@@ -158,15 +133,26 @@ public class BoardService {
             // 이미지 엔티티 리스트 초기화
             existingBoard.getImageList().clear();
 
-            if (patchDto.getImage()==null || patchDto.getImage().isEmpty()) {
+            if (patchDto.getImages()==null || patchDto.getImages().isEmpty()) {
                 Board board = BoardMapper.boardPatchDtoToBoard(member, existingBoard ,patchDto);
                 return boardRepository.save(board);
             }else{
                 List<Image> newImages = new ArrayList<>();
-                for (MultipartFile imageFile : patchDto.getImage()) {
+                for (MultipartFile imageFile : patchDto.getImages()) {
                     String originFileName = imageFile.getOriginalFilename();
                     String saveFileName = System.currentTimeMillis() + "_" + originFileName;
                     String savePath = FilePath.imagePath + saveFileName;
+
+                    if (!Files.exists(Paths.get(FilePath.imagePath))) {
+                        try {
+                            Files.createDirectories(Paths.get(FilePath.imagePath));
+                        } catch (IOException e) {
+                            // 디렉토리 생성 중 오류 발생 시 처리
+                            e.printStackTrace();
+                        }
+                    }
+
+
 
                     // 새 이미지 파일 저장
                     imageFile.transferTo(new File(savePath));
