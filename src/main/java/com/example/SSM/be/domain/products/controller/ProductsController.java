@@ -5,6 +5,7 @@ import com.example.SSM.be.domain.member.entity.Member;
 import com.example.SSM.be.domain.member.service.MemberService;
 import com.example.SSM.be.domain.products.dto.ProductsRequestDto;
 import com.example.SSM.be.domain.products.dto.ProductsResponseDto;
+import com.example.SSM.be.domain.products.dto.ProductsWithImageUrl;
 import com.example.SSM.be.domain.products.entity.Products;
 import com.example.SSM.be.domain.products.service.ProductsService;
 import com.example.SSM.be.domain.security.token.service.TokenService;
@@ -50,16 +51,23 @@ public class ProductsController {
         this.tokenService = tokenService;
     }
     // 상품을 생성하는 엔드포인트
-    @Operation(summary = "새 상품 생성")
     @PostMapping("/create")
-    public ResponseEntity<Products> createProduct(@RequestPart("productImage") MultipartFile productImage,
-                                                  @ModelAttribute ProductsRequestDto productDto) {
+    public ResponseEntity<ProductsWithImageUrl> createProduct(@RequestPart("productImage") MultipartFile productImage,
+                                                              @ModelAttribute ProductsRequestDto productDto) {
         try {
+            // 이미지 파일을 업로드하고 경로를 얻어옴
             String uploadedImagePath = productsService.uploadProductImage(productImage);
             productDto.setImg(uploadedImagePath);
 
+            // 상품 정보와 이미지 경로를 저장
             Products newProduct = productsService.createProduct(productDto);
-            return ResponseEntity.ok(newProduct);
+
+            // 등록된 상품과 이미지 URL을 포함하는 응답 객체 생성
+            ProductsWithImageUrl response = new ProductsWithImageUrl();
+            response.setProduct(newProduct);
+            response.setImageUrl(newProduct.getImg());
+
+            return ResponseEntity.ok(response);
         } catch (IOException e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
