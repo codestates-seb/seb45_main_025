@@ -15,11 +15,7 @@ import java.util.List;
 public class BoardPostDto {
     private String title;
     private String content;
-    @Nullable
-    private List<MultipartFile> image;
-    private String originalFileName;
-    private String saveFileName;
-    private int fileAttached;  //파일 첨부여부 확인 (1:첨부 , 0:미첨부)
-
-
+    private List<MultipartFile> images; // 이미지 파일을 저장할 리스트 추가
+    private int fileAttached; // 파일 첨부여부 확인 (1:첨부 , 0:미첨부)
+    // 게터와 세터 생략
 }

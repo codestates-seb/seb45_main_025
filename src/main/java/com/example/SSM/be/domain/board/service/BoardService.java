@@ -37,32 +37,48 @@ public class BoardService {
 
 
     //게시글 생성하기
-    public Member createBoard(Member member, BoardPostDto postDto) throws IOException {
 
-        if (postDto.getImage()==null || postDto.getImage().isEmpty()) {
+    public Member createBoard(Member member, BoardPostDto postDto) throws IOException {
+        if (postDto.getImages() == null || postDto.getImages().isEmpty()) {
+            // 이미지가 첨부되지 않은 경우
             Board board = BoardMapper.postDtoToBoardEntity(member, postDto);
             boardRepository.save(board);
-        }
-
-        else {
+        } else {
+            // 이미지가 첨부된 경우
             Board board = BoardMapper.postDtoWithImageToBoardEntity(member, postDto);
             long saveId = boardRepository.save(board).getBoardId();
-            Board findBoard = boardRepository.findById(saveId).get();
-            for (MultipartFile imageFile : postDto.getImage()) {
+            Board findBoard = boardRepository.findById(saveId).orElseThrow(() -> new NotFoundException("게시글을 찾을 수 없습니다."));
 
+            for (MultipartFile imageFile : postDto.getImages()) {
+                // 이미지 업로드 및 저장
                 String originFileName = imageFile.getOriginalFilename();
                 String saveFileName = System.currentTimeMillis() + "_" + originFileName;
                 String savePath = FilePath.imagePath + saveFileName;
-//                String savePath = "/Users/yungeon-yong/springboot_img/" + saveFileName;
-                imageFile.transferTo(new File(savePath));
+                String absolutePath = Paths.get(savePath).toAbsolutePath().toString();
 
+                // 디렉토리가 존재하지 않으면 생성
+                if (!Files.exists(Paths.get(FilePath.imagePath))) {
+                    try {
+                        Files.createDirectories(Paths.get(FilePath.imagePath));
+                    } catch (IOException e) {
+                        // 디렉토리 생성 중 오류 발생 시 처리
+                        e.printStackTrace();
+                    }
+                }
 
-                Image image = BoardMapper.boardToImage(findBoard, originFileName, saveFileName);
+                imageFile.transferTo(new File(absolutePath));
+
+                // 이미지 엔티티 생성 및 저장
+                Image image = new Image();
+                image.setOriginalFileName(originFileName);
+                image.setSaveFileName(saveFileName);
+                image.setBoard(findBoard); // 게시글과 이미지 연결
                 imageRepository.save(image);
             }
         }
         return member;
     }
+
     //특정 게시글 상세보기
     @Transactional
     public BoardResponseDto findById(long boardId,Boolean notYet) {
@@ -117,15 +133,26 @@ public class BoardService {
             // 이미지 엔티티 리스트 초기화
             existingBoard.getImageList().clear();
 
-            if (patchDto.getImage()==null || patchDto.getImage().isEmpty()) {
+            if (patchDto.getImages()==null || patchDto.getImages().isEmpty()) {
                 Board board = BoardMapper.boardPatchDtoToBoard(member, existingBoard ,patchDto);
                 return boardRepository.save(board);
             }else{
                 List<Image> newImages = new ArrayList<>();
-                for (MultipartFile imageFile : patchDto.getImage()) {
+                for (MultipartFile imageFile : patchDto.getImages()) {
                     String originFileName = imageFile.getOriginalFilename();
                     String saveFileName = System.currentTimeMillis() + "_" + originFileName;
                     String savePath = FilePath.imagePath + saveFileName;
+
+                    if (!Files.exists(Paths.get(FilePath.imagePath))) {
+                        try {
+                            Files.createDirectories(Paths.get(FilePath.imagePath));
+                        } catch (IOException e) {
+                            // 디렉토리 생성 중 오류 발생 시 처리
+                            e.printStackTrace();
+                        }
+                    }
+
+
 
                     // 새 이미지 파일 저장
                     imageFile.transferTo(new File(savePath));

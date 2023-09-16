@@ -5,12 +5,12 @@ spring:
     password: code1234!
     driver-class-name: com.mysql.cj.jdbc.Driver
 
-    jpa:
-      properties:
-        hibernate:
-          dialect: org.hibernate.dialect.MySQL5Dialect
-          ddl-auto: update
-      show-sql: true
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+        ddl-auto: update # 애플리케이션을 실행할 때 테이블 스키마를 자동으로 업데이트하도록 설정
+    show-sql: true # 실행된 SQL 쿼리를 로그에 출력
 
   security:
     oauth2:

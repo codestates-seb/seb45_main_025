@@ -112,7 +112,7 @@ public class BoardController {
                 Pageable pageAble = PageRequest.of(adjustedPage, pageable.getPageSize(), Sort.by("createdAt").descending());
                 boardList = boardRepository.findAll(pageAble);
             }
-        //과거순
+            //과거순
         } else if ("oldest".equals(sortType)) {
             if(search != null && !search.isEmpty()) {
                 boardList = boardRepository.findByTitleContains(search, PageRequest.of(adjustedPage, pageable.getPageSize(), Sort.by("createdAt").ascending()));
@@ -120,7 +120,7 @@ public class BoardController {
                 Pageable pageAble = PageRequest.of(adjustedPage, pageable.getPageSize(), Sort.by("createdAt").ascending());
                 boardList = boardRepository.findAll(pageAble);
             }
-        //조회수 순
+            //조회수 순
         } else if ("popular".equals(sortType)) {
             if(search != null && !search.isEmpty()) {
                 boardList = boardRepository.findByTitleContains(search, PageRequest.of(adjustedPage, pageable.getPageSize(), Sort.by("view").descending()));
@@ -128,7 +128,7 @@ public class BoardController {
                 Pageable pageAble = PageRequest.of(adjustedPage, pageable.getPageSize(), Sort.by("view").descending());
                 boardList = boardRepository.findAll(pageAble);
             }
-        //댓글 순
+            //댓글 순
         } else if ("mostCommented".equals(sortType)) {
             if(search != null && !search.isEmpty()) {
                 boardList = boardRepository.findByTitleContains(search, PageRequest.of(adjustedPage, pageable.getPageSize(), Sort.by("commentCount").descending()));

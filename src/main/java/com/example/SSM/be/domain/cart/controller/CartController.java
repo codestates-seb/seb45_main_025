@@ -18,6 +18,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -169,5 +170,23 @@ public class CartController {
         cartService.clearCart(username);
 
         return ResponseEntity.noContent().build(); // 응답 본문 없이 204 No Content 반환
+    }
+    @GetMapping("/remaining-items")
+    public ResponseEntity<List<CartItemResponseDTO>> getRemainingCartItems(@RequestHeader("Authorization") String authorizationHeader) {
+        Jws<Claims> claims = tokenService.checkAccessToken(authorizationHeader);
+        String email = claims.getBody().getSubject();
+
+        List<CartItem> remainingCartItems = cartService.getRemainingCartItems(email);
+
+        if (remainingCartItems.isEmpty()) {
+            // 남아 있는 상품이 없을 경우
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(Collections.emptyList());
+        } else {
+            // 남아 있는 상품이 있는 경우
+            List<CartItemResponseDTO> cartItemDTOs = remainingCartItems.stream()
+                    .map(CartItemResponseDTO::new)
+                    .collect(Collectors.toList());
+            return ResponseEntity.ok(cartItemDTOs);
+        }
     }
 }
