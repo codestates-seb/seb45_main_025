@@ -1,6 +1,6 @@
 // TODO: order api 요청
 // TODO: user info 받아오기 (이름, 이메일)
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect } from "react";
 import {
   // PaymentWidgetInstance, 
   loadPaymentWidget,
@@ -21,7 +21,6 @@ export default function OrderCheckout() {
   const paymentWidgetRef = useRef(null);
   const paymentMethodsWidgetRef = useRef(null);
   const subtotalPrice = useSelector((state) => state.cart.subtotalPrice);
-  const [price, setPrice] = useState(subtotalPrice);
   const selected = useSelector((state) => state.cart.selected);
   const selectedId = selected.map(el => el.product.id);
   const name = useSelector((state) => state.order.orderName);
@@ -44,7 +43,7 @@ export default function OrderCheckout() {
       // https://docs.tosspayments.com/reference/widget-sdk#renderpaymentmethods선택자-결제-금액-옵션
       const paymentMethodsWidget = paymentWidget.renderPaymentMethods(
         selector,
-        { value: price }
+        { value: subtotalPrice }
       );
 
       // ------  이용약관 렌더링 ------
@@ -65,11 +64,11 @@ export default function OrderCheckout() {
 
     // ------ 금액 업데이트 ------
     // https://docs.tosspayments.com/reference/widget-sdk#updateamount결제-금액
-    paymentMethodsWidget.updateAmount(
-      price,
-      paymentMethodsWidget.UPDATE_REASON.COUPON
-    );
-  }, [price]);
+    // paymentMethodsWidget.updateAmount(
+    // price,
+    // paymentMethodsWidget.UPDATE_REASON.COUPON
+    // );
+  }, []);
 
   return (
     <>
@@ -80,9 +79,9 @@ export default function OrderCheckout() {
           <AlertIcon />
           This is a test payment. No actual payment will be processed.
         </div>
-        <span>&#8361; {`${price.toLocaleString()}`}</span>
-        <div>
-          <label>
+        <span>&#8361; {`${subtotalPrice.toLocaleString()}`}</span>
+        {/* <div> */}
+        {/* <label>
             <input
               type="checkbox"
               onChange={(event) => {
@@ -90,8 +89,8 @@ export default function OrderCheckout() {
               }}
             />
             Apply &#8361; 5,000 discount coupon
-          </label>
-        </div>
+          </label> */}
+        {/* </div> */}
         <div id="payment-widget" />
         <div id="agreement" />
         <button
@@ -105,6 +104,7 @@ export default function OrderCheckout() {
                 orderId: nanoid(),
                 orderName: "Korean snacks",
                 customerName: "김땡떙",
+                customerEmail: "son@son.com",
                 failUrl: `${window.location.origin}/order/fail`,
                 successUrl: `${window.location.origin}/order/success?${params}`,
               });

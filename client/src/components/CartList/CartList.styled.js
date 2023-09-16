@@ -66,8 +66,8 @@ export const CartTable = styled.div`
   }
 
   img {
-    max-width: 20%;
-    height: 70px;
+    width: 3rem;
+    height: 4rem;
     margin: 0 1rem;
   }
 

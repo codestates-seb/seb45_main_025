@@ -108,8 +108,8 @@ export const FormCotents = styled.div`
   }
 
   img {
-    width: 2.3rem;
-    height: 3rem;
+    width: 2rem;
+    height: 3.5rem;
     margin-right: 1.2rem;
   }
 

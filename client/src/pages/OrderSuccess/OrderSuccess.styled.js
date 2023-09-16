@@ -39,3 +39,8 @@ export const OrderSuccessContainer = styled.div`
     box-shadow: inset 4px 4px 4px #ddd;
   }
 `;
+
+export const OrderInfoContainer = styled.div`
+  border: 1px solid var(--brown-10);
+  border-radius: 5px;
+`;
