@@ -3,6 +3,7 @@ package com.example.SSM.be.domain.cart.entity;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 public class Cart {
@@ -34,5 +35,10 @@ public class Cart {
     }
     public List<CartItem> getCartItems() {
         return cartItems;
+    }
+    public List<CartItem> getRemainingCartItems() {
+        return cartItems.stream()
+                .filter(cartItem -> cartItem.getQuantity() > 0)
+                .collect(Collectors.toList());
     }
 }

@@ -3,6 +3,7 @@ package com.example.SSM.be.domain.cart.service;
 import com.example.SSM.be.domain.cart.dto.CartItemResponseDTO;
 import com.example.SSM.be.domain.cart.entity.Cart;
 import com.example.SSM.be.domain.cart.entity.CartItem;
+import com.example.SSM.be.domain.cart.repository.CartItemRepository;
 import com.example.SSM.be.domain.cart.repository.CartRepository;
 import com.example.SSM.be.domain.products.entity.Products;
 import com.example.SSM.be.domain.products.service.ProductsService;
@@ -18,11 +19,17 @@ import java.util.Optional;
 @Service
 @Transactional
 public class CartService {
-    @Autowired
-    private CartRepository cartRepository;
+    private final CartRepository cartRepository;
+    private final ProductsService productsService;
+    private final CartItemRepository cartItemRepository; // 추가
 
     @Autowired
-    private ProductsService productsService;
+    public CartService(CartRepository cartRepository, ProductsService productsService, CartItemRepository cartItemRepository) {
+        this.cartRepository = cartRepository;
+        this.productsService = productsService;
+        this.cartItemRepository = cartItemRepository; // 추가
+    }
+
 
     public void addToCart(String username, Long productId, Integer quantity) {
         // 사용자의 장바구니에서 해당 상품을 찾아옴
@@ -106,4 +113,36 @@ public class CartService {
                 .orElseThrow(() -> new EntityNotFoundException("장바구니를 찾을 수 없습니다."))
                 .getCartItems();
     }
+    public List<CartItem> getRemainingCartItems(String username) {
+        Optional<Cart> cartOptional = cartRepository.findByUsername(username);
+
+        if (cartOptional.isPresent()) {
+            Cart cart = cartOptional.get();
+            return cart.getRemainingCartItems();
+        } else {
+            // If the cart is not found, return an empty list
+            return Collections.emptyList();
+        }
+    }
+    public void restoreCart(String username, List<Long> selectedCartItems) {
+        Optional<Cart> cartOptional = cartRepository.findByUsername(username);
+
+        if (cartOptional.isPresent()) {
+            Cart cart = cartOptional.get();
+
+            // 선택된 장바구니 아이템을 장바구니에 다시 추가
+            for (Long cartItemId : selectedCartItems) {
+                CartItem cartItem = cartItemRepository.findById(cartItemId).orElse(null);
+                if (cartItem != null) {
+                    cart.addItem(cartItem);
+                }
+            }
+
+            cartRepository.save(cart);
+        }
+    }
+    public Optional<Cart> getCartByUsername(String username) {
+        return cartRepository.findByUsername(username);
+    }
+
 }

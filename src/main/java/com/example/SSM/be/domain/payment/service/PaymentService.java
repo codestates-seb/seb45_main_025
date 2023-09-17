@@ -4,6 +4,8 @@ import com.example.SSM.be.domain.cart.entity.CartItem;
 import com.example.SSM.be.domain.cart.service.CartService;
 import com.example.SSM.be.domain.member.entity.Member;
 import com.example.SSM.be.domain.member.repository.MemberRepository;
+import com.example.SSM.be.domain.payment.dto.OrderHistoryDTO;
+import com.example.SSM.be.domain.payment.dto.OrderItemDTO;
 import com.example.SSM.be.domain.payment.entity.Payment;
 import com.example.SSM.be.domain.payment.entity.PaymentItem;
 import com.example.SSM.be.domain.payment.repository.PaymentRepository;
@@ -32,6 +34,7 @@ public class PaymentService {
     public Payment createOrder(
             Member member,
             List<CartItem> cartItems,
+            List<Long> selectedCartItems,
             String recipientName,
             String address,
             String phone,
@@ -48,36 +51,66 @@ public class PaymentService {
         List<PaymentItem> paymentItems = new ArrayList<>();
 
         for (CartItem cartItem : cartItems) {
-            Products product = cartItem.getProducts();
-            int quantity = cartItem.getQuantity();
-            BigDecimal price = BigDecimal.valueOf(product.getProductPrice());
-            BigDecimal subtotal = price.multiply(BigDecimal.valueOf(quantity));
+            if (selectedCartItems.contains(cartItem.getId())) {
+                Products product = cartItem.getProducts();
+                int quantity = cartItem.getQuantity();
+                BigDecimal price = BigDecimal.valueOf(product.getProductPrice());
+                BigDecimal subtotal = price.multiply(BigDecimal.valueOf(quantity));
 
-            PaymentItem paymentItem = new PaymentItem();
-            paymentItem.setPayment(payment);
-            paymentItem.setProducts(product);
-            paymentItem.setQuantity(quantity);
-            paymentItem.setPrice(price);
-            paymentItem.setSubtotal(subtotal);
+                PaymentItem paymentItem = new PaymentItem();
+                paymentItem.setPayment(payment);
+                paymentItem.setProducts(product);
+                paymentItem.setQuantity(quantity);
+                paymentItem.setPrice(price);
+                paymentItem.setSubtotal(subtotal);
 
-            paymentItems.add(paymentItem);
-            totalAmount = totalAmount.add(subtotal);
+                paymentItems.add(paymentItem);
+                totalAmount = totalAmount.add(subtotal);
+            }
         }
 
         payment.setPaymentItems(paymentItems);
         payment.setTotalAmount(totalAmount);
 
-        // 포인트 결제
-        if (member.getPoint() >= totalAmount.longValue()) {
-            member.setPoint(member.getPoint() - totalAmount.longValue());
-            payment.setPaidWithPoints(true);
+        // 선택된 장바구니 아이템을 장바구니에서 제거
+        if (!selectedCartItems.isEmpty()) {
+            cartService.removeCartItems(member.getEmail(), selectedCartItems);
         }
 
         paymentRepository.save(payment);
         return payment;
     }
 
-    public Payment getOrderById(Long orderId) {
-        return paymentRepository.findById(orderId).orElse(null);
+    @Transactional
+    public List<OrderHistoryDTO> getOrderHistory(String email) {
+        List<Payment> payments = paymentRepository.findByMember_Email(email);
+        List<OrderHistoryDTO> orderHistoryList = new ArrayList<>();
+
+        for (Payment payment : payments) {
+            OrderHistoryDTO orderHistoryDTO = new OrderHistoryDTO();
+            orderHistoryDTO.setOrderId(Long.valueOf(payment.getPaymentid().toString()));
+            orderHistoryDTO.setOrderDate(payment.getOrderDate().toString());
+            orderHistoryDTO.setRecipientName(payment.getRecipientName());
+            orderHistoryDTO.setAddress(payment.getAddress());
+            orderHistoryDTO.setPhone(payment.getPhone());
+            orderHistoryDTO.setRequest(payment.getRequest());
+
+            List<OrderItemDTO> orderItems = new ArrayList<>();
+            for (PaymentItem paymentItem : payment.getPaymentItems()) {
+                OrderItemDTO orderItemDTO = new OrderItemDTO();
+                orderItemDTO.setProductId(Long.valueOf(paymentItem.getProducts().getProductId().toString()));
+                orderItemDTO.setProductName(paymentItem.getProducts().getProductName());
+                orderItemDTO.setQuantity(paymentItem.getQuantity());
+                orderItemDTO.setPrice(paymentItem.getPrice());
+                orderItemDTO.setSubtotal(paymentItem.getSubtotal());
+                orderItems.add(orderItemDTO);
+            }
+            orderHistoryDTO.setOrderItems(orderItems); // 주문한 상품 목록 추가
+
+            orderHistoryList.add(orderHistoryDTO);
+        }
+
+        return orderHistoryList;
     }
+
 }
