@@ -71,13 +71,14 @@ export const ContentBox = styled.div`
   margin-left: 6vh;
   margin-right: 3vh;
   margin-bottom: 1.2rem;
+  border: 0.5px solid var(--brown-10);
+  background-color: var(--brown-30);
   &:nth-of-type(4n) {
     margin-right: 0;
   }
   border-radius: 6px;
   padding: 15px;
   height: 250px;
-  border: 0.5px solid var(--brown-10);
   > img {
     width: auto;
     height: 10rem;
@@ -123,7 +124,7 @@ export const ContentTit = styled.h3`
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  color: black;
+  color: var(--grey-90);
   font-weight: 500;
   @media (max-width: 768px) {
     width: 90%;
@@ -134,6 +135,7 @@ export const ContentText = styled.div`
   overflow: hidden;
   text-align: center;
   font-size: var(--fz-base);
+  color: var(--brown-20);
   line-height: 20px;
   display: -webkit-box;
   text-overflow: ellipsis;
