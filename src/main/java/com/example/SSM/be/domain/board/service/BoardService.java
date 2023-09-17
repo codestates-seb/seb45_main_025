@@ -53,8 +53,10 @@ public class BoardService {
                 // 이미지 업로드 및 저장
                 String originFileName = imageFile.getOriginalFilename();
                 String saveFileName = System.currentTimeMillis() + "_" + originFileName;
+//                String savePath = FilePath.imagePath + saveFileName;
+//                String absolutePath = Paths.get(savePath).toAbsolutePath().toString();
                 String savePath = FilePath.imagePath + saveFileName;
-                String absolutePath = Paths.get(savePath).toAbsolutePath().toString();
+                String absolutePath = Paths.get(FilePath.imagePath).toAbsolutePath().toString() + "/" + saveFileName;
 
                 // 디렉토리가 존재하지 않으면 생성
                 if (!Files.exists(Paths.get(FilePath.imagePath))) {
