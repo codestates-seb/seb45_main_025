@@ -77,7 +77,7 @@ export const ContentBox = styled.div`
   border-radius: 6px;
   padding: 15px;
   height: 250px;
-  background: var(--brown-10);
+  border: 0.5px solid var(--brown-10);
   > img {
     width: auto;
     height: 10rem;

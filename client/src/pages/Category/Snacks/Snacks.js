@@ -3,7 +3,7 @@ import axios from 'axios';
 import ReactPaginate from 'react-paginate';
 import { useNavigate } from 'react-router-dom';
 import { BsHeartFill } from 'react-icons/bs';
-import koreanSnacks from "../../../common/image/koreanSnacks2.jpeg";
+import snacksList from '../../../common/image/SnacksList.webp';
 import {
     ContentList,
     ContentBox,
@@ -65,8 +65,8 @@ const itemOnClickHandler = productId => {
 
 return (
     <>
-      <BackgroundImageContainer backgroundImage={`url(${koreanSnacks})`}>
-        Snacks List
+      <BackgroundImageContainer backgroundImage={`url(${snacksList})`}>
+        SNACKS
       </BackgroundImageContainer>
       <Gnb />
       <div className="bodywrap">
@@ -79,7 +79,7 @@ return (
                 onClick={() => itemOnClickHandler(item.id)}
               >
                 <img
-                  src={item.img}
+                  src={`${URI}${item.img}`}
                   alt={item.productName}
                   onError={handleImageError}
                 />
