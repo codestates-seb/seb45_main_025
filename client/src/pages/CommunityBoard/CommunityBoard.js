@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { BiDotsVerticalRounded, BiSolidUser } from "react-icons/bi";
+import { BiDotsVerticalRounded, BiSolidUserCircle } from "react-icons/bi";
 
 import {
   CommunityBoardContainer,
@@ -155,7 +155,7 @@ function CommunityBoard({ title, content, boardId, profilePicture, postDate, vie
         </PostTitleBox>
         <PostUserBox>
           <UserPicture>
-            {profilePicture ? <img src={profilePicture} alt="프로필" /> : <BiSolidUser />}
+            {profilePicture ? <img src={profilePicture} alt="프로필" /> : <BiSolidUserCircle />}
           </UserPicture>
           <div>
             {username && <span>유저 닉네임: {username}</span>}
@@ -181,7 +181,7 @@ function CommunityBoard({ title, content, boardId, profilePicture, postDate, vie
             {profilePicture ? (
               <img src={profilePicture} alt="프로필" />
             ) : (
-              <BiSolidUser />
+              <BiSolidUserCircle />
             )}
           </UserPicture>
           <div>{username && <span>Nickname: {username}</span>}</div>
@@ -229,7 +229,7 @@ function CommunityBoard({ title, content, boardId, profilePicture, postDate, vie
             {profilePicture ? (
               <img src={profilePicture} alt="프로필" />
             ) : (
-              <BiSolidUser />
+              <BiSolidUserCircle />
             )}
           </UserPicture>
           <div>{username && <span>Nickname: {username}</span>}</div>
