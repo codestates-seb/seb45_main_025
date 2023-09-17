@@ -183,49 +183,6 @@ export const MyPageEmail = styled.div`
   }
 `
 
-export const MyPagePassword = styled.div`
-  margin-left: 2vw;
-  display: flex;
-  flex-direction: column;
-  .password_input{
-    display: flex;
-    flex-direction: row;
-    height: 1.6rem;
-  }
-  .passworddiv{
-    width: 8.5rem;
-    color: var(--gray-90);
-    font-size: 0.9rem;
-    font-weight: 600;
-  }
-  input{
-    margin-left: 1rem;
-  }
-  .passwordcheck{
-    color: gray;
-  }
-`
-
-export const MyPagePassWordDoubleCheck = styled.div`
-  display: flex;
-  flex-direction: row;
-  margin-left: 2vw;
-  div:first-child{
-    width: 8.5rem;
-    color: var(--gray-90);
-    font-size: 0.9rem;
-    font-weight: 600;
-  }
-  input{
-    margin-left: 1rem;
-    height: 1.6rem;
-  }
-  .passworddoublecheck{
-    color: gray;
-    margin-left: 1rem;
-  }
-`
-
 export const MyPageSubmit = styled.button`
   margin-top: 5vh;
   border: 1px solid var(--gray-10);

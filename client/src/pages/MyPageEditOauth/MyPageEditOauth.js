@@ -3,9 +3,8 @@ import {MyPageEditContainer,
     MyPageEditName, MyPageEditNickName,MyPageGender,
     MyPageDateOfBirth,MyPageHomeAdress,
     MyPagePhoneNumber,MyPageEmail
-    ,MyPagePassword,MyPagePassWordDoubleCheck
     ,MyPageSubmit
-  } from './MyPageEdit.styled';
+  } from './MyPageEditOauth.styled';
 import { useEffect, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import basicimg from '../../common/image/basicimg.png';
@@ -15,7 +14,7 @@ import  chococookie  from '../../common/image/darkcookies.jpg';
 import axios from 'axios';
 import getAccessToken from '../../common/utils/getToken';
 
-export default function MyPageEdit(){
+export default function MyPageEditOauth(){
   const [myImg, setMyImg] = useState(null);
   const [name, setName] = useState('');
   const [nickName,setNickName] = useState('');
@@ -25,10 +24,6 @@ export default function MyPageEdit(){
   const [phoneNumber, setphoneNumber] = useState('');
   const [emailFront, setEmailFront] = useState('');
   const [emailBack, setEmailBack] = useState('');
-  const [passWord, setPassWord] = useState('');
-  const [passWordCheck, setpassWordCheck] = useState(undefined);
-  const [passWordDoubleCheck, setPassWordDoubleCheck] = useState(undefined);
-  const passwordform = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
   const [wrong, setWrong] = useState('');
   const navigate = useNavigate();
   const URI = process.env.REACT_APP_API_URL;
@@ -48,7 +43,6 @@ export default function MyPageEdit(){
       axios.patch(`${URI}/mypage/pofileImage`,formData,{ headers: {Authorization: access_token,'Content-Type': 'multipart/form-data'}}
       )
       .then((res)=>{
-        console.log('ji')
         console.log(res.data.originalFileName, res.data.saveFileName)
       }).catch((res)=>{
         console.log(res)
@@ -62,7 +56,7 @@ export default function MyPageEdit(){
     if (del){
       console.log("계정 삭제")
       let access_token = getAccessToken();
-      axios.delete(`${URI}/users/delete/1`,{ headers: {Authorization: access_token} })
+      axios.delete(`${URI}/users/delete`,{ headers: {Authorization: access_token} })
       .then((res)=>{
         console.log(res);
         localStorage.clear()
@@ -89,7 +83,6 @@ export default function MyPageEdit(){
     axios.get(`${URI}/mypage`,{ headers: {Authorization: access_token} })
     .then((res)=>{
       console.log(res);
-      setMyImg(res.data.saveFileName);
       setName(res.data.name);
       setNickName(res.data.nickName)
       setGender(res.data.gender);
@@ -107,8 +100,6 @@ export default function MyPageEdit(){
       setWrong("'NickName' is Empty");
     }else if(emailFront === '' || emailBack === ''){
       setWrong("'Email' is Empty");
-    }else if(passWordCheck === false || passWord !== passWordDoubleCheck){
-      setWrong("Check your 'PassWord'");
     }else{
       let access_token = getAccessToken();
       axios.patch(`${URI}/mypage`,{
@@ -119,12 +110,12 @@ export default function MyPageEdit(){
         "address" : address,
         "phone" : phoneNumber,
         "email" : emailFront + '@' + emailBack,
-        "password" : passWord
+        "password" : null
       },{ headers: {Authorization: access_token} })
       .then(()=>navigate('/mypage'))
       .catch((res)=>console.log(res))
     }
-    console.log(name,nickName,gender,birth,address,phoneNumber,emailFront,passWord)
+    console.log(name,nickName,gender,birth,address,phoneNumber,emailFront)
   }
   
   return (
@@ -132,7 +123,7 @@ export default function MyPageEdit(){
       <BackgroundImage imgSrc={chococookie} title='MY PAGE'/>
       <MyPageEditMain>
         <MyPageEditImg>
-          {myImg === null ? <img src={basicimg} alt='img' className='myimg'></img> :myImg.slice(0,4) === 'data' ? <img src={myImg}  alt="img" className='myimg'></img>: <img src={`${URI}/images/${myImg}`} alt="img" className='myimg'></img>}
+          {myImg === null ? <img src={basicimg} alt='img' className='myimg'></img> : <img src={myImg} alt="img" className='myimg'></img>}
           <label htmlFor="upload">
             <div className="btn-upload">select image</div>
           </label>
@@ -190,24 +181,6 @@ export default function MyPageEdit(){
               <option>icloud.com</option>
             </select>
           </MyPageEmail>
-          <MyPagePassword>
-            <div className='password_input'>
-              <div className='passworddiv'><span className='star'>*</span>Password</div>
-              <input type='password' onChange={(e)=>{
-                setPassWord(e.target.value)
-                setpassWordCheck(passwordform.test(e.target.value));
-                console.log(passWordCheck,passWord,e.target.value)
-                }}></input>
-            </div>
-            <div className='passwordcheck_logo'>{passWordCheck === undefined ? ' ' : passWordCheck ? '✅' : '❌' }
-            <div className='passwordcheck'> The password must be at least 8 characters and include English, numbers, and special characters.</div>
-            </div>
-          </MyPagePassword>
-          <MyPagePassWordDoubleCheck>
-            <div><span className='star'>*</span>confirm password</div>
-            <input type='password' onChange={(e)=>(setPassWordDoubleCheck(e.target.value))}></input>
-            <div className='passworddoublecheck'>{passWordDoubleCheck === undefined ? ' ' : passWordDoubleCheck === passWord ? '✅ Your password matches' : '❌ Passwords do not match'}</div>
-          </MyPagePassWordDoubleCheck>
         </div>
         <div className='what_wrong'>{wrong}</div>
         <MyPageSubmit onClick={submitsignup}>Save change</MyPageSubmit>
