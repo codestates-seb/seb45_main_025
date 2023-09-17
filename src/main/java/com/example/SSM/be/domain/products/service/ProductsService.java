@@ -154,4 +154,7 @@ public class ProductsService {
     public Page<Products> getAllProducts(Pageable pageable) {
         return productsRepository.findAll(pageable);
     }
+    public List<Products> getAllProducts() {
+        return productsRepository.findAll(); // 모든 제품을 반환
+    }
 }
