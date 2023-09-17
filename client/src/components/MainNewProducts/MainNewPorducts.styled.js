@@ -19,10 +19,9 @@ export const MainNewProductsContainer = styled.div`
   }
 
   .flex-row {
-    width: 100%;
+    width: 70%;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    padding: 2rem 15rem;
   }
 `;

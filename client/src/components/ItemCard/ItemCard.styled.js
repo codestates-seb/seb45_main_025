@@ -21,10 +21,10 @@ export const ItemCardContainer = styled.div`
   }
 
   .flex-row {
+    width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    padding: 0;
     margin-bottom: 0.5rem;
   }
 
