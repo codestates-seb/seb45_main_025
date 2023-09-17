@@ -19,14 +19,14 @@ import java.util.List;
 public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long paymentid;
+    private Long paymentId;
 
     @ManyToOne
     private Member member; // 주문한 회원 정보
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "payment", fetch = FetchType.LAZY)
-    private List<PaymentItem> paymentItems;
+    @OneToMany(mappedBy = "payment", cascade = CascadeType.ALL)
+    private List<PaymentItem> paymentItems = new ArrayList<>();
 
     private LocalDateTime orderDate;
 

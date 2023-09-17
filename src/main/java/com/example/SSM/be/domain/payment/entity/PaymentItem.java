@@ -14,11 +14,10 @@ import java.math.BigDecimal;
 public class PaymentItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long paymentid;
+    private Long paymentId;
 
     @JsonBackReference
-    @ManyToOne
-    @JoinColumn(name = "payment_id")
+    @ManyToOne(fetch = FetchType.EAGER)
     private Payment payment;
 
     @ManyToOne(fetch = FetchType.EAGER) // 즉시로딩으로 변경

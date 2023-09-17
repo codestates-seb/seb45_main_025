@@ -72,14 +72,22 @@ public class PaymentController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(payment);
     }
-    @GetMapping("/history")
-    public ResponseEntity<List<OrderHistoryDTO>> getOrderHistory(
+    @GetMapping("/{orderId}")
+    public ResponseEntity<OrderHistoryDTO> getOrderDetails(
+            @PathVariable Long orderId,
             @RequestHeader("Authorization") String authorizationHeader) {
         Jws<Claims> claims = tokenService.checkAccessToken(authorizationHeader);
         String email = claims.getBody().getSubject();
 
-        List<OrderHistoryDTO> orderHistory = paymentService.getOrderHistory(email);
+        // 주문 정보를 가져옵니다.
+        OrderHistoryDTO orderDetails = paymentService.getOrderDetails(email, orderId);
 
-        return ResponseEntity.ok(orderHistory);
+        if (orderDetails == null) {
+            // 주문을 찾을 수 없을 경우 NOT_FOUND 상태를 반환합니다.
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+
+        // OK 상태와 함께 제품 정보가 포함된 주문 정보를 반환합니다.
+        return ResponseEntity.status(HttpStatus.OK).body(orderDetails);
     }
 }

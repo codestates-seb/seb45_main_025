@@ -10,7 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 public class PaymentDTO {
-    private Long paymentid;
+    private Long paymentId;
     private Long memberId;
     private LocalDateTime orderDate;
     private BigDecimal totalAmount;
