@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import ReactPaginate from 'react-paginate';
 import { useNavigate } from 'react-router-dom';
-import { BsHeartFill } from 'react-icons/bs';
+import { ReactComponent as HeartIcon } from '../../../common/image/Icons/heart.svg';
 import snacksList from '../../../common/image/SnacksList.webp';
 import {
     ContentList,
@@ -86,7 +86,7 @@ return (
                 <ContentTit>{item.productName}</ContentTit>
                 <ContentText>₩{item.productPrice}</ContentText>
                 <LikeCount>
-                  <BsHeartFill /> <p>{item.likes}</p>
+                  <HeartIcon /> <p>{item.likes}</p>
                 </LikeCount>
               </ContentBox>                
               ))}

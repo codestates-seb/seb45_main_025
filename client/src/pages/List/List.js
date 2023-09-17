@@ -68,7 +68,7 @@ const List = () => {
       } else {
         if (searchIsUpdate === true) {
           axios
-            .get(`${URI}/products/search?productName=${searchText}page=${listCurrentPage}&pageSize=${PER_PAGE}`)
+            .get(`${URI}/products/search?productName=${searchText}&page=${listCurrentPage}&pageSize=${PER_PAGE}`)
             .then(res => {
               if (!res.data) {
                 setItemList([]);
