@@ -20,7 +20,8 @@ export default function OrderSuccess() {
   const selectedId = searchParams.getAll("productId");
   const apiUrl = process.env.REACT_APP_API_URL;
   let accessToken = getAccessToken();
-  const [orderData, setOrderData] = useState();
+  const [orderData, setOrderData] = useState({});
+  console.log(name, address, phone, request);
 
   useEffect(() => {
     accessToken = getAccessToken();
@@ -44,7 +45,6 @@ export default function OrderSuccess() {
         if (response.status === 201) {
           console.log('data', response.data);
           setOrderData(response.data);
-          console.log(orderData);
         }
       })
       .catch((error) => {
@@ -52,21 +52,89 @@ export default function OrderSuccess() {
       });
   }
 
+  useEffect(() => {
+    console.log('orderData:', orderData); // This will log the updated orderData
+  }, [orderData]);
+
+  //   {
+  //     "paymentid": 25,
+  //     "member": {
+  //         "createdAt": "2023-09-15T11:38:21",
+  //         "modifiedAt": "2023-09-17T08:23:43.184857",
+  //         "userId": 6,
+  //         "email": "son@son.com",
+  //         "name": "son",
+  //         "nickName": "son",
+  //         "password": "{bcrypt}$2a$10$pnfmlCWoUifTdrebO7GAB.nn7pAOxjwoCXouPX/5YXeZMsrcD2OAy",
+  //         "gender": "female",
+  //         "phone": "123",
+  //         "birth": "2023-09-05",
+  //         "address": "korea",
+  //         "img": null,
+  //         "point": 82000,
+  //         "isOauth": null,
+  //         "roles": [
+  //             "USER"
+  //         ],
+  //         "memberStatus": "MEMBER_ACTIVE"
+  //     },
+  //     "paymentItems": [
+  //         {
+  //             "paymentid": null,
+  //             "products": {
+  //                 "productId": 14,
+  //                 "productName": "감자 초콜릿",
+  //                 "category": "Chocolate",
+  //                 "img": "image/1fb45313-2152-4759-b662-a7a170efcbb5_빵빵이2.jpg",
+  //                 "content": "식품 유형",
+  //                 "productDescription": "제품 설명",
+  //                 "rawmaterial": "원재료명",
+  //                 "precautions": "주의사항",
+  //                 "manufacturer": "제조사",
+  //                 "productPrice": 3000.0,
+  //                 "likes": 0,
+  //                 "createdAt": "2023-09-16T20:03:48",
+  //                 "modifiedAt": "2023-09-16T20:03:48",
+  //                 "bookmarked": false,
+  //                 "member": null
+  //             },
+  //             "quantity": 2,
+  //             "price": 3000.0,
+  //             "subtotal": 6000.0
+  //         }
+  //     ],
+  //     "orderDate": "2023-09-17T08:23:43.166863",
+  //     "totalAmount": 6000.0,
+  //     "paidWithPoints": true,
+  //     "recipientName": "youngjin",
+  //     "address": "korea",
+  //     "phone": "12345",
+  //     "request": ""
+  // }
+
+  // FIXME: 선택상품만 주문하는 거 안됨
   return (
     <>
       <BackgroundImage imgSrc={snackImg} title='ACCOUNT' />
       <OrderSuccessContainer>
         <h1>PAYMENT SUCCESSFUL</h1>
-        <OrderInfoContainer>
-          <div>No. {orderData.paymentid}</div>
-          <div>{orderData.orderDate}</div>
-          {orderData.paymentItems.map((item => (
-            <div key={item.product.id}>
-              {/* TODO: 주문한 아이템 정보 렌더링 (이미지, 상품명, 수량, 가격, ) */}
-            </div>
-          )))}
-          <div>&#8361; {orderData.totalAmount}</div>
-        </OrderInfoContainer>
+        {orderData &&
+          <OrderInfoContainer>
+            <div className='flex-row'>
+              <div>No. {orderData.paymentid}</div>
+              <div>{orderData.orderDate}</div></div>
+            {orderData.paymentItems &&
+              orderData.paymentItems.map((item => (
+                <div key={item.products.productId}>
+                  <div>{item.products.productName}</div>
+                  <div>{item.products.productPrice}</div>
+                  <div>quantity {item.quantity}</div>
+                  <div>{item.subtotal}</div>
+                </div>
+              )))}
+            <div>&#8361; {orderData.totalAmount}</div>
+          </OrderInfoContainer>
+        }
         <div>Payment Amount: &#8361; {`${Number(
           searchParams.get("amount")
         ).toLocaleString()}`}</div>

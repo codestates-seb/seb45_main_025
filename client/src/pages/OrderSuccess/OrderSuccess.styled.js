@@ -41,6 +41,14 @@ export const OrderSuccessContainer = styled.div`
 `;
 
 export const OrderInfoContainer = styled.div`
+  width: 70%;
   border: 1px solid var(--brown-10);
   border-radius: 5px;
+  padding: 1rem 2rem;
+
+  .flex-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
 `;

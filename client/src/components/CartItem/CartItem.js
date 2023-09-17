@@ -18,6 +18,7 @@ export default function CartItem({ item }) {
     accessToken = getAccessToken();
     setCurQuantity(item.quantity);
     fetchCartItems();
+    console.log(selected.map(el => el.product.id));
   }, [dispatch]);
 
   const handleCheckClick = (checkedItem) => {
@@ -26,6 +27,7 @@ export default function CartItem({ item }) {
     dispatch(setAllSelected(updatedSelected.length === cartItems.length));
     const newSubtotal = updatedSelected.reduce((total, item) => total + item.totalPrice, 0);
     dispatch(setSubtotalPrice(newSubtotal));
+    console.log(selected.map(el => el.product.id));
   }
 
   const fetchCartItems = () => {
