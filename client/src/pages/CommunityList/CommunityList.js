@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import ReactPaginate from "react-paginate";
-import { Link } from 'react-router-dom';
-import { FcFilledFilter } from "react-icons/fc";
-import Dropdown from 'react-bootstrap/Dropdown';
+import {
+  FcFilledFilter
+} from "react-icons/fc";
+
 import {
   Container,
   Line,
@@ -30,7 +31,7 @@ function CommunityList() {
   const [totalPages, setTotalPages] = useState(1);
   const [totalElements, setTotalElements] = useState(0);
   const [searchTerm, setSearchTerm] = useState('');
-  const [sortBy, setSortBy] = useState('latest'); // Default sorting by latest
+
 
   const handlePageClick = (selectedPage) => {
     setCurrentPage(selectedPage.selected + 1);
@@ -46,7 +47,7 @@ function CommunityList() {
   const fetchData = async () => {
     try {
       const response = await axios.get(
-        `${URI}/board/posts?search=${searchTerm}&page=${currentPage}&sortBy=${sortBy}`
+        `${URI}/board/posts?search=${searchTerm}&page=${currentPage}`
       );
 
       setData(response.data.content);
@@ -59,7 +60,7 @@ function CommunityList() {
 
   useEffect(() => {
     fetchData();
-  }, [URI, currentPage, searchTerm, sortBy]);
+  }, [URI, currentPage, searchTerm]);
 
   const navigateToWritePost = () => {
     navigate('/WritePost');
@@ -74,12 +75,6 @@ function CommunityList() {
     return date.toLocaleDateString(undefined, options);
   }
 
-  const handleSortChange = (sortOption) => {
-    setSortBy(sortOption);
-    setCurrentPage(1); // Reset to the first page when changing sorting option
-  };
-
-
 
   return (
     <Container>
@@ -90,22 +85,11 @@ function CommunityList() {
         <Filter>
           <FcFilledFilter style={{ fontSize: '23px', cursor: 'pointer' }} />
 
-          <Dropdown style={{ marginLeft: '10px' }}>
-            <Dropdown.Toggle variant="success" id="dropdown-basic">
-              Filter Options
-            </Dropdown.Toggle>
 
-            <Dropdown.Menu>
-              <Dropdown.Item onClick={() => handleSortChange('latest')}>Latest</Dropdown.Item>
-              <Dropdown.Item onClick={() => handleSortChange('oldest')}>Oldest</Dropdown.Item>
-              <Dropdown.Item onClick={() => handleSortChange('commentCount')}>Most Commented</Dropdown.Item>
-              <Dropdown.Item onClick={() => handleSortChange('views')}>Most Viewed</Dropdown.Item> {/* "조회 순" 옵션 추가 */}
-            </Dropdown.Menu>
-          </Dropdown>
         </Filter>
       </PostButtonContainer>
 
-      {data.reverse().map((item, index) => (
+      {data.map((item, index) => (
         <ListItem
           key={item.boardId}
           role="button"

@@ -93,15 +93,16 @@ function WritePost() {
         console.log(access_token)
         try {
             const response = await axios.post(
-                `${URI}/board`,
-                {
-                    "title": title,
-                    "content": content,
-                    "image": null
-                },
+                `${URI}/board?title=${title}&content=${content}`,
+                // {
+                //     "title": title,
+                //     "content": content,
+                //     "image": null
+                // },
+                null,
                 {
                     headers: { Authorization: access_token },
-                    timeout: 10000, //10초?
+
                 }
             );
 
