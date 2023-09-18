@@ -47,12 +47,12 @@ export const PostTitleBox = styled.div`
     width: 900px;
     padding: 10px;
     padding-top: 5px;
-    background-color: #CBAC9B;
+    background-color: #FFFAF0;
     margin: 0 auto;
     margin-top: 1.5vh;
     display: flex;
     align-items: center;
-    
+    border-radius: 15px 15px 0 0;
     
 `;
 export const PostUserBox = styled.div`
@@ -60,14 +60,18 @@ export const PostUserBox = styled.div`
     width: 900px;
     padding: 10px;
     padding-top: 5px;
-    background-color: skyblue;
+    background-color: #FFFAF0;
     margin: 0 auto;
     display: flex;
     align-items: center;
     /* UserPicture와 span 사이에 간격을 줍니다. */
-    > :not(:last-child) {
+    > div > span:not(:last-child) {
         margin-right: 15px;
+        padding-left: 5px;
     }
+    border-color: transparent transparent burlywood transparent;
+    border-style: solid;
+    border-width: 2px;
 `;
 
 
@@ -87,12 +91,12 @@ export const PostUserBox = styled.div`
 
 
 export const PostBoard = styled.div`
-    height: 100px;
+    height: 300px;
     max-height: auto;
     width: 900px;
     padding: 10px;
     padding-top: 5px;
-    background-color: white;
+    background-color: #FFFAF0;
     overflow-y: auto;
     margin: 0 auto;
     margin-bottom: 20px;
@@ -104,11 +108,13 @@ export const PostCorrection = styled.button`
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: greenyellow;
-    margin-left: auto;
-    margin-top: 6px;
+    background-color: #FFFAF0;
     padding-bottom: 2px;
-    margin-right: 10px;
+    margin-top: 80px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: burlywood;
+    
 `;
 
 export const PostDelete = styled.button`
@@ -117,11 +123,14 @@ export const PostDelete = styled.button`
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: red;
+    background-color: #FFFAF0;
     margin-left: auto;
-    margin-top: 6px;
+    border-color: burlywood;
+    border-style: solid;
+    border-width: 2px;
     padding-bottom: 2px;
     margin-right: 10px;
+    margin-top: 2px;
 `;
 
 
@@ -184,12 +193,12 @@ export const MenuIcon1 = styled.div`
     justify-content: center;
     flex-direction: column;
     align-items: center;
-    background-color: burlywood;
+    background-color: #FFFAF0;
     margin-left: auto;
     margin-top: 6px;
     padding-bottom: 2px;
     margin-right: 10px;
-    border-radius: 15px;
+   
     
    
     svg {
@@ -209,7 +218,7 @@ export const MenuIcon2 = styled.div`
     margin-top: 6px;
     padding-bottom: 2px;
     margin-right: 10px;
-    border-radius: 15px;
+    
 
    
     svg {
@@ -224,9 +233,9 @@ export const PostTitle = styled.div`
     padding: 10px;
     padding-top: 10px;
     font-size: 1.5rem;
-    background-color: #CBAC9B;
-    
-    
+    background-color: #FFFAF0;
+    border-color: #FFFAF0;
+    border-style: solid;
     display: flex;
     align-items: center;
 `;

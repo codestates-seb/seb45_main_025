@@ -50,7 +50,7 @@ const Editor = ({ placeholder, value, onChange }) => {
         'background',
         'color',
         'link',
-        'video',
+
         'width',
     ];
 
