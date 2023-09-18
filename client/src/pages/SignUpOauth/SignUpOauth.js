@@ -32,9 +32,9 @@ export default function SignUpOauth(){
 
   function submitsignup(){
     let access_token = getAccessToken();
-    axios.post(`${URI}/oauth/google/signup`,{
+    axios.post(`${URI}/users/oauth/google/signup`,{
         "address" : address,
-        "phoneNumber": phoneNumber,
+        "phone": phoneNumber,
         "gender" : gender,
         "name" : name,
         "birth" : birth },{headers: {Authorization: access_token}})

@@ -20,7 +20,21 @@ export const MyWritingMain = styled.div`
     border-bottom: 1px solid var(--gray-10);
   }
 `
-
+export const MyWritingEmpty = styled.p`
+  color: var(--gray-50);
+  font-size: 1.7rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 5rem;
+  >img{
+    width: 10rem;
+  }
+  >a{
+    font-size: 1.7rem;
+    color: blue
+  }
+`
 export const MyWritingEle = styled.div`
   width: 60vw;
   min-width: 30rem;

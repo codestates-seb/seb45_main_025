@@ -14,7 +14,7 @@ import BackgroundImage from '../../components/BackgroundImage/BackgroundImage';
 import  chococookie  from '../../common/image/darkcookies.jpg';
 import axios from 'axios';
 import getAccessToken from '../../common/utils/getToken';
-
+import imageCompression from 'browser-image-compression';
 export default function MyPageEdit(){
   const [memberId, setMemberId] = useState('');
   const [myImg, setMyImg] = useState(null);
@@ -35,22 +35,37 @@ export default function MyPageEdit(){
   const URI = process.env.REACT_APP_API_URL;
   const [now, setNow] = useState('');
 
-  function imgupload(e){
+  async function compressimage(filesrc){
+    const options = {
+      maxSizeMB: 1,
+      maxWidthOrHeight: 1920,
+      useWebWorker: true,
+    };
+    try{
+      const compressedFile = await imageCompression(filesrc,options)
+      return compressedFile
+    }catch(error){
+      console.log(error)
+    }
+  }
+  async function imgupload(e){
     if(e.target.value !==''){
       const reader = new FileReader();
       reader.onload = (e) => {	
         setMyImg(e.target.result); // 파일의 컨텐츠
       };
-      reader.readAsDataURL(e.target.files[0]);
+      const compressedFile =await compressimage(e.target.files[0]);
+      reader.readAsDataURL(compressedFile);
       let access_token = getAccessToken();
       console.log(access_token)
       const formData = new FormData();
-      formData.append('image',e.target.files[0]);
+      formData.append('image',compressedFile);
       axios.patch(`${URI}/mypage/pofileImage`,formData,{ headers: {Authorization: access_token,'Content-Type': 'multipart/form-data'}}
       )
       .then((res)=>{
         console.log('ji')
         console.log(res.data.originalFileName, res.data.saveFileName)
+        console.log(formData)
       }).catch((res)=>{
         console.log(res)
         console.log(formData)
