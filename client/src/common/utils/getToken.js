@@ -16,7 +16,7 @@ export default function getAccessToken(){
     let access_token_decoded = jwt_decode(access_token);
     let exp = new Date(access_token_decoded.exp * 1000);
     let now = new Date();
-    if(exp > now){
+    if(exp < now){
       console.log(exp,now)
       return access_token
     }else{
