@@ -168,7 +168,8 @@ export const Pagination = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 50px;
+  margin-top: 3rem;
+  margin-bottom: 2rem;
   > ul {
     display: flex;
     justify-content: center;
