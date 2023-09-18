@@ -279,6 +279,7 @@ padding: 10px;
 /* background-color: seashell; */
 /* margin: 0 auto; */
 /* margin-top: 100px; */
+
 display: flex;
 align-items: center;
 justify-content: center;

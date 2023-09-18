@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import {
-  BiDotsVerticalRounded,
-  // BiSolidUserCircle
+    BiDotsVerticalRounded,
+    // BiSolidUserCircle
 } from "react-icons/bi";
 import { useParams } from 'react-router-dom';
 import getAccessToken from '../../common/utils/getToken.js';
@@ -213,6 +213,7 @@ function CommunityBoard() {
       </ComuComment >
     </CommunityBoardContainer >
   );
+
 }
 
 export default CommunityBoard;
