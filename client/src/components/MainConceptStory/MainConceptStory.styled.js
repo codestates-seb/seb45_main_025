@@ -3,7 +3,7 @@ import { styled } from 'styled-components';
 export const MainConceptStoryContainer = styled.div`
   width: 100vw;
   height: 95vh;
-  background-color: #e8e7e3;
+  background-color: var(--brown-30);
   color: #fff;
   font-size: 2rem;
   display: flex;

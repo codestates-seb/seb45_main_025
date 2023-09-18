@@ -5,7 +5,7 @@ import { Tab } from "../../style/Global.styled";
 import { BsSuitHeartFill, BsSuitHeart } from 'react-icons/bs';
 import { FaRegThumbsUp } from "react-icons/fa";
 import ItemInfo from "../../components/ItemInfo/ItemInfo";
-import { useUserInfoStore } from "../../stores/userInfoStore";
+import getAccessToken from "../../common/utils/getToken";
 import {
     ItemWrap,
     ItemBox,
@@ -23,12 +23,11 @@ const Item = () => {
     const URI = process.env.REACT_APP_API_URL;
     const [curTab, setCurTab] = useState(0);
     const [like, setLike] = useState(false);
-    const { userInfo } = useUserInfoStore(state => state);
     const { snackItem, setSnackItem, setLikeIncrease, setLikeDecrease } = useSnackItemStore(state => state);
     const location = useLocation();
-    const snackId = location.pathname.split('/')[3];
     const tabArr = ['Information', 'Review'];
     const productId = location.pathname.split('/')[3];
+    const accessToken = getAccessToken();
 
     const tabHandler = idx => {
         setCurTab(idx);
@@ -36,17 +35,14 @@ const Item = () => {
 
     const likeHandler = () => {
         setLike(!like);
+        console.log(like);
         if (like) {
             setLikeDecrease();
         } else {
             setLikeIncrease();
         }
-        const postData = {
-            memberId: userInfo.nick,
-            snackId,
-        };
         axios
-            .post(`${URI}/products/like`, postData)
+            .post(`${URI}/products/product/${productId}/like`)
             .then(res => console.log(res))
             .catch(err => console.log(err));
     };
@@ -57,34 +53,13 @@ const Item = () => {
 
     useEffect(() => {
         axios
-            .get(`${URI}/products/get/${productId}`)
+            .get(`${URI}/products/get/${productId}`, { headers: { Authorization: accessToken }})
             .then(res => {
                 setSnackItem(res.data);
             })
             .catch(err => {
                 console.log(err);
             });
-
-        if (sessionStorage.getItem('isLogin')) {
-            const sessionUserInfo = JSON.parse(sessionStorage.getItem('userInfo'));
-            console.log(sessionUserInfo);
-            const postData = {
-                memberId: sessionUserInfo.memberId,
-                snackId,
-            };
-            axios
-                .post(`${URI}/products/product/${productId}/like`, postData, {
-                    headers: {
-                        withCredentials: true,
-                    },
-                })
-                .then(res => {
-                    setLike(res.data);
-                })
-                .catch(err => {
-                    console.log(err);
-                });
-        }
     }, []);
 
     return (
@@ -100,7 +75,6 @@ const Item = () => {
                                 <button
                                     onClick={likeHandler}
                                     className={like ? 'like-btn liked' : 'like-btn'}
-                                    disabled={!sessionStorage.getItem('isLogin')}
                                 >
                                     {like ? <BsSuitHeartFill /> : <BsSuitHeart />}
                                     <span>

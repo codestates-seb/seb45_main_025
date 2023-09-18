@@ -1,28 +1,28 @@
 export const conceptStoryData = [
   {
-    title: "명장의 손",
-    tags: ["장인정신", "기술", "노하우"],
-    description: "명장은 손으로 말한다.",
-    image: require('../image/snack.png'),
-  }, {
-    title: "명장의 눈",
-    tags: ["트렌드를 읽는 눈"],
-    description: "명장은 눈으로 말한다.",
-    image: require('../image/jelly.png'),
-  }, {
     title: "명장의 땀",
     tags: ["노력"],
     description: "명장은 땀으로 말한다.",
     image: require('../image/jelly-bottle.png'),
   }, {
-    title: "명장의 주름",
-    tags: ["세월", "깊이", "고객", "1000년의 약속"],
-    description: "명장은 주름으로 말한다.",
-    image: require('../image/cookies.png'),
+    title: "Free Delivery",
+    tags: ["New", "Event", "Free"],
+    description: "Free Delivery On Your Town",
+    image: require('../image/Post1.jpeg'),
   }, {
-    title: "명장의 신념",
-    tags: ["철학", "기술나눔", "사회공헌"],
-    description: "명장은 신념으로 말한다.",
-    image: require('../image/jelly3.png'),
+    title: "BLACK FRIDAY SALE",
+    tags: ["BLACK FRIDAY", "Event", "UP TO 50% OFF"],
+    description: "Black Friday Event",
+    image: require('../image/Post2.jpeg'),
+  }, {
+    title: "HAPPY HALLOWEEN SALE",
+    tags: ["HALLOWEEN", "Event", "UP TO 50% OFF"],
+    description: "Happy Halloween Event",
+    image: require('../image/Post3.avif'),
+  }, {
+    title: "Happy CHUSEOK SALE",
+    tags: ["CHUSEOK", "Event", "UP TO 50% OFF"],
+    description: "Happy Chuseok Event",
+    image: require('../image/Post4.jpeg'),
   }
 ]

@@ -89,9 +89,9 @@ export const ContentBox = styled.div`
     }
   }
   @media (max-width: 930px) {
-    width: calc((100% - 40px) / 3);
+    width: calc((100% - 5vw) / 3);
     &:nth-of-type(4n) {
-      margin-right: 20px;
+      margin-right: 0;
     }
     &:nth-of-type(3n) {
       margin-right: 0;

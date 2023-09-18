@@ -5,8 +5,8 @@ export default function MainImage() {
   return (
     <MainImageContainer backgroundImage={`url(${mainImg})`}>
       <div>
-        <p>뭐라고 쓸지</p>
-        <p>생각 중</p>
+        <p>WELCOME</p>
+        <p>TO</p>
         <strong>KOREAN</strong>
         <strong>SNACKS</strong>
       </div>
