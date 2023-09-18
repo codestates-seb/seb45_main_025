@@ -17,8 +17,8 @@ export default function MainProducts() {
         <MainCategoryCard img={SnackImage} type='Snacks' />
         <MainCategoryCard img={CookiesImage} type='Cookies' />
         <MainCategoryCard img={ChocolateImage} type='Chocolate' />
-        <MainCategoryCard img={CandyImage} type='Candy' />
         <MainCategoryCard img={JellyImage} type='Jelly' />
+        <MainCategoryCard img={CandyImage} type='Candy' />
       </CardContainer>
     </MainProductsContainer>
   )

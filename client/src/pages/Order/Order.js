@@ -123,9 +123,8 @@ export default function Order() {
 
   return (
     <OrderPageContainer>
-      <BackgroundImage imgSrc={Background} title='ACCOUNT' />
+      <BackgroundImage imgSrc={Background} title='ORDER' />
       <OrderContainer>
-        <div className='title'>ORDER</div>
         <FlexBox>
           <LeftBox>
             <FormContainer>
