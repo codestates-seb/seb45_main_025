@@ -22,12 +22,13 @@ import OrderFail from './pages/OrderFail/OrderFail';
 import OrderSuccess from './pages/OrderSuccess/OrderSuccess';
 import OauthLoading from './pages/LoadingOauth/LoadingOauth';
 import MyPageEditOauth from './pages/MyPageEditOauth/MyPageEditOauth'
-import  MyWriting from './pages/MyWriting/MyWriting';
+import MyWriting from './pages/MyWriting/MyWriting';
 import Snacks from './pages/Category/Snacks/Snacks';
 import Jelly from './pages/Category/Jelly/Jelly';
 import Candy from './pages/Category/Candy/Candy';
 import Chocolate from './pages/Category/Chocolate/Chocolate';
 import Cookies from './pages/Category/Cookies/Cookies';
+
 
 function App() {
   return (

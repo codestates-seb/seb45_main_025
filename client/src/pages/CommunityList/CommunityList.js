@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import ReactPaginate from "react-paginate";
-import {
-  FcFilledFilter
-} from "react-icons/fc";
+// import {
+//   FcFilledFilter
+// } from "react-icons/fc";
 
 import {
   Container,
@@ -18,7 +18,10 @@ import {
   PaginationContainer,
   PostButton,
   Filter,
-
+  StyledButton,
+  DropdownContent,
+  SearchContainer,
+  SearchButton
 } from './CommunityList.styled';
 
 
@@ -31,15 +34,18 @@ function CommunityList() {
   const [totalPages, setTotalPages] = useState(1);
   const [totalElements, setTotalElements] = useState(0);
   const [searchTerm, setSearchTerm] = useState('');
-
-
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false); // 상태 이름 수정
+  const handleSearchClick = () => {
+    // SearchButton를 클릭했을 때 검색 실행
+    fetchData();
+  };
   const handlePageClick = (selectedPage) => {
     setCurrentPage(selectedPage.selected + 1);
   };
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
-    setCurrentPage(1);
+
   };
 
   const navigate = useNavigate();
@@ -75,6 +81,15 @@ function CommunityList() {
     return date.toLocaleDateString(undefined, options);
   }
 
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+  const handleInputKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      fetchData();
+    }
+  };
 
   return (
     <Container>
@@ -83,9 +98,17 @@ function CommunityList() {
 
       <PostButtonContainer>
         <Filter>
-          <FcFilledFilter style={{ fontSize: '23px', cursor: 'pointer' }} />
-
-
+          <StyledButton onClick={toggleDropdown}>filter</StyledButton>
+          {isDropdownOpen && (
+            <>
+              <DropdownContent>
+                <button type="button">latest</button>
+                <button type="button">oldest</button>
+                <button type="button">view</button>
+                <button type="button">항목 4</button>
+              </DropdownContent>
+            </>
+          )}
         </Filter>
       </PostButtonContainer>
 
@@ -103,7 +126,7 @@ function CommunityList() {
         >
           <ListItemTitle>
             {(totalElements - (currentPage - 1) * 10) - index}
-            . {item.title} [{item.countComment}]
+            . {item.title.length > 30 ? `${item.title.slice(0, 30)}...` : item.title} [{item.countComment}]
           </ListItemTitle>
           <Link to={`/CommunityBoard/${item.boardID}`}></Link>
           <ListItemDetails>
@@ -115,12 +138,18 @@ function CommunityList() {
       <PostButtonContainer>
         <PostButton onClick={navigateToWritePost}>Post</PostButton>
       </PostButtonContainer>
-      <Input
-        type="text"
-        value={searchTerm}
-        onChange={handleSearchChange}
-        placeholder="검색어를 입력하세요"
-      />
+      <SearchContainer>
+        <Input
+          type="text"
+          value={searchTerm}
+          onChange={handleSearchChange}
+          placeholder="검색어를 입력하세요"
+          onKeyDown={handleInputKeyPress}
+        />
+        <SearchButton onClick={handleSearchClick}>Search</SearchButton>
+      </SearchContainer>
+
+
       <PaginationContainer>
         <ReactPaginate
           previousLabel="<"
