@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import { styled } from 'styled-components';
 
 export const Container = styled.div`
   height: 100vh;
@@ -9,34 +9,32 @@ export const Container = styled.div`
   align-items: center;
 `;
 
-export const Line = styled.div`
-  height: 2px;
-  width: 40px;
-  background-color: #FFA500;
-  z-index: 2;
-  margin-top: 150px;
-`;
+export const BackgroundImageContainer = styled.div`
+  width: 100vw;
+  height: 25rem;
+  background-image: ${({ backgroundImage }) => backgroundImage};
+  background-size: cover;
+  background-position: center 20%;
 
-export const Title = styled.div`
-  height: 70px;
-  width: 300px;
-  background-color: white;
-  z-index: 1;
+  color: white;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  font-weight: bold;
-  padding-bottom: 40px;
-  padding-top: 35px;
-  font-size: 2.5rem;
+  font-size: 3.5rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+  font-weight: 1000;
+  letter-spacing: 3px;
+  padding-top: 3rem;
+  padding-bottom: 5rem;
+  margin-bottom: 2rem;
 `;
 
 export const Input = styled.input`
-  width: 220px;
+  height: 2.8rem;
+  width: 15rem;
   margin-bottom: 10px;
   padding: 5px;
-  margin-top: 15px;
+  margin-top: 2rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -50,20 +48,32 @@ export const ListItem = styled.div`
   width: 1000px;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  text-align: left;
   border: 1px solid gray;
   
 `;
 
-
-export const ListItemTitle = styled.div`
-  font-size: 1.2rem;
-  font-weight: bold;
+export const ListItemNumber = styled.div`
+  font-size: 1rem;
+  font-weight: 1px;
   cursor: pointer;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+`;
 
+export const ListItemTitle = styled.div`
+  font-size: 1.5rem;
+  font-weight: 2px;
+  align-content: center;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+
+export const ListItemComment = styled.div`
+  font-size: .7rem;
 `;
 
 export const ListItemDetails = styled.div`
@@ -120,9 +130,9 @@ export const PaginationContainer = styled.div`
 `;
 
 export const PostButton = styled.button`
-  width: 50px;
-  height: 30px;
-  background: var(--brown-10);
+  width: 70px;
+  height: 40px;
+  background: var(--brown-20);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -163,15 +173,14 @@ export const Filter = styled.div`
 
 
 export const SearchButton = styled.button`
-  width: 70px;
+  width: 5rem;
   background: var(--brown-20);
-  height: 30px;
-  margin-top: 5px;
-  border-radius: 8px;
-  margin-left: 5px;
+  border: .1px solid black;
+  height: 2.8rem;
+  margin-top: 1.45rem;
+  margin-left: .5rem;
   text-align: center;
- 
-  `
+ `;
 
 
 
@@ -185,7 +194,7 @@ export const DropdownContainer = styled.div`
 export const DropdownButton = styled.div`
   cursor: pointer;
   padding: 8px 12px;
-  background-color: #f2f2f2;
+  background-color: var(--brown-30);
   border: 1px solid #ccc;
   border-radius: 4px;
   display: flex; /* 가로 정렬을 위해 flex 레이아웃 사용 */

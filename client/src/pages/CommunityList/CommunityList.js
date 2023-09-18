@@ -180,8 +180,6 @@ import ReactPaginate from "react-paginate";
 import { PiFunnel } from 'react-icons/pi';
 import {
   Container,
-  Line,
-  Title,
   Input,
   ListItem,
   PostButtonContainer,
@@ -196,9 +194,13 @@ import {
   DropdownButton,
   DropdownOptions,
   DropdownOption,
-  Icon
+  Icon,
+  ListItemNumber,
+  BackgroundImageContainer,
+  ListItemComment
 
 } from './CommunityList.styled';
+import CommunityBack from '../../common/image/CommunityBack.webp';
 
 function CommunityList() {
   const URI = process.env.REACT_APP_API_URL;
@@ -273,10 +275,21 @@ function CommunityList() {
   };
 
   return (
+    <>
+    <BackgroundImageContainer backgroundImage={`url(${CommunityBack})`}>
+        Community
+      </BackgroundImageContainer>
     <Container>
-      <Line />
-      <Title>Community</Title>
-
+    <SearchContainer>
+        <Input
+          type="text"
+          value={searchTerm}
+          onChange={(event) => handleSearchChange(event)}
+          placeholder=""
+          onKeyDown={(event) => handleInputKeyPress(event)}
+        />
+        <SearchButton onClick={handleSearchClick}>Search</SearchButton>
+      </SearchContainer>
       <PostButtonContainer>
         <Filter>
           <DropdownContainer>
@@ -288,7 +301,7 @@ function CommunityList() {
             </DropdownButton>
             {isDropdownOpen && (
               <DropdownOptions>
-                {['Latest', 'Oldest', 'Popular', 'MostCommented'].map((type) => (
+                {['latest', 'oldest', 'popular', 'mostCommented'].map((type) => (
                   <DropdownOption
                     key={type}
                     onClick={() => handleSortTypeChange(type)}
@@ -314,13 +327,14 @@ function CommunityList() {
             }
           }}
         >
+          <ListItemNumber>{(totalElements - (currentPage - 1) * 10) - index}.</ListItemNumber>
           <ListItemTitle>
-            {(totalElements - (currentPage - 1) * 10) - index}
-            . {item.title.length > 30 ? `${item.title.slice(0, 30)}...` : item.title} [{item.countComment}]
+            {item.title.length > 30 ? `${item.title.slice(0, 30)}...` : item.title}
           </ListItemTitle>
+          <ListItemComment>Comments: {item.countComment}</ListItemComment>
           <Link to={`/CommunityBoard/${item.boardID}`}></Link>
           <ListItemDetails>
-            작성자: {item.author} | 작성일: {formatDate(item.createAt)} | 조회수: {item.view}
+            Author: {item.author} | Date: {formatDate(item.createAt)} | Views: {item.view}
           </ListItemDetails>
         </ListItem>
       ))}
@@ -328,17 +342,6 @@ function CommunityList() {
       <PostButtonContainer>
         <PostButton onClick={navigateToWritePost}>Post</PostButton>
       </PostButtonContainer>
-      <SearchContainer>
-        <Input
-          type="text"
-          value={searchTerm}
-          onChange={(event) => handleSearchChange(event)}
-          placeholder="검색어를 입력하세요"
-          onKeyDown={(event) => handleInputKeyPress(event)}
-        />
-        <SearchButton onClick={handleSearchClick}>Search</SearchButton>
-      </SearchContainer>
-
       <PaginationContainer>
         <ReactPaginate
           previousLabel="<"
@@ -355,6 +358,7 @@ function CommunityList() {
         />
       </PaginationContainer>
     </Container>
+    </>
   );
 }
 

@@ -1,9 +1,7 @@
 import styled from "styled-components";
 
-
-
 export const CommunityBoardContainer = styled.div`
-    height: 100vh;
+    /* height: 100vh; */
     background-color: white;
     display: flex;
     flex-direction: column;
@@ -258,30 +256,33 @@ export const UserPicture = styled.div`
 `;
 
 export const ComuComment = styled.div`
-    height: 100px;
+    /* height: 100px; */
     width: 900px;
-    padding: 10px;
+    /* padding: 10px; */
     padding-top: 5px;
-    background-color: seashell;
+    /* background-color: seashell; */
+    border: 1px solid var(--gray-10);
     margin: 0 auto;
     display: flex;
-    align-items: center;
+    flex-direction: column;
 
-    > :not(:last-child) {
+    /* > :not(:last-child) {
         margin-right: 10px;
-    }
+    } */
 `;
 
 export const ComuCommentWriting = styled.div`
-height: 100px;
+/* height: 100px; */
 width: 900px;
 padding: 10px;
-padding-top: 15px;
-background-color: seashell;
-margin: 0 auto;
-margin-top: 100px;
+/* padding-top: 15px; */
+/* background-color: seashell; */
+/* margin: 0 auto; */
+/* margin-top: 100px; */
+
 display: flex;
 align-items: center;
+justify-content: center;
 
 
 > :not(:last-child) {
@@ -303,4 +304,3 @@ export const ComuCommentpost = styled.div`
         margin-right: 10px;
     }
 `;
-
