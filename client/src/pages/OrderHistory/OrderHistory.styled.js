@@ -1,13 +1,13 @@
 import { styled } from 'styled-components';
 
-export const OrderListPageContainer = styled.div`
+export const OrderHistoryPageContainer = styled.div`
   width: 100vw;
   display: flex;
   flex-direction: column;
   align-items: center;
 `;
 
-export const OrderListContainer = styled.div`
+export const OrderHistoryContainer = styled.div`
   height: 100vh;
   padding: 5rem;
   

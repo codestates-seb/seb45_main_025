@@ -17,4 +17,11 @@ export const MainNewProductsContainer = styled.div`
     margin-bottom: 4rem;
     padding-left: 2rem;
   }
+
+  .flex-row {
+    width: 70%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
 `;

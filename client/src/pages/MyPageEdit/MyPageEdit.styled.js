@@ -18,6 +18,9 @@ export const MyPageEditMain = styled.div`
       margin-bottom: 1.7rem;
     }
   }
+  .star{
+    color: red;
+  }
 `
 
 export const MyPageEditImg = styled.div`
@@ -108,6 +111,9 @@ export const MyPageGender = styled.div`
   fieldset{
     border: none;
     margin-left: 20px;
+  }
+  label{
+    display: inline;
   }
 `
 export const MyPageDateOfBirth = styled.div`

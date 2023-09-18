@@ -26,12 +26,13 @@ export default function MyPageEdit(){
   const [emailFront, setEmailFront] = useState('');
   const [emailBack, setEmailBack] = useState('');
   const [passWord, setPassWord] = useState('');
-  const [passWordCheck, setpassWordCheck] = useState(false);
-  const [passWordDoubleCheck, setPassWordDoubleCheck] = useState('');
+  const [passWordCheck, setpassWordCheck] = useState(undefined);
+  const [passWordDoubleCheck, setPassWordDoubleCheck] = useState(undefined);
   const passwordform = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
   const [wrong, setWrong] = useState('');
   const navigate = useNavigate();
   const URI = process.env.REACT_APP_API_URL;
+  const [now, setNow] = useState('');
 
   function imgupload(e){
     if(e.target.value !==''){
@@ -47,6 +48,7 @@ export default function MyPageEdit(){
       axios.patch(`${URI}/mypage/pofileImage`,formData,{ headers: {Authorization: access_token,'Content-Type': 'multipart/form-data'}}
       )
       .then((res)=>{
+        console.log('ji')
         console.log(res.data.originalFileName, res.data.saveFileName)
       }).catch((res)=>{
         console.log(res)
@@ -60,7 +62,7 @@ export default function MyPageEdit(){
     if (del){
       console.log("계정 삭제")
       let access_token = getAccessToken();
-      axios.delete(`${URI}/users/delete`,{ headers: {Authorization: access_token} })
+      axios.delete(`${URI}/users/delete/1`,{ headers: {Authorization: access_token} })
       .then((res)=>{
         console.log(res);
         localStorage.clear()
@@ -73,12 +75,21 @@ export default function MyPageEdit(){
   }
 
   useEffect(() => {
+    let nowDate = new Date();
+    let year = nowDate.getFullYear();
+    let month = nowDate.getMonth()+1;
+    let date = nowDate.getDate();
+    if (month < 10){
+      month = '0'+String(month);
+    }
+    setNow(`${year}-${month}-${date}`)
     setMyImg(null);
     let access_token = getAccessToken();
     console.log(access_token);
     axios.get(`${URI}/mypage`,{ headers: {Authorization: access_token} })
     .then((res)=>{
       console.log(res);
+      setMyImg(res.data.saveFileName);
       setName(res.data.name);
       setNickName(res.data.nickName)
       setGender(res.data.gender);
@@ -92,18 +103,8 @@ export default function MyPageEdit(){
   },[]);
 
   function submitsignup(){
-    if(name === ''){
-      setWrong("'Name' is Empty");
-    }else if(nickName === ''){
+    if(nickName === ''){
       setWrong("'NickName' is Empty");
-    }else if(gender === ''){
-      setWrong("'Gender' is not selected");
-    }else if(birth === ''){
-      setWrong("'Date of birth' is Empty");
-    }else if(address === ''){
-      setWrong("'Home Adress' is Empty");
-    }else if(phoneNumber === ''){
-      setWrong("'Tel' is Empty");
     }else if(emailFront === '' || emailBack === ''){
       setWrong("'Email' is Empty");
     }else if(passWordCheck === false || passWord !== passWordDoubleCheck){
@@ -120,7 +121,7 @@ export default function MyPageEdit(){
         "email" : emailFront + '@' + emailBack,
         "password" : passWord
       },{ headers: {Authorization: access_token} })
-      .then((res)=>console.log(res))
+      .then(()=>navigate('/mypage'))
       .catch((res)=>console.log(res))
     }
     console.log(name,nickName,gender,birth,address,phoneNumber,emailFront,passWord)
@@ -131,7 +132,7 @@ export default function MyPageEdit(){
       <BackgroundImage imgSrc={chococookie} title='MY PAGE'/>
       <MyPageEditMain>
         <MyPageEditImg>
-          {myImg === null ? <img src={basicimg} alt='img' className='myimg'></img> : <img src={myImg} alt="img" className='myimg'></img>}
+          {myImg === null ? <img src={basicimg} alt='img' className='myimg'></img> :myImg.slice(0,4) === 'data' ? <img src={myImg}  alt="img" className='myimg'></img>: <img src={`${URI}/images/${myImg}`} alt="img" className='myimg'></img>}
           <label htmlFor="upload">
             <div className="btn-upload">select image</div>
           </label>
@@ -148,25 +149,25 @@ export default function MyPageEdit(){
             <input onChange={(e)=>setName(e.target.value)} value={name}></input>
           </MyPageEditName>
           <MyPageEditNickName>
-            <div>NickName</div>
+            <div><span className='star'>*</span>NickName</div>
             <input onChange={(e)=>setNickName(e.target.value)} value={nickName}></input>
           </MyPageEditNickName>
           <MyPageGender>
             <div>Gender</div>
             <fieldset>
               <div>
-                <input type='radio' value='male' id='male' name='gender' onClick={(e)=>setGender(e.target.value)}></input>
+                <input type='radio' value='male' id='male' name='gender' onClick={(e)=>setGender(e.target.value)} checked = {gender === 'male'? true: false}></input>
                 <label htmlFor="male" > Male</label>
               </div>
               <div>
-                <input type='radio' value='female' id='female' name='gender' onClick={(e)=>setGender(e.target.value)}></input>
+                <input type='radio' value='female' id='female' name='gender' onClick={(e)=>setGender(e.target.value)} checked = {gender === 'female'? true: false}></input>
                 <label htmlFor="female"> Female</label>
               </div>
             </fieldset>
           </MyPageGender>
           <MyPageDateOfBirth>
             <div>Date Of Birth</div>
-            <input type='date' onChange={(e)=>setBirth(e.target.value)} value={birth}></input>
+            <input type='date' max={now} onChange={(e)=>setBirth(e.target.value)} value={birth}></input>
           </MyPageDateOfBirth>
           <MyPageHomeAdress>
             <div>Home Adress</div>
@@ -177,7 +178,7 @@ export default function MyPageEdit(){
             <input type='tel' onChange={(e)=>setphoneNumber(e.target.value)} value={phoneNumber}></input>
           </MyPagePhoneNumber>
           <MyPageEmail>
-            <div>Email</div>
+            <div><span className='star'>*</span>Email</div>
             <input className='emailfront' onChange={(e)=>setEmailFront(e.target.value)} value={emailFront}></input>
             <p>@</p>
             <input className='emailback' value={emailBack} onChange={(e)=>setEmailBack(e.target.value)}></input>
@@ -191,19 +192,21 @@ export default function MyPageEdit(){
           </MyPageEmail>
           <MyPagePassword>
             <div className='password_input'>
-              <div className='passworddiv'>Password</div>
+              <div className='passworddiv'><span className='star'>*</span>Password</div>
               <input type='password' onChange={(e)=>{
                 setPassWord(e.target.value)
                 setpassWordCheck(passwordform.test(e.target.value));
                 console.log(passWordCheck,passWord,e.target.value)
                 }}></input>
             </div>
-            <div className='passwordcheck'>{passWordCheck ? '✅ valid password' : '❌ The password must be at least 8 characters and include English, numbers, and special characters.'}</div>
+            <div className='passwordcheck_logo'>{passWordCheck === undefined ? ' ' : passWordCheck ? '✅' : '❌' }
+            <div className='passwordcheck'> The password must be at least 8 characters and include English, numbers, and special characters.</div>
+            </div>
           </MyPagePassword>
           <MyPagePassWordDoubleCheck>
-            <div>confirm password</div>
+            <div><span className='star'>*</span>confirm password</div>
             <input type='password' onChange={(e)=>(setPassWordDoubleCheck(e.target.value))}></input>
-            <div className='passworddoublecheck'>{passWordDoubleCheck === passWord ? '✅ Your password matches' : '❌ Passwords do not match'}</div>
+            <div className='passworddoublecheck'>{passWordDoubleCheck === undefined ? ' ' : passWordDoubleCheck === passWord ? '✅ Your password matches' : '❌ Passwords do not match'}</div>
           </MyPagePassWordDoubleCheck>
         </div>
         <div className='what_wrong'>{wrong}</div>

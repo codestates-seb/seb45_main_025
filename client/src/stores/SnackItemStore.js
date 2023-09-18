@@ -5,6 +5,7 @@ const useSnackItemStore = create(set => ({
         id: '',
         productName: '',
         category: '',
+        img: '',
         content: '',
         productDescription: '',
         rawmaterial: '',
@@ -14,6 +15,8 @@ const useSnackItemStore = create(set => ({
         created_at: '',
         modified_at: '',
         likes: '',
+        bookmarked: '',
+        member: '',
     },
     setSnackItem: state => set(() => ({ snackItem: state})),
     setLikeIncrease: () => 

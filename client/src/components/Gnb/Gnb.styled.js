@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import { styled } from "styled-components";
 
 export const CustomLink = styled.div`
   text-decoration: none;

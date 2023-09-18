@@ -15,9 +15,9 @@ import {
     LikeWrap,
     TopContainer,
 } from './Item.styled';
-import Search from '../../components/Search/Search';
 import Review from "../../components/Review/Review";
 import { useSnackItemStore } from "../../stores/SnackItemStore";
+import AddCartItemBtn from "../../components/AddCartItemBtn/AddCartItemBtn";
 
 const Item = () => {
     const URI = process.env.REACT_APP_API_URL;
@@ -26,9 +26,9 @@ const Item = () => {
     const { userInfo } = useUserInfoStore(state => state);
     const { snackItem, setSnackItem, setLikeIncrease, setLikeDecrease } = useSnackItemStore(state => state);
     const location = useLocation();
-    const snackId = location.pathname.split('/')[2];
+    const snackId = location.pathname.split('/')[3];
     const tabArr = ['Information', 'Review'];
-    const productId = location.pathname.split('/')[2];
+    const productId = location.pathname.split('/')[3];
 
     const tabHandler = idx => {
         setCurTab(idx);
@@ -90,10 +90,9 @@ const Item = () => {
     return (
         <>
             <TopContainer>
-                <div>Product Detail</div>
+                Product Detail
             </TopContainer>
             <div className="bodywrap">
-                <Search />
                 <ItemWrap>
                     <ItemBox>
                         <ItemTitle>
@@ -114,7 +113,7 @@ const Item = () => {
                         </ItemTitle>
                         <ItemOverview>
                             <img
-                                src={snackItem.img}
+                                src={`${URI}${snackItem.img}`}
                                 alt={snackItem.productName}
                                 onError={handleImageError}
                             />
@@ -125,7 +124,7 @@ const Item = () => {
                                 </li>
                                 <li>
                                     <span>Price</span>
-                                    <div>{snackItem.productPrice}</div>
+                                    <div>₩ {snackItem.productPrice}</div>
                                 </li>
                                 <li>
                                     <span>Content</span>
@@ -149,6 +148,7 @@ const Item = () => {
                                     {item}
                                 </li>
                             ))}
+                            <AddCartItemBtn />
                         </Tab>
                         {curTab === 0 ? <ItemInfo /> : <Review />}
                     </ItemDetail>
