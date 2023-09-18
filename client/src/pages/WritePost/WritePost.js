@@ -16,6 +16,7 @@ import {
     EditorWrapper,
     PublishButtonContainer,
     PublishButton,
+    ImageInput
 } from './WritePost.styled';
 
 const Editor = ({ placeholder, value, onChange }) => {
@@ -75,9 +76,10 @@ Editor.propTypes = {
 
 function WritePost() {
     const URI = process.env.REACT_APP_API_URL;
-
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
+    const [myImg, setMyImg] = useState([]);
+    const [myImgPost, setMyImgPost] = useState([]);
     const handleContentChange = (newContent) => {
         setContent(newContent);
     };
@@ -93,8 +95,9 @@ function WritePost() {
             const formData = new FormData();
             formData.append("title", title);
             formData.append("content", content);
-
-
+            for (let i = 0; i < myImgPost.length; i++){
+                formData.append("images", myImgPost[i]);
+            }
             const response = await axios.post(`${URI}/board`, formData, {
                 headers: {
                     Authorization: access_token,
@@ -102,14 +105,23 @@ function WritePost() {
                 },
             });
 
-            console.log('백엔드 응답:', response.data);
+            console.log('백엔드 응답:', response);
             navigate('/CommunityList');
         } catch (error) {
             console.error('에러 발생:', error);
         }
     };
-
-
+    
+    async function imgupload(e){
+        if(e.target.value !==''){
+          const reader = new FileReader();
+          reader.onload = (e) => {	
+            setMyImg([...myImg,e.target.result]); // 파일의 컨텐츠
+          };
+          reader.readAsDataURL(e.target.files[0]);
+          setMyImgPost([...myImgPost,e.target.files[0]])
+      }
+    }
     return (
         <Container>
             <Line />
@@ -136,12 +148,18 @@ function WritePost() {
                                     [{ header: [1, 2, 3, false] }],
 
                                 ],
-
                             },
                         }
                         }
                     />
                 </EditorWrapper>
+                <ImageInput>
+                {myImg.map((ele)=><img key={ele} src={ele} alt='img'/>)}
+                <label htmlFor="upload">
+                <div className="btn-upload">select image</div>
+                </label>
+                <input type="file" name="image" id="upload" accept="image/*" onChange={(e)=>imgupload(e)} />
+                </ImageInput>
             </EditorContainer>
             <PublishButtonContainer>
                 <PublishButton
