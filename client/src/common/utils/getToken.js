@@ -20,6 +20,7 @@ export default function getAccessToken(){
       console.log(exp,now)
       return access_token
     }else{
+      console.log(exp,now)
       const URI = process.env.REACT_APP_API_URL;
       console.log(`Bearer ${refresh_token}`)
       axios.post(`${URI}/token/refresh`,{}, {headers: {
@@ -31,7 +32,7 @@ export default function getAccessToken(){
         access_token = localStorage.getItem('access_token');
         return access_token
       })
-      .catch((res)=>console.log(res))
+      .catch(()=>localStorage.clear())
     }
   }   
 console.log(access_token)
