@@ -21,6 +21,14 @@ import OrderCheckout from './pages/OrderCheckout/OrderCheckout';
 import OrderFail from './pages/OrderFail/OrderFail';
 import OrderSuccess from './pages/OrderSuccess/OrderSuccess';
 import OauthLoading from './pages/LoadingOauth/LoadingOauth';
+import MyPageEditOauth from './pages/MyPageEditOauth/MyPageEditOauth'
+import  MyWriting from './pages/MyWriting/MyWriting';
+import Snacks from './pages/Category/Snacks/Snacks';
+import Jelly from './pages/Category/Jelly/Jelly';
+import Candy from './pages/Category/Candy/Candy';
+import Chocolate from './pages/Category/Chocolate/Chocolate';
+import Cookies from './pages/Category/Cookies/Cookies';
+
 function App() {
   return (
     <AppContainer>
@@ -35,10 +43,17 @@ function App() {
         <Route path="/signup/select" element={<SignUpSelect />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/mypage/edit" element={<MyPageEdit />} />
+        <Route path='/mywriting' element={<MyWriting />} />
+        <Route path="/mypage/editoauth" element={<MyPageEditOauth />} />
         <Route path="/signup/oauth" element={<SignUpOauth />} />
         <Route path="/loading" element={<OauthLoading />} />
         <Route path="/products/get/:productId" element={<Item />} />
         <Route path="/list" element={<List />} />
+        <Route path="/Snacks" element={<Snacks />} />
+        <Route path="/Cookies" element={<Cookies />} />
+        <Route path="/Chocolate" element={<Chocolate />} />
+        <Route path="/Candy" element={<Candy />} />
+        <Route path="/Jelly" element={<Jelly />} />
         <Route path='/CommunityList' element={<CommunityList />} />
         <Route path='/WritePost' element={<WritePost />} />
         <Route path='/CommunityBoard/:boardId' element={<CommunityBoard />} />

@@ -6,6 +6,7 @@ export const GlobalStyle = createGlobalStyle`
     --brown-50: #2b2821;
     --brown-10: #bd8961;
     --brown-20: #b39076;
+    --brown-30: #f7f2e0;
     --white: #ffffff;
     --black: #000000;
     --black-10: #0000001a;
