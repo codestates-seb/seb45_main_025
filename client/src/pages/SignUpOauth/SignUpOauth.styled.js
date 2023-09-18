@@ -38,6 +38,9 @@ export const SignUpMain = styled.div`
   .what_wrong{
     height: 50px;
   }
+  .optional{
+    font-size: 1rem;
+  }
 `
 
 export const SignUpName = styled.div`
@@ -62,6 +65,9 @@ export const SignUpGender = styled.div`
   fieldset{
     border: none;
     margin-left: 20px;
+  }
+  label{
+    display: inline;
   }
 `
 
@@ -102,9 +108,12 @@ export const SignUpPhoneNumber = styled.div`
   }
 `
 
-export const SignUpSubmit =styled.div`
+export const SignUpSubmit =styled.button`
   border: 1px solid var(--gray-10);
   padding: 5px;
   border-radius: 5px;
+  &:hover{
+    background-color: var(--gray-10);
+  }
 `
 

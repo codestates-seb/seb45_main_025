@@ -22,17 +22,13 @@ export const MyPageMain = styled.div`
   .what_wrong{
     height: 50px;
   }
-`
-
-export const MyPageImg = styled.div`
-  .myimg{
-    border-radius: 100%;
-    width: 100px;
-    height: 100px;
+  .mypagebtns{
+    display: flex;
+    flex-direction: row;
   }
 `
 
-export const ChangeAccountBtn = styled.button`
+export const MyOrder = styled.button`
   margin-left: 50vw;
   border: 1px solid var(--gray-10);
   border-radius: 5px;
@@ -51,6 +47,56 @@ export const ChangeAccountBtn = styled.button`
   &:hover{
       background-color: var(--gray-10);;
     }
+`
+
+export const MyWriting = styled.button`
+  margin-left: 0.1rem;
+  border: 1px solid var(--gray-10);
+  border-radius: 5px;
+  padding: 0.3rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 2rem;
+  font-size: 0.9rem;
+  > img{
+    width: 1.2rem;
+  }
+  > p{
+    font-size: 0.8rem;
+  } 
+  &:hover{
+      background-color: var(--gray-10);;
+    }
+`
+
+export const ChangeAccountBtn = styled.button`
+  margin-left: 0.1rem;
+  border: 1px solid var(--gray-10);
+  border-radius: 5px;
+  padding: 0.3rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 2rem;
+  font-size: 0.9rem;
+  > img{
+    width: 1.2rem;
+  }
+  > p{
+    font-size: 0.8rem;
+  } 
+  &:hover{
+      background-color: var(--gray-10);;
+    }
+`
+
+export const MyPageImg = styled.div`
+  .myimg{
+    border-radius: 100%;
+    width: 100px;
+    height: 100px;
+  }
 `
 
 export const MyPageName = styled.div`

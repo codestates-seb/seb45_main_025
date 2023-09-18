@@ -41,6 +41,9 @@ export const SignUpMain = styled.div`
   .what_wrong{
     height: 50px;
   }
+  .star{
+    color: red;
+  }
 `
 export const SignUpName = styled.div`
   display: flex;
