@@ -33,9 +33,9 @@ const Scroll = ({
               .then(res => {
                 setTotalPageCount(res.data.pageInfo.totalPages);
                 if (page === 1) {
-                    setPins(() => [...res.data.data]);
+                    setPins(() => [...res.data.content]);
                 } else {
-                    setPins(prev => [...prev, ...res.data.data]);
+                    setPins(prev => [...prev, ...res.data.content]);
                 }
                 setLoading(!(page === res.data.pageInfo.totalPages));
               })
@@ -51,7 +51,7 @@ const Scroll = ({
                     if (page === 1) {
                         setPins(() => [...res.data.data]);
                     } else {
-                        setPins(prev => [...prev, ...res.data.data]);
+                        setPins(prev => [...prev, ...res.data.content]);
                     }
                     setLoading(!(page === res.data.pageInfo.totalPages));
                 }
