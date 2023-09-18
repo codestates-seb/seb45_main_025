@@ -14,7 +14,7 @@ export default function OrderFail() {
         <h1>FAILED</h1>
         <div><AlertIcon /> This payment method is not supported.</div>
         <div>
-          <Link to={`${window.location.origin}/cart`}>
+          <Link to={`${window.location.origin}/cart`} onClick={() => scrollTo(0, 0)}>
             <button>Try Again</button>
           </Link>
         </div>

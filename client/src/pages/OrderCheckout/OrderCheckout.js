@@ -72,14 +72,14 @@ export default function OrderCheckout() {
 
   return (
     <>
-      <BackgroundImage imgSrc={snackImg} title='ACCOUNT' />
+      <BackgroundImage imgSrc={snackImg} title='PAYMENT' />
       <OrderCheckoutContainer>
-        <h1>PAYMENT</h1>
+        {/* <h1>PAYMENT</h1> */}
+        <h1>Payment Amount: {`${subtotalPrice.toLocaleString()}`}</h1>
         <div className='alert'>
           <AlertIcon />
           This is a test payment. No actual payment will be processed.
         </div>
-        <span>&#8361; {`${subtotalPrice.toLocaleString()}`}</span>
         {/* <div> */}
         {/* <label>
             <input

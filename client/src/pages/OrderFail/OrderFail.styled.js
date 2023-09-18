@@ -11,7 +11,7 @@ export const OrderFailContainer = styled.div`
     font-weight: 900;
     letter-spacing: 5px;
     font-size: 40px;
-    margin: 2rem 0 11rem 0;
+    margin: 2rem 0 5rem 0;
   }
 
   div {
@@ -31,7 +31,7 @@ export const OrderFailContainer = styled.div`
     padding: 0.5rem 1rem;
     font-size: 1rem;
     font-weight: 200;
-    margin-top: 14rem;
+    margin-top: 3rem;
   }
 
   button:hover {

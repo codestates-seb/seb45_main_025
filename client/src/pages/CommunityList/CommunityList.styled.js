@@ -161,22 +161,6 @@ export const Filter = styled.div`
 
 `;
 
-export const StyledButton = styled.button`
-  position: relative;
-  display: inline-block;
-`;
-
-export const DropdownContent = styled.div`
-  display: none;
-  position: absolute;
-  background-color: #f9f9f9;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-  z-index: 1;
-  ${StyledButton}:hover & {
-    display: block;
-  }
-`;
 
 export const SearchButton = styled.button`
   width: 70px;
@@ -188,3 +172,52 @@ export const SearchButton = styled.button`
   text-align: center;
  
   `
+
+
+
+export const DropdownContainer = styled.div`
+  position: relative;
+  display: inline-block;
+  font-family: Arial, sans-serif;
+  padding-bottom: 15px;
+`;
+
+export const DropdownButton = styled.div`
+  cursor: pointer;
+  padding: 8px 12px;
+  background-color: #f2f2f2;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  display: flex; /* 가로 정렬을 위해 flex 레이아웃 사용 */
+  align-items: center; /* 세로 가운데 정렬 */
+  justify-content: center; /* 가로 가운데 정렬 */
+
+`;
+
+export const DropdownOptions = styled.div`
+  position: absolute;
+  top: 100%;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  
+`;
+
+export const DropdownOption = styled.div`
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: #e0e0e0;
+  }
+  
+`;
+export const Icon = styled.div`
+  padding-right: 10px;
+  padding-top: 3px;
+`;
