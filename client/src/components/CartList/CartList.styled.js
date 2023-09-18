@@ -16,7 +16,6 @@ export const CartListContainer = styled.div`
   }
 
   .subtotal-price span {
-    /* color: var(--brown-10); */
     font-weight: 200;
     padding-right: 8px;
     padding-bottom: 3px;
@@ -66,8 +65,8 @@ export const CartTable = styled.div`
   }
 
   img {
-    width: 3rem;
-    height: 4rem;
+    width: 2.5rem;
+    height: 3.5rem;
     margin: 0 1rem;
   }
 

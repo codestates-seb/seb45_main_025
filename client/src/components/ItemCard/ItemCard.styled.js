@@ -3,7 +3,7 @@ import { styled } from 'styled-components';
 export const ItemCardContainer = styled.div`
   img {
     width: 12rem;
-    height: 16rem;
+    height: 16rem; 
   }
 
   .product-info {
@@ -14,6 +14,7 @@ export const ItemCardContainer = styled.div`
     /* text-align: center; */
     font-weight: 600;
     color: var(--gray-90);
+    font-size: 1.2rem;
   }
 
   .product-price {

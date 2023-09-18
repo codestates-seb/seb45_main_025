@@ -100,10 +100,10 @@ export default function Order() {
     setInputAddressMsg('');
     setInputPhoneMsg('');
     if (!isInputValid) {
-      window.scroll(0, 850);
+      window.scroll(0, 870);
     }
     if (!inputName) {
-      setInputNameMsg(`Please Enter the recipint's name`);
+      setInputNameMsg(`Please enter the recipint's name`);
       inputNameRef.current.focus();
       return;
     } else if (!inputAddress) {
@@ -201,7 +201,7 @@ export default function Order() {
               <FormCotents>
                 {selectedItems.map((item) => (
                   <div key={item.product.id} className='order-list'>
-                    <img src={item.product.img} alt='' />
+                    <img src={`${apiUrl}${item.product.img}`} alt='' />
                     <div className='flex-grow'>
                       <div className='flex-row'>
                         <div className='product-name'>{item.product.productName}</div>

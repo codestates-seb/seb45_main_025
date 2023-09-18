@@ -89,7 +89,7 @@ export default function CartItem({ item }) {
       </td>
       <td className='name'>
         <Link to={`/products/${item.product.id}`}>
-          <img src={item.product.img} alt='' />
+          <img src={`${apiUrl}${item.product.img}`} alt='' />
           {item.product.productName}
         </Link>
       </td>

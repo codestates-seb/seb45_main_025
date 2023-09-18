@@ -7,7 +7,7 @@ import Login from './pages/Login/Login';
 import SignUp from './pages/SignUp/SignUp';
 import Cart from './pages/Cart/Cart';
 import Order from './pages/Order/Order';
-import OrderList from './pages/OrderList/OrderList';
+import OrderHistory from './pages/OrderHistory/OrderHistory';
 import SignUpSelect from './pages/SignUpSelect/SignUpSelect';
 import MyPage from './pages/MyPage/MyPage';
 import MyPageEdit from './pages/MyPageEdit/MyPageEdit'
@@ -31,7 +31,7 @@ function App() {
         <Route path="/" element={<Main />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/order" element={<Order />} />
-        <Route path="/order-list" element={<OrderList />} />
+        <Route path="/order-history" element={<OrderHistory />} />
         <Route path="/signup/select" element={<SignUpSelect />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/mypage/edit" element={<MyPageEdit />} />
