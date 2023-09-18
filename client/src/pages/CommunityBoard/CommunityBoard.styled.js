@@ -38,20 +38,21 @@ export const CommunityH = styled.div`
 export const PostBox = styled.div`
     height: 700px;
     width: 1000px;
-    background-color: gray;
+    background-color: white;
     overflow-y: auto;
 `;
 
 export const PostTitleBox = styled.div`
-    height: 100px;
+    height: 80px;
     width: 900px;
     padding: 10px;
     padding-top: 5px;
-    background-color: blue;
+    background-color: #CBAC9B;
     margin: 0 auto;
     margin-top: 1.5vh;
     display: flex;
     align-items: center;
+    
     
 `;
 export const PostUserBox = styled.div`
@@ -91,13 +92,13 @@ export const PostBoard = styled.div`
     width: 900px;
     padding: 10px;
     padding-top: 5px;
-    background-color: green;
+    background-color: white;
     overflow-y: auto;
     margin: 0 auto;
     margin-bottom: 20px;
 `;
 
-export const PostCorrection = styled.div`
+export const PostCorrection = styled.button`
     height: 30px;
     width: 60px;
     display: flex;
@@ -110,7 +111,7 @@ export const PostCorrection = styled.div`
     margin-right: 10px;
 `;
 
-export const PostDelete = styled.div`
+export const PostDelete = styled.button`
     height: 30px;
     width: 60px;
     display: flex;
@@ -125,7 +126,7 @@ export const PostDelete = styled.div`
 
 
 
-export const CommunityCommentCorrection = styled.div`
+export const CommunityCommentCorrection = styled.button`
     height: 30px;
     width: 60px;
     display: flex;
@@ -138,7 +139,7 @@ export const CommunityCommentCorrection = styled.div`
     margin-right: 10px;
 `;
 
-export const CommunityCommentDelete = styled.div`
+export const CommunityCommentDelete = styled.button`
     height: 30px;
     width: 60px;
     display: flex;
@@ -157,11 +158,11 @@ export const CommunityCommentBox = styled.div`
     width: 1000px;
     padding: 10px;
     padding-top: 5px;
-    background-color: orange;
+    background-color: white;
     overflow-y: auto;
     margin: 0 auto;
     margin-bottom: 20px;
-    overflow-y: auto;
+    
 `;
 
 // export const MenuIcon1 = styled.div`
@@ -183,11 +184,12 @@ export const MenuIcon1 = styled.div`
     justify-content: center;
     flex-direction: column;
     align-items: center;
-    background-color: yellow;
+    background-color: burlywood;
     margin-left: auto;
     margin-top: 6px;
     padding-bottom: 2px;
     margin-right: 10px;
+    border-radius: 15px;
     
    
     svg {
@@ -202,12 +204,13 @@ export const MenuIcon2 = styled.div`
     justify-content: center;
     flex-direction: column;
     align-items: center;
-    background-color: yellow;
+    background-color: white;
     margin-left: auto;
     margin-top: 6px;
     padding-bottom: 2px;
     margin-right: 10px;
-    
+    border-radius: 15px;
+
    
     svg {
         font-size: 1.5rem;
@@ -216,12 +219,12 @@ export const MenuIcon2 = styled.div`
 `;
 
 export const PostTitle = styled.div`
-    height: 80px;
+    height: 60px;
     width: 650px;
     padding: 10px;
-    padding-top: 5px;
+    padding-top: 10px;
     font-size: 1.5rem;
-    background-color: burlywood;
+    background-color: #CBAC9B;
     
     
     display: flex;
@@ -269,6 +272,7 @@ background-color: seashell;
 margin: 0 auto;
 display: flex;
 align-items: center;
+
 
 > :not(:last-child) {
     margin-right: 10px;
