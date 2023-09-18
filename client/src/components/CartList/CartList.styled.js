@@ -5,6 +5,7 @@ export const CartListContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   width: 70%;
+  padding-top: 3rem;
 
   .subtotal-price {
     display: flex;

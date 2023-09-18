@@ -11,7 +11,7 @@ export const OrderCheckoutContainer = styled.div`
   h1 {
     color: var(--gray-90);
     font-weight: 900;
-    letter-spacing: 5px;
+    /* letter-spacing: 5px; */
     font-size: 40px;
     margin: 2rem 0 0 0;
   }

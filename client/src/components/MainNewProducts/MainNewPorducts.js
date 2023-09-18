@@ -1,4 +1,3 @@
-// TODO: product card 4개
 import { MainNewProductsContainer } from './MainNewPorducts.styled';
 import ItemCard from '../ItemCard/ItemCard';
 import { useEffect, useState } from 'react';
@@ -32,7 +31,7 @@ export default function MainNewProducts() {
       <div className='flex-row'>
         {itemList.length > 0 &&
           itemList.map((item) => (
-            <Link key={item.id} to={`/list/${item.id}`}>
+            <Link key={item.id} to={`/products/get/${item.id}`} onClick={() => scrollTo(0, 0)}>
               <ItemCard item={item} />
             </Link>
           ))}

@@ -6,9 +6,8 @@ import CartList from '../../components/CartList/CartList';
 export default function Cart() {
   return (
     <CartPageContainer>
-      <BackgroundImage imgSrc={BackgroundImg} title='ACCOUNT' />
+      <BackgroundImage imgSrc={BackgroundImg} title='CART' />
       <div className='content'>
-        <div className='title'>CART</div>
         <CartList />
       </div>
     </CartPageContainer>
