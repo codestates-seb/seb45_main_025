@@ -15,15 +15,15 @@ public class MemberDto {
     @Getter
     public static class PostDto{
         @Email
+        @NotBlank
         private String email;
 
         private String name;
-
+        @NotBlank
         private String nickName;
         @NotBlank
         private String password;
         @NotBlank
-
         private String conformPassword;
 
         private String gender;
