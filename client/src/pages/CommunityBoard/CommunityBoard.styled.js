@@ -39,7 +39,7 @@ export const PostBox = styled.div`
     height: 700px;
     width: 1000px;
     background-color: white;
-    overflow-y: auto;
+    
 `;
 
 export const PostTitleBox = styled.div`
@@ -87,7 +87,7 @@ export const PostUserBox = styled.div`
 
 
 export const PostBoard = styled.div`
-    height: 620px;
+    height: 100px;
     max-height: auto;
     width: 900px;
     padding: 10px;
@@ -267,9 +267,10 @@ export const ComuCommentWriting = styled.div`
 height: 100px;
 width: 900px;
 padding: 10px;
-padding-top: 5px;
+padding-top: 15px;
 background-color: seashell;
 margin: 0 auto;
+margin-top: 100px;
 display: flex;
 align-items: center;
 
