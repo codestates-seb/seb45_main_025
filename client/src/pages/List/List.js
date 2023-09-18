@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
 import axios from 'axios';
 import ReactPaginate from "react-paginate";
-import { useNavigate } from 'react-router-dom';
-import { BsHeartFill } from 'react-icons/bs'; 
-import koreanSnacks from '../../common/image/koreanSnacks2.jpeg';
-
+import { useNavigate} from 'react-router-dom';
+import allList from '../../common/image/allList.webp';
+import { ReactComponent as HeartIcon } from '../../common/image/Icons/heart.svg';
 import {
   ContentList,
   ContentBox,
@@ -18,8 +17,6 @@ import {
 import {
   useSearchIsUpdateStore,
   useSearchTextStore,
-  useSearchCategoryStore,
-  useSearchSelectedCategoryStore,
 } from '../../stores/listSearchStore'
 
 import {
@@ -37,14 +34,12 @@ const List = () => {
   const { searchText } = useSearchTextStore(state => state);
   const { searchIsUpdate, setSearchIsUpdate } = useSearchIsUpdateStore(state => state);  
   const [itemList, setItemList] = useState([]);
-  const { searchCategory, setSearchCategory } = useSearchCategoryStore(state => state);
-  const { searchSelectedCategory } = useSearchSelectedCategoryStore(state => state);
   const { listPage, setListPage, setScrollPage } = useListPageStore(state => state);
   const { listCurrentPage, setListCurrentPage } = useListCurrentPageStore(state => state);
   const [totalLength, setTotalLength] = useState(0);
   const [totalPageCount, setTotalPageCount] = useState(0);
   const [windowSize, setWindowSize] = useState([window.innerWidth]);
-  const PER_PAGE = 20;
+  const PER_PAGE = 12;
   const pageCount = Math.ceil(totalLength / PER_PAGE);
 
   const handlerPageClick = event => {
@@ -57,21 +52,6 @@ const List = () => {
   };
 
   useEffect(() => {
-    console.log(setSearchCategory);
-
-    if ( searchCategory === 'all') {
-      axios
-        .get(`${URI}/products/all/list?page=${listCurrentPage}&pageSize=${PER_PAGE}`)
-        .then(res => {
-          console.log(res);
-          setItemList(res.data.content);
-          setTotalLength(res.data.pageInfo.totalElements);
-          setTotalPageCount(res.data.pageInfo.totalPages);
-          setSearchIsUpdate(false);
-        })
-        .catch(err => {
-          console.log(err);
-        });      
       if (searchText === '') {
         axios
           .get(`${URI}/products/search?page=${listCurrentPage}&pageSize=${PER_PAGE}`)
@@ -88,7 +68,7 @@ const List = () => {
       } else {
         if (searchIsUpdate === true) {
           axios
-            .get(`${URI}/products/search?productName=${searchText}page=${listCurrentPage}&pageSize=${PER_PAGE}`)
+            .get(`${URI}/products/search?productName=${searchText}&page=${listCurrentPage}&pageSize=${PER_PAGE}`)
             .then(res => {
               if (!res.data) {
                 setItemList([]);
@@ -107,73 +87,7 @@ const List = () => {
             });
         }
       } 
-    } else if (searchCategory === 'Snacks') {
-      axios
-        .get(`${URI}/products/category/${searchSelectedCategory}/?page=${listCurrentPage}&pageSize=${PER_PAGE}`)
-        .then(res => {
-          console.log(res);
-          setItemList(res.data.content);
-          setTotalLength(res.data.pageInfo.totalElements);
-          setTotalPageCount(res.data.pageInfo.totalPages);
-          setSearchIsUpdate(false);
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    } else if (searchCategory === 'Cookies') {
-      axios
-        .get(`${URI}/products/category/${searchSelectedCategory}/?page=${listCurrentPage}&pageSize=${PER_PAGE}`)
-        .then(res => {
-          console.log(res);
-          setItemList(res.data.content);
-          setTotalLength(res.data.pageInfo.totalElements);
-          setTotalPageCount(res.data.pageInfo.totalPages);
-          setSearchIsUpdate(false);
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    } else if (searchCategory === 'Chocolate') {
-      axios
-        .get(`${URI}/products/category/${searchSelectedCategory}/?page=${listCurrentPage}&pageSize=${PER_PAGE}`)
-        .then(res => {
-          console.log(res);
-          setItemList(res.data.content);
-          setTotalLength(res.data.pageInfo.totalElements);
-          setTotalPageCount(res.data.pageInfo.totalPages);
-          setSearchIsUpdate(false);
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    } else if (searchCategory === 'Candy') {
-      axios
-        .get(`${URI}/products/category/${searchSelectedCategory}/?page=${listCurrentPage}&pageSize=${PER_PAGE}`)
-        .then(res => {
-          console.log(res);
-          setItemList(res.data.content);
-          setTotalLength(res.data.pageInfo.totalElements);
-          setTotalPageCount(res.data.pageInfo.totalPages);
-          setSearchIsUpdate(false);
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    } else if (searchCategory === 'Jelly') {
-      axios
-        .get(`${URI}/products/category/${searchSelectedCategory}/?page=${listCurrentPage}&pageSize=${PER_PAGE}`)
-        .then(res => {
-          console.log(res);
-          setItemList(res.data.content);
-          setTotalLength(res.data.pageInfo.totalElements);
-          setTotalPageCount(res.data.pageInfo.totalPages);
-          setSearchIsUpdate(false);
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    }
-    
+
     const handleWindowResize = () => {
       setWindowSize(window.innerWidth);
     };
@@ -181,7 +95,7 @@ const List = () => {
     return () => {
       window.removeEventListener('resize', handleWindowResize);
     };
-  }, [listCurrentPage, searchText, searchCategory, searchSelectedCategory]);
+  }, [listCurrentPage, searchText]);
 
   const itemOnClickHandler = productId => {
     navigate(`/products/get/${productId}`);
@@ -189,8 +103,8 @@ const List = () => {
 
   return (
     <>
-      <BackgroundImageContainer backgroundImage={`url(${koreanSnacks})`}>
-        Product List
+      <BackgroundImageContainer backgroundImage={`url(${allList})`}>
+        ALL
       </BackgroundImageContainer>
       <Gnb />
       <div className="bodywrap">
@@ -200,18 +114,18 @@ const List = () => {
             <ContentList>
               {itemList.map((item, idx) => (
                 <ContentBox
-                key={idx}
-                onClick={() => itemOnClickHandler(item.id)}
+                  key={idx}
+                  onClick={() => itemOnClickHandler(item.id)}
               >
                 <img
-                  src={item.img}
+                  src={`${URI}${item.img}`}
                   alt={item.productName}
                   onError={handleImageError}
                 />
                 <ContentTit>{item.productName}</ContentTit>
                 <ContentText>₩{item.productPrice}</ContentText>
                 <LikeCount>
-                  <BsHeartFill /> <p>{item.likes}</p>
+                  <HeartIcon /> <p>{item.likes}</p>
                 </LikeCount>
               </ContentBox>                
               ))}

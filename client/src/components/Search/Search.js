@@ -42,7 +42,7 @@ import {
 
     useEffect(() => {
         //Reset
-        setSearchTxt('');
+        setSearchText('');
         setSearchIsUpdate(false);
         setListCurrentPage(1);
         setListPage(1);
@@ -54,7 +54,7 @@ import {
             <input
               type="text"
               id="search"
-              title="Search Snack"
+              title="Search Products"
               value={searchTxt}
               onChange={searchHandler}
               onKeyDown={searchSubmit}

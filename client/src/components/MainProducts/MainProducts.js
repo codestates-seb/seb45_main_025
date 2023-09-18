@@ -14,11 +14,11 @@ export default function MainProducts() {
     <MainProductsContainer>
       <div className='title'>PRODUCTS</div>
       <CardContainer>
-        <MainCategoryCard img={SnackImage} type='SNACK' />
-        <MainCategoryCard img={CookiesImage} type='COOKIE' />
-        <MainCategoryCard img={ChocolateImage} type='CHOCOLATE' />
-        <MainCategoryCard img={CandyImage} type='CANDY' />
-        <MainCategoryCard img={JellyImage} type='JELLY' />
+        <MainCategoryCard img={SnackImage} type='Snacks' />
+        <MainCategoryCard img={CookiesImage} type='Cookies' />
+        <MainCategoryCard img={ChocolateImage} type='Chocolate' />
+        <MainCategoryCard img={CandyImage} type='Candy' />
+        <MainCategoryCard img={JellyImage} type='Jelly' />
       </CardContainer>
     </MainProductsContainer>
   )

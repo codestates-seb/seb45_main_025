@@ -1,4 +1,4 @@
-import styled, { keyframes }from "styled-components";
+import { styled, keyframes }from "styled-components";
 import Snack1 from "../../common/image/snacks1.webp";
 
 export const TopContainer = styled.div`
@@ -8,6 +8,7 @@ export const TopContainer = styled.div`
   background-image: url(${Snack1});
   background-size: cover;
   background-position: 25% 60%;
+  color: white;
   `;
 
 export const ItemWrap = styled.div`
@@ -29,13 +30,13 @@ export const ItemBox = styled.div`
   }
 `;
 export const ItemTitle = styled.div`
-  height: 63px;
-  border-bottom: 2px solid grey;
-  margin-bottom: 15px;
-  font-size: 2rem;
+  height: 5rem;
+  border-bottom: 1px solid grey;
+  margin-bottom: 2rem;
   font-weight: bold;
   > h3 {
     color: black;
+    font-size: 1.5rem;
     width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;

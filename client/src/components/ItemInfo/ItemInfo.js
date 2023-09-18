@@ -7,19 +7,19 @@ const Item = () => {
     return (
         <ItemInfoTable>
             <li>
-                <span>제조사</span>
+                <span>Manufacturer</span>
                 <div>{snackItem.manufacturer}</div>
             </li>
             <li>
-                <span>식품유형</span>
+                <span>Nutrient</span>
                 <div>{snackItem.content}</div>
             </li>
             <li>
-                <span>원재료명</span>
+                <span>Ingredients</span>
                 <div>{snackItem.rawmaterial}</div>
             </li>
             <li>
-                <span>주의사항</span>
+                <span>Warning</span>
                 <div>{snackItem.precautions}</div>
             </li>
         </ItemInfoTable>
