@@ -10,6 +10,6 @@ import java.util.List;
 public interface CommentRepository extends JpaRepository<Comment,Long> {
 
     @Query(value = "SELECT * FROM comment WHERE board_id = :boardId ORDER BY CREATED_AT DESC", nativeQuery = true)
-    List<Comment> findCommentByBoardIdOrderByCreatedAtDesc(@Param("boardId") long boardId);
+    List<Comment> findCommentByBoardIdOrderByCreatedAtAsc(@Param("boardId") long boardId);
 
 }
