@@ -37,12 +37,26 @@ export const MyWritingEle = styled.div`
   .mywritimglittle{
     display: flex;
     flex-direction: row;
-    p{
+    > p{
+      color: var(--gray-90);
       margin-left: 0.3rem;
       font-size: 0.8rem;
     }
   }
   a{
-    font-size: 1.2rem;
+    font-size: 1.4rem;
+    color: var(--gray-90);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  >p{
+    color: var(--gray-50);
+    font-size: 0.8rem;
+    max-width: 60vw;
+    min-width: 30rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 `

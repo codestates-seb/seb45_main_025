@@ -11,14 +11,14 @@ export const SignUpSelectMain = styled.div`
   align-items: center;
   flex-direction: column;
   padding: 5rem 0;
-  h2{
+  >h2{
     color: var(--gray-90);
     font-weight: 900;
     letter-spacing: 5px;
     font-size: 2.5rem;
     margin: 2rem 0 5rem 0;
   }
-  h3{
+  >h3{
     font-size: 1.5rem;
     margin-right: auto;
     margin-left: 20vw;
@@ -39,26 +39,42 @@ export const SignUpSelectMain = styled.div`
   .oauth_signup{
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
   .google_signup{
     width: 13vw;
     height: 75px;
     border: 1px solid var(--gray-10);
-    font-size: 0.8rem;
+    >p{
+      font-size: 0.8rem;
+      color:rgba(0,0,0,0.56);
+      font-family: 'roboto';
+      text-align: center;
+    }
+    >img{
+    width: 15px;
+  }
   }
   .facebook_signup{
-    background-color: #485793;
+    background-color: #1877F2;
     color: white;
     margin-top: 10px;
     width: 13vw;
     height: 75px;
     border: 1px solid var(--gray-10);
     font-size: 0.8rem;
-  }
-  img{
+    p{
+      font-size: 0.8rem;
+      color: white;
+      font-family: 'roboto';
+      text-align: center;
+    }
+    >img{
     width: 15px;
-    background-color: white;
   }
+  }
+  
   .line{
     border-right: 1px solid var(--gray-10);
     width: 8vw;

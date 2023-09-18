@@ -16,6 +16,7 @@ import axios from 'axios';
 import getAccessToken from '../../common/utils/getToken';
 
 export default function MyPageEdit(){
+  const [memberId, setMemberId] = useState('');
   const [myImg, setMyImg] = useState(null);
   const [name, setName] = useState('');
   const [nickName,setNickName] = useState('');
@@ -62,7 +63,7 @@ export default function MyPageEdit(){
     if (del){
       console.log("계정 삭제")
       let access_token = getAccessToken();
-      axios.delete(`${URI}/users/delete/1`,{ headers: {Authorization: access_token} })
+      axios.delete(`${URI}/users/delete/${memberId}`,{ headers: {Authorization: access_token} })
       .then((res)=>{
         console.log(res);
         localStorage.clear()
@@ -89,6 +90,7 @@ export default function MyPageEdit(){
     axios.get(`${URI}/mypage`,{ headers: {Authorization: access_token} })
     .then((res)=>{
       console.log(res);
+      setMemberId(res.data.userId)
       setMyImg(res.data.saveFileName);
       setName(res.data.name);
       setNickName(res.data.nickName)

@@ -7,9 +7,14 @@ import BackgroundImage from '../../components/BackgroundImage/BackgroundImage';
 import  potatochip  from '../../common/image/potatochip.jpeg';
 
 export default function SignUpSelect(){
+
   const URI = process.env.REACT_APP_API_URL;
   function googlesignup(){
     window.location.href = `${URI}/oauth2/authorization/google`;
+  }
+
+  function facebooksignup(){
+    alert('facebook login in not available at the moment');
   }
   return (
     <SignUpSelectContainer>
@@ -19,8 +24,8 @@ export default function SignUpSelect(){
         <h3>1. Choose how to sign up</h3>
         <div className='signup_select_main_container'>
           <div className='oauth_signup'>
-          <button className='google_signup' onClick={googlesignup}><img src={google} alt='google'/> Sign up with Google</button>
-          <button className='facebook_signup' ><img src={facebook} alt='facebook'/> Sign up with Facebook</button>
+          <button className='google_signup' onClick={googlesignup}><img src={google} alt='google'/><p>Sign up with Google</p> </button>
+          <button className='facebook_signup' onClick={facebooksignup}><img src={facebook} alt='facebook'/><p>Sign up with Facebook</p> </button>
           </div>
           <div className='line'></div>
           <div className='rightline'></div>
