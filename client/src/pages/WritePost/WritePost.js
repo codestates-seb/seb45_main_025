@@ -1,12 +1,11 @@
 import { useState, useRef } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-// import ImageResize from './imageResize/ImageResize';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import axios from 'axios'
 import getAccessToken from '../../common/utils/getToken';
-// Quill.register('modules/imageResize');
+
 import {
     Container,
     Line,
@@ -21,13 +20,10 @@ import {
 
 const Editor = ({ placeholder, value, onChange }) => {
     const modules = {
-        // imageResize: {
-        //     parchment: Quill.import('parchment')
-        //     // See optional "config" below
-        // },
+
         toolbar: {
             container: [
-                ['link', 'image', 'video'],
+                ['link', 'video'],
                 [{ header: [1, 2, 3, false] }],
                 ['bold', 'italic', 'underline', 'strike'],
                 ['blockquote'],
@@ -54,7 +50,6 @@ const Editor = ({ placeholder, value, onChange }) => {
         'background',
         'color',
         'link',
-        'image',
         'video',
         'width',
     ];
@@ -88,7 +83,7 @@ function WritePost() {
     };
     const navigate = useNavigate();
 
-    const [imageURL, setImageURL] = useState(''); // 이미지 URL을 관리하기 위한 상태
+
     const quillRef = useRef(); // Quill 에디터에 접근하기 위한 ref
 
     const handlePublish = async () => {
@@ -98,9 +93,7 @@ function WritePost() {
             const formData = new FormData();
             formData.append("title", title);
             formData.append("content", content);
-            if (imageURL) {
-                formData.append("image", imageURL); // 이미지 URL을 폼 데이터에 추가
-            }
+
 
             const response = await axios.post(`${URI}/board`, formData, {
                 headers: {
@@ -115,32 +108,7 @@ function WritePost() {
             console.error('에러 발생:', error);
         }
     };
-    const handleImageUpload = () => {
-        const input = document.createElement('input');
-        input.setAttribute('type', 'file');
-        input.setAttribute('accept', 'image/*');
-        input.onchange = async () => {
-            const file = input.files[0];
-            if (file) {
-                try {
-                    const formData = new FormData();
-                    formData.append('image', file);
-                    const response = await axios.post(`${URI}/upload-image`, formData);
-                    const imageUrl = response.data.url;
 
-                    // 이미지 URL을 에디터에 삽입
-                    const quill = quillRef.current.getEditor();
-                    const range = quill.getSelection(true);
-                    quill.insertEmbed(range.index, 'image', imageUrl);
-
-                    setImageURL(imageUrl); // 이미지 URL 상태 업데이트
-                } catch (error) {
-                    console.error('이미지 업로드 에러:', error);
-                }
-            }
-        };
-        input.click();
-    };
 
     return (
         <Container>
@@ -164,15 +132,14 @@ function WritePost() {
                         modules={{
                             toolbar: {
                                 container: [
-                                    ['link', 'image', 'video'],
+                                    ['link'],
                                     [{ header: [1, 2, 3, false] }],
-                                    // ...
+
                                 ],
-                                handlers: {
-                                    image: handleImageUpload, // 이미지 업로드 핸들러 연결
-                                },
+
                             },
-                        }}
+                        }
+                        }
                     />
                 </EditorWrapper>
             </EditorContainer>
