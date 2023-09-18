@@ -59,6 +59,7 @@ export default function MyPage() {
       
 
   function mypageedit(){
+    scrollTo(0, 0)
     let access_token = getAccessToken();
     console.log(access_token)
     axios.get(`${URI}/mypage`,{headers: {Authorization: access_token}})
@@ -77,13 +78,13 @@ export default function MyPage() {
       <BackgroundImage imgSrc={chococookie} title='MY PAGE' />
       <MyPageMain>
         <div className='mypagebtns'>
-          <MyOrder onClick={()=>navigate('/order-history')}>
+          <MyOrder onClick={()=>{scrollTo(0, 0);navigate('/order-history')}}>
             <img src={lightcart} alt='myorder' />
-            <p>My order</p>
+            <p>My Order</p>
           </MyOrder>
-          <MyWriting onClick={()=>navigate('/mywriting')}>
+          <MyWriting onClick={()=>{scrollTo(0, 0);navigate('/mywriting')}}>
             <img src={communities} alt='mywriting' />
-            <p>My writing</p>
+            <p>My Post</p>
           </MyWriting>
           <ChangeAccountBtn onClick={mypageedit}>
             <img src={edit} alt='edit' />
