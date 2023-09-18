@@ -80,25 +80,49 @@ export const LoginOauth = styled.div`
   margin-top: 30px;
   display: flex;
   .google_login{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
     border: 1px solid var(--gray-10);
     width: 14vw;
     height: 2.5rem;
     margin-right: 0.5vw;
     font-size: 0.8rem;
-    color: var(--gray-90)
+    color: rgba(0,0,0,0.56);
+    >p{
+      font-family: 'roboto';
+      font-size: 0.8rem;
+      color: rgba(0,0,0,0.56);
+      margin-top: 0.85rem
+    }
+    >img{
+    width: 1.125rem;
+    margin-right: 1.2rem;
+    margin-top: 0.6875rem
+  }
   }
   .facebook_login{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
     border: 1px solid var(--gray-10);
-    background-color: #485793;
+    background-color: #1877F2;
     width: 14vw;
     height: 2.5rem;
     margin-left: 0.5vw;
     color: white;
     font-size: 0.8rem;
+    >p{
+      font-size: 0.8rem;
+      color: white;
+      margin-top: 0.85rem;
+      font-family: 'roboto';
+    }
+    >img{
+    width: 1.125rem;
+    margin-right: 1.2rem;
+    margin-top: 0.6875rem
   }
-  img{
-    width: 15px;
-    background-color: white;
   }
 `
 
@@ -106,7 +130,7 @@ export const LoginToLogUp = styled.div`
   display: flex;
   justify-content: center;
   width: 50vw;
-  p{
+  >p{
     margin-top: 1rem;
     color: var(--gray-90);
     font-size: 0.9rem;

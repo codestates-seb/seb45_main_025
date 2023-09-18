@@ -6,10 +6,11 @@ export const ItemInfoTable = styled.ul`
     justify-content: flex-start;
     align-items: flex-start;
     > span {
-        width: 100px;
+        width: 8rem;
         line-height: 20px;
         align-self: stretch;
-        background: maroon;
+        border-radius: 10px;
+        background: var(--brown-10);
         padding: 15px 10px;
         color: #fff;
         font-weight: 600;
@@ -26,6 +27,7 @@ export const ItemInfoTable = styled.ul`
         align-self: stretch;
         line-height: 20px;
         padding: 15px 10px;
+        border-radius: 10px;
         border-right: 1px solid black;
         border-top: 1px solid black;
         border-bottom: 0.5px solid black;

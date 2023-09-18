@@ -61,16 +61,17 @@ export const Tab = styled.ul`
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  height: 60px;
-  border-bottom: 2px solid var(--mainbl);
+  height: 50px;
+  margin-bottom: 2rem;
+  border-bottom: 2px solid var(--brown-10);
   > li {
-    width: 100px;
-    height: 36px;
+    width: 128px;
+    height: 2.2rem;
     line-height: 36px;
     text-align: center;
     font-weight: 600;
-    background-color: var(--bl-1);
-    color: var(--bl-2);
+    background-color: var(--brown-30);
+    color: var(white);
     cursor: pointer;
     &:nth-of-type(1) {
       border-radius: 6px 0 0 6px;
@@ -80,7 +81,7 @@ export const Tab = styled.ul`
       border-radius: 0 6px 6px 0;
     }
     &.active {
-      background-color: brown;
+      background-color: var(--brown-50);
       color: #fff;
     }
     @media (max-width: 768px) {

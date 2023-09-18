@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import axios from 'axios';
 import getAccessToken from '../../common/utils/getToken';
 import { AddBtn } from './AddCartItemBtn.styled';
+import { BsCartPlus } from 'react-icons/bs';
 
 export default function AddCartItemBtn() {
     const dispatch = useDispatch();
@@ -35,7 +36,7 @@ export default function AddCartItemBtn() {
 
     return (
         <AddBtn>
-          <button onClick={addHandler}> Add to Cart </button>
+          <button onClick={addHandler}> <BsCartPlus /> Add to Cart </button>
         </AddBtn>
     )
 }

@@ -24,13 +24,14 @@ export const MainImageContainer = styled.div`
 
   p {
     color: white;
-    font-size: 3.5rem;
+    letter-spacing: 0;
+    font-size: 3rem;
   }
 
   strong {
     color: white;
     font-weight: 600;
     margin: 0;
-    font-size: 3.5rem;
+    font-size: 4rem;
   }
 `;

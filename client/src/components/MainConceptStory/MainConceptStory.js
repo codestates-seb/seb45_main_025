@@ -26,7 +26,7 @@ export default function MainConceptStory() {
       <TextContainer>
         <div className='title'>CONCEPT STORY</div>
         <div className='title-description'>
-          &#8220; I LOVE SNACK I LOVE KOREAN SNACK &#8221;
+          &#8220; I LOVE SNACKS I LOVE KOREAN SNACKS &#8221;
         </div>
         {conceptStoryData.map((data, index) => {
           if (index === curIndex) {

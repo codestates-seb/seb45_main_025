@@ -14,7 +14,7 @@ const useSnackItemStore = create(set => ({
         productPrice: '',
         created_at: '',
         modified_at: '',
-        likes: '',
+        likes: 0,
         bookmarked: '',
         member: '',
     },
