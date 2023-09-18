@@ -42,8 +42,7 @@ public class MemberService {
     public Member createMemberOAuth2(Member member) {
         List<String> roles = authorityUtils.createRoles(member.getEmail());
         member.setRoles(roles);
-        String newName = verifyExistName(member.getName());
-        member.setName(newName);
+        member.setName(member.getName());
         member.setIsOauth(true);
         return memberRepository.save(member);
     }
@@ -70,11 +69,6 @@ public class MemberService {
         if (memberRepository.findByEmail(email).isPresent()) {
             throw new BusinessLogicException(ExceptionCode.MEMBER_EXISTS);
         }
-    }
-    private String verifyExistName(String name){     // oauth2로 로그인 했을 때 같은 이름이 있을 때 1~1000까지의 랜덤숫자를 붙임
-        Optional<Member> optionalMember = Optional.ofNullable(memberRepository.findByName(name)
-                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND)));
-        return name;
     }
     public Boolean existsByEmail(String email) {
         return memberRepository.existsByEmail(email);

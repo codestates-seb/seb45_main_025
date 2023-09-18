@@ -61,13 +61,12 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
         Member member = new Member();
         member.setNickName(nickName);
         // 일반 유저와 구분을 위해
-        member.setEmail(email);
+        member.setEmail(email+"1");
         member.setImg(image);
         member.setGender(gender);
         member.setBirth(birthday);
         member.setAddress(homeAddress);
         member.setPhone(phoneNumber);
-        member.setIsOauth(true);
         return member;
     }
 
@@ -80,7 +79,6 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
         throws IOException{
         String accessToken = memberService.delegateAccessToken(member);
         String refreshToken = memberService.delegateRefreshToken(member);
-        String memberId = String.valueOf(member.getUserId());
 
         String uri = createURI( accessToken,refreshToken,isNewAccount).toString();
         ResponseCookie responseAccessCookie= ResponseCookie.from("access_token", accessToken)
