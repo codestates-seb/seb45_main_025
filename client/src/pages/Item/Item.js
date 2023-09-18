@@ -42,7 +42,7 @@ const Item = () => {
             setLikeIncrease();
         }
         axios
-            .post(`${URI}/products/product/${productId}/like`)
+            .post(`${URI}/products/product/${productId}/like`, null, { headers: { Authorization: accessToken }})
             .then(res => console.log(res))
             .catch(err => console.log(err));
     };
@@ -53,7 +53,7 @@ const Item = () => {
 
     useEffect(() => {
         axios
-            .get(`${URI}/products/get/${productId}`, { headers: { Authorization: accessToken }})
+            .get(`${URI}/products/get/${productId}`)
             .then(res => {
                 setSnackItem(res.data);
             })

@@ -1,7 +1,12 @@
-import { Container, Logo, GithubContainer } from './Footer.styled';
+import { Container, Logo, GithubContainer, PageTop } from './Footer.styled';
 import LogoImage from "../../common/image/header-logo-big.png";
 
 export default function Footer() {
+
+  const handleLinkClick = () => {
+    window.scroll(0, 0);
+  }
+
   return (
     <Container>
       <div>
@@ -17,6 +22,7 @@ export default function Footer() {
           <GithubProfile profileUrl="84065357" name="pyo8470" />
           <GithubProfile profileUrl="75276860" name="ParkYoungGil" />
         </div>
+        <PageTop onClick={handleLinkClick}>TOP</PageTop>
       </div>
     </Container>
   )
