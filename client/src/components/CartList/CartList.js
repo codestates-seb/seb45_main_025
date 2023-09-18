@@ -37,8 +37,8 @@ export default function CartList() {
   // FIXME: 장바구니 post 요청 테스트 용. 나중에 삭제 (DONE)
   const addHandler = () => {
     accessToken = getAccessToken();
-    const randomId = Math.floor(Math.random() * 10) + 1;
-    const randomQuantity = Math.floor(Math.random() * 5) + 1;
+    const randomId = Math.floor(Math.random() * 20) + 1;
+    const randomQuantity = Math.floor(Math.random() * 3) + 1;
     axios.post(
       `${apiUrl}/cart/add/${randomId}?quantity=${randomQuantity}`,
       null,
@@ -79,10 +79,14 @@ export default function CartList() {
       dispatch(setSelected([]));
       dispatch(setAllSelected(false));
       dispatch(setSubtotalPrice(0));
+      console.log('isAllSelected: ', allSelected);
+      console.log(selected.map(el => el.product.id));
     } else {
       dispatch(setSelected(cartItems));
       dispatch(setAllSelected(true));
       dispatch(setSubtotalPrice(cartItems.reduce((total, item) => total + item.totalPrice, 0)));
+      console.log('isAllSelected: ', allSelected);
+      console.log(selected.map(el => el.product.id));
     }
   };
 

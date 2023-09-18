@@ -26,7 +26,7 @@ const Item = () => {
     const { userInfo } = useUserInfoStore(state => state);
     const { snackItem, setSnackItem, setLikeIncrease, setLikeDecrease } = useSnackItemStore(state => state);
     const location = useLocation();
-    const snackId = location.pathname.split('/')[2];
+    const snackId = location.pathname.split('/')[3];
     const tabArr = ['Information', 'Review'];
     const productId = location.pathname.split('/')[3];
 

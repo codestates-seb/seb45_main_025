@@ -35,6 +35,10 @@ export default function Order() {
   const [customerInfo, setCustomerInfo] = useState([]);
   const apiUrl = process.env.REACT_APP_API_URL;
   const accessToken = getAccessToken();
+  const rightBoxRef = useRef();
+  const rightBoxHeight = rightBoxRef.current ? rightBoxRef.current.clientHeight : 0;
+  console.log('rightBoxHeight: ', rightBoxHeight);
+  console.log(selectedItems.map(item => item.product.id));
 
   useEffect(() => {
     fetchCustomerInfo();
@@ -96,10 +100,10 @@ export default function Order() {
     setInputAddressMsg('');
     setInputPhoneMsg('');
     if (!isInputValid) {
-      window.scroll(0, 850);
+      window.scroll(0, 870);
     }
     if (!inputName) {
-      setInputNameMsg(`Please Enter the recipint's name`);
+      setInputNameMsg(`Please enter the recipint's name`);
       inputNameRef.current.focus();
       return;
     } else if (!inputAddress) {
@@ -189,31 +193,32 @@ export default function Order() {
               </FormCotents>
             </FormContainer>
           </LeftBox>
-          <RightBox className={scrollY > 490 ? 'fixed' : 'absolute'}>
+          <RightBox
+            className={scrollY > 490 ? 'fixed' : 'absolute'}
+            ref={rightBoxRef}>
             <FormContainer>
               <FormTitle>ORDER LIST</FormTitle>
               <FormCotents>
                 {selectedItems.map((item) => (
                   <div key={item.product.id} className='order-list'>
-                    <img src={item.product.img} alt='' />
+                    <img src={`${apiUrl}${item.product.img}`} alt='' />
                     <div className='flex-grow'>
                       <div className='flex-row'>
                         <div className='product-name'>{item.product.productName}</div>
-                        <div className='total-price'>&#8361; {item.totalPrice.toLocaleString()}</div>
+                        <div className='total-price'>&#8361; {(item.product.productPrice * item.quantity).toLocaleString()}</div>
                       </div>
                       <div
                         className='flex-row'
                         key={item.product.id}>
                         <div className='product-quantity'>
                           quantity {item.quantity}</div>
-                        <div className='product-price'>&#8361; {item.product.productPrice.toLocaleString()}</div>
+                        <div className='product-price'>&#8361; {(item.product.productPrice).toLocaleString()}</div>
                       </div>
                     </div>
                   </div>
                 ))}
                 <div className='subtotal-price'>
                   &#8361; {subtotalPrice.toLocaleString()}
-                  {/* {selectedItems.reduce((total, item) => total + item.totalPrice, 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} */}
                 </div>
                 <ButtonContainer>
                   <Link to='/cart'>
@@ -231,6 +236,6 @@ export default function Order() {
           </RightBox>
         </FlexBox>
       </OrderContainer>
-    </OrderPageContainer>
+    </OrderPageContainer >
   )
 }
