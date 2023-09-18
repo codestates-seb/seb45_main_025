@@ -33,10 +33,14 @@ export const Title = styled.div`
 `;
 
 export const Input = styled.input`
-  width: 180px;
+  width: 220px;
   margin-bottom: 10px;
   padding: 5px;
   margin-top: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 `;
 
 export const ListItem = styled.div`
@@ -56,6 +60,10 @@ export const ListItemTitle = styled.div`
   font-size: 1.2rem;
   font-weight: bold;
   cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
 `;
 
 export const ListItemDetails = styled.div`
@@ -119,6 +127,8 @@ export const PostButton = styled.button`
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  border-radius: 8px;
+  text-align: center;
 `;
 
 export const PostButtonContainer = styled.div`
@@ -127,7 +137,17 @@ export const PostButtonContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  
+  
+`;
+export const SearchContainer = styled.div`
+  
+  width: 1000px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin-bottom: 30px;
+  
 `;
 
 export const Filter = styled.div`
@@ -141,3 +161,30 @@ export const Filter = styled.div`
 
 `;
 
+export const StyledButton = styled.button`
+  position: relative;
+  display: inline-block;
+`;
+
+export const DropdownContent = styled.div`
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  ${StyledButton}:hover & {
+    display: block;
+  }
+`;
+
+export const SearchButton = styled.button`
+  width: 70px;
+  background: var(--brown-20);
+  height: 30px;
+  margin-top: 5px;
+  border-radius: 8px;
+  margin-left: 5px;
+  text-align: center;
+ 
+  `

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 // import ImageResize from './imageResize/ImageResize';
@@ -88,23 +88,26 @@ function WritePost() {
     };
     const navigate = useNavigate();
 
+    const [imageURL, setImageURL] = useState(''); // 이미지 URL을 관리하기 위한 상태
+    const quillRef = useRef(); // Quill 에디터에 접근하기 위한 ref
+
     const handlePublish = async () => {
         let access_token = getAccessToken();
         console.log(access_token)
         try {
-            const response = await axios.post(
-                `${URI}/board?title=${title}&content=${content}`,
-                // {
-                //     "title": title,
-                //     "content": content,
-                //     "image": null
-                // },
-                null,
-                {
-                    headers: { Authorization: access_token },
+            const formData = new FormData();
+            formData.append("title", title);
+            formData.append("content", content);
+            if (imageURL) {
+                formData.append("image", imageURL); // 이미지 URL을 폼 데이터에 추가
+            }
 
-                }
-            );
+            const response = await axios.post(`${URI}/board`, formData, {
+                headers: {
+                    Authorization: access_token,
+                    "Content-Type": "multipart/form-data",
+                },
+            });
 
             console.log('백엔드 응답:', response.data);
             navigate('/CommunityList');
@@ -112,6 +115,33 @@ function WritePost() {
             console.error('에러 발생:', error);
         }
     };
+    const handleImageUpload = () => {
+        const input = document.createElement('input');
+        input.setAttribute('type', 'file');
+        input.setAttribute('accept', 'image/*');
+        input.onchange = async () => {
+            const file = input.files[0];
+            if (file) {
+                try {
+                    const formData = new FormData();
+                    formData.append('image', file);
+                    const response = await axios.post(`${URI}/upload-image`, formData);
+                    const imageUrl = response.data.url;
+
+                    // 이미지 URL을 에디터에 삽입
+                    const quill = quillRef.current.getEditor();
+                    const range = quill.getSelection(true);
+                    quill.insertEmbed(range.index, 'image', imageUrl);
+
+                    setImageURL(imageUrl); // 이미지 URL 상태 업데이트
+                } catch (error) {
+                    console.error('이미지 업로드 에러:', error);
+                }
+            }
+        };
+        input.click();
+    };
+
     return (
         <Container>
             <Line />
@@ -126,10 +156,23 @@ function WritePost() {
             </InputContainer>
             <EditorContainer>
                 <EditorWrapper>
-                    <Editor
+                    <ReactQuill
+                        ref={quillRef}
                         placeholder="Enter content."
                         value={content}
                         onChange={handleContentChange}
+                        modules={{
+                            toolbar: {
+                                container: [
+                                    ['link', 'image', 'video'],
+                                    [{ header: [1, 2, 3, false] }],
+                                    // ...
+                                ],
+                                handlers: {
+                                    image: handleImageUpload, // 이미지 업로드 핸들러 연결
+                                },
+                            },
+                        }}
                     />
                 </EditorWrapper>
             </EditorContainer>
