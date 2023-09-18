@@ -72,14 +72,9 @@ public class MemberService {
         }
     }
     private String verifyExistName(String name){     // oauth2로 로그인 했을 때 같은 이름이 있을 때 1~1000까지의 랜덤숫자를 붙임
-        String newName = name;
-        Optional<Member> optionalMember = memberRepository.findByName(name);
-        if(optionalMember.isPresent()){
-            Random random = new Random();
-            int randomNumber = random.nextInt(10000) + 1;
-            newName = name + randomNumber;
-        }
-        return newName;
+        Optional<Member> optionalMember = Optional.ofNullable(memberRepository.findByName(name)
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND)));
+        return name;
     }
     public Boolean existsByEmail(String email) {
         return memberRepository.existsByEmail(email);
@@ -115,8 +110,6 @@ public class MemberService {
         Map<String, Object> claims = new HashMap<>();
         claims.put("memberId", member.getUserId());
         claims.put("roles", member.getRoles());
-
-
         String subject = member.getEmail();
         Date expiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getAccessTokenExpirationMinutes());
         String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey();

@@ -99,7 +99,6 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
         String headerValue = "Bearer " + accessToken;
         response.setHeader("Authorization",headerValue);
         response.setHeader("Refresh",refreshToken);
-        response.setHeader("MemberId", memberId);
         response.addHeader("Set-Cookie", responseAccessCookie.toString());
         response.addHeader("Set-Cookie", responseRefreshCookie.toString());
 

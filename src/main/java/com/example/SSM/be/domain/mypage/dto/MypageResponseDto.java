@@ -7,6 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class MypageResponseDto {
+    private Long userId;
     private String name;
     private String nickName;
     private String gender;
