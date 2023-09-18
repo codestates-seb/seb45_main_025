@@ -58,7 +58,7 @@ public class CommentService {
     public List<CommentResponseDto> getCommentList(long boardId){
         Optional<Board> optionalBoard = boardRepository.findById(boardId);
         if(optionalBoard.isPresent()){
-            List<Comment> commentList = commentRepository.findCommentByBoardIdOrderByCreatedAtDesc(boardId);
+            List<Comment> commentList = commentRepository.findCommentByBoardIdOrderByCreatedAtAsc(boardId);
             List<CommentResponseDto> responseDto = new ArrayList<>();
             for(Comment comment : commentList){
                 responseDto.add(commentMapper.commentToCommentResponseDto(comment));

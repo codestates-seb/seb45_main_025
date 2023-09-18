@@ -23,6 +23,7 @@ public interface CommentMapper {
          commentResponseDto.setCommentId(comment.getCommentId());
          commentResponseDto.setName(comment.getAuthor());
          commentResponseDto.setContent(comment.getContent());
+         commentResponseDto.setCreateAt(comment.getCreatedAt());
          return commentResponseDto;
     }
 }
