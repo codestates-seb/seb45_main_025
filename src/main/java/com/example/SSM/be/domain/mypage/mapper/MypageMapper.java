@@ -8,6 +8,7 @@ import org.mapstruct.Mapper;
 public interface MypageMapper {
     default MypageResponseDto memberToMypageResponseDto(Member member){
         MypageResponseDto responseDto = new MypageResponseDto();
+        responseDto.setUserId(member.getUserId());
         responseDto.setName(member.getName());
         responseDto.setNickName(member.getNickName());
         responseDto.setGender(member.getGender());

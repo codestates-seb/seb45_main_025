@@ -97,7 +97,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .build();
         response.setHeader("Authorization", headerAccessToken);
         response.setHeader("Refresh", refreshToken);
-        response.setHeader("MemberId", memberId);
         response.addHeader("Set-Cookie", responseAccessCookie.toString());
         response.addHeader("Set-Cookie", responseRefreshCookie.toString());
         this.getSuccessHandler().onAuthenticationSuccess(request, response, authResult);
