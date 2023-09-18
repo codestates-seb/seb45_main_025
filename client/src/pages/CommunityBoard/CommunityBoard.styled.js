@@ -128,7 +128,7 @@ export const PostDelete = styled.button`
     border-width: 2px;
     padding-bottom: 2px;
     margin-right: 10px;
-    
+    margin-top: 2px;
 `;
 
 
