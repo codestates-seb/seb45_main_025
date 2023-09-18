@@ -5,6 +5,7 @@ import {
 } from "react-icons/bi";
 import { useParams } from 'react-router-dom';
 import getAccessToken from '../../common/utils/getToken.js';
+import Cookies from 'js-cookie';
 
 import {
   CommunityBoardContainer,
@@ -47,21 +48,41 @@ function CommunityBoard() {
 
   const param = useParams();
   const id = param.boardId;
-  console.log(id)
-  const [boardData, setBoardData] = useState([])
+  console.log('id', id);
+  console.log('cookie', `viewed_${id}`);
+  const [boardData, setBoardData] = useState([]);
+
+  // const cookieName = `viewed_${id}`;
+  // console.log('쿠키이름', cookieName);
+  // const viewedCookie = Cookies.get(cookieName);
+  // console.log('쿠키되나');
+  // console.log('viewed_cookie', viewedCookie);
+  // make cookie
+  const cookieName = `viewed_${id}`;
+  const cookieValue = 'true';
+  const expirationDate = new Date();
+  expirationDate.setDate(expirationDate.getTime() + 10 * 60 * 1000); // 10분 후 만료
+  document.cookie = `${cookieName}=${cookieValue}; expires=${expirationDate.toUTCString()}; path=/`;
+  console.log('쿠키 설정 완료:', document.cookie);
+
+  // Cookie get
+  console.log('쿠키이름', cookieName);
+  const viewedCookie = Cookies.get(cookieName);
+  console.log('쿠키되나');
+  console.log('viewed_cookie', viewedCookie);
 
   // API에 요청을 보내는 함수를 정의합니다.
   const fetchData = async () => {
     try {
-      const response = await axios.get(`${URI}/board/${id}`);
+      const response = await axios.get(`${URI}/board/${id}`,
+        {
+          headers: {
+            Cookie: `${cookieName}=${viewedCookie}`,
+          }
+        })
       // 여기에서 응답 데이터를 처리합니다.
       console.log(response.data);
       setBoardData(response.data);
-
-
-
-
-
     } catch (error) {
       // 에러 처리
       console.error(error);

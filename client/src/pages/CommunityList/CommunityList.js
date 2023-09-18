@@ -45,7 +45,6 @@ function CommunityList() {
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
-
   };
 
   const navigate = useNavigate();
@@ -66,7 +65,7 @@ function CommunityList() {
 
   useEffect(() => {
     fetchData();
-  }, [URI, currentPage, searchTerm]);
+  }, [URI, currentPage]);
 
   const navigateToWritePost = () => {
     navigate('/WritePost');
@@ -84,10 +83,11 @@ function CommunityList() {
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
+
   const handleInputKeyPress = (event) => {
     if (event.key === 'Enter') {
       event.preventDefault();
-      fetchData();
+      handleSearchClick();
     }
   };
 
@@ -142,9 +142,9 @@ function CommunityList() {
         <Input
           type="text"
           value={searchTerm}
-          onChange={handleSearchChange}
+          onChange={(event) => handleSearchChange(event)}
           placeholder="검색어를 입력하세요"
-          onKeyDown={handleInputKeyPress}
+          onKeyDown={(event) => handleInputKeyPress(event)}
         />
         <SearchButton onClick={handleSearchClick}>Search</SearchButton>
       </SearchContainer>
