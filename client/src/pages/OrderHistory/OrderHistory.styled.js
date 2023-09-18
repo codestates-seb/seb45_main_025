@@ -8,7 +8,6 @@ export const OrderHistoryPageContainer = styled.div`
 `;
 
 export const OrderHistoryContainer = styled.div`
-  height: 100vh;
   padding: 5rem;
   
   .title {

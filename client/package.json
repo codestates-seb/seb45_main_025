@@ -16,6 +16,8 @@
     "jsonwebtoken": "^9.0.2",
     "jwt-decode": "^3.1.2",
     "mkcert": "^3.0.0",
+    "quill-image-resize": "^3.0.9",
+    "quill-image-resize-module": "^3.0.0",
     "quill-image-resize-module-react": "^3.0.0",
     "react": "^18.2.0",
     "react-bootstrap": "^2.8.0",
@@ -31,7 +33,7 @@
     "zustand": "^4.4.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "HTTPS=true SSL_CRT_FILE=cert.pem SSL_KEY_FILE=key.pem react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

@@ -32,7 +32,7 @@ export default function MainNewProducts() {
       <div className='flex-row'>
         {itemList.length > 0 &&
           itemList.map((item) => (
-            <Link key={item.id} to={`/list/${item.id}`}>
+            <Link key={item.id} to={`/products/get/${item.id}`}>
               <ItemCard item={item} />
             </Link>
           ))}
