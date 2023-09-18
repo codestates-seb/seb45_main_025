@@ -8,7 +8,6 @@ export const TopContainer = styled.div`
   background-image: url(${Snack1});
   background-size: cover;
   background-position: 25% 60%;
-  color: white;
   `;
 
 export const ItemWrap = styled.div`
@@ -61,13 +60,13 @@ export const ItemOverview = styled.div`
       justify-content: flex-start;
       align-items: flex-start;
       margin-bottom: 15px;
-      font-size: var(--fz-md);
+      font-size: 1rem;
       line-height: 24px;
       > span {
         position: relative;
         padding: 0 15px 0 10px;
         flex: none;
-        width: 80px;
+        width: 7rem;
         white-space: nowrap;
         color: var(--brown-50);
         &:after {
@@ -92,7 +91,7 @@ export const ItemOverview = styled.div`
   }
 `;
 export const ItemDetail = styled.div`
-  margin-top: 50px;
+  margin-top: 5rem;
   width: 70%;
   padding-left: 30px;
   @media (max-width: 768px) {
