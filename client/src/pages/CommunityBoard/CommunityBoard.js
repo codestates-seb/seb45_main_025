@@ -104,11 +104,7 @@ function CommunityBoard() {
     const editHandler = async () => {
 
         navigate(`/EditPage/${id}`)
-
     }
-
-
-  };
   // 작성자인지 확인하고 수정삭제 안뜨게
   // const isAuthor = () => {
 
@@ -119,6 +115,7 @@ function CommunityBoard() {
     const doc = parser.parseFromString(html, 'text/html');
     return doc.body.textContent || '';
   };
+
   useEffect(() => {
     console.log(deleteComment, editComment);
     // 컴포넌트가 마운트될 때 또는 boardId가 변경될 때 fetchData 함수를 호출합니다.
@@ -126,7 +123,9 @@ function CommunityBoard() {
     // 댓글 목록을 불러오는 함수를 호출합니다.
     fetchComments();
   }, [id]);
+
   return (
+    <>
     <CommunityBoardContainer>
     <BackgroundImageContainer backgroundImage={`url(${CommunityBoard1})`}>
     Board
@@ -197,8 +196,8 @@ function CommunityBoard() {
         </ComuComment >
       }
     </CommunityBoardContainer >
+    </>
   );
-
 }
 
 export default CommunityBoard;
