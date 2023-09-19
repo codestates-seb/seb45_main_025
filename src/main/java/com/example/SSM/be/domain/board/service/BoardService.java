@@ -115,7 +115,6 @@ public class BoardService {
     @Transactional
     public Board updateBoard(Member member, long boardId, BoardPatchDto patchDto) throws IOException {
         Board existingBoard = findByBoardId(boardId);
-
         if (member.getEmail().equals(existingBoard.getMember().getEmail())) {
             // 기존 이미지 삭제
             if (existingBoard.getImageList() != null) {
@@ -131,7 +130,6 @@ public class BoardService {
                     }
                 }
             }
-
             // 이미지 엔티티 리스트 초기화
             existingBoard.getImageList().clear();
 
@@ -153,21 +151,15 @@ public class BoardService {
                             e.printStackTrace();
                         }
                     }
-
-
-
                     // 새 이미지 파일 저장
                     imageFile.transferTo(new File(savePath));
-
                     // 이미지 엔티티 생성 및 저장
                     Image image = new Image();
                     image.setOriginalFileName(originFileName);
                     image.setSaveFileName(saveFileName);
                     image.setBoard(existingBoard); // 부모 엔티티 설정
-
                     // 이미지를 부모 엔티티의 컬렉션에 추가
                     existingBoard.getImageList().add(image);
-
                     // 이미지 엔티티 저장
                     imageRepository.save(image);
                     newImages.add(image);

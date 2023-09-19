@@ -107,7 +107,6 @@ public class BoardController {
         int adjustedPage = page - 1;
         Page<Board> boardList;
 
-
         if (search != null && !search.isEmpty()) {
             boardList = boardRepository.findByTitleContains(search, pageable);
         } else {
@@ -140,9 +139,9 @@ public class BoardController {
         //댓글 순
         } else if ("mostCommented".equals(sortType)) {
             if(search != null && !search.isEmpty()) {
-                boardList = boardRepository.findByTitleContains(search, PageRequest.of(adjustedPage, pageable.getPageSize(), Sort.by("commentCount").descending()));
+                boardList = boardRepository.findByTitleContains(search, PageRequest.of(adjustedPage, pageable.getPageSize(), Sort.by("comment_count").descending()));
             }else{
-                Pageable pageAble = PageRequest.of(adjustedPage, pageable.getPageSize(), Sort.by("commentCount").descending());
+                Pageable pageAble = PageRequest.of(adjustedPage, pageable.getPageSize(), Sort.by("comment_count").descending());
                 boardList = boardRepository.findAll(pageAble);
             }
         }
