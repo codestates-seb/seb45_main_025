@@ -103,7 +103,7 @@ export default function Order() {
       window.scroll(0, 870);
     }
     if (!inputName) {
-      setInputNameMsg(`Please enter the recipint's name`);
+      setInputNameMsg(`Please enter the recipient's name`);
       inputNameRef.current.focus();
       return;
     } else if (!inputAddress) {

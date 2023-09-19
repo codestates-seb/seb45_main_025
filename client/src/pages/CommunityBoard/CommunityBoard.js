@@ -5,14 +5,15 @@ import {
 } from "react-icons/bi";
 import { useParams } from 'react-router-dom';
 import getAccessToken from '../../common/utils/getToken.js';
+import CommunityBoard1 from '../../common/image/CommunityBoard1.webp';
 
 import {
   CommunityBoardContainer,
   // CommunityCommentBox,
   // CommunityCommentDelete,
   // CommunityCommentCorrection,
-  Line,
-  CommunityH,
+  // Line,
+  // CommunityH,
   PostBox,
   PostTitleBox,
   PostTitle,
@@ -25,7 +26,8 @@ import {
   PostUserBox,
   // UserPicture,
   ComuComment,
-  ComuCommentWriting
+  ComuCommentWriting,
+  BackgroundImageContainer
 } from './CommunityBoard.styled.js';
 import Comment from '../../components/Comment/Comment.js';
 import axios from 'axios';
@@ -146,8 +148,9 @@ function CommunityBoard() {
   }, [id]);
   return (
     <CommunityBoardContainer>
-      <Line />
-      <CommunityH>Community</CommunityH>
+    <BackgroundImageContainer backgroundImage={`url(${CommunityBoard1})`}>
+    Board
+    </BackgroundImageContainer>
       <PostBox>
         <PostTitleBox>
           <PostTitle>

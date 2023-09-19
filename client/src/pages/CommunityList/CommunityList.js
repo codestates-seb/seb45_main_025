@@ -301,7 +301,7 @@ function CommunityList() {
             </DropdownButton>
             {isDropdownOpen && (
               <DropdownOptions>
-                {['latest', 'oldest', 'popular', 'mostCommented'].map((type) => (
+                {['latest', 'oldest', 'popular'].map((type) => (
                   <DropdownOption
                     key={type}
                     onClick={() => handleSortTypeChange(type)}
