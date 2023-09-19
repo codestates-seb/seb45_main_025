@@ -82,6 +82,7 @@ const Item = () => {
                                     </span>
                                 </button>
                                 <p>{snackItem.likes}</p>
+                                <div> ← If you like this product, Click Heart!</div>
                             </LikeWrap>
                             <h3>{snackItem.productName}</h3>
                         </ItemTitle>

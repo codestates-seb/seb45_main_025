@@ -221,13 +221,7 @@ function CommunityBoard() {
                         </div>
                     </PostUserBox>
                     <PostBoard>
-                        {/* 이 곳에 게시물 컴포넌트 렌더링 */}
-                        {/* 예시:
-                    {posts.map((post) => (
-                        <PostItem key={post.id} post={post} />
-                    ))}
-                    */}
-
+                        <div className="viewer" dangerouslySetInnerHTML={{ __html: boardData.content }} />
                         <div>{htmlToText(boardData.content)}</div>
                     </PostBoard>
                 </PostBox>
