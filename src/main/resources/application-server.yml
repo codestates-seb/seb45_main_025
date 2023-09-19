@@ -1,15 +1,15 @@
 spring:
   datasource:
-    url: jdbc:mysql://ssmdb.cjvmex06e1xk.ap-northeast-2.rds.amazonaws.com:3306/ssmdb?useSSL=true&requireSSL=true&serverTimezone=UTC
+    url: jdbc:mysql://ssmmaintest.cjvmex06e1xk.ap-northeast-2.rds.amazonaws.com:3306/ssmmaintest?useSSL=true&requireSSL=true&serverTimezone=UTC
     username: admin
-    password: code1234!
+    password: Code12!!
     driver-class-name: com.mysql.cj.jdbc.Driver
 
     jpa:
       properties:
         hibernate:
           dialect: org.hibernate.dialect.MySQL5Dialect
-          ddl-auto: update
+          ddl-auto: create
       show-sql: true
 
   security:
