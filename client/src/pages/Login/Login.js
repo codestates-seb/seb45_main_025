@@ -29,6 +29,7 @@ export default function Login() {
       console.log(res)
       localStorage.setItem('access_token',res.headers.authorization)
       localStorage.setItem('refresh_token',`Bearer ${res.headers.refresh}`)
+      scrollTo(0, 0);
       navigate('/');
     })
     .catch(()=>{

@@ -31,6 +31,7 @@ export default function SignUpOauth(){
   },[]);
 
   function submitsignup(){
+    scrollTo(0, 0)
     let access_token = getAccessToken();
     axios.post(`${URI}/users/oauth/google/signup`,{
         "address" : address,
@@ -40,7 +41,7 @@ export default function SignUpOauth(){
         "birth" : birth },{headers: {Authorization: access_token}})
     .then((res)=>{
       console.log(res);
-      navigate('/login');
+      navigate('/');
     })
     .catch((res)=>{
       console.log(res);

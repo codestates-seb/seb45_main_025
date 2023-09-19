@@ -83,6 +83,7 @@ export default function MyPageEdit(){
       .then((res)=>{
         console.log(res);
         localStorage.clear()
+        scrollTo(0, 0)
         navigate('/')
       })
       .catch((res)=>console.log(res))
@@ -139,7 +140,9 @@ export default function MyPageEdit(){
         "email" : emailFront + '@' + emailBack,
         "password" : passWord
       },{ headers: {Authorization: access_token} })
-      .then(()=>navigate('/mypage'))
+      .then(()=>{
+        scrollTo(0, 0);
+        navigate('/mypage')})
       .catch((res)=>console.log(res))
     }
     console.log(name,nickName,gender,birth,address,phoneNumber,emailFront,passWord)
