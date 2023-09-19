@@ -107,7 +107,6 @@ public class BoardController {
         int adjustedPage = page - 1;
         Page<Board> boardList;
 
-
         if (search != null && !search.isEmpty()) {
             boardList = boardRepository.findByTitleContains(search, pageable);
         } else {

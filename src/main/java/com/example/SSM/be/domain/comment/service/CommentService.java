@@ -35,11 +35,11 @@ public class CommentService {
         comment.setMember(member);
         comment.setBoard(board);
         comment.setContent(postDto.getContent());
-        Comment comment1 = commentRepository.save(comment);
-        Board findBoard = boardRepository.findById(board.getBoardId()).get();
-        findBoard.setCommentCount(findBoard.getComments().size());
-        boardRepository.save(findBoard);
-        return comment1;
+        return commentRepository.save(comment);
+//        Board findBoard = boardRepository.findById(board.getBoardId()).get();
+//        findBoard.setCommentCount(findBoard.getComments().size());
+//        boardRepository.save(findBoard);
+
     }
 
     //댓글 수정
