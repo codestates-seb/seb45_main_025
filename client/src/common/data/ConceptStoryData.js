@@ -1,9 +1,10 @@
 export const conceptStoryData = [
+  
   {
-    title: "명장의 땀",
-    tags: ["노력"],
-    description: "명장은 땀으로 말한다.",
-    image: require('../image/jelly-bottle.png'),
+    title: "Happy CHUSEOK SALE",
+    tags: ["CHUSEOK", "Event", "UP TO 50% OFF"],
+    description: "Happy Chuseok Event",
+    image: require('../image/Post4.jpeg'),
   }, {
     title: "Free Delivery",
     tags: ["New", "Event", "Free"],
@@ -19,10 +20,5 @@ export const conceptStoryData = [
     tags: ["HALLOWEEN", "Event", "UP TO 50% OFF"],
     description: "Happy Halloween Event",
     image: require('../image/Post3.avif'),
-  }, {
-    title: "Happy CHUSEOK SALE",
-    tags: ["CHUSEOK", "Event", "UP TO 50% OFF"],
-    description: "Happy Chuseok Event",
-    image: require('../image/Post4.jpeg'),
-  }
+  },
 ]
