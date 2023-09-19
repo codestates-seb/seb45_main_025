@@ -80,6 +80,11 @@ export const FormCotents = styled.div`
     margin: 0.2rem 0.3rem 0.8rem 0.5rem;
   }
 
+  .order-list-container {
+    max-height: 15.5rem;
+    overflow-y: scroll;
+  }
+
   label {
     font-size: 1rem;
     color: var(--gray-50);

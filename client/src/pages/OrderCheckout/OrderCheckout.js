@@ -1,5 +1,3 @@
-// TODO: order api 요청
-// TODO: user info 받아오기 (이름, 이메일)
 import { useRef, useEffect } from "react";
 import {
   // PaymentWidgetInstance, 
@@ -21,6 +19,7 @@ export default function OrderCheckout() {
   const paymentWidgetRef = useRef(null);
   const paymentMethodsWidgetRef = useRef(null);
   const subtotalPrice = useSelector((state) => state.cart.subtotalPrice);
+  // const subtotalPrice = 5000;
   const selected = useSelector((state) => state.cart.selected);
   const selectedId = selected.map(el => el.product.id);
   const name = useSelector((state) => state.order.orderName);
@@ -61,21 +60,21 @@ export default function OrderCheckout() {
     if (paymentMethodsWidget == null) {
       return;
     }
-
     // ------ 금액 업데이트 ------
     // https://docs.tosspayments.com/reference/widget-sdk#updateamount결제-금액
     // paymentMethodsWidget.updateAmount(
     // price,
     // paymentMethodsWidget.UPDATE_REASON.COUPON
     // );
-  }, []);
+  }, [subtotalPrice]);
 
   return (
     <>
       <BackgroundImage imgSrc={snackImg} title='PAYMENT' />
       <OrderCheckoutContainer>
         {/* <h1>PAYMENT</h1> */}
-        <h1>Payment Amount: {`${subtotalPrice.toLocaleString()}`}</h1>
+        <div className='amount'>Payment Amount</div>
+        <h1>&#8361; {`${subtotalPrice.toLocaleString()}`}</h1>
         <div className='alert'>
           <AlertIcon />
           This is a test payment. No actual payment will be processed.

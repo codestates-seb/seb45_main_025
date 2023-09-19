@@ -31,7 +31,7 @@ export const OrderFailContainer = styled.div`
     padding: 0.5rem 1rem;
     font-size: 1rem;
     font-weight: 200;
-    margin-top: 3rem;
+    margin-top: 5rem;
   }
 
   button:hover {

@@ -8,7 +8,7 @@ import {
   LeftNavContainer,
   RightNavContainer
 } from './Header.styled';
-import headerLogoImgBig from '../../common/image/header-logo-big.png';
+import headerLogoImgBig from '../../common/image/newLogo.png';
 import headerLogoImgSmall from '../../common/image/header-logo-small.png';
 import { ReactComponent as LoginIcon } from '../../common/image/HeaderIcon/login.svg';
 import { ReactComponent as SignupIcon } from '../../common/image/HeaderIcon/signup.svg';
@@ -25,7 +25,7 @@ export default function Header() {
   const isHome = useLocation().pathname === '/';
   const [isLogin, setIsLogin] = useState(false);
   const [url, setUrl] = useState('')
-  
+
   detectUrlChange.on('change', (newUrl) => {
     setUrl(newUrl)
   });
@@ -44,9 +44,9 @@ export default function Header() {
 
   useEffect(() => {
     console.log("checklogin")
-    if(getAccessToken()){
+    if (getAccessToken()) {
       setIsLogin(true)
-    }else{
+    } else {
       setIsLogin(false)
     }
   }, [url]);
@@ -55,7 +55,7 @@ export default function Header() {
     window.scroll(0, 0);
   }
 
-  const logout_btn = ()=>{
+  const logout_btn = () => {
     localStorage.clear()
     setIsLogin(false)
   }
