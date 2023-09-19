@@ -197,7 +197,7 @@ import {
   Icon,
   ListItemNumber,
   BackgroundImageContainer,
-  ListItemComment
+  // ListItemComment
 
 } from './CommunityList.styled';
 import CommunityBack from '../../common/image/CommunityBack.webp';
@@ -277,88 +277,89 @@ function CommunityList() {
 
   return (
     <>
-    <BackgroundImageContainer backgroundImage={`url(${CommunityBack})`}>
+      <BackgroundImageContainer backgroundImage={`url(${CommunityBack})`}>
         Community
       </BackgroundImageContainer>
-    <Container>
-    <SearchContainer>
-        <Input
-          type="text"
-          value={searchTerm}
-          onChange={(event) => handleSearchChange(event)}
-          placeholder=""
-          onKeyDown={(event) => handleInputKeyPress(event)}
-        />
-        <SearchButton onClick={handleSearchClick}>Search</SearchButton>
-      </SearchContainer>
-      <PostButtonContainer>
-        <Filter>
-          <DropdownContainer>
+      <Container>
+        <SearchContainer>
+          <Input
+            type="text"
+            value={searchTerm}
+            onChange={(event) => handleSearchChange(event)}
+            placeholder=""
+            onKeyDown={(event) => handleInputKeyPress(event)}
+          />
+          <SearchButton onClick={handleSearchClick}>Search</SearchButton>
+        </SearchContainer>
+        <PostButtonContainer>
+          <Filter>
+            <DropdownContainer>
 
-            <DropdownButton onClick={toggleDropdown}>
-              <Icon>
-                <PiFunnel className="icon" />
-              </Icon>{sortType}
-            </DropdownButton>
-            {isDropdownOpen && (
-              <DropdownOptions>
-                {['latest', 'oldest', 'popular'].map((type) => (
-                  <DropdownOption
-                    key={type}
-                    onClick={() => handleSortTypeChange(type)}
-                  >
-                    {type}
-                  </DropdownOption>
-                ))}
-              </DropdownOptions>
-            )}
-          </DropdownContainer>
-        </Filter>
-      </PostButtonContainer>
+              <DropdownButton onClick={toggleDropdown}>
+                <Icon>
+                  <PiFunnel className="icon" />
+                </Icon>{sortType}
+              </DropdownButton>
+              {isDropdownOpen && (
+                <DropdownOptions>
+                  {['latest', 'oldest', 'popular'].map((type) => (
+                    <DropdownOption
+                      key={type}
+                      onClick={() => handleSortTypeChange(type)}
+                    >
+                      {type}
+                    </DropdownOption>
+                  ))}
+                </DropdownOptions>
+              )}
+            </DropdownContainer>
+          </Filter>
+        </PostButtonContainer>
 
-      {data.map((item, index) => (
-        <ListItem
-          key={item.boardId}
-          role="button"
-          tabIndex={0}
-          onClick={() => navigate(`/CommunityBoard/${item.boardId}`)}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-              navigate(`/CommunityBoard/${item.boardId}`);
-            }
-          }}
-        >
-          <ListItemNumber>{(totalElements - (currentPage - 1) * 10) - index}.</ListItemNumber>
-          <ListItemTitle>
-            {item.title.length > 30 ? `${item.title.slice(0, 30)}...` : item.title}
-          </ListItemTitle>
-          <ListItemComment>Comments: {item.countComment}</ListItemComment>
-          <Link to={`/CommunityBoard/${item.boardID}`}></Link>
-          <ListItemDetails>
-            Author: {item.author} | Date: {formatDate(item.createAt)} | Views: {item.view}
-          </ListItemDetails>
-        </ListItem>
-      ))}
+        {data.map((item, index) => (
+          <ListItem
+            key={item.boardId}
+            role="button"
+            tabIndex={0}
+            onClick={() => navigate(`/CommunityBoard/${item.boardId}`)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                navigate(`/CommunityBoard/${item.boardId}`);
+              }
+            }}
+          >
+            <ListItemNumber>{(totalElements - (currentPage - 1) * 10) - index}.</ListItemNumber>
+            <ListItemTitle>
+              {item.title.length > 25 ? `${item.title.slice(0, 25)}...` : item.title}
+            </ListItemTitle>
 
-      <PostButtonContainer>
-        <PostButton onClick={navigateToWritePost}>Post</PostButton>
-      </PostButtonContainer>
-      <PaginationContainer>
-        <ReactPaginate
-          previousLabel="<"
-          nextLabel=">"
-          breakLabel="..."
-          pageCount={totalPages}
-          marginPagesDisplayed={2}
-          pageRangeDisplayed={5}
-          onPageChange={handlePageClick}
-          containerClassName="pagination"
-          subContainerClassName="pages pagination"
-          activeClassName="active"
-          forcePage={currentPage - 1}
-        />
-      </PaginationContainer>
-    </Container>
+            <Link to={`/CommunityBoard/${item.boardID}`}></Link>
+            <ListItemDetails>
+              Author: {item.author} | Date: {formatDate(item.createAt)} | Views: {item.view} | Comments: {item.countComment}
+            </ListItemDetails>
+            {/* <ListItemComment></ListItemComment> */}
+          </ListItem>
+        ))}
+
+        <PostButtonContainer>
+          <PostButton onClick={navigateToWritePost}>Post</PostButton>
+        </PostButtonContainer>
+        <PaginationContainer>
+          <ReactPaginate
+            previousLabel="<"
+            nextLabel=">"
+            breakLabel="..."
+            pageCount={totalPages}
+            marginPagesDisplayed={2}
+            pageRangeDisplayed={5}
+            onPageChange={handlePageClick}
+            containerClassName="pagination"
+            subContainerClassName="pages pagination"
+            activeClassName="active"
+            forcePage={currentPage - 1}
+          />
+        </PaginationContainer>
+      </Container>
     </>
   );
 }
