@@ -8,6 +8,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -56,6 +59,7 @@ public class Member extends Auditable {
     private Boolean isOauth = false;
 
     @ElementCollection(fetch = FetchType.EAGER)
+    @Cascade(value = org.hibernate.annotations.CascadeType.REMOVE) // Cascade 설정 추가
     private List<String> roles = new ArrayList<>();
     @JsonIgnore
     @OneToOne(mappedBy = "member", cascade = CascadeType.PERSIST, orphanRemoval = true, fetch = FetchType.LAZY)
