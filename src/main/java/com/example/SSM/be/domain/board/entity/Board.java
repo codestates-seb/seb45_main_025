@@ -48,8 +48,8 @@ public class Board extends Auditable {
     @Column
     private int fileAttached;
 
-    @Column
-    private long commentCount;
+    @Column(name = "comment_count")
+    private Integer commentCount;
 
     @OneToMany(mappedBy = "board", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<Image> imageList;
