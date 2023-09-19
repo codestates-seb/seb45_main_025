@@ -59,6 +59,7 @@ export default function MyPageEdit(){
       let access_token = getAccessToken();
       console.log(access_token)
       const formData = new FormData();
+      console.log(compressedFile)
       formData.append('image',compressedFile);
       axios.patch(`${URI}/mypage/pofileImage`,formData,{ headers: {Authorization: access_token,'Content-Type': 'multipart/form-data'}}
       )
