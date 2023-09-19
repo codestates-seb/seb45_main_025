@@ -2,6 +2,7 @@ package com.example.SSM.be.domain.comment.entity;
 
 import com.example.SSM.be.domain.board.audit.Auditable;
 import com.example.SSM.be.domain.board.entity.Board;
+import com.example.SSM.be.domain.member.entity.Member;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,8 +29,10 @@ public class Comment extends Auditable {
     @Column(nullable = false)
     private String content;
 
-    @Column(nullable = false)
-    private String author;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name ="member_id")
+    private Member member;
+
 
 
 

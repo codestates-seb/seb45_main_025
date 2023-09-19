@@ -62,11 +62,9 @@ public class CommentController {
         return new ResponseEntity(comment.getBoard().getMember().getName(),HttpStatus.OK);
 
     }
-    //0919
     //댓글 수정하기
     @PatchMapping("{board-id}/comment/{comment-id}")
-    public ResponseEntity updateComment(@PathVariable("board-id") long boardId,
-                                        @PathVariable("comment-id") long commentId,
+    public ResponseEntity updateComment(@PathVariable("comment-id") long commentId,
                                         @RequestBody CommentDto patchDto,
                                         @RequestHeader("Authorization") String authorizationHeader){
         Jws<Claims> claims = tokenService.checkAccessToken(authorizationHeader);

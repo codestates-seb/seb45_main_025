@@ -10,18 +10,18 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface CommentMapper {
 
-     default Comment commentDtoToComment(Board board, CommentDto postDto, Member member){
-        Comment comment = new Comment();
-        comment.setContent(postDto.getContent());
-        comment.setAuthor(member.getName());
-        comment.setBoard(board);
-        return comment;
-    }
+//     default Comment commentDtoToComment(Board board, CommentDto postDto, Member member){
+//        Comment comment = new Comment();
+//        comment.setContent(postDto.getContent());
+//        comment.setAuthor(member.getName());
+//        comment.setBoard(board);
+//        return comment;
+//    }
 
     default CommentResponseDto commentToCommentResponseDto(Comment comment){
          CommentResponseDto commentResponseDto = new CommentResponseDto();
          commentResponseDto.setCommentId(comment.getCommentId());
-         commentResponseDto.setName(comment.getAuthor());
+         commentResponseDto.setNickName(comment.getMember().getNickName());
          commentResponseDto.setContent(comment.getContent());
          commentResponseDto.setCreateAt(comment.getCreatedAt());
          return commentResponseDto;

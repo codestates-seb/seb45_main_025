@@ -32,7 +32,7 @@ public class CommentService {
     //댓글 생성
     public Comment createComment(Member member, Board board, CommentDto postDto){
         Comment comment = new Comment();
-        comment.setAuthor(member.getName());
+        comment.setMember(member);
         comment.setBoard(board);
         comment.setContent(postDto.getContent());
         Comment comment1 = commentRepository.save(comment);
@@ -47,9 +47,7 @@ public class CommentService {
     public void updateComment(Member member, long commentId, CommentDto patchDto){
         Optional<Comment> optionalComment = commentRepository.findById(commentId);
         if(optionalComment.isPresent()){
-            if(optionalComment.get().getBoard().getMember().getEmail().equals(member.getEmail())){
-//            if(optionalComment.get().getAuthor().equals(member.getName())){
-
+            if(optionalComment.get().getMember().getEmail().equals(member.getEmail())){
                 Comment comment = optionalComment.get();
                 comment.setContent(patchDto.getContent());
                 commentRepository.save(comment);
@@ -80,7 +78,7 @@ public class CommentService {
         Optional<Comment> optionalComment = commentRepository.findById(commentId);
         if(optionalComment.isPresent()){
             Comment comment = optionalComment.get();
-            if(member.getEmail().equals(comment.getBoard().getMember().getEmail())){
+            if(comment.getMember().getEmail().equals(member.getEmail())){
                 commentRepository.deleteById(commentId);
                 Optional<Board> optionalBoard = boardRepository.findById(boardId);
                 if(optionalBoard.isPresent()){
