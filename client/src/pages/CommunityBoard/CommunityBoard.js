@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import {
-    BiDotsVerticalRounded,
-    // BiSolidUserCircle
+  BiDotsVerticalRounded,
+  // BiSolidUserCircle
 } from "react-icons/bi";
 import { useParams, useNavigate } from 'react-router-dom';
 import getAccessToken from '../../common/utils/getToken.js';
@@ -170,32 +170,34 @@ function CommunityBoard() {
                     ))}
                     */}
 
-                    <div>{htmlToText(boardData.content)}</div>
-                </PostBoard>
-            </PostBox>
+          <div>{htmlToText(boardData.content)}</div>
+        </PostBoard>
+      </PostBox>
 
 
-            {/* Comment */}
-            <ComuCommentWriting>
-                <WriteComment
-                    boardId={id}
-                    fetchComment={fetchComments}
-                    fetchBoard={fetchData} />
-            </ComuCommentWriting>
+      {/* Write Comment */}
+      <ComuCommentWriting>
+        <WriteComment
+          boardId={id}
+          fetchComment={fetchComments}
+          fetchBoard={fetchData} />
+      </ComuCommentWriting>
 
-            <ComuComment>
-                {comments.length &&
-                    comments.map((comment) => (
-                        <Comment
-                            key={comment.commentId}
-                            boardId={id}
-                            comment={comment}
-                            fetchComment={fetchComments}
-                            fetchBoard={fetchData} />
-                    ))}
-            </ComuComment >
-        </CommunityBoardContainer >
-    );
+      {/* Comment List */}
+      {comments.length > 0 &&
+        <ComuComment>
+          {comments.map((comment) => (
+            <Comment
+              key={comment.commentId}
+              boardId={id}
+              comment={comment}
+              fetchComment={fetchComments}
+              fetchBoard={fetchData} />
+          ))}
+        </ComuComment >
+      }
+    </CommunityBoardContainer >
+  );
 
 }
 

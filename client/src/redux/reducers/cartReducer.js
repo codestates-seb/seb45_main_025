@@ -1,4 +1,4 @@
-import { CartDataSample } from '../../common/data/CartDataSample';
+// import { CartDataSample } from '../../common/data/CartDataSample';
 import {
   SET_CART_ITEMS,
   SET_SELECTED,
@@ -7,8 +7,8 @@ import {
 } from '../actions/cartActions';
 
 const initialState = {
-  cartItems: CartDataSample,
-  selected: CartDataSample,
+  cartItems: [],
+  selected: [],
   allSelected: true,
   subtotalPrice: 0,
 };

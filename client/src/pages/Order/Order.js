@@ -99,20 +99,21 @@ export default function Order() {
     setInputNameMsg('');
     setInputAddressMsg('');
     setInputPhoneMsg('');
-    if (!isInputValid) {
-      window.scroll(0, 870);
+
+    if (!inputPhone) {
+      setInputPhoneMsg(`Please enter the phone number`);
+      inputPhoneRef.current.focus();
+    }
+    if (!inputAddress) {
+      setInputAddressMsg(`Please enter the address`);
+      inputAddressRef.current.focus();
     }
     if (!inputName) {
       setInputNameMsg(`Please enter the recipient's name`);
       inputNameRef.current.focus();
-      return;
-    } else if (!inputAddress) {
-      setInputAddressMsg(`Please enter the address`);
-      inputAddressRef.current.focus();
-      return;
-    } else if (!inputPhone) {
-      setInputPhoneMsg(`Please enter the phone number`);
-      inputPhoneRef.current.focus();
+    }
+    if (!isInputValid) {
+      scrollTo(0, 654);
       return;
     }
 
@@ -193,29 +194,31 @@ export default function Order() {
             </FormContainer>
           </LeftBox>
           <RightBox
-            className={scrollY > 490 ? 'fixed' : 'absolute'}
+            className={scrollY > 350 ? 'fixed' : 'absolute'}
             ref={rightBoxRef}>
             <FormContainer>
               <FormTitle>ORDER LIST</FormTitle>
               <FormCotents>
-                {selectedItems.map((item) => (
-                  <div key={item.product.id} className='order-list'>
-                    <img src={`${apiUrl}${item.product.img}`} alt='' />
-                    <div className='flex-grow'>
-                      <div className='flex-row'>
-                        <div className='product-name'>{item.product.productName}</div>
-                        <div className='total-price'>&#8361; {(item.product.productPrice * item.quantity).toLocaleString()}</div>
-                      </div>
-                      <div
-                        className='flex-row'
-                        key={item.product.id}>
-                        <div className='product-quantity'>
-                          quantity {item.quantity}</div>
-                        <div className='product-price'>&#8361; {(item.product.productPrice).toLocaleString()}</div>
+                <div className='order-list-container'>
+                  {selectedItems.map((item) => (
+                    <div key={item.product.id} className='order-list'>
+                      <img src={`${apiUrl}${item.product.img}`} alt='' />
+                      <div className='flex-grow'>
+                        <div className='flex-row'>
+                          <div className='product-name'>{item.product.productName}</div>
+                          <div className='total-price'>&#8361; {(item.product.productPrice * item.quantity).toLocaleString()}</div>
+                        </div>
+                        <div
+                          className='flex-row'
+                          key={item.product.id}>
+                          <div className='product-quantity'>
+                            quantity {item.quantity}</div>
+                          <div className='product-price'>&#8361; {(item.product.productPrice).toLocaleString()}</div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
                 <div className='subtotal-price'>
                   &#8361; {subtotalPrice.toLocaleString()}
                 </div>

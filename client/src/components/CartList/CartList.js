@@ -103,7 +103,7 @@ export default function CartList() {
           console.log(error);
         })
     }
-    window.scroll(0, 340);
+    window.scroll(0, 315);
   }
 
   return (
@@ -139,7 +139,7 @@ export default function CartList() {
       </CartTable>
       <FlexBox>
         <ButtonsContainer>
-          <Link to='/products'>
+          <Link to='/list' onClick={() => scrollTo(0, 0)}>
             <button>Keep Shopping</button>
           </Link>
           <button

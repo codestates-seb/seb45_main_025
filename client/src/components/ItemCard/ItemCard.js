@@ -10,7 +10,7 @@ export default function ItemCard({ item }) {
       <div className='product-info'>
         <div className='product-title'>{item.productName}</div>
         <div className='flex-row'>
-          <div className='product-price'>{item.productPrice.toLocaleString()}</div>
+          <div className='product-price'>&#8361; {item.productPrice.toLocaleString()}</div>
           <div className='like'>
             <HeartIcon />
             {item.likes}

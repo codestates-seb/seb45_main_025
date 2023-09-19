@@ -11,8 +11,7 @@ export const OrderCheckoutContainer = styled.div`
   h1 {
     color: var(--gray-90);
     font-weight: 900;
-    /* letter-spacing: 5px; */
-    font-size: 40px;
+    font-size: 2.5rem;
     margin: 2rem 0 0 0;
   }
 
@@ -56,15 +55,16 @@ export const OrderCheckoutContainer = styled.div`
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    color: var(--brown-20);
+    color: var(--red-90);
     margin: 1.5rem;
+    font-size: 1.2rem;
     
     svg {
       margin: 0 0.6rem;
-
-      path {
-        fill: var(--brown-10);
-      }
     }
+  }
+
+  .amount {
+    font-size: 1.5rem;
   }
 `;

@@ -7,8 +7,11 @@ export default function Comment({ boardId, comment, fetchComment, fetchBoard }) 
   const [newComment, setNewComment] = useState(comment.content);
   const inputRef = useRef(null);
   const [isEdit, setIsEdit] = useState(false);
+  // const [isAuthor, setIsAuthor] = useState(false);
   const apiUrl = process.env.REACT_APP_API_URL;
   let accessToken = getAccessToken();
+
+  // setIsAuthor(false);
 
   useEffect(() => {
     if (isEdit) {
@@ -65,13 +68,21 @@ export default function Comment({ boardId, comment, fetchComment, fetchBoard }) 
         /> :
         <div>
           {comment.content}
-        </div>}
-      <div className='name'>{comment.name}</div>
-      <></>
-      {isEdit ?
-        <button onClick={patchHandler}>Save</button> :
-        <button onClick={() => setIsEdit(true)}>Edit</button>}
-      <button onClick={deleteHandler}>Delete</button>
+        </div>
+      }
+      <div className='flex-row'>
+        <div className='info'>
+          <div className='name'>Author: {comment.name} |</div>
+          <div className='date'>Date: {comment.createAt.slice(0, 10).replaceAll('-', '.')}</div>
+        </div>
+        <div className='btn-container'>
+          {isEdit ?
+            <button onClick={patchHandler}>Save</button> :
+            <button onClick={() => setIsEdit(true)}>Edit</button>
+          }
+          <button className='delete-btn' onClick={deleteHandler}>Delete</button>
+        </div>
+      </div>
 
     </CommentContainer>
   )
