@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import { styled } from "styled-components";
 
 export const CommunityBoardContainer = styled.div`
     /* height: 100vh; */
@@ -8,6 +8,26 @@ export const CommunityBoardContainer = styled.div`
     justify-content: center;
     align-items: center;
     margin-bottom: 5vh;
+`;
+
+export const BackgroundImageContainer = styled.div`
+  width: 100vw;
+  height: 25rem;
+  background-image: ${({ backgroundImage }) => backgroundImage};
+  background-size: cover;
+  background-position: center 20%;
+
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 3.5rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+  font-weight: 1000;
+  letter-spacing: 3px;
+  padding-top: 3rem;
+  padding-bottom: 5rem;
+  margin-bottom: 2rem;
 `;
 
 export const Line = styled.div`

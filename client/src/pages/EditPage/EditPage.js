@@ -1,7 +1,7 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import axios from 'axios'
 import getAccessToken from '../../common/utils/getToken';
@@ -15,8 +15,7 @@ import {
     PublishButtonContainer,
     PublishButton,
     BackgroundImageContainer,
-    ImageInput
-} from './WritePost.styled';
+} from './EditPage.styled';
 
 const Editor = ({ placeholder, value, onChange }) => {
     const modules = {
@@ -73,12 +72,11 @@ Editor.propTypes = {
     onChange: PropTypes.func.isRequired,
 };
 
-function WritePost() {
+function EditPage() {
     const URI = process.env.REACT_APP_API_URL;
+
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
-    const [myImg, setMyImg] = useState([]);
-    const [myImgPost, setMyImgPost] = useState([]);
     const handleContentChange = (newContent) => {
         setContent(newContent);
     };
@@ -87,39 +85,74 @@ function WritePost() {
 
     const quillRef = useRef(); // Quill 에디터에 접근하기 위한 ref
 
-    const handlePublish = async () => {
-        let access_token = getAccessToken();
+    useEffect(() => {
+        fetchData()
+    }, [])
 
+    // const handlePublish = async () => {
+    //     let access_token = getAccessToken();
+
+    //     try {
+    //         const formData = new FormData();
+    //         formData.append("title", title);
+    //         formData.append("content", content);
+
+
+    //         const response = await axios.post(`${URI}/board`, formData, {
+    //             headers: {
+    //                 Authorization: access_token,
+    //                 "Content-Type": "multipart/form-data",
+    //             },
+    //         });
+
+    //         console.log('백엔드 응답:', response.data);
+    //         navigate('/CommunityList');
+    //     } catch (error) {
+    //         console.error('에러 발생:', error);
+    //     }
+    // };
+    const param = useParams()
+    const id = param.id;
+
+    const fetchData = async () => {
+
+        try {
+            const response = await axios.get(`${URI}/board/${id}`);
+            // 여기에서 응답 데이터를 처리합니다.
+
+            console.log(response.data);
+
+            setTitle(response.data.title)
+            setContent(response.data.content)
+
+        } catch (error) {
+            // 에러 처리
+            console.error(error);
+        }
+    };
+    const editHandler = async () => {
+        let access_token = getAccessToken();
+        navigate(`/EditPage/${id}`)
         try {
             const formData = new FormData();
             formData.append("title", title);
             formData.append("content", content);
-            for (let i = 0; i < myImgPost.length; i++){
-                formData.append("images", myImgPost[i]);
-            }
-            const response = await axios.post(`${URI}/board`, formData, {
-                headers: {
-                    Authorization: access_token,
-                    "Content-Type": "multipart/form-data",
-                },
-            });
+            const response = await axios.patch(`${URI}/board/${id}/update`, formData,
+                {
+                    headers: {
+                        Authorization: access_token,
+                        "Content-Type": "multipart/form-data",
+                    },
+                }
+            );
+            // 여기에서 응답 데이터를 처리합니다. formdata???
+            console.log(response.data);
+            navigate('/CommunityList')
 
-            console.log('백엔드 응답:', response);
-            navigate('/CommunityList');
         } catch (error) {
-            console.error('에러 발생:', error);
+            // 에러 처리
+            console.error(error);
         }
-    };
-    
-    async function imgupload(e){
-        if(e.target.value !==''){
-          const reader = new FileReader();
-          reader.onload = (e) => {	
-            setMyImg([...myImg,e.target.result]); // 파일의 컨텐츠
-          };
-          reader.readAsDataURL(e.target.files[0]);
-          setMyImgPost([...myImgPost,e.target.files[0]])
-      }
     }
     return (
         <>
@@ -156,25 +189,17 @@ function WritePost() {
                             }
                         />
                     </EditorWrapper>
-                    <ImageInput>
-                {myImg.map((ele)=><img key={ele} src={ele} alt='img'/>)}
-                <label htmlFor="upload">
-                <div className="btn-upload">select image</div>
-                </label>
-                <input type="file" name="image" id="upload" accept="image/*" onChange={(e)=>imgupload(e)} />
-                </ImageInput>
                 </EditorContainer>
                 <PublishButtonContainer>
                     <PublishButton
-                        onClick={handlePublish}
+                        onClick={editHandler}
                     >
-                        Post
+                        Edit
                     </PublishButton>
                 </PublishButtonContainer>
             </Container>
         </>
-
     );
 }
 
-export default WritePost;
+export default EditPage;

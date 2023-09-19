@@ -109,7 +109,7 @@ export default function Order() {
       inputAddressRef.current.focus();
     }
     if (!inputName) {
-      setInputNameMsg(`Please enter the recipint's name`);
+      setInputNameMsg(`Please enter the recipient's name`);
       inputNameRef.current.focus();
     }
     if (!isInputValid) {
