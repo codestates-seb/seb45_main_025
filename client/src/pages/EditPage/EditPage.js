@@ -126,7 +126,22 @@ function EditPage() {
 
             setTitle(response.data.title)
             setContent(response.data.content)
+            // let imageurl = response.data.saveFileName;
+            // imageurl.map((ele)=>setMyImg([...myImg,`${URI}/images/${ele}`]));
 
+            // const downloadImage = async (imageUrl) => {
+                
+            //       const response = await fetch(imageUrl);
+            //       console.log(response)
+            //       const blob = await response.blob();
+            //       const file = new File([blob], 'downloaded_image.png', { type: blob.type });
+            //       // Blob을 변수에 저장
+            //       setMyImgPost([file]);
+            
+            //       // 이후 여기서 imageData 변수를 활용하여 필요한 작업을 수행할 수 있습니다.
+               
+            // };
+            // imageurl.map((ele)=>downloadImage(`${URI}/images/${ele}`));
         } catch (error) {
             // 에러 처리
             console.error(error);
@@ -140,6 +155,7 @@ function EditPage() {
             formData.append("title", title);
             formData.append("content", content);
             for (let i = 0; i < myImgPost.length; i++){
+                console.log(myImgPost[i])
                 formData.append("images", myImgPost[i]);
             }
             const response = await axios.patch(`${URI}/board/${id}/update`, formData,
