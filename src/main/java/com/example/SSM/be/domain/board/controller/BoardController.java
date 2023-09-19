@@ -20,6 +20,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -74,10 +75,19 @@ public class BoardController {
             Date expirationDate = calendar.getTime();
             int maxAgeInSeconds = (int) (expirationDate.getTime() - System.currentTimeMillis()) / 1000;
             // 쿠키 생성 및 설정 (게시글 ID를 쿠키에 저장)
-            Cookie cookie = new Cookie("viewed_" + boardId, "true");
-            cookie.setMaxAge(maxAgeInSeconds);
-            cookie.setPath("/");
-            response.addCookie(cookie);
+//            Cookie cookie = new Cookie("viewed_" + boardId, "true");
+//            cookie.setMaxAge(maxAgeInSeconds);
+//            cookie.setPath("/");
+//            response.addCookie(cookie);
+            ResponseCookie ViewedCookie= ResponseCookie.from("viewed_" + boardId, "true")
+                    .sameSite("None")
+                    .secure(true)
+                    .httpOnly(true)
+                    .domain("www.ksnacksncak.shop")
+                    .maxAge(60 * 10) // 10분
+                    .path("/")
+                    .build();
+            response.addHeader("Set-Cookie", ViewedCookie.toString());
         }else if(isAlreadyViewed){
             responseBoardDto = boardService.findById(boardId, isAlreadyViewed);
 
