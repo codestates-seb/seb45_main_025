@@ -10,7 +10,6 @@ export const CommentContainer = styled.div`
   .info {
     display: flex;
     flex-direction: row;
-    /* justify-content: flex-end; */
     width: 100%;
     margin: 0.3rem 0;
 
@@ -42,7 +41,7 @@ export const CommentContainer = styled.div`
     padding: 0.3rem;
     border-radius: 5px;
     margin: 0.2rem;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
   }
 
   .delete-btn {

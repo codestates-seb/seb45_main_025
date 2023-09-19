@@ -222,7 +222,6 @@ function CommunityBoard() {
                     </PostUserBox>
                     <PostBoard>
                         <div className="viewer" dangerouslySetInnerHTML={{ __html: boardData.content }} />
-
                         <div>{htmlToText(boardData.content)}</div>
                     </PostBoard>
                 </PostBox>

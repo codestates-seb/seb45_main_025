@@ -54,7 +54,6 @@ export const CommunityH = styled.div`
 `;
 
 export const PostBox = styled.div`
-    height: 700px;
     width: 1000px;
     background-color: white;
     

@@ -25,6 +25,12 @@ export default function Comment({ boardId, comment, fetchComment, fetchBoard }) 
   }
 
   const patchHandler = () => {
+    const confirm = window.confirm(`Would you like to edit your comment?`);
+
+    if (!confirm) {
+      return;
+    }
+
     accessToken = getAccessToken();
     setIsEdit(false);
     axios
@@ -43,6 +49,12 @@ export default function Comment({ boardId, comment, fetchComment, fetchBoard }) 
   }
 
   const deleteHandler = () => {
+    const confirm = window.confirm(`Are you sure you want to delete your comment?`);
+
+    if (!confirm) {
+      return;
+    }
+
     accessToken = getAccessToken();
     axios
       .delete(`${apiUrl}/board/${boardId}/comment/${comment.commentId}`,
@@ -72,7 +84,7 @@ export default function Comment({ boardId, comment, fetchComment, fetchBoard }) 
       }
       <div className='flex-row'>
         <div className='info'>
-          <div className='name'>Author: {comment.name} |</div>
+          <div className='name'>Author: {comment.nickName} |</div>
           <div className='date'>Date: {comment.createAt.slice(0, 10).replaceAll('-', '.')}</div>
         </div>
         <div className='btn-container'>
