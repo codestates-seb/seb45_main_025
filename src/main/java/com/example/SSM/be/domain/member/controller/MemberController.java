@@ -1,5 +1,6 @@
 package com.example.SSM.be.domain.member.controller;
 
+import com.example.SSM.be.domain.cart.service.CartService;
 import com.example.SSM.be.domain.member.dto.AuthAdditionalDto;
 import com.example.SSM.be.domain.member.dto.MemberDto;
 import com.example.SSM.be.domain.member.entity.Member;
@@ -34,6 +35,7 @@ public class MemberController {
     private final MemberService memberService;
     private final BlacklistTokenService blacklistTokenService;
     private final TokenService tokenService;
+    private final CartService cartService;
 
     @PostMapping("/signup")
     public ResponseEntity postMember(@Valid @RequestBody MemberDto.PostDto postDto) {

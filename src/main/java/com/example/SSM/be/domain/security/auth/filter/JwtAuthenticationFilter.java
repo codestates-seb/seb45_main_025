@@ -79,12 +79,12 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         String accessToken = delegateAccessToken(member); // accessToken 만들기
         String refreshToken = delegateRefreshToken(member); // refreshToken 만들기
-        String memberId = String.valueOf(member.getUserId());
         String headerAccessToken  = "Bearer " + accessToken;
 
         ResponseCookie responseAccessCookie= ResponseCookie.from("access_token", accessToken)
                 .sameSite("None")
                 .secure(true)
+                .domain("www.ksnacksncak.shop")
                 .maxAge(60 * 5) // 5분
                 .path("/")
                 .build();
@@ -92,6 +92,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .sameSite("None")
                 .secure(true)
                 .httpOnly(true)
+                .domain("www.ksnacksncak.shop")
                 .maxAge(60 * 60*24) // 하루
                 .path("/")
                 .build();
