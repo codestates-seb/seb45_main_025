@@ -14,7 +14,8 @@ import {
     EditorWrapper,
     PublishButtonContainer,
     PublishButton,
-    BackgroundImageContainer,
+    BackgroundImageContainer,ImageInput,
+    ImageDelete
 } from './EditPage.styled';
 
 const Editor = ({ placeholder, value, onChange }) => {
@@ -74,7 +75,8 @@ Editor.propTypes = {
 
 function EditPage() {
     const URI = process.env.REACT_APP_API_URL;
-
+    const [myImg, setMyImg] = useState([]);
+    const [myImgPost, setMyImgPost] = useState([]);
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const handleContentChange = (newContent) => {
@@ -124,7 +126,22 @@ function EditPage() {
 
             setTitle(response.data.title)
             setContent(response.data.content)
+            // let imageurl = response.data.saveFileName;
+            // imageurl.map((ele)=>setMyImg([...myImg,`${URI}/images/${ele}`]));
 
+            // const downloadImage = async (imageUrl) => {
+                
+            //       const response = await fetch(imageUrl);
+            //       console.log(response)
+            //       const blob = await response.blob();
+            //       const file = new File([blob], 'downloaded_image.png', { type: blob.type });
+            //       // Blob을 변수에 저장
+            //       setMyImgPost([file]);
+            
+            //       // 이후 여기서 imageData 변수를 활용하여 필요한 작업을 수행할 수 있습니다.
+               
+            // };
+            // imageurl.map((ele)=>downloadImage(`${URI}/images/${ele}`));
         } catch (error) {
             // 에러 처리
             console.error(error);
@@ -137,6 +154,10 @@ function EditPage() {
             const formData = new FormData();
             formData.append("title", title);
             formData.append("content", content);
+            for (let i = 0; i < myImgPost.length; i++){
+                console.log(myImgPost[i])
+                formData.append("images", myImgPost[i]);
+            }
             const response = await axios.patch(`${URI}/board/${id}/update`, formData,
                 {
                     headers: {
@@ -153,6 +174,22 @@ function EditPage() {
             // 에러 처리
             console.error(error);
         }
+    }
+    async function imgupload(e){
+        if(e.target.value !==''){
+          const reader = new FileReader();
+          reader.onload = (e) => {	
+            setMyImg([...myImg,e.target.result]); // 파일의 컨텐츠
+          };
+          reader.readAsDataURL(e.target.files[0]);
+          console.log(e.target.files[0])
+          setMyImgPost([...myImgPost,e.target.files[0]])
+      }
+    }
+
+    function imgdelete(){
+        setMyImg([])
+        setMyImgPost([])
     }
     return (
         <>
@@ -189,6 +226,16 @@ function EditPage() {
                             }
                         />
                     </EditorWrapper>
+                    <ImageInput>
+                {myImg.map((ele)=><img key={ele} src={ele} alt='img'/>)}
+                <div className='btn-bind'>
+                   <label htmlFor="upload">
+                <div className="btn-upload">Select Image</div>
+                </label>
+                <input type="file" name="image" id="upload" accept="image/*" onChange={(e)=>imgupload(e)} />
+                <ImageDelete onClick={imgdelete}>Delete Image</ImageDelete> 
+                </div>
+                </ImageInput>
                 </EditorContainer>
                 <PublishButtonContainer>
                     <PublishButton

@@ -15,7 +15,8 @@ import {
     PublishButtonContainer,
     PublishButton,
     BackgroundImageContainer,
-    ImageInput
+    ImageInput,
+    ImageDelete
 } from './WritePost.styled';
 
 const Editor = ({ placeholder, value, onChange }) => {
@@ -111,15 +112,21 @@ function WritePost() {
         }
     };
 
-    async function imgupload(e) {
-        if (e.target.value !== '') {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                setMyImg([...myImg, e.target.result]); // 파일의 컨텐츠
-            };
-            reader.readAsDataURL(e.target.files[0]);
-            setMyImgPost([...myImgPost, e.target.files[0]])
-        }
+    async function imgupload(e){
+        if(e.target.value !==''){
+          const reader = new FileReader();
+          reader.onload = (e) => {	
+            setMyImg([...myImg,e.target.result]); // 파일의 컨텐츠
+          };
+          reader.readAsDataURL(e.target.files[0]);
+          console.log(e.target.files[0])
+          setMyImgPost([...myImgPost,e.target.files[0]])
+      }
+    }
+
+    function imgdelete(){
+        setMyImg([])
+        setMyImgPost([])
     }
     return (
         <>
@@ -162,12 +169,15 @@ function WritePost() {
                         />
                     </EditorWrapper>
                     <ImageInput>
-                        {myImg.map((ele) => <img key={ele} src={ele} alt='img' />)}
-                        <label htmlFor="upload">
-                            <div className="btn-upload">select image</div>
-                        </label>
-                        <input type="file" name="image" id="upload" accept="image/*" onChange={(e) => imgupload(e)} />
-                    </ImageInput>
+                {myImg.map((ele)=><img key={ele} src={ele} alt='img'/>)}
+                <div className='btn-bind'>
+                   <label htmlFor="upload">
+                <div className="btn-upload">Select Image</div>
+                </label>
+                <input type="file" name="image" id="upload" accept="image/*" onChange={(e)=>imgupload(e)} />
+                <ImageDelete onClick={imgdelete}>Delete Image</ImageDelete> 
+                </div>
+                </ImageInput>
                 </EditorContainer>
                 <PublishButtonContainer>
                     <PublishButton

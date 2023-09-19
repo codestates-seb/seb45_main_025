@@ -84,6 +84,10 @@ export const EditorWrapper = styled.div`
 export const ImageInput = styled.div`
   margin-right: auto;
   margin-left: 3.2rem;
+  .btn-bind{
+    display: flex;
+    flex-direction: row;
+  }
   >img{
     height: 100px;
   }
@@ -96,6 +100,7 @@ export const ImageInput = styled.div`
     display: none;
   }
   .btn-upload{
+    margin-right: 0.5rem;
     margin-bottom: 1rem;
     border: 1px solid var(--gray-10);
     border-radius: 5px;
@@ -107,6 +112,19 @@ export const ImageInput = styled.div`
       background-color: var(--gray-10);;
     }
   }
+`
+
+export const ImageDelete = styled.div`
+  margin-bottom: 1rem;
+    border: 1px solid var(--gray-10);
+    border-radius: 5px;
+    padding: 0.3rem;
+    font-size: 0.8rem;
+    text-align: center;
+    cursor: pointer;
+    &:hover{
+      background-color: var(--gray-10);;
+    }
 `
 
 export const PublishButtonContainer = styled.div`
