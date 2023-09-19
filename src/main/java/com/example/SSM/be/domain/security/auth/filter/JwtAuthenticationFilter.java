@@ -83,14 +83,14 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         ResponseCookie responseAccessCookie= ResponseCookie.from("access_token", accessToken)
                 .sameSite("None")
-                .secure(false)
+                .secure(true)
                 .domain("www.ksnacksncak.shop")
                 .maxAge(60 * 5) // 5분
                 .path("/")
                 .build();
         ResponseCookie responseRefreshCookie= ResponseCookie.from("refresh_token", refreshToken)
                 .sameSite("None")
-                .secure(false)
+                .secure(true)
                 .httpOnly(true)
                 .domain("www.ksnacksncak.shop")
                 .maxAge(60 * 60*24) // 하루
