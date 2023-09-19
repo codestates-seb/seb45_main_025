@@ -238,9 +238,9 @@ function CommunityBoard() {
                     fetchBoard={fetchData} />
             </ComuCommentWriting>
 
-            <ComuComment>
-                {comments.length &&
-                    comments.map((comment) => (
+            {comments.length > 0 &&
+                <ComuComment>
+                    {comments.map((comment) => (
                         <Comment
                             key={comment.commentId}
                             boardId={id}
@@ -248,7 +248,9 @@ function CommunityBoard() {
                             fetchComment={fetchComments}
                             fetchBoard={fetchData} />
                     ))}
-            </ComuComment >
+                </ComuComment >
+            }
+
         </CommunityBoardContainer >
     );
 
