@@ -48,36 +48,47 @@ export const ListItem = styled.div`
   width: 1000px;
   display: flex;
   justify-content: space-between;
-  text-align: left;
-  border: 1px solid gray;
   
+  border: 1px solid gray;
+  align-items: center;
+  
+`;
+export const ListItemTitle = styled.div`
+  font-size: 1.5rem;
+  color: SaddleBrown;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  display: flex;
+  justify-content: flex-start;
+  text-overflow: ellipsis;
+  margin-right: auto;
+ 
 `;
 
 export const ListItemNumber = styled.div`
   font-size: 1rem;
   font-weight: 1px;
+  
   cursor: pointer;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-size: 27px;
+  padding-right: 8px;
+  /* color: var(--brown-10); */
 `;
 
-export const ListItemTitle = styled.div`
-  font-size: 1.5rem;
-  font-weight: 2px;
-  align-content: center;
-  cursor: pointer;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-`;
+
 
 export const ListItemComment = styled.div`
   font-size: .7rem;
+  margin-left: auto;
+  padding-right: 5px;
 `;
 
 export const ListItemDetails = styled.div`
-  font-size: 0.8rem;
+  font-size: 0.5rem;
   color: gray;
 `;
 

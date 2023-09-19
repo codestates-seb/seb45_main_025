@@ -185,76 +185,71 @@ function CommunityBoard() {
     }, [id]);
     return (
         <>
-        <BackgroundImageContainer backgroundImage={`url(${CommunityBoard1})`}>
-        Board
-        </BackgroundImageContainer>
-        <CommunityBoardContainer>
-            <PostBox>
-                <PostTitleBox>
-                    <PostTitle>
-                        {boardData.title}
-                    </PostTitle>
+            <BackgroundImageContainer backgroundImage={`url(${CommunityBoard1})`}>
+                Board
+            </BackgroundImageContainer>
+            <CommunityBoardContainer>
+                <PostBox>
+                    <PostTitleBox>
+                        <PostTitle>
+                            {boardData.title}
+                        </PostTitle>
 
 
-                    <MenuIcon1 onClick={togglePostMenu} onKeyDown={togglePostMenu} role="button" tabIndex={0}>
-                        <BiDotsVerticalRounded />
-                        {isPostMenuOpen && (
-                            <>
-                                <PostCorrection onClick={editHandler}>Edit</PostCorrection>
-                                <PostDelete onClick={deleteHandler}>Delete</PostDelete>
-                            </>
-                        )}
-                    </MenuIcon1>
+                        <MenuIcon1 onClick={togglePostMenu} onKeyDown={togglePostMenu} role="button" tabIndex={0}>
+                            <BiDotsVerticalRounded />
+                            {isPostMenuOpen && (
+                                <>
+                                    <PostCorrection onClick={editHandler}>Edit</PostCorrection>
+                                    <PostDelete onClick={deleteHandler}>Delete</PostDelete>
+                                </>
+                            )}
+                        </MenuIcon1>
 
-                </PostTitleBox>
-                <PostUserBox>
-                    {/* 프로필이미지 */}
-                    {/* <UserPicture>
+                    </PostTitleBox>
+                    <PostUserBox>
+                        {/* 프로필이미지 */}
+                        {/* <UserPicture>
             {profilePicture ? <img src={profilePicture} alt="프로필" /> : <BiSolidUserCircle />}
           </UserPicture> */}
-                    <div>
-                        {boardData.author
-                            && <span>닉네임: {boardData.author}</span>}
-                        <span>작성일: {boardData.modifiedAt}</span>
-                        <span>조회수: {boardData.view}</span>
+                        <div>
+                            {boardData.author
+                                && <span>닉네임: {boardData.author}</span>}
+                            <span>작성일: {boardData.modifiedAt}</span>
+                            <span>조회수: {boardData.view}</span>
 
-                    </div>
-                </PostUserBox>
-                <PostBoard>
-                    {/* 이 곳에 게시물 컴포넌트 렌더링 */}
-                    {/* 예시:
-                    {posts.map((post) => (
-                        <PostItem key={post.id} post={post} />
-                    ))}
-                    */}
+                        </div>
+                    </PostUserBox>
+                    <PostBoard>
+                        <div className="viewer" dangerouslySetInnerHTML={{ __html: boardData.content }} />
 
-                    <div>{htmlToText(boardData.content)}</div>
-                </PostBoard>
-            </PostBox>
+                        <div>{htmlToText(boardData.content)}</div>
+                    </PostBoard>
+                </PostBox>
 
 
-            {/* Comment */}
-            <ComuCommentWriting>
-                <WriteComment
-                    boardId={id}
-                    fetchComment={fetchComments}
-                    fetchBoard={fetchData} />
-            </ComuCommentWriting>
+                {/* Comment */}
+                <ComuCommentWriting>
+                    <WriteComment
+                        boardId={id}
+                        fetchComment={fetchComments}
+                        fetchBoard={fetchData} />
+                </ComuCommentWriting>
 
-            {comments.length > 0 &&
-                <ComuComment>
-                    {comments.map((comment) => (
-                        <Comment
-                            key={comment.commentId}
-                            boardId={id}
-                            comment={comment}
-                            fetchComment={fetchComments}
-                            fetchBoard={fetchData} />
-                    ))}
-                </ComuComment >
-            }
+                {comments.length > 0 &&
+                    <ComuComment>
+                        {comments.map((comment) => (
+                            <Comment
+                                key={comment.commentId}
+                                boardId={id}
+                                comment={comment}
+                                fetchComment={fetchComments}
+                                fetchBoard={fetchData} />
+                        ))}
+                    </ComuComment >
+                }
 
-        </CommunityBoardContainer >
+            </CommunityBoardContainer >
         </>
     );
 
