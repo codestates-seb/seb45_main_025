@@ -112,7 +112,7 @@ export const LikeWrap = styled.div`
   margin-bottom: 10px;
   > button {
     font-size: 20px;
-    color: var(--brown-20);
+    color: var(--red-90);
     position: relative;
     > span {
       position: absolute;
@@ -127,6 +127,11 @@ export const LikeWrap = styled.div`
   }
   > p {
     padding: 3px 0 0 5px;
-    color: var(--brown-20);
+    color: var(--red-10);
+  }
+  > div {
+    color: var(--red-90);
+    margin-left: 10px;
+    font-size: 0.7rem;
   }
 `;

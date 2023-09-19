@@ -254,6 +254,7 @@ function CommunityList() {
 
   const navigateToWritePost = () => {
     navigate('/WritePost');
+    window.scroll(0, 0);
   };
 
   function formatDate(dateString) {
