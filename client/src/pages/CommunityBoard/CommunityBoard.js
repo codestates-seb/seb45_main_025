@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import {
+
     BiDotsVerticalRounded,
     // BiSolidUserCircle
 } from "react-icons/bi";
@@ -33,8 +34,8 @@ import WriteComment from '../../components/WriteComment/WriteComment.js';
 
 const URI = process.env.REACT_APP_API_URL;
 
-
 function CommunityBoard() {
+
 
   // const [isCommentMenuOpen, setIsCommentMenuOpen] = useState(false);
   const [isPostMenuOpen, setIsPostMenuOpen] = useState(false);
@@ -51,12 +52,9 @@ function CommunityBoard() {
   };
   console.log(handleContentChange)
 
-
-
   const togglePostMenu = () => {
     setIsPostMenuOpen(!isPostMenuOpen);
   };
-
 
   const param = useParams();
   const id = param.boardId;
@@ -114,7 +112,6 @@ function CommunityBoard() {
             setComments(response.data);
             console.log(123, response.data)
         } catch (error) {
-            // 에러 처리
             console.error(error);
         }
     };
@@ -155,7 +152,6 @@ function CommunityBoard() {
             // setComments(updatedComments);
             fetchComments();
         } catch (error) {
-            // 에러 처리
             console.error(error);
         }
 
@@ -171,6 +167,7 @@ function CommunityBoard() {
         const doc = parser.parseFromString(html, 'text/html');
         return doc.body.textContent || '';
     };
+
     useEffect(() => {
         console.log(deleteComment, editComment);
         // 컴포넌트가 마운트될 때 또는 boardId가 변경될 때 fetchData 함수를 호출합니다.
@@ -187,8 +184,6 @@ function CommunityBoard() {
                     <PostTitle>
                         {boardData.title}
                     </PostTitle>
-
-
                     <MenuIcon1 onClick={togglePostMenu} onKeyDown={togglePostMenu} role="button" tabIndex={0}>
                         <BiDotsVerticalRounded />
                         {isPostMenuOpen && (
