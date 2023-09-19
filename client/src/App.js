@@ -28,7 +28,7 @@ import Jelly from './pages/Category/Jelly/Jelly';
 import Candy from './pages/Category/Candy/Candy';
 import Chocolate from './pages/Category/Chocolate/Chocolate';
 import Cookies from './pages/Category/Cookies/Cookies';
-
+import EditPage from './pages/EditPage/EditPage';
 
 function App() {
   return (
@@ -61,6 +61,7 @@ function App() {
         <Route path='/order/checkout' element={<OrderCheckout />} />
         <Route path='/order/fail' element={<OrderFail />} />
         <Route path='/order/success' element={<OrderSuccess />} />
+        <Route path='/EditPage/:id' element={<EditPage />} />
       </Routes>
       <Footer />
     </AppContainer>
