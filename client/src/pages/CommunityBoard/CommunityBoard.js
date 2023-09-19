@@ -36,70 +36,70 @@ const URI = process.env.REACT_APP_API_URL;
 
 function CommunityBoard() {
 
-    // const [isCommentMenuOpen, setIsCommentMenuOpen] = useState(false);
-    const [isPostMenuOpen, setIsPostMenuOpen] = useState(false);
-    const navigate = useNavigate();
-    // const toggleCommentMenu = () => {
-    //   setIsCommentMenuOpen(!isCommentMenuOpen);
-    // };
-    // const [title, editTitle] = useState('');
-    // const [content, editContent] = useState('');
-    // console.log(editContent, editTitle)
-    const handleContentChange = (editContent) => {
-        editContent(editContent);
+  // const [isCommentMenuOpen, setIsCommentMenuOpen] = useState(false);
+  const [isPostMenuOpen, setIsPostMenuOpen] = useState(false);
+  const navigate = useNavigate();
+  // const toggleCommentMenu = () => {
+  //   setIsCommentMenuOpen(!isCommentMenuOpen);
+  // };
+  // const [title, editTitle] = useState('');
+  // const [content, editContent] = useState('');
+  // console.log(editContent, editTitle)
+  const handleContentChange = (editContent) => {
+    editContent(editContent);
 
-    };
-    console.log(handleContentChange)
-
-
-
-    const togglePostMenu = () => {
-        setIsPostMenuOpen(!isPostMenuOpen);
-    };
+  };
+  console.log(handleContentChange)
 
 
-    const param = useParams();
-    const id = param.boardId;
 
-    const [boardData, setBoardData] = useState([])
+  const togglePostMenu = () => {
+    setIsPostMenuOpen(!isPostMenuOpen);
+  };
 
-    // API에 요청을 보내는 함수를 정의합니다.
-    const fetchData = async () => {
-        try {
-            const response = await axios.get(`${URI}/board/${id}`);
-            // 여기에서 응답 데이터를 처리합니다.
-            console.log(response.data);
-            setBoardData(response.data);
 
-        } catch (error) {
-            // 에러 처리
-            console.error(error);
-        }
-    };
-    //삭제
-    const deleteHandler = async () => {
-        let access_token = getAccessToken();
+  const param = useParams();
+  const id = param.boardId;
 
-        try {
-            const response = await axios.delete(`${URI}/board/${id}/delete`,
-                {
-                    headers: {
-                        Authorization: access_token,
-                        "Content-Type": "multipart/form-data",
-                    },
-                }
-            );
-            // 여기에서 응답 데이터를 처리합니다.
-            console.log(response.data);
-            navigate('/CommunityList')
+  const [boardData, setBoardData] = useState([])
 
-        } catch (error) {
-            // 에러 처리
-            console.error(error);
-        }
+  // API에 요청을 보내는 함수를 정의합니다.
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(`${URI}/board/${id}`);
+      // 여기에서 응답 데이터를 처리합니다.
+      console.log(response.data);
+      setBoardData(response.data);
+
+    } catch (error) {
+      // 에러 처리
+      console.error(error);
     }
-    //수정
-    const editHandler = async () => {
+  };
+  //삭제
+  const deleteHandler = async () => {
+    let access_token = getAccessToken();
+
+    try {
+      const response = await axios.delete(`${URI}/board/${id}/delete`,
+        {
+          headers: {
+            Authorization: access_token,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      // 여기에서 응답 데이터를 처리합니다.
+      console.log(response.data);
+      navigate('/CommunityList')
+
+    } catch (error) {
+      // 에러 처리
+      console.error(error);
+    }
+  }
+  //수정
+  const editHandler = async () => {
 
         navigate(`/EditPage/${id}`)
     }
@@ -163,6 +163,7 @@ function CommunityBoard() {
     // 작성자인지 확인하고 수정삭제 안뜨게
     // const isAuthor = () => {
 
+
     //   return username === currentUser.username;
     // };
     const htmlToText = (html) => {
@@ -204,17 +205,17 @@ function CommunityBoard() {
                     {/* <UserPicture>
             {profilePicture ? <img src={profilePicture} alt="프로필" /> : <BiSolidUserCircle />}
           </UserPicture> */}
-                    <div>
-                        {boardData.author
-                            && <span>닉네임: {boardData.author}</span>}
-                        <span>작성일: {boardData.modifiedAt}</span>
-                        <span>조회수: {boardData.view}</span>
+          <div>
+            {boardData.author
+              && <span>닉네임: {boardData.author}</span>}
+            <span>작성일: {boardData.modifiedAt}</span>
+            <span>조회수: {boardData.view}</span>
 
-                    </div>
-                </PostUserBox>
-                <PostBoard>
-                    {/* 이 곳에 게시물 컴포넌트 렌더링 */}
-                    {/* 예시:
+          </div>
+        </PostUserBox>
+        <PostBoard>
+          {/* 이 곳에 게시물 컴포넌트 렌더링 */}
+          {/* 예시:
                     {posts.map((post) => (
                         <PostItem key={post.id} post={post} />
                     ))}
