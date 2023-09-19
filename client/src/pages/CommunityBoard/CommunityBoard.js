@@ -102,12 +102,7 @@ function CommunityBoard() {
     const editHandler = async () => {
 
         navigate(`/EditPage/${id}`)
-
     }
-
-
-
-
     // 댓글 목록을 관리할 상태 추가
     const [comments, setComments] = useState([]);
 
@@ -225,6 +220,7 @@ function CommunityBoard() {
                     ))}
                     */}
 
+
                     <div>{htmlToText(boardData.content)}</div>
                 </PostBoard>
             </PostBox>
@@ -251,7 +247,6 @@ function CommunityBoard() {
             </ComuComment >
         </CommunityBoardContainer >
     );
-
 }
 
 export default CommunityBoard;
