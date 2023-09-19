@@ -84,6 +84,7 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
         ResponseCookie responseAccessCookie= ResponseCookie.from("access_token", accessToken)
                 .sameSite("None")
                 .secure(true)
+                .domain("www.ksnacksncak.shop")
                 .maxAge(60 * 5) // 5분
                 .path("/")
                 .build();
@@ -91,6 +92,7 @@ public class OAuth2MemberSuccessHandler extends SimpleUrlAuthenticationSuccessHa
                 .sameSite("None")
                 .secure(true)
                 .httpOnly(true)
+                .domain("www.ksnacksncak.shop")
                 .maxAge(60 * 60*24) // 하루
                 .path("/")
                 .build();
