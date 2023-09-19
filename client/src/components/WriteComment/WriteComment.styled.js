@@ -6,11 +6,13 @@ export const WriteCommentContainer = styled.div`
   justify-content: center;
 
   textarea {
-    width: 400;
-    height: 200px;
+    width: 53rem;
+    height: 10rem;
     padding: 0.3rem;
     resize: none;
     margin: 0.5rem;
+    border-radius: 5px;
+    padding: 1rem;
   }
   
   button {
