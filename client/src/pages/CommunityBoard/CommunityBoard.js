@@ -21,6 +21,7 @@ import {
     PostCorrection,
     PostDelete,
     MenuIcon1,
+    BoardImg,
     // MenuIcon2,
     PostUserBox,
     // UserPicture,
@@ -63,6 +64,7 @@ function CommunityBoard() {
     const id = param.boardId;
 
     const [boardData, setBoardData] = useState([])
+    const [imgPost,setImgPost] = useState(null)
 
     // API에 요청을 보내는 함수를 정의합니다.
     const fetchData = async () => {
@@ -71,6 +73,7 @@ function CommunityBoard() {
             // 여기에서 응답 데이터를 처리합니다.
             console.log(response.data);
             setBoardData(response.data);
+            setImgPost(response.data.saveFileName);
 
         } catch (error) {
             // 에러 처리
@@ -224,6 +227,21 @@ function CommunityBoard() {
                         <div className="viewer" dangerouslySetInnerHTML={{ __html: boardData.content }} />
                         <div>{htmlToText(boardData.content)}</div>
                     </PostBoard>
+                    <BoardImg>
+                {console.log(imgPost)}
+                {imgPost === null ? (
+                    <></>
+                ) : (
+                    imgPost.map((ele, index) => (
+                    <img
+                        key={index} // 각 이미지에 고유한 키를 부여합니다.
+                        src={`${URI}/images/${ele}`}
+                        alt="img"
+                        className='myimg'
+                    />
+                    ))
+                )}
+                </BoardImg>
                 </PostBox>
 
 

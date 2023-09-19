@@ -119,3 +119,49 @@ export const BackgroundImageContainer = styled.div`
   padding-bottom: 5rem;
   margin-bottom: 2rem;
 `;
+
+export const ImageInput = styled.div`
+  margin-right: auto;
+  margin-left: 3.2rem;
+  .btn-bind{
+    display: flex;
+    flex-direction: row;
+  }
+  >img{
+    height: 100px;
+  }
+  .myimg{
+    border-radius: 100%;
+    width: 6rem;
+    height: 6rem;
+  }
+  #upload{
+    display: none;
+  }
+  .btn-upload{
+    margin-right: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid var(--gray-10);
+    border-radius: 5px;
+    padding: 0.3rem;
+    font-size: 0.8rem;
+    text-align: center;
+    cursor: pointer;
+    &:hover{
+      background-color: var(--gray-10);;
+    }
+  }
+`
+
+export const ImageDelete = styled.div`
+  margin-bottom: 1rem;
+    border: 1px solid var(--gray-10);
+    border-radius: 5px;
+    padding: 0.3rem;
+    font-size: 0.8rem;
+    text-align: center;
+    cursor: pointer;
+    &:hover{
+      background-color: var(--gray-10);;
+    }
+`

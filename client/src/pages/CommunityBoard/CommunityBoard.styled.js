@@ -336,6 +336,12 @@ export const UserPicture = styled.div`
     
     }
 `;
+export const BoardImg = styled.div`
+    margin-left: 3.5vw;
+    .myimg{
+        height: 100px;
+    }
+`
 
 export const ComuComment = styled.div`
     width: 56rem;
