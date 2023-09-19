@@ -28,7 +28,6 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final BoardRepository boardRepository;
     private final CommentMapper commentMapper;
-    private final BoardService boardService;
 
     //댓글 생성
     public Comment createComment(Member member, Board board, CommentDto postDto){
@@ -36,7 +35,11 @@ public class CommentService {
         comment.setAuthor(member.getName());
         comment.setBoard(board);
         comment.setContent(postDto.getContent());
-        return commentRepository.save(comment);
+        Comment comment1 = commentRepository.save(comment);
+        Board findBoard = boardRepository.findById(board.getBoardId()).get();
+        findBoard.setCommentCount(findBoard.getComments().size());
+        boardRepository.save(findBoard);
+        return comment1;
     }
 
     //댓글 수정
@@ -44,14 +47,17 @@ public class CommentService {
     public void updateComment(Member member, long commentId, CommentDto patchDto){
         Optional<Comment> optionalComment = commentRepository.findById(commentId);
         if(optionalComment.isPresent()){
-            if(optionalComment.get().getAuthor().equals(member.getName())){
+            if(optionalComment.get().getBoard().getMember().getEmail().equals(member.getEmail())){
+//            if(optionalComment.get().getAuthor().equals(member.getName())){
 
                 Comment comment = optionalComment.get();
                 comment.setContent(patchDto.getContent());
                 commentRepository.save(comment);
+            }else{
+                throw new BusinessLogicException(ExceptionCode.NOT_MATCH_USER);
             }
         }else{
-            throw new BusinessLogicException(ExceptionCode.NOT_MATCH_USER);
+            throw new BusinessLogicException(ExceptionCode.COMMENT_NOT_FOUND);
         }
     }
     //댓글 가져오기
@@ -70,15 +76,25 @@ public class CommentService {
     }
 
     //댓글 삭제하기
-    public void delete(Member member, long commentId){
+    public void delete(Member member, long boardId, long commentId){
         Optional<Comment> optionalComment = commentRepository.findById(commentId);
         if(optionalComment.isPresent()){
             Comment comment = optionalComment.get();
-            if(member.getName().equals(comment.getAuthor())){
+            if(member.getEmail().equals(comment.getBoard().getMember().getEmail())){
                 commentRepository.deleteById(commentId);
+                Optional<Board> optionalBoard = boardRepository.findById(boardId);
+                if(optionalBoard.isPresent()){
+                    Board findBoard = optionalBoard.get();
+                    findBoard.setCommentCount(findBoard.getComments().size());
+                    boardRepository.save(findBoard);
+                }else{
+                    throw new BusinessLogicException(ExceptionCode.POST_NOT_FOUND);
+                }
+            }else{
+                throw new BusinessLogicException(ExceptionCode.NOT_MATCH_USER);
             }
         }else if(!optionalComment.isPresent()){
-            new BusinessLogicException(ExceptionCode.NOT_MATCH_USER);
+            throw new BusinessLogicException(ExceptionCode.COMMENT_NOT_FOUND);
         }
     }
 }

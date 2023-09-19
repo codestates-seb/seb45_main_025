@@ -62,6 +62,7 @@ public class CommentController {
         return new ResponseEntity(comment.getBoard().getMember().getName(),HttpStatus.OK);
 
     }
+    //0919
     //댓글 수정하기
     @PatchMapping("{board-id}/comment/{comment-id}")
     public ResponseEntity updateComment(@PathVariable("board-id") long boardId,
@@ -84,12 +85,12 @@ public class CommentController {
 
     //댓글 삭제하기  수정해야함
     @DeleteMapping("/{board-id}/comment/{comment-id}")
-    public void deleteComment(@PathVariable("comment-id")long commentId,@RequestHeader("Authorization") String authorizationHeader){
+    public void deleteComment(@PathVariable("board-id")long boardId,@PathVariable("comment-id")long commentId,@RequestHeader("Authorization") String authorizationHeader){
         Jws<Claims> claims = tokenService.checkAccessToken(authorizationHeader);
         String email = claims.getBody().getSubject();
         Member findMember = memberService.findMemberByEmail(email);
 
-        commentService.delete(findMember, commentId);
+        commentService.delete(findMember, boardId, commentId);
     }
 
 }
