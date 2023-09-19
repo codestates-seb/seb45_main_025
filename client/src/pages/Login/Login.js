@@ -24,7 +24,7 @@ export default function Login() {
     axios.post(`${URI}/users/login`,{
       "email" : loginId, 
       "password" : passWord
-      })
+      },{withCredentials: true})
     .then((res)=>{
       console.log(res)
       localStorage.setItem('access_token',res.headers.authorization)
