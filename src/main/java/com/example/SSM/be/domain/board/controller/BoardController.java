@@ -83,7 +83,6 @@ public class BoardController {
                     .sameSite("None")
                     .secure(true)
                     .httpOnly(true)
-                    .domain("www.ksnacksncak.shop")
                     .maxAge(60 * 10) // 10분
                     .path("/")
                     .build();
