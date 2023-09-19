@@ -112,7 +112,7 @@ public class BoardController {
         } else {
             boardList = boardRepository.findAll(pageable);
         }
-        //최신순
+        //최신순g
         if ("latest".equals(sortType)) {
             if(search != null && !search.isEmpty()){
                 boardList = boardRepository.findByTitleContains(search, PageRequest.of(adjustedPage, pageable.getPageSize(), Sort.by("createdAt").descending()));
