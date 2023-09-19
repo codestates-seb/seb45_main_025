@@ -256,19 +256,12 @@ export const UserPicture = styled.div`
 `;
 
 export const ComuComment = styled.div`
-    /* height: 100px; */
-    width: 900px;
-    /* padding: 10px; */
+    width: 56rem;
     padding-top: 5px;
-    /* background-color: seashell; */
     border: 1px solid var(--gray-10);
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-
-    /* > :not(:last-child) {
-        margin-right: 10px;
-    } */
 `;
 
 export const ComuCommentWriting = styled.div`

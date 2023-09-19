@@ -192,7 +192,7 @@ function CommunityBoard() {
       </PostBox>
 
 
-      {/* Comment */}
+      {/* Write Comment */}
       <ComuCommentWriting>
         <WriteComment
           boardId={id}
@@ -200,6 +200,7 @@ function CommunityBoard() {
           fetchBoard={fetchData} />
       </ComuCommentWriting>
 
+      {/* Comment List */}
       {comments.length > 0 &&
         <ComuComment>
           {comments.map((comment) => (
