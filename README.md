@@ -37,7 +37,7 @@
 ---
 
 
-<a href="https://docs.google.com/spreadsheets/d/15vy9fMGpxCo0xdKGuhSCRfi9-O834Jh-luiaSN-CZI8/edit#gid=0">사용자 요구사 정의서</a>
-<a href="https://www.figma.com/file/fqyOEwiorAcI28IBiISSJ4/main_025?type=design&node-id=0-1&mode=design&t=SHtmFH4fXIYiKsVe-0" rel="noopener noreferrer">화면 정의서</a>
-<a href="https://docs.google.com/spreadsheets/d/15vy9fMGpxCo0xdKGuhSCRfi9-O834Jh-luiaSN-CZI8/edit#gid=898670060">API 명세</a>
-<a href="https://www.erdcloud.com/d/MqhpjDs4kc3mEEt5W">테이블 명세서</a>
+<a href="https://docs.google.com/spreadsheets/d/15vy9fMGpxCo0xdKGuhSCRfi9-O834Jh-luiaSN-CZI8/edit#gid=0">사용자 요구사 정의서</a> <br/>
+<a href="https://www.figma.com/file/fqyOEwiorAcI28IBiISSJ4/main_025?type=design&node-id=0-1&mode=design&t=SHtmFH4fXIYiKsVe-0" rel="noopener noreferrer">화면 정의서</a> <br/>
+<a href="https://docs.google.com/spreadsheets/d/15vy9fMGpxCo0xdKGuhSCRfi9-O834Jh-luiaSN-CZI8/edit#gid=898670060">API 명세</a> <br/>
+<a href="https://www.erdcloud.com/d/MqhpjDs4kc3mEEt5W">테이블 명세서</a> <br/>
