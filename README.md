@@ -37,4 +37,4 @@
 ---
 
 
-[화면 정의서](src="https://www.figma.com/file/fqyOEwiorAcI28IBiISSJ4/main_025?type=design&node-id=0-1&mode=design&t=SHtmFH4fXIYiKsVe-0")
+[화면 정의서](https://www.figma.com/file/fqyOEwiorAcI28IBiISSJ4/main_025?type=design&node-id=0-1&mode=design&t=SHtmFH4fXIYiKsVe-0)
