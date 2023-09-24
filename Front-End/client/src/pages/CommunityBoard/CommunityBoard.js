@@ -64,7 +64,7 @@ function CommunityBoard() {
     const id = param.boardId;
 
     const [boardData, setBoardData] = useState([])
-    const [imgPost,setImgPost] = useState(null)
+    const [imgPost, setImgPost] = useState(null)
 
     // API에 요청을 보내는 함수를 정의합니다.
     const fetchData = async () => {
@@ -174,11 +174,11 @@ function CommunityBoard() {
 
     //   return username === currentUser.username;
     // };
-    const htmlToText = (html) => {
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(html, 'text/html');
-        return doc.body.textContent || '';
-    };
+    // const htmlToText = (html) => {
+    //     const parser = new DOMParser();
+    //     const doc = parser.parseFromString(html, 'text/html');
+    //     return doc.body.textContent || '';
+    // };
     useEffect(() => {
         console.log(deleteComment, editComment);
         // 컴포넌트가 마운트될 때 또는 boardId가 변경될 때 fetchData 함수를 호출합니다.
@@ -225,23 +225,23 @@ function CommunityBoard() {
                     </PostUserBox>
                     <PostBoard>
                         <div className="viewer" dangerouslySetInnerHTML={{ __html: boardData.content }} />
-                        <div>{htmlToText(boardData.content)}</div>
+                        {/* <div>{htmlToText(boardData.content)}</div> */}
                     </PostBoard>
                     <BoardImg>
-                {console.log(imgPost)}
-                {imgPost === null ? (
-                    <></>
-                ) : (
-                    imgPost.map((ele, index) => (
-                    <img
-                        key={index} // 각 이미지에 고유한 키를 부여합니다.
-                        src={`${URI}/images/${ele}`}
-                        alt="img"
-                        className='myimg'
-                    />
-                    ))
-                )}
-                </BoardImg>
+                        {console.log(imgPost)}
+                        {imgPost === null ? (
+                            <></>
+                        ) : (
+                            imgPost.map((ele, index) => (
+                                <img
+                                    key={index} // 각 이미지에 고유한 키를 부여합니다.
+                                    src={`${URI}/images/${ele}`}
+                                    alt="img"
+                                    className='myimg'
+                                />
+                            ))
+                        )}
+                    </BoardImg>
                 </PostBox>
 
 
