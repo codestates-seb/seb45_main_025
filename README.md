@@ -31,7 +31,7 @@
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 |FE 팀장|FE|FE|FE|BE 부팀장|BE|BE|
 |<img src="https://avatars.githubusercontent.com/u/126146836?v=4" width=150px ></img>|<img src="https://avatars.githubusercontent.com/u/114473861?v=4" width=150px ></img>| <img src="https://avatars.githubusercontent.com/u/81401022?v=4" width=150px ></img>|<img src="https://avatars.githubusercontent.com/u/123739304?v=4" width=150px ></img>|<img src="https://avatars.githubusercontent.com/u/117506675?v=4" width=150 ></img>|<img src="https://avatars.githubusercontent.com/u/84065357?v=4" width=150px ></img>|<img src="https://avatars.githubusercontent.com/u/75276860?v=4" width=150px ></img>|
-|- Shop List Page</br> - Item Page||||-EC2 서버환경 구축</br>-Docker 컨테이너 배포</br>-게시글 리스트 조회(페이지네이션)</br>-게시글 생성(다수의 이미지 첨부가능)</br>-게시글 수정</br>-게시글 삭제</br>-댓글 생성</br>-댓글 수정</br>-댓글 조회</br>-댓글 삭제</br>-마이페이지 회원정보 변경기능</br>-마이페이지 프로필 사진등록 가능|||
+|- Shop List Page</br> - Item Page||||-EC2 서버환경 구축</br>-Docker컨테이너 배포</br>-게시글 리스트 조회(페이지네이션)</br>-게시글 생성(다수의 이미지 첨부가능)</br>-게시글 수정</br>-게시글 삭제</br>-댓글 생성</br>-댓글 수정</br>-댓글 조회</br>-댓글 삭제</br>-마이페이지 회원정보 변경기능</br>-마이페이지 프로필 사진등록 가능|||
 
 <br/>
 
