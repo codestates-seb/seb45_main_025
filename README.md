@@ -1,5 +1,20 @@
 # seb45_main_025
 
+<h1>Korean Snacks Shop</h1>
+<div  align="center">
+  <img width="24%" src="client/src/common/image/logo.png" alt="LOGO">
+</div>
+</br>
+<h3 align="center">코드스테이츠 45기 메인프로젝트</h3>
+
+- **팀 명 :**  세븐센스메이커스
+- **프로젝트 명 :** Korean Snacks Shop
+- **프로젝트 기간 :** 2023.08.24 - 2023.09.22
+- **한줄 소개 :** 해외에 한국 간식을 소개하는 플랫폼
+- **팀원 :** 김동윤(팀장), 윤건용(부팀장), 유주성, 박영길, 홍윤표, 손영진, 김민
+- **팀노션 링크 :** [💁🏻 노션 링크](https://www.notion.so/codestates/1d0296a62fc74cae8f033b234813949e)
+- **배포 링크 :** [📮 링크](https://www.ksnacksncak.shop/)
+
 
 
 ## branch 규칙
