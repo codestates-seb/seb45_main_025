@@ -2,7 +2,7 @@
 
 <h1>Korean Snacks Shop</h1>
 <div  align="center">
-  <img width="24%" src="client/src/common/image/logo.png" alt="LOGO">
+  <img width="24%" src="Front-End/client/src/common/image/newLogo.png" alt="LOGO">
 </div>
 </br>
 <h3 align="center">코드스테이츠 45기 메인프로젝트</h3>
