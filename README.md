@@ -1,5 +1,3 @@
-# seb45_main_025
-
 <h1>Korean Snacks Shop</h1>
 <div  align="center">
   <img width="24%" src="Front-End/client/src/common/image/newLogo.png" alt="LOGO">
