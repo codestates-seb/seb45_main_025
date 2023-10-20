@@ -4,10 +4,12 @@ import axios from 'axios';
 import getAccessToken from '../../common/utils/getToken';
 import { AddBtn } from './AddCartItemBtn.styled';
 import { BsCartPlus } from 'react-icons/bs';
+import { toast, ToastContainer } from 'react-toastify';
 
 export default function AddCartItemBtn() {
     const dispatch = useDispatch();
     const URI = process.env.REACT_APP_API_URL;
+    const notify = () => toast("Added to Cart!")
     let accessToken = getAccessToken();
 
     useEffect(() => {
@@ -36,7 +38,14 @@ export default function AddCartItemBtn() {
 
     return (
         <AddBtn>
-          <button onClick={addHandler}> <BsCartPlus /> Add to Cart </button>
+          <button onClick={() => {addHandler(); notify()}}> <BsCartPlus />
+          <ToastContainer
+            position="top-right"
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+         />
+           Add to Cart </button>
         </AddBtn>
     )
 }

@@ -9,17 +9,6 @@ import { conceptStoryData } from '../../common/data/ConceptStoryData';
 export default function MainConceptStory() {
   const [curIndex, setCurIndex] = useState(0);
   const [showContent, setShowContent] = useState(1);
-  console.log(curIndex);
-  // const [prevIndex, setPrevIndex] = useState(0);
-
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     setShowContent(0);
-  //     setTimeout(() => {
-  //       setShowContent(1);
-  //     }, 500)
-  //   }, 300);
-  // }, [curIndex]);
 
   return (
     <MainConceptStoryContainer>

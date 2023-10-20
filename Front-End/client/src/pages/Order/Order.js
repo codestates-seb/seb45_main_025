@@ -5,68 +5,59 @@ import {
 } from './Order.styled';
 import BackgroundImage from '../../components/BackgroundImage/BackgroundImage';
 import Background from '../../common/image/main-image.png';
-import { useSelector, useDispatch } from 'react-redux';
-import {
-  setOrderName, setOrderAddress, setOrderPhone, setOrderRequest
-} from '../../redux/actions/orderActions';
+
 import { Link } from 'react-router-dom';
 import { ReactComponent as EditIcon } from '../../common/image/Icons/edit.svg';
 import { useState, useEffect, useRef } from 'react';
-import { handleScrollY } from '../../redux/thunks/scrollThunks';
 import { ReactComponent as AlertIcon } from '../../common/image/Icons/alert.svg';
 import axios from 'axios';
 import getAccessToken from '../../common/utils/getToken';
+import { useCartStore } from '../../stores/cartStore';
+import { useOrderStore } from '../../stores/orderStore';
+import { useScrollStore } from '../../stores/scrollStore';
 
 export default function Order() {
-  const dispatch = useDispatch();
-  const scrollY = useSelector((state) => state.scroll.scrollY);
-  const selectedItems = useSelector((state) => state.cart.selected);
-  const subtotalPrice = useSelector((state) => state.cart.subtotalPrice);
-  const inputName = useSelector((state) => state.order.orderName);
-  const inputAddress = useSelector((state) => state.order.orderAddress);
-  const inputPhone = useSelector((state) => state.order.orderPhone);
-  const inputRequest = useSelector((state) => state.order.orderRequest);
+  const { scrollY, setScrollY } = useScrollStore();
+  const { selected, subtotalPrice } = useCartStore();
+  const { inputName, inputAddress, inputPhone, inputRequest, setInputName, setInputAddress, setInputPhone, setInputRequest } = useOrderStore();
   const inputNameRef = useRef();
   const inputAddressRef = useRef();
   const inputPhoneRef = useRef();
   const [inputNameMsg, setInputNameMsg] = useState('');
   const [inputAddressMsg, setInputAddressMsg] = useState('');
   const [inputPhoneMsg, setInputPhoneMsg] = useState('');
-  const [customerInfo, setCustomerInfo] = useState([]);
+  const [userInfo, setUserInfo] = useState([]);
   const apiUrl = process.env.REACT_APP_API_URL;
   const accessToken = getAccessToken();
   const rightBoxRef = useRef();
-  const rightBoxHeight = rightBoxRef.current ? rightBoxRef.current.clientHeight : 0;
-  console.log('rightBoxHeight: ', rightBoxHeight);
-  console.log(selectedItems.map(item => item.product.id));
-
+  
   useEffect(() => {
     fetchCustomerInfo();
     window.addEventListener('scroll', () => {
-      dispatch(handleScrollY());
+      setScrollY(window.scrollY);
     });
     return () => {
       window.removeEventListener('scroll', () => {
-        dispatch(handleScrollY());
+        setScrollY(window.scrollY);
       });
     };
-  }, [dispatch]);
+  }, []);
 
   const fetchCustomerInfo = () => {
     axios.get(`${apiUrl}/mypage`, { headers: { Authorization: accessToken } })
       .then((response) => {
         if (response.status === 200) {
-          setCustomerInfo(response.data);
+          setUserInfo(response.data);
         }
       })
       .catch((error) => {
-        console.log(error);
+        console.error('Failed to get user information', error);
       });
   }
 
   const inputNameHandler = (event) => {
     const inputValue = event.target.value;
-    dispatch(setOrderName(inputValue));
+    setInputName(inputValue);
     if (inputValue) {
       setInputNameMsg('')
     }
@@ -74,7 +65,7 @@ export default function Order() {
 
   const inputAddressHandler = (event) => {
     const inputValue = event.target.value;
-    dispatch(setOrderAddress(inputValue));
+    setInputAddress(inputValue);
     if (inputValue) {
       setInputAddressMsg('');
     }
@@ -88,11 +79,11 @@ export default function Order() {
     } else {
       setInputPhoneMsg('');
     }
-    dispatch(setOrderPhone(numericValue));
+    setInputPhone(numericValue);
   }
 
   const inputRequestHandler = (event) => {
-    dispatch(setOrderRequest(event.target.value));
+    setInputRequest(event.target.value);
   }
 
   const handleOrder = () => {
@@ -138,11 +129,11 @@ export default function Order() {
               </Link>
               <FormCotents className='customer-info'>
                 <div className='info-title'>NAME</div>
-                <div className='info-contents'>{customerInfo.name}</div>
+                <div className='info-contents'>{userInfo.name}</div>
                 <div className='info-title'>PHONE</div>
-                <div className='info-contents'>{customerInfo.phone}</div>
+                <div className='info-contents'>{userInfo.phone}</div>
                 <div className='info-title'>EMAIL</div>
-                <div className='info-contents'>{customerInfo.email}</div>
+                <div className='info-contents'>{userInfo.email}</div>
               </FormCotents>
             </FormContainer>
             <FormContainer>
@@ -200,7 +191,7 @@ export default function Order() {
               <FormTitle>ORDER LIST</FormTitle>
               <FormCotents>
                 <div className='order-list-container'>
-                  {selectedItems.map((item) => (
+                  {selected.map((item) => (
                     <div key={item.product.id} className='order-list'>
                       <img src={`${apiUrl}${item.product.img}`} alt='' />
                       <div className='flex-grow'>

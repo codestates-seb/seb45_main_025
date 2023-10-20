@@ -11,7 +11,6 @@ export const ItemCardContainer = styled.div`
   }
 
   .product-title {
-    /* text-align: center; */
     font-weight: 600;
     color: var(--gray-90);
     font-size: 1.2rem;
