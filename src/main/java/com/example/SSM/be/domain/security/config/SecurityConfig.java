@@ -69,14 +69,61 @@ public class SecurityConfig  {
                 .authorizeHttpRequests(authorize -> authorize
                         .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
-                        // # member관련
-                        .antMatchers(HttpMethod.POST, "/users/signup").permitAll()
-                        .antMatchers(HttpMethod.POST, "/users/login").permitAll()
-                        .antMatchers(HttpMethod.POST, "/users/logout").permitAll()
-                        .antMatchers(HttpMethod.GET,"/user").permitAll()
-                        .antMatchers("/").permitAll()
-                        .antMatchers("/h2-console/**").permitAll()
-                        .anyRequest().permitAll()
+                                // # member관련
+                                .antMatchers(HttpMethod.POST, "/users/signup").permitAll()
+                                .antMatchers(HttpMethod.POST, "/users/login").permitAll()
+                                .antMatchers(HttpMethod.POST, "/users/logout").hasAnyRole("USER", "ADMIN")
+
+                                // # Mypage
+                                .antMatchers(HttpMethod.GET, "/mypage").hasAnyRole("USER", "ADMIN")
+                                .antMatchers(HttpMethod.PATCH, "/mypage").hasAnyRole("USER", "ADMIN")
+                                .antMatchers(HttpMethod.GET, "/mypage/isOauth").hasAnyRole("USER", "ADMIN")
+                                .antMatchers(HttpMethod.PATCH, "/mypage/pofileImage").hasAnyRole("USER", "ADMIN")
+                                .antMatchers(HttpMethod.GET, "/mypage/board").hasAnyRole("USER", "ADMIN")
+                                // # Board
+                                .antMatchers(HttpMethod.POST, "/board").hasAnyRole("USER", "ADMIN")
+                                .antMatchers(HttpMethod.GET, "/board/{board_id}").permitAll()
+                                .antMatchers(HttpMethod.GET, "/board/posts").permitAll()
+                                .antMatchers(HttpMethod.PATCH, "/board/{board-id}/update{").hasAnyRole("USER", "ADMIN")
+                                .antMatchers(HttpMethod.DELETE, "/board/{board-id}/delete").hasAnyRole("USER", "ADMIN")
+
+
+                                // # comment
+                                .antMatchers(HttpMethod.POST, "/board/{board-id}/comment").hasAnyRole("USER", "ADMIN")
+                                .antMatchers(HttpMethod.PATCH, "/board/{board-id}/comment/{comment-id}").hasAnyRole("USER", "ADMIN")
+                                .antMatchers(HttpMethod.GET, "/board/{board-id}/comment").permitAll()
+                                .antMatchers(HttpMethod.DELETE, "/board/{board-id}/comment/{comment-id}").hasAnyRole("USER", "ADMIN")
+                                // # products
+                                .antMatchers(HttpMethod.POST, "/products/create").permitAll()
+                                .antMatchers(HttpMethod.GET, "/products/get/{productId}").permitAll()
+                                .antMatchers(HttpMethod.PATCH, "/products/update/{productId}").permitAll()
+                                        // 수정 필요
+                                .antMatchers(HttpMethod.DELETE, "/products/delete/{productId}").permitAll()
+                                .antMatchers(HttpMethod.GET, "/products/category/{category}/").permitAll()
+                                .antMatchers(HttpMethod.POST, "/products/product/{productId}/like").hasAnyRole("USER", "ADMIN")
+                                .antMatchers(HttpMethod.GET, "/products/search").permitAll()
+                                .antMatchers(HttpMethod.GET, "/products/category/{category}/likes").permitAll()
+                                .antMatchers(HttpMethod.POST, "/products/bookmark/{productId}").hasAnyRole("USER", "ADMIN")
+                                .antMatchers(HttpMethod.POST, "/products/unbookmark/{productId}").hasAnyRole("USER", "ADMIN")
+                                .antMatchers(HttpMethod.GET, "/products/bookmarked").hasAnyRole("USER", "ADMIN")
+                                .antMatchers(HttpMethod.GET, "/products/all/list/").permitAll()
+                                 // # cart
+                                .antMatchers(HttpMethod.POST, "/cart/add/{productId}").hasAnyRole("USER", "ADMIN")
+                                .antMatchers(HttpMethod.GET, "/cart/list").hasAnyRole("USER", "ADMIN")
+                                .antMatchers(HttpMethod.PATCH, "/cart/update/{productId}").hasAnyRole("USER", "ADMIN")
+                                .antMatchers(HttpMethod.DELETE, "/cart/remove-multiple").hasAnyRole("USER", "ADMIN")
+                                .antMatchers(HttpMethod.DELETE, "/cart/clear").hasAnyRole("USER", "ADMIN")
+                                .antMatchers(HttpMethod.GET, "/cart/remaining-items").hasAnyRole("USER", "ADMIN")
+
+                                // payments
+                                .antMatchers(HttpMethod.POST, "/orders/create").hasAnyRole("USER", "ADMIN")
+                                .antMatchers(HttpMethod.POST, "/orders/{orderId}").hasAnyRole("USER", "ADMIN")
+                                // token
+                                .antMatchers(HttpMethod.POST, "/token/refresh").hasAnyRole("USER", "ADMIN")
+                                .antMatchers(HttpMethod.POST, "/token/check").hasAnyRole("USER", "ADMIN")
+                                .antMatchers("/").permitAll()
+//                              .antMatchers("/h2-console/**").permitAll()
+                                .anyRequest().permitAll()
                 )
                 .oauth2Login(oauth -> oauth
                         .successHandler(new OAuth2MemberSuccessHandler(jwtTokenizer,authorityUtils,memberService))
