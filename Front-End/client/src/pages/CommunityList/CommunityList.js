@@ -178,6 +178,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import ReactPaginate from "react-paginate";
 import { PiFunnel } from 'react-icons/pi';
+import getAccessToken from '../../common/utils/getToken';
 import {
   Container,
   Input,
@@ -253,8 +254,15 @@ function CommunityList() {
   }, [URI, currentPage, sortType]);
 
   const navigateToWritePost = () => {
+    let access_token = getAccessToken();
+    if (!access_token) {
+      alert('Need a login');
+      return;
+    }
+
     navigate('/WritePost');
     window.scroll(0, 0);
+
   };
 
   function formatDate(dateString) {
