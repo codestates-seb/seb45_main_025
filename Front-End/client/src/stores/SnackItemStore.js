@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 
 const useSnackItemStore = create(set => ({
+
   snackItem: {
     id: '',
     productName: '',

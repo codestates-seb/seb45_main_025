@@ -130,7 +130,6 @@ function EditPage() {
             // imageurl.map((ele)=>setMyImg([...myImg,`${URI}/images/${ele}`]));
 
             // const downloadImage = async (imageUrl) => {
-
             //       const response = await fetch(imageUrl);
             //       console.log(response)
             //       const blob = await response.blob();

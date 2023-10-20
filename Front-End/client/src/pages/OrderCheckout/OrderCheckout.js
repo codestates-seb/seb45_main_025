@@ -21,6 +21,7 @@ export default function OrderCheckout() {
   const selectedId = selected.map(el => el.product.id);
   const { inputName, inputAddress, inputPhone, inputRequest } = useOrderStore();
   let params = `name=${inputName}&address=${inputAddress}&phone=${inputPhone}&request=${inputRequest}`;
+
   for (const id of selectedId) {
     params += `&productId=${id}`;
   }
@@ -40,6 +41,7 @@ export default function OrderCheckout() {
 
   useEffect(() => {
     const paymentMethodsWidget = paymentMethodsWidgetRef.current;
+
     if (paymentMethodsWidget == null) {
       return;
     }

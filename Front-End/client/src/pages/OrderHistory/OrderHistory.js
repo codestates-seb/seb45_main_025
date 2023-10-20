@@ -6,7 +6,6 @@ import {
 import BackgroundImage from '../../components/BackgroundImage/BackgroundImage';
 import Background from '../../common/image/main-image.png';
 import { Link } from 'react-router-dom';
-
 export default function OrderHistory() {
 
   return (

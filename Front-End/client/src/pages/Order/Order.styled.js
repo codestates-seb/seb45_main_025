@@ -61,6 +61,7 @@ export const FormTitle = styled.div`
 export const FormCotents = styled.div`
   border: 1px solid var(--gray-10);
   border-radius: 10px;
+
   display: flex;
   flex-direction: column;
   margin: 1rem;

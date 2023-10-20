@@ -5,6 +5,7 @@ import {
 } from './Order.styled';
 import BackgroundImage from '../../components/BackgroundImage/BackgroundImage';
 import Background from '../../common/image/main-image.png';
+
 import { Link } from 'react-router-dom';
 import { ReactComponent as EditIcon } from '../../common/image/Icons/edit.svg';
 import { useState, useEffect, useRef } from 'react';
@@ -29,7 +30,7 @@ export default function Order() {
   const apiUrl = process.env.REACT_APP_API_URL;
   const accessToken = getAccessToken();
   const rightBoxRef = useRef();
-
+  
   useEffect(() => {
     fetchCustomerInfo();
     window.addEventListener('scroll', () => {
