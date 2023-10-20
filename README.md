@@ -50,7 +50,7 @@
 
 ---
 ### USER FLOW
-<img src="https://cdn.discordapp.com/attachments/1144077917660381319/1155457411314876497/2023-09-24_7.55.06.png?ex=653e3a12&is=652bc512&hm=68aa582bcce0d4a63a05506cecb2426bad8e57b103cf3a6cf40a7c717e4e4fb9&" width=75px></img>
+<img src="https://cdn.discordapp.com/attachments/1144077917660381319/1155457411314876497/2023-09-24_7.55.06.png?ex=653e3a12&is=652bc512&hm=68aa582bcce0d4a63a05506cecb2426bad8e57b103cf3a6cf40a7c717e4e4fb9&" width=500px></img>
 
 ---
 ### Documents
