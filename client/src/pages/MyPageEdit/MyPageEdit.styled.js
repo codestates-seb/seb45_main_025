@@ -14,6 +14,9 @@ export const MyPageEditMain = styled.div`
     flex-direction: column;
     width: 60vw;
     margin-top: 5vh;
+    padding-top: 1rem;
+    border: 1px solid var(--gray-10);
+    border-radius: 1rem;
     > div{
       margin-bottom: 1.7rem;
     }

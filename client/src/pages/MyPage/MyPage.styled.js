@@ -15,6 +15,9 @@ export const MyPageMain = styled.div`
     flex-direction: column;
     width: 60vw;
     margin-top: 5vh;
+    padding-top: 1rem;
+    border: 1px solid var(--gray-10);
+    border-radius: 1rem;
     > div{
       margin-bottom: 30px;
     }
@@ -66,7 +69,7 @@ export const MyWriting = styled.button`
     font-size: 0.8rem;
   } 
   &:hover{
-      background-color: var(--gray-10);;
+      background-color: var(--gray-10);
     }
 `
 
