@@ -6,67 +6,47 @@ import {
 } from './CartList.styled';
 import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  setCartItems,
-  setSelected,
-  setAllSelected,
-  setSubtotalPrice
-} from '../../redux/actions/cartActions';
 import axios from 'axios';
 import CartItem from '../CartItem/CartItem';
 import getAccessToken from '../../common/utils/getToken';
+import { useCartStore } from '../../stores/cartStore';
 
 export default function CartList() {
-  const dispatch = useDispatch();
-  const cartItems = useSelector((state) => state.cart.cartItems);
-  const selected = useSelector((state) => state.cart.selected);
-  const allSelected = useSelector((state) => state.cart.allSelected);
-  const subtotalPrice = useSelector((state) => state.cart.subtotalPrice);
+  const { cart, selected, allSelected, subtotalPrice, setCart, setSelected, setAllSelected, setSubtotalPrice } = useCartStore();
+
   const apiUrl = process.env.REACT_APP_API_URL;
   let accessToken = getAccessToken();
-
   useEffect(() => {
-    console.log('useEffect');
     accessToken = getAccessToken();
-    console.log('access token: ', accessToken);
     fetchCartItems();
-    dispatch(setAllSelected(cartItems.length === selected.length));
-  }, [dispatch]);
+    setAllSelected(cart.length === selected.length);
+  }, [cart]);
 
   const fetchCartItems = () => {
-    //FIXME: 51~52 삭제
-    // console.log('subtotal: ', selected.reduce((total, item) => total + item.totalPrice, 0));
-    // dispatch(setSubtotalPrice(selected.reduce((total, item) => total + item.totalPrice, 0)));
-
     axios.get(`${apiUrl}/cart/list`, { headers: { Authorization: accessToken } })
       .then((response) => {
         if (response.status === 200) {
           const data = response.data;
-          dispatch(setCartItems(data));
-          dispatch(setSelected(data));
-          dispatch(setAllSelected(true));
-          dispatch(setSubtotalPrice(data.reduce((total, item) => total + item.totalPrice, 0)));
+          setCart(data);
+          setSelected(data);
+          setAllSelected(true);
+          setSubtotalPrice(data.reduce((total, item) => total + item.totalPrice, 0))
         }
       })
       .catch((error) => {
-        console.error('Failed to load cart items: ', error);
+        console.error('Failed to load cart items', error);
       });
   }
 
   const handleAllCheckClick = () => {
     if (allSelected) {
-      dispatch(setSelected([]));
-      dispatch(setAllSelected(false));
-      dispatch(setSubtotalPrice(0));
-      console.log('isAllSelected: ', allSelected);
-      console.log(selected.map(el => el.product.id));
+      setSelected([]);
+      setAllSelected(false);
+      setSubtotalPrice(0);
     } else {
-      dispatch(setSelected(cartItems));
-      dispatch(setAllSelected(true));
-      dispatch(setSubtotalPrice(cartItems.reduce((total, item) => total + item.totalPrice, 0)));
-      console.log('isAllSelected: ', allSelected);
-      console.log(selected.map(el => el.product.id));
+      setSelected(cart);
+      setAllSelected(true);
+      setSubtotalPrice(cart.reduce((total, item) => total + item.totalPrice, 0));
     }
   };
 
@@ -74,7 +54,6 @@ export default function CartList() {
     window.scroll(0, 0);
   }
 
-  // DONE
   const handleDelete = (isAll) => {
     if (isAll) {
       axios.delete(`${apiUrl}/cart/clear`, { headers: { Authorization: accessToken } })
@@ -84,7 +63,7 @@ export default function CartList() {
           }
         })
         .catch((error) => {
-          console.log(error);
+          console.error('Failed to delete cart items', error);
         });
     } else {
       let params = '';
@@ -100,7 +79,7 @@ export default function CartList() {
           }
         })
         .catch((error) => {
-          console.log(error);
+          console.error('Failed to delete cart items', error);
         })
     }
     window.scroll(0, 315);
@@ -117,8 +96,8 @@ export default function CartList() {
                 onClick={handleAllCheckClick} >
                 <input
                   type='checkbox'
-                  checked={allSelected && cartItems.length > 0}
-                  disabled={cartItems.length === 0} />
+                  checked={allSelected && cart.length > 0}
+                  disabled={cart.length === 0} />
               </button>
             </th>
             <th>Product Name</th>
@@ -128,8 +107,8 @@ export default function CartList() {
           </tr>
         </thead>
         <tbody>
-          {cartItems.length > 0
-            ? cartItems.map(item => (
+          {cart.length > 0
+            ? cart.map(item => (
               <CartItem key={item.product.id} item={item} fetchCartItems={fetchCartItems} />
             ))
             : <tr>
@@ -144,17 +123,17 @@ export default function CartList() {
           </Link>
           <button
             onClick={() => handleDelete(allSelected)}
-            disabled={selected.length === 0 || cartItems.length === 0}
+            disabled={selected.length === 0 || cart.length === 0}
           >Delete Selected</button>
           <Link to='/order'>
             <button
               onClick={() => handleOrder(false)}
-              disabled={selected.length === 0 || cartItems.length === 0}
+              disabled={selected.length === 0 || cart.length === 0}
             >Order Selected</button>
           </Link>
         </ButtonsContainer>
         {
-          cartItems.length > 0
+          cart.length > 0
           && <div className='subtotal-price'>
             <span>Subtotal : </span>
             &#8361; {subtotalPrice.toLocaleString()}

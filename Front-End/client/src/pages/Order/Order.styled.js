@@ -1,45 +1,44 @@
 import { styled } from 'styled-components';
 
 export const OrderPageContainer = styled.div`
+  align-items: center;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-  width: 100vw;
   padding-bottom: 8rem;
+  width: 100vw;
 `;
 
 export const OrderContainer = styled.div`
-  width: 100%;
-  padding: 5rem 0 2rem 0;
+  align-items: center;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  padding: 5rem 0 2rem 0;
+  width: 100%;
 
   .title {
     color: var(--gray-90);
+    font-size: 2.5rem;
     font-weight: 900;
     letter-spacing: 5px;
-    font-size: 2.5rem;
     margin: 2rem 0 3rem 0;
   }
 `;
 
 export const FormContainer = styled.div`
-  margin: 2rem 0;
   display: flex;
   flex-direction: column;
-  width: 100%;
+  margin: 2rem 0;
   position: relative;
+  width: 100%;
 
   .edit-button {
-    position: absolute;
-    top: 3%;
-    /* left: 31%; */
-    right: 4%;
     color: var(--gray-50);
     font-weight: 600;
+    position: absolute;
+    right: 4%;
+    top: 3%;
   }
 
   .edit-button svg {
@@ -52,51 +51,52 @@ export const FormContainer = styled.div`
 `;
 
 export const FormTitle = styled.div`
-  display: flex;
   color: var(--brown-10);
+  display: flex;
   font-size: 20px;
-  padding-left: 2rem;
   letter-spacing: 2px;
+  padding-left: 2rem;
 `;
 
 export const FormCotents = styled.div`
   border: 1px solid var(--gray-10);
   border-radius: 10px;
-  padding: 2rem 3rem;
-  margin: 1rem;
   display: flex;
   flex-direction: column;
+  margin: 1rem;
+  padding: 2rem 3rem;
 
   div {
-    font-size: 1rem;
     color: var(--gray-50);
+    font-size: 1rem;
   }
 
-  .info-title {
-    font-weight: 600;
+  img {
+    height: 3.5rem;
+    margin-right: 1.2rem;
+    width: 2rem;
   }
 
-  .info-contents {
-    margin: 0.2rem 0.3rem 0.8rem 0.5rem;
-  }
-
-  .order-list-container {
-    max-height: 15.5rem;
-    overflow-y: scroll;
+  input {
+    border: 1px solid var(--gray-10);
+    border-radius: 5px;
+    font-size: 0.9rem;
+    margin: 0.2rem 0 0.7rem 0.3rem;
+    padding: 0.5rem;
   }
 
   label {
-    font-size: 1rem;
     color: var(--gray-50);
+    font-size: 1rem;
     font-weight: 600;
     margin: 0.5rem 0;
 
     .guide-msg {
-      display: flex;
       align-items: center;
+      color: var(--red-90);
+      display: flex;
       font-size: 0.8rem;
       font-weight: 400;
-      color: var(--red-90);
     }
 
     svg {
@@ -104,18 +104,17 @@ export const FormCotents = styled.div`
     }
   }
 
-  input {
-    font-size: 0.9rem;
-    padding: 0.5rem;
-    margin: 0.2rem 0 0.7rem 0.3rem;
-    border: 1px solid var(--gray-10);
-    border-radius: 5px;
+  .info-contents {
+    margin: 0.2rem 0.3rem 0.8rem 0.5rem;
   }
 
-  img {
-    width: 2rem;
-    height: 3.5rem;
-    margin-right: 1.2rem;
+  .info-title {
+    font-weight: 600;
+  }
+
+  .order-list-container {
+    max-height: 15.5rem;
+    overflow-y: scroll;
   }
 
   .order-list {
@@ -133,48 +132,48 @@ export const FormCotents = styled.div`
       justify-content: space-between;
 
       div {
+        color: var(--gray-30);
         font-size: 0.85rem;
         margin: 0 0.3rem;
         margin-bottom: 0.5rem;
-        color: var(--gray-30);
       }
       
       .product-name,
       .total-price {
-        display: flex;
-        justify-content: flex-start;
-        font-weight: 600;
-        font-size: 1rem;
-        margin-bottom: 0.3rem;
         color: var(--gray-50);
+        display: flex;
+        font-size: 1rem;
+        font-weight: 600;
+        justify-content: flex-start;
+        margin-bottom: 0.3rem;
       } 
     } 
   }
 
   .subtotal-price {
-      margin-top: 1.3rem;
-      border-top: 1px solid var(--gray-10);
-      padding-top: 0.7rem;
-      display: flex;
-      justify-content: flex-end;
-      color: var(--brown-10);
-      font-size: 1rem;
-    }
+    border-top: 1px solid var(--gray-10);
+    color: var(--brown-10);
+    display: flex;
+    font-size: 1rem;
+    justify-content: flex-end;
+    margin-top: 1.3rem;
+    padding-top: 0.7rem;
+  }
 `;
 
 export const ButtonContainer = styled.div`
-  padding: 2rem 0 0 0;
   display: flex;
   flex-direction: row;
-  width: 100%;
   justify-content: center;
+  padding: 2rem 0 0 0;
+  width: 100%;
 
   button {
     border: 1px solid var(--gray-10);
     border-radius: 5px;
-    padding: 0.5rem 1rem;
     font-size: 12px;
     font-weight: 200;
+    padding: 0.5rem 1rem;
     margin: 0 0.3rem;
 
     &:hover {
@@ -188,11 +187,10 @@ export const ButtonContainer = styled.div`
   }
 
   .order-btn {
-    color: var(--white);
-    background-color: var(--brown-10);
     background-color: #b39076;
-    padding: 0.5rem 2rem;
     border: none;
+    color: var(--white);
+    padding: 0.5rem 2rem;
 
     &:hover {
       background-color: var(--brown-20);
@@ -208,9 +206,9 @@ export const ButtonContainer = styled.div`
 export const FlexBox = styled.div`
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
   position: relative;
   width: 80%;
-  justify-content: space-between;
 `;
 
 export const LeftBox = styled.div`
@@ -223,6 +221,6 @@ export const RightBox = styled.div`
   position: ${(props) => (props.className === 'fixed' ? 'fixed' : 'absolute')};
   right: ${(props) => (props.className === 'fixed' ? '10%' : '0')};
   top: ${(props) => (props.className === 'fixed' ? '14.5%' : '')};
-  width: ${(props) => props.className === 'fixed' ? '28%' : '35%'};
   transition: all 0s;
+  width: ${(props) => props.className === 'fixed' ? '28%' : '35%'};
 `;

@@ -1,15 +1,12 @@
 import { CartItemContainer } from './CartItem.styled';
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { setSelected, setAllSelected, setCartItems, setSubtotalPrice } from '../../redux/actions/cartActions';
 import axios from 'axios';
 import getAccessToken from '../../common/utils/getToken';
+import { useCartStore } from '../../stores/cartStore';
 
 export default function CartItem({ item }) {
-  const dispatch = useDispatch();
-  const cartItems = useSelector((state) => state.cart.cartItems);
-  const selected = useSelector((state) => state.cart.selected);
+  const { cart, selected, setCart, setSelected, setAllSelected, setSubtotalPrice } = useCartStore();
   const apiUrl = process.env.REACT_APP_API_URL;
   const [curQuantity, setCurQuantity] = useState(item.quantity);
   let accessToken = getAccessToken();
@@ -18,29 +15,23 @@ export default function CartItem({ item }) {
     accessToken = getAccessToken();
     setCurQuantity(item.quantity);
     fetchCartItems();
-    console.log(selected.map(el => el.product.id));
-  }, [dispatch]);
+  }, [cart]);
 
   const handleCheckClick = (checkedItem) => {
     const updatedSelected = (selected.map(item => item.product.id).includes(checkedItem.product.id)) ? selected.filter(item => item.product.id !== checkedItem.product.id) : [...selected, checkedItem];
-    dispatch(setSelected(updatedSelected));
-    dispatch(setAllSelected(updatedSelected.length === cartItems.length));
+    setSelected(updatedSelected);
+    setAllSelected(updatedSelected.length === cart.length);
     const newSubtotal = updatedSelected.reduce((total, item) => total + item.totalPrice, 0);
-    dispatch(setSubtotalPrice(newSubtotal));
-    console.log(selected.map(el => el.product.id));
+    setSubtotalPrice(newSubtotal);
   }
 
   const fetchCartItems = () => {
-    //FIXME: 24~25 삭제
-    // console.log('subtotal: ', selected.reduce((total, item) => total + item.totalPrice, 0));
-    // dispatch(setSubtotalPrice(selected.reduce((total, item) => total + item.totalPrice, 0)));
-
     axios.get(`${apiUrl}/cart/list`, { headers: { Authorization: accessToken } })
       .then((response) => {
         if (response.status === 200) {
           const data = response.data;
-          dispatch(setCartItems(data));
-          dispatch(setSubtotalPrice(data.reduce((total, item) => total + item.totalPrice, 0)));
+          setCart(data);
+          setSubtotalPrice(data.reduce((total, item) => total + item.totalPrice, 0));
         }
       })
       .catch((error) => {
@@ -66,15 +57,12 @@ export default function CartItem({ item }) {
             }
             return item;
           });
-          dispatch(setSelected(updateSelected));
+          setSelected(updateSelected);
           fetchCartItems();
         }
       })
       .catch((error) => {
         console.error(`Failed to update item's quantity: `, error);
-      })
-      .finally(() => {
-        console.log(productId, newQuantity);
       })
   }
 

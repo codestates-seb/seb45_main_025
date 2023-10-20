@@ -1,7 +1,5 @@
 import { Link, useLocation } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { handleScrollY } from '../../redux/thunks/scrollThunks';
 import {
   HeaderContainer,
   HeaderLogo,
@@ -17,11 +15,11 @@ import { ReactComponent as MypageIcon } from '../../common/image/HeaderIcon/mypa
 import { ReactComponent as CartIcon } from '../../common/image/HeaderIcon/cart.svg';
 import getAccessToken from '../../common/utils/getToken';
 import detectUrlChange from 'detect-url-change';
+import { useScrollStore } from '../../stores/scrollStore';
 
 
 export default function Header() {
-  const dispatch = useDispatch();
-  const scrollY = useSelector((state) => state.scroll.scrollY);
+  const { scrollY, setScrollY } = useScrollStore();
   const isHome = useLocation().pathname === '/';
   const [isLogin, setIsLogin] = useState(false);
   const [url, setUrl] = useState('')
@@ -32,18 +30,16 @@ export default function Header() {
 
   useEffect(() => {
     window.addEventListener('scroll', () => {
-      dispatch(handleScrollY());
+      setScrollY(window.scrollY);
     });
-
     return () => {
       window.removeEventListener('scroll', () => {
-        dispatch(handleScrollY());
+        setScrollY(window.scrollY);
       });
     };
-  }, [dispatch]);
+  }, []);
 
   useEffect(() => {
-    console.log("checklogin")
     if (getAccessToken()) {
       setIsLogin(true)
     } else {
