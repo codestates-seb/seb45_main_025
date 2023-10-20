@@ -25,14 +25,14 @@ public class TokenService {
     private final RefreshTokenRepository refreshTokenRepository;
     public Jws<Claims> checkAccessToken(String authorization) {
 
-        String jws = authorization.replace("Bearer ", "");
+        //String jws = authorization.replace("Bearer ", "");
 
-        return jwtTokenizer.verifySignature(jws);
+        return jwtTokenizer.verifySignature(authorization);
     }
 
-    public Jws<Claims> checkRefreshToken(String authorization){
-        String token = authorization.replace("Bearer ", "");
-        RefreshToken refreshToken = findVerifiedRefreshToken(token);
+    public Jws<Claims> checkRefreshToken(String Token){
+        //String token = authorization.replace("Bearer ", "");
+        RefreshToken refreshToken = findVerifiedRefreshToken(Token);
         return jwtTokenizer.verifySignature(refreshToken.getToken());
     }
     public Jws<Claims> checkToken(String authorization){

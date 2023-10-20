@@ -94,8 +94,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 .maxAge(60 * 60*24) // 하루
                 .path("/")
                 .build();
-        response.setHeader("Authorization", headerAccessToken);
-        response.setHeader("Refresh", refreshToken);
+        //response.setHeader("Authorization", headerAccessToken);
+        //response.setHeader("Refresh", refreshToken);
         response.addHeader("Set-Cookie", responseAccessCookie.toString());
         response.addHeader("Set-Cookie", responseRefreshCookie.toString());
         this.getSuccessHandler().onAuthenticationSuccess(request, response, authResult);
