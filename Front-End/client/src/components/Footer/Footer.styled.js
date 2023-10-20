@@ -10,19 +10,16 @@ export const btnTop = keyframes`
 
 export const Container = styled.div`
   width: 100%;
-  /* height: 30vh; */
   background-color: var(--brown-10);
   bottom: 0;
   @media screen and (max-width: var(--main-width)) {
     display: none;
   }
-  padding: 3rem 12rem 2rem 4rem;
+  padding: 3rem 9rem 2rem 4rem;
 
   & > div {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
-    /* align-items: center; */
     height: 100%;
     .logo {
       img {
@@ -40,7 +37,16 @@ export const Container = styled.div`
   .developers {
     color: var(--brown-50);
     font-weight: 600;
-    font-size: 2.3rem;
+    font-size: 1.4rem;
+    width: 9rem;
+    margin-left: 2.5rem;
+  }
+
+  .flex-row {
+    margin: 1rem 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
   }
 `;
 
@@ -49,20 +55,16 @@ export const Logo = styled.img``;
 export const GithubContainer = styled.div`
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
-  /* align-items: center; */
-  margin-right: 2.5rem;
-
-  img {
-    width: 2rem;
-    border-radius: 100%;
-    margin-bottom: 0.5rem;
-  }
+  margin-left: 2rem;
 
   a {
     color: var(--brown-50);
     font-weight: 600;
+    font-size: 1.1rem;
+    width: 10rem;
     svg {
+      width: 1rem;
+      height: 1rem;
       path {
         fill: var(--brown-50);
       }
@@ -83,7 +85,6 @@ export const GithubContainer = styled.div`
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    margin-top: 1.6rem;
   }
 `;
 

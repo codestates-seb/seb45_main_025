@@ -56,14 +56,3 @@ export const OrderHistoryContainer = styled.div`
     box-shadow: inset 4px 4px 4px #ddd;
   }
 `;
-
-export const OrderCard = styled.div`
-  border: 1px solid var(--gray-10);
-  border-radius: 5px;
-  padding: 1rem;
-  margin: 1rem;
-`;
-
-export const OrderItem = styled.div`
-
-`;
