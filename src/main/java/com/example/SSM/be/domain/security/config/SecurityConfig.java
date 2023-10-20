@@ -72,7 +72,7 @@ public class SecurityConfig  {
                                 // # member관련
                                 .antMatchers(HttpMethod.POST, "/users/signup").permitAll()
                                 .antMatchers(HttpMethod.POST, "/users/login").permitAll()
-                                .antMatchers(HttpMethod.POST, "/users/logout").hasAnyRole("USER", "ADMIN")
+                                .antMatchers(HttpMethod.POST, "/users/logout").permitAll()
 
                                 // # Mypage
                                 .antMatchers(HttpMethod.GET, "/mypage").hasAnyRole("USER", "ADMIN")
@@ -119,8 +119,8 @@ public class SecurityConfig  {
                                 .antMatchers(HttpMethod.POST, "/orders/create").hasAnyRole("USER", "ADMIN")
                                 .antMatchers(HttpMethod.POST, "/orders/{orderId}").hasAnyRole("USER", "ADMIN")
                                 // token
-                                .antMatchers(HttpMethod.POST, "/token/refresh").hasAnyRole("USER", "ADMIN")
-                                .antMatchers(HttpMethod.POST, "/token/check").hasAnyRole("USER", "ADMIN")
+                                .antMatchers(HttpMethod.POST, "/token/refresh").permitAll()
+                                .antMatchers(HttpMethod.POST, "/token/check").permitAll()
                                 .antMatchers("/").permitAll()
 //                              .antMatchers("/h2-console/**").permitAll()
                                 .anyRequest().permitAll()
