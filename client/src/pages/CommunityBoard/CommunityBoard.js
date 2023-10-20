@@ -38,33 +38,24 @@ const URI = process.env.REACT_APP_API_URL;
 
 function CommunityBoard() {
 
-    // const [isCommentMenuOpen, setIsCommentMenuOpen] = useState(false);
+
     const [isPostMenuOpen, setIsPostMenuOpen] = useState(false);
     const navigate = useNavigate();
-    // const toggleCommentMenu = () => {
-    //   setIsCommentMenuOpen(!isCommentMenuOpen);
-    // };
-    // const [title, editTitle] = useState('');
-    // const [content, editContent] = useState('');
-    // console.log(editContent, editTitle)
+
     const handleContentChange = (editContent) => {
         editContent(editContent);
-
     };
     console.log(handleContentChange)
-
-
-
     const togglePostMenu = () => {
         setIsPostMenuOpen(!isPostMenuOpen);
     };
-
-
     const param = useParams();
     const id = param.boardId;
-
     const [boardData, setBoardData] = useState([])
     const [imgPost, setImgPost] = useState(null)
+
+
+
 
     // API에 요청을 보내는 함수를 정의합니다.
     const fetchData = async () => {
@@ -169,16 +160,7 @@ function CommunityBoard() {
         }
 
     };
-    // 작성자인지 확인하고 수정삭제 안뜨게
-    // const isAuthor = () => {
 
-    //   return username === currentUser.username;
-    // };
-    // const htmlToText = (html) => {
-    //     const parser = new DOMParser();
-    //     const doc = parser.parseFromString(html, 'text/html');
-    //     return doc.body.textContent || '';
-    // };
     useEffect(() => {
         console.log(deleteComment, editComment);
         // 컴포넌트가 마운트될 때 또는 boardId가 변경될 때 fetchData 함수를 호출합니다.
@@ -203,18 +185,34 @@ function CommunityBoard() {
                             <BiDotsVerticalRounded />
                             {isPostMenuOpen && (
                                 <>
-                                    <PostCorrection onClick={editHandler}>Edit</PostCorrection>
-                                    <PostDelete onClick={deleteHandler}>Delete</PostDelete>
+
+                                    <>
+                                        <PostCorrection onClick={editHandler}>수정</PostCorrection>
+                                        <PostDelete onClick={deleteHandler}>삭제</PostDelete>
+                                    </>
+
                                 </>
                             )}
                         </MenuIcon1>
+                        {/* <MenuIcon1 onClick={togglePostMenu} onKeyDown={togglePostMenu} role="button" tabIndex={0}>
+                            <BiDotsVerticalRounded />
+                            {isPostMenuOpen && (
+                                <>
+
+                                    {currentData.author === boardData.author && (
+                                        <>
+                                            <PostCorrection onClick={editHandler}>수정</PostCorrection>
+                                            <PostDelete onClick={deleteHandler}>삭제</PostDelete>
+                                        </>
+                                    )}
+
+                                </>
+                            )}
+                        </MenuIcon1> */}
 
                     </PostTitleBox>
                     <PostUserBox>
-                        {/* 프로필이미지 */}
-                        {/* <UserPicture>
-            {profilePicture ? <img src={profilePicture} alt="프로필" /> : <BiSolidUserCircle />}
-          </UserPicture> */}
+
                         <div>
                             {boardData.author
                                 && <span>닉네임: {boardData.author}</span>}
@@ -225,7 +223,7 @@ function CommunityBoard() {
                     </PostUserBox>
                     <PostBoard>
                         <div className="viewer" dangerouslySetInnerHTML={{ __html: boardData.content }} />
-                        {/* <div>{htmlToText(boardData.content)}</div> */}
+
                     </PostBoard>
                     <BoardImg>
                         {console.log(imgPost)}
@@ -245,7 +243,7 @@ function CommunityBoard() {
                 </PostBox>
 
 
-                {/* Comment */}
+
                 <ComuCommentWriting>
                     <WriteComment
                         boardId={id}
