@@ -18,10 +18,9 @@ export default function MainNewProducts() {
       .then((response) => {
         const data = response.data.content;
         setItemList(data.slice(0, 4));
-        console.log(itemList);
       })
       .catch((error) => {
-        console.log(error);
+        console.error('Failed to load new products', error);
       });
   }
 
