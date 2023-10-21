@@ -22,4 +22,5 @@ public class BoardResponseDto extends Auditable {
     private int fileAttached;
     private List<String> originalFileName;
     private List<String> saveFileName;
+    int result;
 }

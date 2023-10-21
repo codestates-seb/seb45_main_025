@@ -25,9 +25,9 @@ public class TokenService {
     private final RefreshTokenRepository refreshTokenRepository;
     public Jws<Claims> checkAccessToken(String authorization) {
 
-        //String jws = authorization.replace("Bearer ", "");
+        String jws = authorization.replace("Bearer ", "");
 
-        return jwtTokenizer.verifySignature(authorization);
+        return jwtTokenizer.verifySignature(jws);
     }
 
     public Jws<Claims> checkRefreshToken(String Token){

@@ -55,7 +55,12 @@ public class BoardController {
     }
     //특정 게시글 상세보기 작동확인
     @GetMapping("/{board_id}")
-    public ResponseEntity getBoard(@PathVariable("board_id")long boardId, HttpServletRequest request, HttpServletResponse response){
+    public ResponseEntity getBoard(@PathVariable("board_id")long boardId, HttpServletRequest request, HttpServletResponse response,
+                                   @RequestHeader("Authorization")String authorizationHeader){
+        Jws<Claims> claims = tokenService.checkAccessToken(authorizationHeader);
+        String email = claims.getBody().getSubject();
+        Member findMember = memberService.findMemberByEmail(email);
+        int result = 0;
         BoardResponseDto responseBoardDto = new BoardResponseDto();
         Cookie[] cookies = request.getCookies();
         boolean isAlreadyViewed = false;
@@ -68,7 +73,7 @@ public class BoardController {
             } //0    -> 1
         }
         if (!isAlreadyViewed) {
-            responseBoardDto = boardService.findById(boardId, isAlreadyViewed); // 조회수 증가
+            responseBoardDto = boardService.findById(boardId, isAlreadyViewed, findMember); // 조회수 증가
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(new Date());
             calendar.add(Calendar.MINUTE, time);
@@ -88,7 +93,7 @@ public class BoardController {
                     .build();
             response.addHeader("Set-Cookie", ViewedCookie.toString());
         }else if(isAlreadyViewed){
-            responseBoardDto = boardService.findById(boardId, isAlreadyViewed);
+            responseBoardDto = boardService.findById(boardId, isAlreadyViewed, findMember);
 
         }
         return new ResponseEntity(responseBoardDto,HttpStatus.OK);

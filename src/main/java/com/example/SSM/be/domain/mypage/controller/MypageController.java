@@ -57,8 +57,8 @@ public class MypageController {
     }
 
     @GetMapping("/isOauth")
-    public ResponseEntity isOauth(HttpServletRequest request){
-        Member member = memberService.getMemberWithAccessToken(request);
+    public ResponseEntity isOauth(@CookieValue(name = "access_token", required = true) String authorizationCookie){
+        Member member = memberService.getMemberWithAccessToken(authorizationCookie);
         return new ResponseEntity<>(new SingleResponseDto<>(member.getIsOauth()),HttpStatus.OK);
 
     }

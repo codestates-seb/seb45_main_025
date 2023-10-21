@@ -83,17 +83,23 @@ public class BoardService {
 
     //특정 게시글 상세보기
     @Transactional
-    public BoardResponseDto findById(long boardId,Boolean notYet) {
+    public BoardResponseDto findById(long boardId,Boolean notYet, Member member) {
+        int result = 0;
         if(!notYet){
             Optional<Board> optionalBoard = boardRepository.findById(boardId);
             if (optionalBoard.isPresent()) {
                 Board board = optionalBoard.get();
+                if(board.getMember().getEmail().equals(member.getEmail())){
+                    result = 1;
+                }else{
+                    result = 2;
+                }
                 board.setView(board.getView() + 1);
                 Board boardUpdated = boardRepository.save(board);
                 Optional<Board> boardOptional = boardRepository.findById(board.getBoardId());
                 if (boardOptional.isPresent()) {
                     Board findBoard = boardOptional.get();
-                    BoardResponseDto responseDto = BoardMapper.boardToBoardResponseDto(findBoard);
+                    BoardResponseDto responseDto = BoardMapper.boardToBoardResponseDto(findBoard , result);
                     return responseDto;
                 } else {
                     return null;
@@ -103,8 +109,14 @@ public class BoardService {
         }else{
             Optional<Board> optionalBoard = boardRepository.findById(boardId);
             if (optionalBoard.isPresent()) {
+                Board board = optionalBoard.get();
+                if(board.getMember().getEmail().equals(member.getEmail())){
+                    result = 1;
+                }else{
+                    result = 2;
+                }
                 Board findBoard = optionalBoard.get();
-                BoardResponseDto responseDto = BoardMapper.boardToBoardResponseDto(findBoard);
+                BoardResponseDto responseDto = BoardMapper.boardToBoardResponseDto(findBoard, result);
                 return responseDto;
             }
 

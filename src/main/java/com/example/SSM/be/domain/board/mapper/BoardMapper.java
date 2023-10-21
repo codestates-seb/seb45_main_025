@@ -52,7 +52,7 @@ public interface BoardMapper{
         return board;
     }
 
-    public static BoardResponseDto boardToBoardResponseDto(Board board){
+    public static BoardResponseDto boardToBoardResponseDto(Board board,int result){
         BoardResponseDto response = new BoardResponseDto();
         response.setBoardId(board.getBoardId());
         response.setTitle(board.getTitle());
@@ -61,6 +61,7 @@ public interface BoardMapper{
         response.setView(board.getView());
         response.setCreatedAt(board.getCreatedAt());
         response.setModifiedAt(board.getModifiedAt());
+        response.setResult(result);
 
         if(board.getFileAttached() == 0){
             response.setFileAttached(board.getFileAttached());
