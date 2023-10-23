@@ -30,6 +30,8 @@ import Chocolate from './pages/Category/Chocolate/Chocolate';
 import Cookies from './pages/Category/Cookies/Cookies';
 import EditPage from './pages/EditPage/EditPage';
 import NotFound from './pages/NotFound/NotFound';
+import Chat from './components/Chatting/Chat/Chat.jsx';
+
 function App() {
   return (
     <AppContainer>
@@ -62,6 +64,7 @@ function App() {
         <Route path='/order/fail' element={<OrderFail />} />
         <Route path='/order/success' element={<OrderSuccess />} />
         <Route path='/EditPage/:id' element={<EditPage />} />
+        <Route path='/chat' element={<Chat />} />
         <Route path='/*' element={<NotFound />} />
       </Routes>
       <Footer />
