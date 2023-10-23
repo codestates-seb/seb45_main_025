@@ -53,7 +53,7 @@ function CommunityBoard() {
     const id = param.boardId;
     const [boardData, setBoardData] = useState([])
     const [imgPost, setImgPost] = useState(null)
-
+    const [isMenuVisible, setIsMenuVisible] = useState(false);
 
 
 
@@ -168,6 +168,16 @@ function CommunityBoard() {
         // 댓글 목록을 불러오는 함수를 호출합니다.
         fetchComments();
     }, [id]);
+
+    useEffect(() => {
+        // 데이터를 받아온 이후 "result" 값을 확인하여 메뉴를 표시할지 숨길지 결정
+        if (boardData.result === 1) {
+            setIsMenuVisible(true);
+        } else if (boardData.result === 2) {
+            setIsMenuVisible(false);
+        }
+    }, [boardData]);
+
     return (
         <>
             <BackgroundImageContainer backgroundImage={`url(${CommunityBoard1})`}>
@@ -181,19 +191,17 @@ function CommunityBoard() {
                         </PostTitle>
 
 
-                        <MenuIcon1 onClick={togglePostMenu} onKeyDown={togglePostMenu} role="button" tabIndex={0}>
-                            <BiDotsVerticalRounded />
-                            {isPostMenuOpen && (
-                                <>
-
+                        {isMenuVisible && (
+                            <MenuIcon1 onClick={togglePostMenu} onKeyDown={togglePostMenu} role="button" tabIndex={0}>
+                                <BiDotsVerticalRounded />
+                                {isPostMenuOpen && (
                                     <>
                                         <PostCorrection onClick={editHandler}>수정</PostCorrection>
                                         <PostDelete onClick={deleteHandler}>삭제</PostDelete>
                                     </>
-
-                                </>
-                            )}
-                        </MenuIcon1>
+                                )}
+                            </MenuIcon1>
+                        )}
                         {/* <MenuIcon1 onClick={togglePostMenu} onKeyDown={togglePostMenu} role="button" tabIndex={0}>
                             <BiDotsVerticalRounded />
                             {isPostMenuOpen && (
