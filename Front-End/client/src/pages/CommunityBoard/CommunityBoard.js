@@ -59,8 +59,16 @@ function CommunityBoard() {
 
     // API에 요청을 보내는 함수를 정의합니다.
     const fetchData = async () => {
+        let access_token = getAccessToken();
         try {
-            const response = await axios.get(`${URI}/board/${id}`);
+            const response = await axios.get(`${URI}/board/${id}`,
+                {
+                    headers: {
+                        Authorization: access_token,
+                        "Content-Type": "multipart/form-data",
+                    },
+                }
+            );
             // 여기에서 응답 데이터를 처리합니다.
             console.log(response.data);
             setBoardData(response.data);
