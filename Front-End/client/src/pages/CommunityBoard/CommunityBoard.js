@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { format } from 'date-fns';
 import {
     BiDotsVerticalRounded,
     // BiSolidUserCircle
@@ -232,7 +233,7 @@ function CommunityBoard() {
                         <div>
                             {boardData.author
                                 && <span>닉네임: {boardData.author}</span>}
-                            <span>작성일: {boardData.modifiedAt}</span>
+                            <span>작성일: {format(new Date(boardData.modifiedAt), 'MM-dd')}</span>
                             <span>조회수: {boardData.view}</span>
 
                         </div>
