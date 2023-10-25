@@ -308,21 +308,23 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import getAccessToken from '../../common/utils/getToken';
 import post5 from '../../common/image/post5.jpg';
+
 import {
     Container,
-    InputContainer,
     TitleInput,
     BackgroundImageContainer,
     EditorContainer,
     EditorWrapper,
     PublishButton,
     PublishButtonContainer,
+    InputContainer
 } from './WritePost.styled';
 
 function WritePost() {
     const URI = process.env.REACT_APP_API_URL;
     const [title, setTitle] = useState('');
     const [editor, setEditor] = useState(null);
+    const [selectedImage] = useState(null);
     const navigate = useNavigate();
 
     const handleContentChange = () => {
@@ -331,6 +333,10 @@ function WritePost() {
             const formData = new FormData();
             formData.append('title', title);
             formData.append('content', content);
+
+            if (selectedImage) {
+                formData.append('image', selectedImage);
+            }
 
             let access_token = getAccessToken();
 
@@ -354,10 +360,12 @@ function WritePost() {
         navigate('/CommunityList');
     };
 
+
+
     useEffect(() => {
         const editorInstance = new Editor({
             el: document.querySelector('#editor'),
-            height: '750px',
+            height: '770px',
             initialEditType: 'wysiwyg',
             maxwidth: '800px',
             overflow: 'ellipsis',
@@ -391,12 +399,16 @@ function WritePost() {
                 <EditorContainer>
                     <EditorWrapper>
                         <div id="editor" style={{ overflowY: 'auto' }} />
+
                     </EditorWrapper>
                 </EditorContainer>
+
+
+
+
+
                 <PublishButtonContainer>
-                    <PublishButton onClick={handlePublish}>
-                        Post
-                    </PublishButton>
+                    <PublishButton onClick={handlePublish}>Post</PublishButton>
                 </PublishButtonContainer>
             </Container>
         </>

@@ -62,11 +62,13 @@ function CommunityBoard() {
         let access_token = getAccessToken();
         try {
             const response = await axios.get(`${URI}/board/${id}`,
-            {
-                headers: {
-                    Authorization: access_token,
-                },
-            });
+                {
+                    headers: {
+                        Authorization: access_token,
+                        "Content-Type": "multipart/form-data",
+                    },
+                }
+            );
             // 여기에서 응답 데이터를 처리합니다.
             console.log(response.data);
             setBoardData(response.data);
