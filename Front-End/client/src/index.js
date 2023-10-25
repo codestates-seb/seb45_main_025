@@ -5,7 +5,7 @@ import { GlobalStyle } from './style/Global.styled';
 import HttpClient from './Service/http';
 import ChatService from './Service/chat';
 
-const baseURL = process.env.REACT_APP_BASE_URL;
+const baseURL = process.env.REACT_APP_API_URL;
 const httpClient = new HttpClient(baseURL);
 const chatService = new ChatService(httpClient);
 

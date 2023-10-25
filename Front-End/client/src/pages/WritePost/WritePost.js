@@ -45,7 +45,6 @@ function WritePost() {
             })
                 .then((response) => {
                     console.log('백엔드 응답:', response);
-                    navigate('/CommunityList');
                 })
                 .catch((error) => {
                     console.error('에러 발생:', error);
@@ -55,6 +54,7 @@ function WritePost() {
 
     const handlePublish = () => {
         handleContentChange();
+        navigate('/CommunityList');
     };
 
 
@@ -72,10 +72,6 @@ function WritePost() {
         });
 
         setEditor(editorInstance);
-
-        return () => {
-            editorInstance.remove(); // 컴포넌트가 언마운트될 때 에디터 정리
-        };
     }, []);
 
     return (

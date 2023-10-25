@@ -16,7 +16,7 @@ export default function Footer() {
         </div>
         <div>
           <div className='flex-row'>
-            <div className='developers'>FRONTEND</div>
+            <div className='developers'>FRONT-END</div>
             <div className="github">
               <GithubProfile profileUrl="126146836" account="dongyunkim96" name="Dongyun Kim" />
               <GithubProfile profileUrl="114473861" account="Juseong-Yu" name="Juseong Yu" />
@@ -25,7 +25,7 @@ export default function Footer() {
             </div>
           </div>
           <div className='flex-row'>
-            <div className='developers'>BACKEND</div>
+            <div className='developers'>BACK-END</div>
             <div className="github">
               <GithubProfile profileUrl="117506675" account="yoongunyong" name="Gunyong Yoon" />
               <GithubProfile profileUrl="84065357" account="pyo8470" name="Yoonpyo Hong" />
