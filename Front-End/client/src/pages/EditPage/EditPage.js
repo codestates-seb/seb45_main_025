@@ -115,11 +115,16 @@ function EditPage() {
     // };
     const param = useParams()
     const id = param.id;
+    const access_token = getAccessToken();
 
     const fetchData = async () => {
 
         try {
-            const response = await axios.get(`${URI}/board/${id}`);
+            const response = await axios.get(`${URI}/board/${id}`,{
+                headers: {
+                    Authorization: access_token,
+                },
+            });
             // 여기에서 응답 데이터를 처리합니다.
 
             console.log(response.data);
