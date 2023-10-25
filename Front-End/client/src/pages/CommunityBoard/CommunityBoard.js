@@ -37,11 +37,8 @@ const URI = process.env.REACT_APP_API_URL;
 
 
 function CommunityBoard() {
-
-
     const [isPostMenuOpen, setIsPostMenuOpen] = useState(false);
     const navigate = useNavigate();
-
     const handleContentChange = (editContent) => {
         editContent(editContent);
     };
@@ -56,19 +53,10 @@ function CommunityBoard() {
     const [isMenuVisible, setIsMenuVisible] = useState(false);
 
 
-
     // API에 요청을 보내는 함수를 정의합니다.
     const fetchData = async () => {
-        let access_token = getAccessToken();
         try {
-            const response = await axios.get(`${URI}/board/${id}`,
-                {
-                    headers: {
-                        Authorization: access_token,
-                        "Content-Type": "multipart/form-data",
-                    },
-                }
-            );
+            const response = await axios.get(`${URI}/board/${id}`);
             // 여기에서 응답 데이터를 처리합니다.
             console.log(response.data);
             setBoardData(response.data);
@@ -103,13 +91,14 @@ function CommunityBoard() {
     }
     //수정
     const editHandler = async () => {
-
-        navigate(`/EditPage/${id}`)
-
-    }
-
-
-
+        navigate(`/EditPage/${id}`, {
+            state: {
+                title: boardData.title,
+                content: boardData.content,
+                images: imgPost,
+            },
+        });
+    };
 
     // 댓글 목록을 관리할 상태 추가
     const [comments, setComments] = useState([]);
@@ -186,6 +175,11 @@ function CommunityBoard() {
         }
     }, [boardData]);
 
+    function formatDate(dateString) {
+        const options = { year: '2-digit', month: '2-digit', day: '2-digit' };
+        const date = new Date(dateString);
+        return date.toLocaleDateString('ko-KR', options);
+    }
     return (
         <>
             <BackgroundImageContainer backgroundImage={`url(${CommunityBoard1})`}>
@@ -197,8 +191,6 @@ function CommunityBoard() {
                         <PostTitle>
                             {boardData.title}
                         </PostTitle>
-
-
                         {isMenuVisible && (
                             <MenuIcon1 onClick={togglePostMenu} onKeyDown={togglePostMenu} role="button" tabIndex={0}>
                                 <BiDotsVerticalRounded />
@@ -210,31 +202,13 @@ function CommunityBoard() {
                                 )}
                             </MenuIcon1>
                         )}
-                        {/* <MenuIcon1 onClick={togglePostMenu} onKeyDown={togglePostMenu} role="button" tabIndex={0}>
-                            <BiDotsVerticalRounded />
-                            {isPostMenuOpen && (
-                                <>
-
-                                    {currentData.author === boardData.author && (
-                                        <>
-                                            <PostCorrection onClick={editHandler}>수정</PostCorrection>
-                                            <PostDelete onClick={deleteHandler}>삭제</PostDelete>
-                                        </>
-                                    )}
-
-                                </>
-                            )}
-                        </MenuIcon1> */}
-
                     </PostTitleBox>
                     <PostUserBox>
-
                         <div>
                             {boardData.author
                                 && <span>닉네임: {boardData.author}</span>}
-                            <span>작성일: {boardData.modifiedAt}</span>
+                            <span>작성일: {formatDate(boardData.modifiedAt)}</span>
                             <span>조회수: {boardData.view}</span>
-
                         </div>
                     </PostUserBox>
                     <PostBoard>
