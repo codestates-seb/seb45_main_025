@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import getAccessToken from '../../common/utils/getToken';
 import post5 from '../../common/image/post5.jpg';
-
 import {
     Container,
     TitleInput,
@@ -57,21 +56,37 @@ function EditPage() {
         navigate('/CommunityList');
     };
 
-
-
     useEffect(() => {
-        const editorInstance = new Editor({
-            el: document.querySelector('#editor'),
-            height: '770px',
-            initialEditType: 'wysiwyg',
-            maxwidth: '800px',
-            overflow: 'ellipsis',
-            events: {
-                change: () => handleContentChange(),
-            },
-        });
+        // 페이지가 로드될 때 글 데이터를 불러옴
+        const fetchData = async () => {
+            let access_token = getAccessToken();
+            try {
+                const response = await axios.get(`${URI}/board/EDIT_BOARD_ID_HERE`, {
+                    headers: {
+                        Authorization: access_token,
+                    },
+                });
+                setTitle(response.data.title);
+                const content = response.data.content;
 
-        setEditor(editorInstance);
+                const editorInstance = new Editor({
+                    el: document.querySelector('#editor'),
+                    height: '770px',
+                    initialEditType: 'wysiwyg',
+                    maxwidth: '800px',
+                    overflow: 'ellipsis',
+                    events: {
+                        change: () => handleContentChange(),
+                    },
+                });
+                editorInstance.setMarkdown(content);
+                setEditor(editorInstance);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        fetchData(); // 데이터 불러오기
+        // handleContentChange, handlePublish 함수, 이미지 업로드 관련 코드 등 다른 부분은 그대로 유지
     }, []);
 
     return (
@@ -96,14 +111,8 @@ function EditPage() {
                 <EditorContainer>
                     <EditorWrapper>
                         <div id="editor" style={{ overflowY: 'auto' }} />
-
                     </EditorWrapper>
                 </EditorContainer>
-
-
-
-
-
                 <PublishButtonContainer>
                     <PublishButton onClick={handlePublish}>Post</PublishButton>
                 </PublishButtonContainer>
