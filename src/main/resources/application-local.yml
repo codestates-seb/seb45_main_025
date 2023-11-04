@@ -4,6 +4,11 @@ spring:
     url: jdbc:h2:mem:gunyong
     username: sa
     password:
+  mvc:
+    view:
+      prefix: /WEB-INF/view/
+      suffix: .jsp
+
   h2:
     console:
       enabled: true
