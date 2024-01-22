@@ -29,7 +29,7 @@
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
 |FE Leader|FE|FE|FE|BE|BE|BE|
 |<img src="https://avatars.githubusercontent.com/u/126146836?v=4" width=150px ></img>|<img src="https://avatars.githubusercontent.com/u/114473861?v=4" width=150px ></img>| <img src="https://avatars.githubusercontent.com/u/81401022?v=4" width=150px ></img>|<img src="https://avatars.githubusercontent.com/u/123739304?v=4" width=150px ></img>|<img src="https://avatars.githubusercontent.com/u/117506675?v=4" width=150 ></img>|<img src="https://avatars.githubusercontent.com/u/84065357?v=4" width=150px ></img>|<img src="https://avatars.githubusercontent.com/u/75276860?v=4" width=150px ></img>|
-|-Product</br>Add</br>Edit</br>Delete</br>Search</br>-Item</br>View</br>Link</br>Review</br>Add to Cart|-Log In</br>-Sign In</br>-My Page</br>-Client Domain Setting|-Header</br>-Footer</br>-Cart</br>-Order</br>-Payment|-Community Page(Pagenation)|-EC2</br>-Docker</br>-Community Page(Pagenation)</br>-마이페이지 회원정보 변경기능</br>-My Page|-DB(MYSQL) AMAZON RDS </br>-Sign In</br>-Log In(JWT)</br>-Google OAuth2|-ACM, NGINX(https)</br>-Product Page</br>-Cart</br>-Order</br>|
+|-Product</br>Add</br>Edit</br>Delete</br>Search</br>-Item</br>View</br>Link</br>Review</br>Add to Cart|-Log In</br>-Sign In</br>-My Page</br>-Client Domain Setting|-Header</br>-Footer</br>-Cart</br>-Order</br>-Payment|-Community Page(Pagenation)|-EC2</br>-Docker</br>-Community Page(Pagenation)</br>-My Page|-DB(MYSQL) AMAZON RDS </br>-Sign In</br>-Log In(JWT)</br>-Google OAuth2|-ACM, NGINX(https)</br>-Product Page</br>-Cart</br>-Order</br>|
 
 <br/>
 
